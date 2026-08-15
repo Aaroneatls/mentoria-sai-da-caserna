@@ -1,28 +1,47 @@
-# Claude Code OS — Kit Ratos de IA
+# Mentoria Sai da Caserna — Claude Code OS
 
-Este repositório é o kit de boas-vindas do curso Claude Code OS.
+## O que é esse workspace
+Workspace principal da Mentoria Sai da Caserna. Aqui Elvis organiza planos de estudo, conteúdo de marketing, prospecção de clientes e a operação financeira do negócio.
 
-Se você acabou de clonar esse repositório:
-1. Rode `/setup` pra configurar o sistema pro seu negócio (uns 5 minutos)
-2. Depois rode `/mapear` pra criar skills personalizadas pro que você faz no dia a dia
+**Estrutura de pastas:**
+- `_contexto/` — memória do sistema (não apagar)
+- `planos-de-estudo/` — materiais fonte (Estratégia Concursos, TecConcursos) e planos de estudo pré/pós edital
+- `marketing/` — conteúdo pro Instagram (@mentoria.elvis.aaron), e futuramente YouTube
+- `financeiro/` — controle financeiro do negócio
+- `dados/` — arquivos brutos pra análise (PDFs de edital, planilhas de origem)
+- `tarefas.md` — lista de tarefas corrente
+- `templates/skills/` — templates de skills prontos pra personalizar com /mapear
+- `templates/ferramentas/catalogo.md` — APIs e ferramentas disponíveis pra usar em skills
+
+## Sobre o negócio
+Elvis Aaron é mentor para concursos públicos, focado em ajudar militares a se tornarem Auditores (Fiscal/Controle). Monta planos de estudo pré e pós edital com base em material da Estratégia Concursos e TecConcursos, entregues via plataforma Tutori. Trabalha solo, com parcerias de plataforma e conteúdo (BTG, Estratégia Concursos, TecConcursos, Tutori, Você Concursado, Rabelo Concursos).
+
+## O que mais fazemos aqui
+- Montar planos de estudo pré e pós edital
+- Elaborar cadernos de questões na plataforma TecConcursos
+- Produzir conteúdo pro Instagram (prospecção de clientes)
+- Organizar dados de editais em planilhas
+- Cuidar da parte financeira do negócio
+
+## Clientes e contexto
+Negócio próprio, sem personalização individual por cliente — os planos de estudo são elaborados por Elvis e distribuídos em escala via plataforma Tutori.
+
+## Tom de voz
+Informal, com gírias do universo militar/concurseiro (ex: "bizu", "bizurado"). Nunca usar travessão. Evitar marcas de escrita "de IA" (contraposições genéricas, "mergulhar de cabeça", etc). O texto deve soar natural, como escrito por uma pessoa.
+
+## Ferramentas conectadas
+- Google Drive — acesso direto por sistema de arquivos (workspace já vive dentro da pasta sincronizada do Drive)
+- Google Sheets — conectado via `gspread` com OAuth (Python). Credenciais em `credenciais/` (nunca commitar). Client: `credenciais/google-oauth-client.json`, token de sessão: `credenciais/google-oauth-token.json`
+*(atualizar conforme MCPs forem instalados)*
 
 ---
 
-## Como este kit é organizado (Claude Code e Codex)
+## Como este workspace é organizado (Claude Code e Codex)
 
-Este kit funciona nos dois agentes. Quem lê o quê:
+- **Instruções:** `AGENTS.md` é a fonte (este arquivo). `CLAUDE.md` tem só `@AGENTS.md`. Nunca escrever conteúdo no `CLAUDE.md`.
+- **Skills:** em `.claude/skills/<nome>/SKILL.md`. Pro Codex enxergar, existe `.agents/skills` apontando pra `.claude/skills` (criado pelo `/setup`, não vai pro git). No Windows a ponte é cópia: skill nova precisa de `/atualizar` pra re-sincronizar.
 
-- **Instruções:** `AGENTS.md` é a fonte (este arquivo). `CLAUDE.md` tem só uma linha (`@AGENTS.md`),
-  que é como o Claude Code importa este conteúdo. O Codex lê `AGENTS.md` direto. Nunca escrever
-  conteúdo no `CLAUDE.md`.
-- **Skills:** ficam em `.claude/skills/<nome>/SKILL.md`. O Claude Code lê daí direto. Pro Codex
-  enxergar, existe `.agents/skills` apontando pra `.claude/skills` (symlink no Mac/Linux, cópia no
-  Windows), criado pelo `/setup` na sua máquina. **Esse ponte não vai pro git** — cada máquina cria
-  a sua. As 6 skills do kit vêm versionadas; as que você criar com `/mapear` ficam locais.
-- Se você abrir este kit no Codex e ele não achar as skills, rode `/setup` (ou peça pro agente ler e
-  seguir `.claude/skills/setup/SKILL.md`) — ele cria a ponte.
-
-<!-- Este arquivo será atualizado pelo /setup com o contexto do seu negócio. -->
+---
 
 ## Contexto do negócio
 
@@ -95,7 +114,7 @@ Mostrar o que vai mudar antes de salvar. Não reformatar o arquivo inteiro, só 
 - Perguntas simples ou conversas sem ação
 - Mudanças que já foram salvas pelo bloco "Aprender com correções"
 
-**Dica:** se não sabe se algo mudou, rode `/atualizar` pra uma varredura completa.
+**Dica:** se o usuário não sabe se algo mudou, rodar `/atualizar` faz uma varredura completa.
 
 ---
 
