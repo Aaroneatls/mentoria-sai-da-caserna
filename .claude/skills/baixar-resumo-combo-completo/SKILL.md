@@ -154,11 +154,17 @@ repetir exatamente a mecânica dos **Passos 3 a 7 da skill
      conferir se o assunto da primeira página do PDF bate com o rótulo
      esperado, antes de aceitar o download como certo — pega o caso raro de
      baixar a aula errada por causa de estado corrompido na SPA.
+   - **Extrair o Sumário da aula** (Passo 5, item 7 da skill irmã) — lista de
+     tópicos, usada de referência pra comparação em atualização (item 4
+     abaixo) e guardada na planilha de metadados (Passo 6).
 4. Modo atualização (se a pasta da matéria já existir e o usuário confirmar
    atualização — perguntar por matéria encontrada, ou perguntar uma vez só no
    início "atualizar todas as matérias que já existem?"): baixar de novo,
    comparar por hash (`Get-FileHash`) com o arquivo local existente — hash
    igual descarta o novo, hash diferente substitui e registra a mudança.
+   **Antes de descartar o arquivo antigo, comparar o Sumário dele com o do
+   novo** (Passo 6, item 3 da skill irmã) e registrar no relatório o que
+   mudou de verdade (tópico removido/adicionado), não só "PDF atualizado".
 5. Não existe placeholder `.txt` nessa plataforma — aula sem material
    simplesmente não gera arquivo, em qualquer modo.
 6. **Aula que sumiu inteira da playlist daquela matéria** (rótulo de um
@@ -244,3 +250,13 @@ skills do Estratégia):
   `uri`, um de cada vez.
 - Se o usuário pedir só uma matéria específica em vez do combo inteiro, usar a
   skill `baixar-resumo-especifico` em vez dessa.
+
+## Passo 7: Sugestão de melhoria da skill (obrigatória ao final de toda execução)
+
+**Mesma regra da skill `baixar-resumo-especifico` (Passo 9 dela), confirmado
+pelo Elvis em 2026-08-18:** ao final do relatório do Passo 5, avaliar se algo
+aprendido nessa execução do combo sugere um ajuste numa das duas skills (essa
+ou a de matéria específica, já que compartilham a mesma mecânica). Apresentar
+a sugestão ao Elvis, esperar aprovação, e só então editar o(s) `SKILL.md` e
+rodar `/syncar`. Se nada de novo surgiu, dizer isso de forma curta e objetiva.
+Nunca editar/sincronizar sem aprovação prévia.

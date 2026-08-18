@@ -385,6 +385,57 @@ Para cada aula da lista:
      extraído da primeira página (pra o Elvis comparar visualmente), e seguir
      pras próximas aulas normalmente (não trava o restante do download por
      causa de uma aula suspeita).
+7. **Extrair o Sumário da aula** (confirmado pelo Elvis em 2026-08-18 — usado
+   como referência de comparação em atualizações, ver Passo 6, e guardado na
+   planilha de metadados, ver Passo 8): essa plataforma não tem uma data de
+   atualização visível no próprio PDF (diferente do Estratégia), então em vez
+   de depender só de data/hash, extrair a lista de tópicos do sumário de cada
+   aula dá uma referência legível de **o que** a aula cobre — útil pra
+   detectar mudança de conteúdo de um jeito que faz sentido pra leitura
+   humana, não só "mudou/não mudou".
+   - **Todo PDF dessa plataforma traz um "Sumário"** nas primeiras páginas
+     (observado consistentemente nas primeiras 2-4 páginas — geralmente a
+     página 2, depois da capa) listando os tópicos da aula, cada um seguido
+     de pontilhado + número de página.
+   - Extrair via `pypdf`, procurando a primeira página (dentre as 4
+     primeiras) que contenha a palavra "Sumário", e limpando cada linha
+     (remove o pontilhado + número de página no final, remove linhas de
+     rodapé como o site do professor e o aviso de "Licenciado para
+     .../Direitos Autorais reservados"):
+     ```python
+     import re
+     from pypdf import PdfReader
+
+     def extrair_sumario(caminho_pdf):
+         reader = PdfReader(caminho_pdf)
+         for i in range(min(4, len(reader.pages))):
+             texto = reader.pages[i].extract_text() or ''
+             if not re.search(r'\bSum[áa]rio\b', texto):
+                 continue
+             topicos, em_sumario = [], False
+             for linha in texto.split('\n'):
+                 linha = linha.strip()
+                 if not linha:
+                     continue
+                 if re.match(r'^Sum[áa]rio$', linha):
+                     em_sumario = True
+                     continue
+                 if not em_sumario:
+                     continue
+                 if 'profbrunobezerra.com.br' in linha:
+                     continue
+                 if 'Licenciado para' in linha or 'Direitos Autorais reservados' in linha:
+                     continue
+                 m = re.match(r'^(.*?)\s*\.{2,}\s*\d+\s*$', linha)
+                 topicos.append(m.group(1).strip() if m else linha)
+             return topicos
+         return []
+     ```
+   - Guardar a lista de tópicos (juntada com `" | "`) pra usar no Passo 6 (se
+     for atualização) e no Passo 8 (planilha).
+   - Se não encontrar nenhum "Sumário" nas 4 primeiras páginas (formato
+     diferente do usual), não travar por causa disso — seguir com a lista
+     vazia e registrar isso como observação, não como erro.
 
 ## Passo 6: Atualização — comparar por conteúdo, não por data no nome
 
@@ -411,6 +462,16 @@ Quando o modo escolhido no Passo 3 for **Atualização**:
    - **Hash diferente:** apagar o arquivo antigo, renomear o temporário pro
      nome final. Registrar essa substituição pra mencionar no resumo final
      (ex: "Administração Financeira e Orçamentária, R03: PDF atualizado").
+     **Antes de apagar o arquivo antigo**, extrair o Sumário dele (Passo 5,
+     item 7) e comparar com o Sumário do arquivo novo — a diferença entre as
+     duas listas de tópicos (o que saiu, o que entrou) vai no resumo final
+     junto com o aviso de atualização, ex: "R03: PDF atualizado — tópico
+     'Jurisprudência aplicada' foi removido, tópico 'Novo entendimento do STJ'
+     foi adicionado". Isso dá visibilidade de **o que mudou de verdade**, não
+     só "mudou". Se o Sumário for idêntico mesmo com hash diferente (ex: só
+     mudou formatação/diagramação, sem alterar conteúdo), mencionar isso
+     também (ex: "R03: PDF atualizado, mas o Sumário não mudou — provável
+     ajuste visual").
 4. **Aula que tinha PDF baixado antes e agora aparece sem material** (mesmo
    depois do loop de espera completo do Passo 5): **não apagar o arquivo local
    existente** — isso quase certamente é uma falha temporária de carregamento
@@ -508,7 +569,12 @@ reconsultar o site) e é a base pra checagem de Playlist ID do Passo 3.
    que o Passo 3 usa pra checagem.
 4. **Aba "Aulas"** — colunas: `Código (Aula)`, `Assunto`, `Status`, `Data de
    Atualização (PDF)`, `Data desta Verificação`, `Palavras-chave batidas`,
-   `Total palavras-chave`, `Nº de páginas do PDF`, `Nome do arquivo`.
+   `Total palavras-chave`, `Nº de páginas do PDF`, `Nome do arquivo`,
+   `Tópicos do Sumário`.
+   - `Tópicos do Sumário` = lista de tópicos extraída do Passo 5, item 7,
+     unida com `" | "`. Serve de referência legível pra saber o que aquela
+     aula cobre sem abrir o PDF, e é usada no Passo 6 pra comparar versões
+     numa atualização (o que mudou de verdade, não só "mudou").
    - `Status` = `Verificado` (bateu na checagem de conteúdo do Passo 5, item
      6), `Suspeito` (verificação de conteúdo falhou), ou `Não confirmado`
      (Passo 6, item 4) — **cor condicional**: verde pra Verificado, vermelho
@@ -557,3 +623,25 @@ reconsultar o site) e é a base pra checagem de Playlist ID do Passo 3.
   `uri`, sem processar várias aulas em paralelo esperando.
 - Se o curso tiver muitas aulas na matéria, processar tudo sem pausar pra
   confirmação a cada aula — só reportar progresso periodicamente.
+
+## Passo 9: Sugestão de melhoria da skill (obrigatória ao final de toda execução)
+
+**Confirmado pelo Elvis em 2026-08-18:** sempre que essa skill terminar de
+processar um pacote de download (matéria nova ou atualização), depois do
+relatório final (Passo 7), avaliar se algo aprendido nessa execução sugere um
+ajuste na própria skill — bug novo encontrado, comportamento inesperado da
+plataforma, passo que ficou lento/repetitivo, oportunidade de deixar algo mais
+robusto. Isso é o mesmo tipo de aprendizado que já gerou boa parte dos passos
+atuais (bug do `{domain}`, throttling de aba em segundo plano, extração de
+rótulo vazio etc.) — a ideia é continuar capturando isso a cada execução, não
+só quando o Elvis perguntar.
+
+- **Se identificar algo:** apresentar a sugestão ao Elvis de forma objetiva
+  (o que aconteceu, o que mudaria na skill), perguntar se aprova, e **só
+  então** editar o `SKILL.md` (dessa skill e/ou da `baixar-resumo-combo-completo`,
+  se for aplicável às duas) e rodar `/syncar` pra sincronizar com o GitHub.
+- **Se nada de novo surgiu** nessa execução (tudo correu dentro do que já
+  está documentado): dizer isso explicitamente e curto — não inventar
+  sugestão só pra ter o que falar.
+- Nunca editar a skill nem sincronizar sem essa aprovação — a sugestão é
+  sempre apresentada primeiro.
