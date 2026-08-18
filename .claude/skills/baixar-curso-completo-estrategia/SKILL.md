@@ -243,7 +243,18 @@ pro Passo 5.
    (usando o mapeamento do Passo 3 pra achar o link certo) e comparar: quais
    aulas que antes estavam travadas ("Disponível em DD/MM/AAAA") já aparecem
    liberadas agora ("Não estudei"/estudada)? Essas são as aulas **atualizáveis**.
-4. Apresentar um resumo pro usuário, por categoria e matéria, por exemplo:
+4. **Conferir o Curso ID de cada matéria antes de tratar como atualização —
+   crítico, confirmado pelo Elvis em 2026-08-18.** Mesma lógica da skill
+   `baixar-curso-especifico-estrategia` (ver "Conferir o Curso ID do
+   Estratégia" no Passo 3 dela, incluindo a comparação do assunto da Aula 00
+   antiga vs. nova pra dar contexto no aviso): se a matéria já tem planilha
+   de metadados (Passo 11 abaixo), comparar o Curso ID registrado nela com o
+   ID da URL atual daquela matéria. Se diferente, **avisar o usuário logo no
+   início** em vez de decidir sozinho — a Estratégia às vezes atribui ID novo
+   a um curso mantendo o mesmo conteúdo, então ID diferente não é prova de
+   curso diferente; o critério real é comparar disciplinas/aulas. Fazer essa
+   checagem matéria por matéria, não só uma vez pro pacote inteiro.
+5. Apresentar um resumo pro usuário, por categoria e matéria, por exemplo:
 
    ```
    O que já existe na pasta informada:
@@ -696,6 +707,36 @@ Depois de processar todas as categorias/matérias selecionadas:
 O resultado final é a estrutura de pastas em si, já com os arquivos dentro,
 cada matéria/bloco renomeado com o progresso `(N-M)`, mais a confirmação de
 que o cruzamento bateu em cada uma.
+
+## Passo 11: Planilha de metadados de cada disciplina (obrigatória, Google Sheets)
+
+**Confirmado pelo Elvis em 2026-08-18: toda matéria/bloco processado ganha uma
+planilha de metadados própria, na mesma pasta dela** — mesmo processo e mesmo
+formato validado na skill `baixar-curso-especifico-estrategia` (ver "Planilha
+de metadados da disciplina" no Passo 9 dela — Google Sheets nativo via
+`gspread`, nunca `.xlsx` local; abas "Aulas" + "Legenda"; Curso ID no
+subtítulo; fórmulas com `;` por causa do locale `pt_BR`; ler de volta pra
+conferir que não deu `#ERROR!`/`#REF!`/`#NAME?`, já que não há `recalc.py`
+funcionando nesse ambiente).
+
+**Diferença de escala:** num pacote inteiro, repetir esse passo pra **cada
+matéria/bloco processado nessa execução**, uma planilha por pasta de
+disciplina (não uma planilha única pro pacote inteiro) — mantém a
+granularidade de "atualizar só uma matéria sem mexer nas outras" (mesma lógica
+do sufixo de data por pasta, Passo 9). Bizu/Discursiva/Trilha/Simulado (pastas
+únicas, sem separação por matéria) também ganham sua própria planilha, na
+pasta única deles.
+
+**Escopo da atualização da planilha = escopo da execução, confirmado pelo
+Elvis em 2026-08-18:**
+- Se o usuário pedir pra atualizar **só uma disciplina específica** dentro do
+  pacote, só a planilha dessa disciplina é atualizada — as outras matérias do
+  mesmo pacote ficam intocadas.
+- Se o usuário pedir pra atualizar **o curso/pacote inteiro** (ou uma
+  categoria inteira), **todas** as planilhas das disciplinas efetivamente
+  processadas nessa execução são atualizadas — uma por matéria tocada.
+- Em nenhum caso atualizar a planilha de uma matéria que não foi processada
+  nessa execução, mesmo que esteja no mesmo pacote.
 
 ## Detalhes técnicos e pegadinhas (aprendidos testando esse pacote)
 

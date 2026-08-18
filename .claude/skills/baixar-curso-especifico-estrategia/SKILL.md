@@ -196,6 +196,34 @@ existente que corresponda a essa matéria. **Comparação:**
   Constitucional (TCDF-ANACE) (10-03-2026)` bate com `Direito Constitucional
   (TCDF-ANACE)`).
 
+**Conferir o Curso ID do Estratégia antes de tratar como atualização —
+crítico, confirmado pelo Elvis em 2026-08-18.** Se a pasta encontrada já tiver
+uma planilha de metadados (ver "Planilha de metadados da disciplina" mais
+abaixo), ela registra o Curso ID usado na última coleta (visível na URL
+`/cursos/{id}/aulas`). Comparar esse ID registrado com o ID da URL fornecida
+agora:
+- **Se o ID for igual:** seguir normalmente como atualização da mesma pasta.
+- **Se o ID for diferente:** **avisar o usuário logo no início, antes de
+  prosseguir** — **não decidir sozinho se é o mesmo curso ou um curso novo.**
+  Motivo: a Estratégia às vezes atribui um ID novo a um curso mantendo o
+  mesmo conteúdo (mesmas disciplinas/aulas) — o ID muda mas não é
+  necessariamente um curso diferente. **O critério real de identidade são as
+  disciplinas e aulas em si, não o ID isolado.**
+  - **Antes de avisar, já dar contexto pra decisão** — confirmado pelo Elvis
+    em 2026-08-18: abrir a `Aula 00` (ou a primeira aula da listagem) tanto
+    na planilha antiga quanto no site com o ID novo, e comparar o assunto
+    registrado com o assunto atual. Incluir essa comparação no aviso, ex: "o
+    Curso ID mudou de {antigo} pra {novo}; a Aula 00 registrada era
+    '{assunto antigo}', a Aula 00 do novo ID é '{assunto novo}' — parecem o
+    mesmo curso, mas confirma antes de eu atualizar?". Isso poupa o usuário
+    de ter que investigar do zero um alerta seco.
+  - Mesmo com essa comparação sugerindo que é o mesmo curso, sempre vale
+    comparar o conteúdo completo (Passo 4 em diante) antes de concluir — a
+    comparação da Aula 00 é só um indício rápido, não a decisão final.
+  - Se não existir planilha de metadados ainda (pasta de uma coleta anterior
+    a essa funcionalidade), não tem o que comparar — seguir normalmente e a
+    planilha passa a registrar o ID a partir dessa execução.
+
 **Se encontrar exatamente uma pasta correspondente:**
 
 1. Listar o que já tem dentro: quantos `.pdf` já baixados, quantos `.txt`
@@ -661,6 +689,59 @@ Depois de processar todas as aulas:
 
 O resultado final é a pasta em si, já com os arquivos dentro, o nome renomeado
 com o progresso `(N-M)`, e a confirmação de que o cruzamento bateu.
+
+## Passo 9: Planilha de metadados da disciplina (obrigatória, Google Sheets)
+
+**Confirmado pelo Elvis em 2026-08-18: toda disciplina baixada ou atualizada
+por essa skill tem uma planilha de metadados própria** — validada ao vivo com
+o curso de Direito Administrativo antes de virar padrão. Ela serve de
+histórico rápido (sem precisar reabrir PDF nem reconsultar o site) e é a base
+pra checagem de Curso ID do Passo 3. **Escopo da atualização da planilha =
+escopo da execução:** como essa skill processa uma disciplina só por vez, ela
+sempre atualiza a planilha só dessa disciplina — nunca mexe na planilha de
+outra matéria só porque estão no mesmo pacote (ver a mesma regra em escala
+maior na skill `baixar-curso-completo-estrategia`, Passo 11).
+
+1. **Sempre Google Sheets nativo, nunca `.xlsx` local** — usar `gspread` com
+   as credenciais em `credenciais/` (escopos `spreadsheets` + `drive`). Achar
+   o ID da pasta de destino no Drive replicando o caminho local por nome
+   (`drive.files().list` com `mimeType = 'application/vnd.google-apps.folder'`
+   e `'<parent_id>' in parents`), e criar com `gc.create(titulo, folder_id=...)`
+   — isso já posiciona o arquivo na pasta certa sem precisar mover depois.
+2. **Nome do arquivo:** `<Nome da Matéria> (SIGLA-SIGLA) - Metadados` — sem o
+   sufixo de data (é um documento único que se atualiza, não recriado a cada
+   execução).
+3. **Se já existir uma planilha de metadados na pasta** (modo atualização):
+   abrir e **ler o Curso ID registrado antes de sobrescrever qualquer coisa**
+   — é o dado que o Passo 3 usa pra comparar contra o ID atual da URL.
+4. **Aba "Aulas"** — mesmas colunas validadas no protótipo: `Rótulo (Aula)`,
+   `Assunto`, `Status` (Baixado/Suspeito, com cor condicional verde/vermelho),
+   `Data de Elaboração (PDF)`, `Data desta Verificação`, `Palavras-chave
+   batidas`, `Total palavras-chave`, `Nº de páginas do PDF`, `Nome do
+   arquivo`. Linha de título mesclada + subtítulo com pasta, **Curso ID
+   Estratégia** e nome do pacote/concurso. Linha de resumo com fórmulas
+   (`COUNTA`, `COUNTIF`) pro total de aulas, confirmadas e suspeitas.
+5. **Aba "Legenda"** — explicação de cada coluna, igual ao protótipo.
+6. **Formatação padrão** (ver preferência salva na memória — alinhamento
+   centralizado horizontal e vertical, quebra de texto, largura de coluna
+   ajustada ao conteúdo, remover excesso de linhas/colunas **deixando margem**
+   de ~2-3 colunas e ~30 linhas depois do fim dos dados reais, nunca cortar
+   rente).
+7. **Separador de fórmula: `;`, nunca `,`** — confirmado em 2026-08-18: as
+   planilhas desse workspace usam locale `pt_BR`, que exige ponto e vírgula
+   como separador de argumento (`=COUNTIF(F7:F54;">0")`); vírgula gera
+   `#ERROR!`. Fórmulas de um argumento só (`=COUNTA(...)`) não têm esse
+   problema por não ter separador, o que mascara o erro se só se testar essas.
+8. **Validar as fórmulas depois de escrever** — não existe `recalc.py`
+   (LibreOffice) funcionando nesse ambiente Windows pra conferir
+   automaticamente. Ler de volta cada célula de fórmula com
+   `value_render_option='FORMATTED_VALUE'` (ou `UNFORMATTED_VALUE`) e
+   confirmar que não é `#ERROR!`/`#REF!`/`#NAME?` antes de considerar a
+   planilha pronta.
+9. **Atualização parcial de aula por aula não é obrigatória** — pode
+   regravar a aba "Aulas" inteira a cada execução com o estado atual (a data
+   de verificação de cada linha já registra quando foi conferida); não
+   precisa manter histórico de execuções anteriores linha a linha.
 
 ## Detalhes técnicos e pegadinhas (aprendidos na prática)
 
