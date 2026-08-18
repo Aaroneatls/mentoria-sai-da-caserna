@@ -702,12 +702,20 @@ sempre atualiza a planilha só dessa disciplina — nunca mexe na planilha de
 outra matéria só porque estão no mesmo pacote (ver a mesma regra em escala
 maior na skill `baixar-curso-completo-estrategia`, Passo 11).
 
-1. **Sempre Google Sheets nativo, nunca `.xlsx` local** — usar `gspread` com
-   as credenciais em `credenciais/` (escopos `spreadsheets` + `drive`). Achar
-   o ID da pasta de destino no Drive replicando o caminho local por nome
-   (`drive.files().list` com `mimeType = 'application/vnd.google-apps.folder'`
-   e `'<parent_id>' in parents`), e criar com `gc.create(titulo, folder_id=...)`
-   — isso já posiciona o arquivo na pasta certa sem precisar mover depois.
+1. **Sempre Google Sheets nativo, nunca `.xlsx` local** — confirmado pelo
+   Elvis em 2026-08-18: essa é a preferência permanente, não uma opção entre
+   outras. Usar `gspread` com as credenciais em `credenciais/` (escopos
+   `spreadsheets` + `drive`). Achar o ID da pasta de destino no Drive
+   replicando o caminho local por nome (`drive.files().list` com
+   `mimeType = 'application/vnd.google-apps.folder'` e `'<parent_id>' in
+   parents`), e criar com `gc.create(titulo, folder_id=...)` — isso já
+   posiciona o arquivo na pasta certa sem precisar mover depois.
+   **Se a autenticação falhar** (token expirado, credencial ausente, erro de
+   escopo) — **não cair silenciosamente pro Excel local nem pular a
+   planilha** — parar e pedir ao usuário pra fazer o login/reautorizar na
+   hora, explicando o erro encontrado. Só considerar Excel local como último
+   recurso se o próprio usuário disser que não vai conseguir reautorizar
+   agora.
 2. **Nome do arquivo:** `<Nome da Matéria> (SIGLA-SIGLA) - Metadados` — sem o
    sufixo de data (é um documento único que se atualiza, não recriado a cada
    execução).

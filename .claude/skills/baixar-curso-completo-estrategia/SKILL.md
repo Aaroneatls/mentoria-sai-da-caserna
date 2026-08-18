@@ -714,7 +714,9 @@ que o cruzamento bateu em cada uma.
 planilha de metadados própria, na mesma pasta dela** — mesmo processo e mesmo
 formato validado na skill `baixar-curso-especifico-estrategia` (ver "Planilha
 de metadados da disciplina" no Passo 9 dela — Google Sheets nativo via
-`gspread`, nunca `.xlsx` local; abas "Aulas" + "Legenda"; Curso ID no
+`gspread` como preferência permanente, nunca `.xlsx` local; se a autenticação
+falhar, parar e pedir ao usuário pra fazer login/reautorizar na hora em vez
+de cair pro Excel silenciosamente; abas "Aulas" + "Legenda"; Curso ID no
 subtítulo; fórmulas com `;` por causa do locale `pt_BR`; ler de volta pra
 conferir que não deu `#ERROR!`/`#REF!`/`#NAME?`, já que não há `recalc.py`
 funcionando nesse ambiente).
