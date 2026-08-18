@@ -385,6 +385,68 @@ Como usar sem violar a regra de credenciais:
 Se a API falhar ou mudar, o caminho antigo (navegar aula por aula e ler o
 `a.LessonButton`) continua válido como fallback — está descrito no Passo 5.
 
+### Fallback rápido: percorrer as aulas dentro da própria SPA
+
+**Confirmado na prática em 2026-08-18**, quando o classificador do Claude Code
+bloqueou a extração do `Bearer` e a API interna ficou indisponível. Em vez de
+uma chamada de `navigate` por aula, dá pra percorrer várias aulas **num único
+`javascript_tool`**: a área do aluno é um SPA React, então clicar no `<a>` da
+aula troca a página sem reload, e `history.back()` volta pra listagem. Num
+pacote de 211 aulas isso trocou ~240 navegações por ~40 chamadas.
+
+```js
+(async () => {
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const ids = Array.from(document.querySelectorAll('a[href*="/aulas/"]'))
+    .map(a => a.getAttribute('href').split('/aulas/')[1].split('/')[0])
+    .slice(0, 7);
+  const out = [];
+  for (const id of ids) {
+    const a = document.querySelector('a[href*="/aulas/' + id + '"]');
+    if (!a) { out.push('L:' + id + '|SEMLINK|'); continue; }
+    a.click();
+    let b = [];
+    for (let i = 0; i < 25; i++) {
+      await sleep(150);
+      b = Array.from(document.querySelectorAll('a.LessonButton'))
+            .filter(x => x.href.includes('/download/' + id));
+      if (b.length) break;
+    }
+    const s = b.find(x => /simplificada/i.test(x.innerText));
+    const o = b.find(x => /vers.o original/i.test(x.innerText));
+    const pick = s || o;
+    let q = '';
+    if (pick) {
+      const u = new URL(pick.href);
+      q = u.searchParams.get('expiration') + '|' + u.searchParams.get('signature');
+    }
+    out.push('L:' + id + '|' + (s ? 'S' : o ? 'O' : 'X') + '|' + q);
+    history.back();
+    for (let i = 0; i < 20; i++) {
+      await sleep(150);
+      if (document.querySelector('a[href*="/aulas/' + id + '"]')) break;
+    }
+  }
+  return out.join('\n');
+})()
+```
+
+Pontos que fazem esse atalho funcionar (todos aprendidos apanhando):
+
+- **Lote de no máximo 7 aulas por chamada.** Cada aula leva ~2,5-3s e o
+  executor de JS corta em **30s** — lotes de 8+ estouram na metade e o
+  trabalho da chamada inteira se perde. Ir fatiando a lista com `.slice()`.
+- **Devolver só `expiration` e `signature`, não a URL inteira.** O resto da
+  URL é template fixo
+  (`.../api/aluno/{pdfSimplificado|pdf}/download/{id}?clienteId={cliente}&resourceType=pdf&resourceId={id}&expiration={exp}&signature={sig}`),
+  remontável no shell. Num pacote grande isso economiza muito contexto.
+- **O filtro `/download/{id}` não é opcional** — é ele que garante que a
+  página nova já carregou (ver Passo 5, item 2).
+- Alguns `href` da listagem vêm no formato `{aulaId}/videos/{videoId}` —
+  por isso o `.split('/')[0]` ao extrair o ID.
+- Vale a mesma validade curta de link da API: consumir o lote logo depois
+  de coletar.
+
 ## Passo 5: Baixar o livro de cada aula (o núcleo do processo)
 
 Para cada aula pendente, repetir:
@@ -410,6 +472,18 @@ Para cada aula pendente, repetir:
    Eletrônico versão simplificada...", "...versão original...", "...marcação
    dos aprovados"). **Só interessam os dois primeiros** (simplificada e
    original).
+
+   **Sempre filtrar os botões pelo ID da aula antes de usar o link** —
+   confirmado na prática em 2026-08-18. O `href` de download termina em
+   `/download/{aulaId}`; se o link capturado apontar pra outro ID, é o botão
+   da aula **anterior**, que ainda não saiu do DOM (a troca de página é
+   assíncrona). Isso já gerou um download de 188 bytes sem erro aparente.
+   Filtrar assim, e só considerar a página carregada quando aparecer pelo
+   menos um botão do ID certo:
+   ```js
+   const links = Array.from(document.querySelectorAll('a.LessonButton'))
+     .filter(a => a.href.includes('/download/' + aulaId));
+   ```
 3. **Se existir link de "versão simplificada":** usar esse.
 4. **Se não existir simplificada mas existir "versão original":** usar esse
    como fallback.
@@ -448,6 +522,34 @@ Para cada aula pendente, repetir:
 
    **Só apagar/substituir o PDF antigo depois que os três testes passarem.**
    Enquanto não passarem, o arquivo que já estava na pasta continua intocado.
+6.1. **CRÍTICO — o "simplificado" pode ser só um aviso, não a aula.**
+   Confirmado na prática em 2026-08-18 (pacote Regular Controle: 19 aulas
+   afetadas, 14 em Contabilidade Geral Avançada e 5 em Contabilidade
+   Pública). Em algumas aulas o card "Baixar Livro Eletrônico versão
+   simplificada" **existe e baixa normalmente**, mas o PDF tem só ~3 páginas
+   e diz, em letras garrafais, que *aquela aula não possui PDF simplificado
+   devido às suas características*. Ou seja: a presença do card não garante
+   que existe versão simplificada de verdade — e o arquivo passa nos três
+   testes acima (é um PDF válido).
+
+   Depois de baixar a versão simplificada, antes de renomear pro nome final,
+   checar: se o PDF tiver **8 páginas ou menos** e o texto das 4 primeiras
+   páginas contiver ao mesmo tempo `possui` e `simplificado`, é um stub —
+   **descartar o `.tmp` e rebaixar aquela aula na versão original**, sem
+   perguntar nada ao usuário (é o mesmo fallback do item 4). Registrar a
+   troca pra citar no resumo final.
+
+   ```python
+   if len(reader.pages) <= 8:
+       chk = ' '.join((reader.pages[i].extract_text() or '')
+                      for i in range(min(4, len(reader.pages))))
+       if 'possui' in chk and 'simplificado' in chk:
+           # stub: descartar e baixar a versão original dessa aula
+   ```
+
+   O limiar de páginas evita reabrir PDF grande à toa — o stub sempre veio
+   com 3 páginas. **Nunca aceitar um simplificado curto sem essa checagem:**
+   sem ela, a aula fica na pasta com cara de baixada e sem nenhum conteúdo.
 7. Extrair a data da primeira página do PDF (ver "Extrair a data do PDF" abaixo)
    e renomear o `.tmp` pro nome final com a data.
 8. Voltar pra lista de aulas e seguir pra próxima.
@@ -839,6 +941,18 @@ maior na skill `baixar-curso-completo-estrategia`, Passo 11).
    regravar a aba "Aulas" inteira a cada execução com o estado atual (a data
    de verificação de cada linha já registra quando foi conferida); não
    precisa manter histórico de execuções anteriores linha a linha.
+10. **Prever o limite de escrita por minuto da API do Sheets** — confirmado
+    na prática em 2026-08-18. A cota é de **60 requisições de escrita por
+    minuto por usuário**, e cada planilha consome várias (criar, `update`
+    das duas abas, `resize`, `batch_update` de formatação). Numa disciplina
+    só isso não incomoda, mas o script tem que aguentar o erro **HTTP 429**
+    de qualquer jeito: envolver o processamento de cada planilha num retry
+    com **espera de ~65s** (até ~6 tentativas) e deixar uma pausa de ~12s
+    entre planilhas. Sem isso a execução morre no meio, com parte das
+    planilhas criadas. O script tem que ser **idempotente**: procurar pelo
+    nome do arquivo na pasta de destino e reaproveitar a planilha existente
+    em vez de criar uma duplicada ao retomar. Ver a mesma regra em escala de
+    pacote na `baixar-curso-completo-estrategia`, Passo 11.
 
 ## Passo 10: Sugestões de melhoria pra skill (sempre, ao final de toda execução)
 

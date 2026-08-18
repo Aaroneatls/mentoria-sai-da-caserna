@@ -437,6 +437,21 @@ não virar `Aula 02`). Fora desse cenário de limite de caminho, o rótulo nunca
 
 - Igual à skill original: preferir "Baixar Livro Eletrônico versão simplificada";
   se não existir, usar "versão original" como fallback.
+- **CRÍTICO — o "simplificado" pode ser só um aviso, não a aula.** Confirmado
+  na prática em 2026-08-18 (pacote Regular Controle: 19 aulas afetadas, 14 em
+  Contabilidade Geral Avançada e 5 em Contabilidade Pública). Em algumas aulas
+  o card "versão simplificada" existe e baixa normalmente, mas o PDF tem só
+  ~3 páginas e diz que *aquela aula não possui PDF simplificado devido às suas
+  características*. A presença do card não garante conteúdo — e o arquivo é um
+  PDF válido, então passa em qualquer checagem de formato. Depois de baixar a
+  simplificada, antes de renomear: se o PDF tiver **8 páginas ou menos** e o
+  texto das 4 primeiras páginas contiver ao mesmo tempo `possui` e
+  `simplificado`, descartar o `.tmp` e **rebaixar aquela aula na versão
+  original**, sem perguntar ao usuário. Citar as trocas no resumo final. Ver o
+  trecho de código na `baixar-curso-especifico-estrategia` (Passo 5, item 6.1).
+  **Num pacote isso tende a se concentrar em disciplinas inteiras** (as de
+  norma comentada/esquematizada), então não é um caso isolado: se aparecer numa
+  aula, esperar mais na mesma matéria.
 - Nome do arquivo: `Aula NN - Assunto Sintético (DD-MM-AAAA).pdf`, dentro da
   subpasta da matéria (data extraída da primeira página do PDF — ver "Extrair a
   data do PDF" abaixo).
@@ -625,6 +640,36 @@ Se a API falhar ou mudar, o caminho antigo (navegar aula por aula e ler o
    ```
    Isso retorna um link pra cada card presente na aula — escolher o que
    corresponde à categoria (ver acima).
+
+   **Sempre filtrar os botões pelo ID da aula antes de usar o link** —
+   confirmado na prática em 2026-08-18. O `href` de download termina em
+   `/download/{aulaId}`; se o link capturado apontar pra outro ID, é o botão
+   da aula **anterior**, que ainda não saiu do DOM (a troca de página é
+   assíncrona). Isso já gerou um download de 188 bytes sem erro aparente:
+   ```js
+   const links = Array.from(document.querySelectorAll('a.LessonButton'))
+     .filter(a => a.href.includes('/download/' + aulaId));
+   ```
+   O mesmo filtro serve pra saber que a página da aula certa já carregou.
+
+2.1. **Coleta em lote pela própria SPA (recomendado num pacote).** A área do
+   aluno é um SPA React: clicar no `<a>` da aula troca a página sem reload e
+   `history.back()` volta pra listagem — então dá pra colher os links de
+   **várias aulas num único `javascript_tool`**, em vez de um `navigate` por
+   aula. Num pacote de 211 aulas isso trocou ~240 navegações por ~40 chamadas
+   (confirmado em 2026-08-18). O script completo está na
+   `baixar-curso-especifico-estrategia`, seção "Fallback rápido: percorrer as
+   aulas dentro da própria SPA". Regras que valem sempre:
+   - **No máximo 7 aulas por chamada** — cada aula leva ~2,5-3s e o executor
+     de JS corta em 30s; lote maior estoura e perde a chamada inteira.
+   - **Devolver só `expiration` e `signature`** de cada aula, não a URL
+     inteira: o resto é template fixo, remontável no shell. Num pacote grande
+     isso economiza muito contexto.
+   - Alguns `href` vêm como `{aulaId}/videos/{videoId}` — extrair o ID com
+     `.split('/')[0]`.
+   - Consumir o lote logo depois de coletar: **os links assinados vencem em
+     poucos minutos**. Link vencido devolve HTML/arquivo minúsculo no lugar do
+     PDF — nesse caso, recoletar a assinatura daquela aula e repetir.
 3. Baixar o PDF **direto pra pasta de destino**, com nome temporário, via `curl`
    (Bash) com `-L` (o link redireciona pra CDN assinada
    `cdn.estrategiaconcursos.com.br/.../....pdf?Expires=...&Signature=...`), sem
@@ -862,6 +907,22 @@ Elvis em 2026-08-18:**
   processadas nessa execução são atualizadas — uma por matéria tocada.
 - Em nenhum caso atualizar a planilha de uma matéria que não foi processada
   nessa execução, mesmo que esteja no mesmo pacote.
+
+**Limite de escrita do Sheets — atenção redobrada num pacote.** Confirmado na
+prática em 2026-08-18: a cota é de **60 requisições de escrita por minuto por
+usuário**, e cada planilha consome várias (criar, `update` das duas abas,
+`resize`, `batch_update` de formatação). Com 12 disciplinas de uma vez o erro
+**HTTP 429** aparece por volta da sétima planilha e derruba a execução no meio.
+Montar o script assim desde o começo:
+
+- Retry por planilha, com espera de ~65s e até ~6 tentativas, só pra erro 429.
+- Pausa de ~12s entre planilhas.
+- **Idempotência obrigatória:** antes de criar, procurar pelo nome do arquivo
+  dentro da pasta de destino no Drive e reaproveitar a planilha existente —
+  senão, ao retomar depois do 429, as primeiras disciplinas ganham planilhas
+  duplicadas.
+- Como o processo é longo, imprimir o progresso planilha a planilha
+  (`flush=True`) pra dar pra retomar sabendo onde parou.
 
 ## Passo 12: Sugestões de melhoria pra skill (sempre, ao final de toda execução)
 
