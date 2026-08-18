@@ -5,14 +5,19 @@
 > Mantenha curto: o que passou de ~30 dias sai daqui (vai pro histórico ou some).
 
 ## Onde paramos
-Criei e testei a skill /baixar-curso-especifico-estrategia — baixa em lote os livros eletrônicos (PDF) de um curso do Estratégia Concursos, organizados numa pasta local. Testada com sucesso no curso de Direito Constitucional (TCDF-ANACE), 15 aulas baixadas.
+Sessão longa em 2026-08-18: baixei o pacote inteiro "Regular Fiscal" (22 disciplinas, ~415 aulas) e, na validação, achei e corrigi vários bugs reais de nomenclatura/conteúdo. Isso motivou uma bateria grande de melhorias nas skills `baixar-curso-especifico-estrategia` e `baixar-curso-completo-estrategia` (ambas já sincronizadas no GitHub) — ver lista em "Decisões recentes". Também criei planilha de metadados (Google Sheets) pra cada uma das 22 disciplinas, salva na respectiva pasta no Drive.
 
 ## Decisões recentes
-- 2026-08-17 — Padrão de nome de pasta de curso: `Matéria (SIGLA_CONCURSO-SIGLA_CARGO)`, ex: `Direito Constitucional (TCDF-ANACE)`.
-- 2026-08-17 — Padrão de nome de arquivo: `Aula NN - Assunto Sintético.pdf`. Livro simplificado é prioridade; se não existir, usa a versão original como fallback.
-- 2026-08-17 — Quando uma aula ainda não tem material liberado, criar um `.txt` no lugar do PDF (mesmo padrão de nome + data prevista) como marcador — não é erro, é aula pendente de liberação.
+- 2026-08-18 — Navegador embutido é o padrão pras duas skills; Chrome real só com autorização pedida a cada vez.
+- 2026-08-18 — Rótulo do arquivo (Aula NN) tem que ser cópia exata do site, nunca sequencial próprio — corrige bug real de deslocamento de numeração. Tags de mídia/equipe ("Somente PDF" etc) não entram no rótulo.
+- 2026-08-18 — Toda pasta (pacote e cada disciplina) leva sufixo de data `(DD-MM-AAAA)` da última atualização — controle independente por disciplina.
+- 2026-08-18 — Checagem de conteúdo por palavra-chave (grátis, local, sem gastar token) durante o download, comparando o PDF com o assunto esperado — sinaliza aula suspeita sem travar.
+- 2026-08-18 — Validação final (cruzar rótulo do site x arquivo local) virou passo obrigatório nas duas skills, só por nome, sem reabrir PDF.
+- 2026-08-18 — Curso ID do Estratégia é registrado e conferido a cada atualização — se mudar, avisar o usuário com contexto em vez de decidir sozinho (o site às vezes reatribui ID mantendo o mesmo conteúdo).
+- 2026-08-18 — Planilha de metadados (Google Sheets nativo, nunca Excel local) é saída obrigatória de toda disciplina baixada/atualizada — abas Aulas + Legenda, formatação padrão salva na memória.
 
 ## Pendências
+- **Próxima sessão: Elvis vai passar os links de DOIS cursos específicos do Estratégia pra testar as skills atualizadas do zero, numa janela de contexto nova.** Rodar `baixar-curso-especifico-estrategia` normalmente pra cada um — é um teste de validação de tudo que mudou hoje (nomenclatura, validação final, checagem de conteúdo, Curso ID, planilha de metadados).
 - Rodar /mapear pra criar mais skills personalizadas pro dia a dia.
 
 ## Quente agora
