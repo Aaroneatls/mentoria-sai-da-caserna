@@ -61,12 +61,46 @@ Ver Passo 2.
 
 Não seguir em frente sem as respostas 1 e 2 acima.
 
-## Passo 1: Abrir o pacote e identificar concurso / cargo
+## Passo 1: Escolher o navegador, abrir o pacote e identificar concurso / cargo
 
-1. Carregar as tools do Chrome (se ainda não carregadas):
-   `ToolSearch` com `select:mcp__claude-in-chrome__tabs_context_mcp,mcp__claude-in-chrome__navigate,mcp__claude-in-chrome__computer,mcp__claude-in-chrome__read_page,mcp__claude-in-chrome__tabs_create_mcp,mcp__claude-in-chrome__tabs_close_mcp,mcp__claude-in-chrome__get_page_text,mcp__claude-in-chrome__browser_batch,mcp__claude-in-chrome__find,mcp__claude-in-chrome__form_input`
-2. Navegar até o link do pacote. Se a extensão pedir aprovação de domínio, é normal
-   na primeira vez.
+1. **Escolher qual navegador controlar, antes de carregar qualquer tool:**
+   - **Navegador embutido (Browser pane, `mcp__Claude_Browser__*`) é o padrão**
+     — confirmado pelo Elvis em 2026-08-18. Usar esse por padrão sempre que o
+     usuário não pedir explicitamente o Chrome. Essas tools já vêm carregadas
+     por padrão, **não precisa de `ToolSearch`** — só confirmar o estado atual
+     com `tabs_context` antes de navegar. Se a sessão estiver deslogada
+     (redirecionar pra tela de login), avisar o usuário e esperar ele logar —
+     nunca tentar digitar credenciais.
+   - **Claude in Chrome (`mcp__claude-in-chrome__*`)** — **só usar com
+     autorização prévia do usuário na própria conversa**, pedida a cada vez que
+     for considerar essa alternativa (não vale autorização de uma sessão
+     anterior). Se em algum momento parecer que vale a pena trocar pro Chrome
+     (ex: navegador embutido indisponível ou deslogado), **perguntar antes de
+     tentar** — nunca trocar de navegador sozinho no meio do processo sem
+     avisar. Quando autorizado, carregar via `ToolSearch` com
+     `select:mcp__claude-in-chrome__tabs_context_mcp,mcp__claude-in-chrome__navigate,mcp__claude-in-chrome__computer,mcp__claude-in-chrome__read_page,mcp__claude-in-chrome__tabs_create_mcp,mcp__claude-in-chrome__tabs_close_mcp,mcp__claude-in-chrome__get_page_text,mcp__claude-in-chrome__browser_batch,mcp__claude-in-chrome__find,mcp__claude-in-chrome__form_input,mcp__claude-in-chrome__javascript_tool`
+   - Se ficar ambíguo qual dos dois usar (nenhum sinal claro na mensagem do
+     usuário), perguntar antes de prosseguir — evita carregar/tentar navegar
+     no navegador errado.
+   - **Tabela de equivalência** (os passos daqui pra frente na skill usam os
+     nomes genéricos da esquerda — trocar pela tool real do navegador
+     escolhido):
+
+     | Ação genérica | Claude in Chrome | Navegador embutido |
+     |---|---|---|
+     | Navegar pra URL | `navigate` | `navigate` |
+     | Rodar JS na página | `javascript_tool` | `javascript_tool` |
+     | Ler texto da página | `get_page_text` | `get_page_text` |
+     | Screenshot / clique | `computer` | `computer` |
+     | Contexto de abas | `tabs_context_mcp` | `tabs_context` |
+     | Buscar elemento | `find` | `find` |
+
+   - **Mecânica de download é a mesma nos dois navegadores** (ver Passo 7) —
+     a diferença é só qual conjunto de tools chamar. Não depende de clicar em
+     card nem abrir aba, então a instabilidade de clique em coordenadas
+     observada no navegador embutido não afeta esse fluxo.
+2. Navegar até o link do pacote. Se o navegador pedir aprovação de domínio (ou
+   login, no caso do navegador embutido), é normal na primeira vez.
 3. Ler o título da página pra extrair:
    - **Sigla do concurso** (ex: TCDF) — geralmente já vem entre parênteses no título.
    - **Cargo** (ex: Auditor Fiscal de Tributos Municipais).
@@ -79,6 +113,30 @@ Não seguir em frente sem as respostas 1 e 2 acima.
    Manter a sigla como ela realmente é usada — não forçar juntar palavras num
    bloco só se o uso comum mantém espaço (ex: o concurso "ISS Manaus" usa a sigla
    com espaço mesmo, `ISS Manaus`, não `ISSMANAUS`).
+6. **Pacote "Regular" sem concurso específico:** alguns pacotes não são de um
+   concurso/edital específico — são pacotes genéricos por área, cobrindo
+   matérias comuns a vários concursos daquela área. **O sinal pra reconhecer
+   esse caso é a própria palavra "Regular" no nome do pacote** (ex: título
+   "Curso Regular para Área Fiscal - Pacote Completo" → é o pacote "Regular
+   Fiscal"; existe também "Regular Controle"), não a ausência de sigla de
+   edital. Ao identificar esse padrão, usar `(Regular <Área>)` no lugar de
+   `(SIGLA_CONCURSO-SIGLA_CARGO)` em todo nome de pasta (ex: `Direito
+   Administrativo (Regular Fiscal)`). Não precisa perguntar ao usuário quando
+   reconhecer esse padrão — só confirmar se o próprio nome da área ficar
+   ambíguo.
+7. **"Reforma Tributária" conta como disciplina própria, e pode aparecer mais
+   de uma vez no mesmo pacote** — confirmado pelo Elvis em 2026-08-17. Não é
+   pra descartar nem tratar como "extra". Quando o nome "Reforma Tributária"
+   aparecer em mais de um item do pacote (ex: "Legislação Tributária sobre o
+   Consumo (LTC) - Reforma Tributária...", "Reforma Tributária - Lei
+   Complementar nº 227/2026...", "Reforma Tributária (LC nº 227/2026)" — cada
+   um cobrindo uma frente diferente da reforma, não duplicados), tratar como
+   **uma matéria "Reforma Tributária" com uma subpasta por curso**:
+   `Curso Regular/Reforma Tributária (Regular <Área>)/<nome curto do curso
+   específico>/` — o nome de cada subpasta sintetizado a partir do que
+   diferencia aquele curso dos outros (diploma legal e/ou professor), já que
+   os títulos completos tendem a ser grandes e parecidos entre si. Reconhecer
+   esse padrão sozinho, sem precisar perguntar ao usuário.
 
 ## Passo 2: Procurar pasta de pacote existente antes de criar (detecção automática)
 
@@ -270,6 +328,37 @@ pra atualização (Passo 4), repetir o mesmo processo da skill
 `baixar-curso-especifico-estrategia` (Passos 4 a 6 dela), com uma diferença por
 categoria:
 
+### Nome do arquivo — rótulo exato da aula (regra geral, vale pra todas as categorias)
+
+**O rótulo da aula (a parte "Aula NN" nos exemplos abaixo) tem que ser copiado
+exatamente como aparece na listagem do site, nunca um contador sequencial
+próprio dado por quem baixou** — confirmado pelo Elvis em 2026-08-18. Exemplos
+reais observados: `Aula 00`, `Aula 01`, `Aula 01 - Parte II` (quando o site
+quebra uma aula em mais de uma parte — manter "Parte II" tal como está, não
+virar "Aula 02"), `Aula Extra` (aula bônus fora da numeração principal), ou até
+títulos sem número tipo `RESUMO - Parte Geral do CC` — usar o próprio título
+da aula como rótulo nesse caso. Nunca substituir o rótulo real dado no site
+pela numeração sequencial da ordem de download.
+
+**Exceção: anotações de formato/equipe não entram no rótulo** — confirmado
+pelo Elvis em 2026-08-18. Tags que descrevem o *tipo de mídia* ou a *equipe*
+responsável pela aula, não o *assunto* tratado nela, ficam de fora do nome do
+arquivo. Exemplos que **não** entram: `(Somente PDF)`, `(Somente em PDF)`,
+`(Equipe de Legislação)`, `(Somente Vídeo)`. Ex: `Aula 20 (Somente PDF)` no
+site vira só `Aula 20` no arquivo. **Se aparecer algum outro tipo de anotação
+parecida que não se encaixe claramente como "tipo de mídia/equipe" nem como
+parte do conteúdo, perguntar ao usuário antes de decidir** — não adivinhar
+sozinho pra esse caso novo.
+
+**Exceção: limite de caminho do Windows.** Se o caminho completo do arquivo
+estiver perto do limite de 260 caracteres (ver "Limite de 260 caracteres de
+caminho no Windows" nos Detalhes técnicos), é permitido sintetizar/abreviar o
+rótulo — abreviar o assunto primeiro, e só mexer no rótulo como último
+recurso, mantendo pelo menos o número/palavra que identifica a aula (ex:
+`Aula 01 - Parte II` pode virar `Aula 01-PII` se for realmente necessário, mas
+não virar `Aula 02`). Fora desse cenário de limite de caminho, o rótulo nunca
+é sintetizado nem abreviado.
+
 ### Curso Regular
 
 - Igual à skill original: preferir "Baixar Livro Eletrônico versão simplificada";
@@ -334,14 +423,36 @@ nome do arquivo (mesmo processo da skill `baixar-curso-especifico-estrategia`):
 
 ```bash
 python -c "
-import re, sys
+import re, sys, unicodedata
 from pypdf import PdfReader
+
+MESES = {'janeiro':1,'fevereiro':2,'marco':3,'abril':4,'maio':5,'junho':6,
+         'julho':7,'agosto':8,'setembro':9,'outubro':10,'novembro':11,'dezembro':12}
+
+def strip_accents(s):
+    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+
 texto = PdfReader(sys.argv[1]).pages[0].extract_text() or ''
+
 m = re.search(r'(\d{2})/(\d{2})/(\d{4})', texto)
-print(f'{m.group(1)}-{m.group(2)}-{m.group(3)}' if m else '')
+if m:
+    data = f'{m.group(1)}-{m.group(2)}-{m.group(3)}'
+else:
+    m2 = re.search(r'(\d{1,2}) de ([A-Za-zçÇéÉ]+) de (\d{4})', texto)
+    if m2:
+        dia, mes_nome, ano = m2.groups()
+        mes_num = MESES.get(strip_accents(mes_nome.lower()))
+        data = f'{int(dia):02d}-{mes_num:02d}-{ano}' if mes_num else ''
+    else:
+        data = ''
+print(data)
 " "<caminho do PDF baixado com nome temporário>"
 ```
 
+- **Duas formas de data já observadas na prática:** numérica `DD/MM/AAAA` e
+  escrita por extenso em português `DD de Mês de AAAA` (ex: "31 de Julho de
+  2026" — confirmado testando no curso de Direito Administrativo, pacote
+  Regular Fiscal). O script acima cobre os dois, tentando o numérico primeiro.
 - Baixar sempre com nome temporário (`.tmp`), extrair a data, e só então renomear
   pro nome final com a data.
 - Se `pypdf` não estiver instalado, instalar com `pip install pypdf` antes de
@@ -353,22 +464,39 @@ print(f'{m.group(1)}-{m.group(2)}-{m.group(3)}' if m else '')
 ### Mecânica de download (igual em todas as categorias)
 
 1. Navegar para `https://www.estrategiaconcursos.com.br/app/dashboard/cursos/{id}/aulas/{aulaId}`
-   (ou clicar no título da aula na lista) e esperar ~2s carregar.
-2. Clicar no card de livro correspondente à categoria (ver acima).
-3. O clique abre uma **nova aba** com uma URL direta e assinada da CDN
-   (`cdn.estrategiaconcursos.com.br/storage/temp/aula/.../....pdf?Expires=...&Signature=...`).
-   Pegar essa URL com `tabs_context_mcp` (pode levar 1-2s pra aba carregar o título/URL).
-4. Baixar o PDF **direto pra pasta de destino**, com nome temporário, via `curl`
-   (Bash), sem passar pela pasta de Downloads:
+   (ou clicar no título da aula na lista) e esperar ~2s carregar. **Conferir o
+   título da aba depois de navegar** — se voltar genérico ("Área do Aluno", ou
+   o mesmo título de antes) em vez do título real da aula/curso, a navegação
+   falhou silenciosamente (transiente, observado várias vezes na prática) —
+   **renavegar uma vez pra mesma URL antes de seguir**, em vez de extrair o
+   `LessonButton` de uma página errada.
+2. **Não precisa clicar no card nem abrir aba nova.** O link de download já
+   está no HTML da própria página, num `<a class="LessonButton">`. Extrair
+   direto via JavaScript (`javascript_tool`):
+   ```js
+   const links = Array.from(document.querySelectorAll('a.LessonButton'))
+     .map(a => ({ texto: a.textContent.replace(/\s+/g, ' ').trim(), href: a.href }));
+   JSON.stringify(links);
+   ```
+   Isso retorna um link pra cada card presente na aula — escolher o que
+   corresponde à categoria (ver acima).
+3. Baixar o PDF **direto pra pasta de destino**, com nome temporário, via `curl`
+   (Bash) com `-L` (o link redireciona pra CDN assinada
+   `cdn.estrategiaconcursos.com.br/.../....pdf?Expires=...&Signature=...`), sem
+   passar pela pasta de Downloads:
    ```bash
-   curl -s -o "<pasta>/<nome do arquivo>.pdf.tmp" "<url capturada>" -w "HTTP:%{http_code} SIZE:%{size_download}\n"
+   curl -sL -o "<pasta>/<nome do arquivo>.pdf.tmp" "<href capturado>" -w "HTTP:%{http_code} SIZE:%{size_download}\n"
    ```
    Conferir que retornou `HTTP:200` e um `SIZE` não-trivial.
-5. Extrair a data (ver acima) e renomear o `.tmp` pro nome final.
-6. Fechar a aba do PDF (`tabs_close_mcp`).
-7. Voltar pra lista de aulas da matéria e seguir pra próxima aula. Depois de
+4. Extrair a data (ver acima) e renomear o `.tmp` pro nome final.
+5. Voltar pra lista de aulas da matéria e seguir pra próxima aula. Depois de
    esgotar as aulas da matéria, voltar pra página do pacote e ir pra próxima
    matéria/categoria.
+
+**Nota sobre cliques no navegador embutido (Browser pane):** clicar em
+coordenadas de tela em itens de listagem (cursos, cards) nem sempre navega de
+forma confiável nesse navegador — prefira sempre extrair o `href` real via
+`javascript_tool` e navegar direto pela URL, em vez de clicar às cegas.
 
 ### Modo atualização — o que baixar
 
@@ -445,21 +573,49 @@ Passo Estratégico, ou a pasta única de Bizu/Discursiva/Trilha/Simulado):
 Isso deixa visível, só olhando o nome da pasta no Explorer, quais matérias ainda
 têm aula pendente de liberação pelo site e quais já estão 100% baixadas.
 
-## Passo 10: Verificação final
+## Passo 10: Validação final (obrigatória — sempre rodar antes de dar o pacote como concluído)
+
+**Confirmado pelo Elvis em 2026-08-18: essa validação é parte obrigatória da
+skill, não um extra — nunca reportar o pacote (ou uma matéria dele) como
+concluído sem rodar esse passo.**
+
+**Validação é só por nomenclatura, nunca abrindo o conteúdo dos PDFs** —
+confirmado pelo Elvis em 2026-08-18: não vale a pena gastar tokens
+abrindo/lendo cada PDF de novo nessa etapa (isso já foi feito uma vez, na hora
+do download, pra extrair a data — não precisa repetir). O cruzamento é
+puramente comparação de texto: rótulo da listagem do site vs. nome do arquivo
+local.
 
 Depois de processar todas as categorias/matérias selecionadas:
 
 1. Listar a árvore de pastas criada (`ls` recursivo por categoria), já com os
    prefixos `(N-M)` renomeados.
-2. Conferir que a quantidade de PDFs + TXTs de cada matéria bate com o total de
-   aulas dela.
-3. Validar cada PDF com `file` (deve reportar "PDF document", não algo corrompido
-   ou HTML de erro).
+2. **Pra cada matéria/bloco processado, conseguir a lista de rótulos atual.**
+   Se essa matéria acabou de ser baixada nessa mesma execução (sem intervalo
+   relevante de tempo), **reaproveitar a tabela salva no Passo 4/5** em vez de
+   gastar uma nova consulta ao site. Só **re-consultar a listagem `/aulas` do
+   site de novo** quando fizer sentido desconfiar que o estado mudou desde a
+   coleta original (retomando de uma sessão anterior, ou intervalo longo) —
+   nesse caso, só o `get_page_text` da listagem, sem abrir aula por aula. Em
+   qualquer um dos dois casos, cruzar item a item com os arquivos locais dessa
+   matéria/bloco, só pelo nome:
+   - Cada rótulo de aula da listagem deve corresponder a exatamente um arquivo
+     local (`.pdf` ou `.txt`) cujo nome começa com esse mesmo rótulo.
+   - Rótulo sem arquivo correspondente → aula não baixada, investigar antes de
+     considerar aquela matéria concluída.
+   - Arquivo local sem rótulo correspondente → rótulo digitado errado ou aula
+     que saiu da grade — investigar e, se for rótulo errado, renomear o
+     arquivo pro rótulo certo (sem reabrir o PDF, só `mv`/`Rename-Item`).
+3. Conferir que **N** (quantidade de `.pdf` reais) e **M** (total de itens na
+   listagem do site) batem com o prefixo `(N-M)` aplicado no Passo 9 de cada
+   matéria/bloco.
+4. Reportar o resultado dessa validação pro usuário — matéria por matéria, se
+   bateu 100% ou se sobrou algo em algum lado — mesmo a skill normalmente não
+   gerando relatório à parte, essa validação final é sempre resumida em texto.
 
-O resultado final é a estrutura de pastas em si, já com os arquivos dentro e
-cada matéria/bloco renomeado com o progresso `(N-M)` — não precisa gerar nem
-apresentar uma tabela resumo pro usuário no final. As duas skills terminam no
-mesmo formato: pastas criadas, arquivos dentro, sem relatório à parte.
+O resultado final é a estrutura de pastas em si, já com os arquivos dentro,
+cada matéria/bloco renomeado com o progresso `(N-M)`, mais a confirmação de
+que o cruzamento bateu em cada uma.
 
 ## Detalhes técnicos e pegadinhas (aprendidos testando esse pacote)
 

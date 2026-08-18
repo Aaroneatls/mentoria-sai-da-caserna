@@ -32,7 +32,7 @@ Informal, com gírias do universo militar/concurseiro (ex: "bizu", "bizurado"). 
 ## Ferramentas conectadas
 - Google Drive — acesso direto por sistema de arquivos (workspace já vive dentro da pasta sincronizada do Drive)
 - Google Sheets — conectado via `gspread` com OAuth (Python). Credenciais em `credenciais/` (nunca commitar). Client: `credenciais/google-oauth-client.json`, token de sessão: `credenciais/google-oauth-token.json`
-- Claude in Chrome (extensão) — acessa o navegador Chrome real do usuário, já logado nas plataformas (Estratégia Concursos, TecConcursos, Tutori). Usado por skills que precisam navegar/baixar material dessas plataformas.
+- Claude in Chrome (extensão) — acessa o navegador Chrome real do usuário, já logado nas plataformas (Estratégia Concursos, TecConcursos, Tutori). **Navegador embutido é o padrão para qualquer skill que precise navegar; só usar o Chrome real com autorização prévia do usuário na conversa, pedida a cada vez** (confirmado 2026-08-18).
 - Pasta padrão de downloads do Estratégia Concursos: `G:\Meu Drive\Inteligência Artificial\Estrategia` (usada pelas skills `baixar-curso-especifico-estrategia` e `baixar-curso-completo-estrategia`).
 *(atualizar conforme MCPs forem instalados)*
 
