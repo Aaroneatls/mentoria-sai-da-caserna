@@ -150,7 +150,9 @@ concurso/cargo — o nome raiz do pacote é livre, então o jeito confiável de
 identificar é abrir as pastas de primeiro nível encontradas e checar se as
 subpastas de categoria/matéria lá dentro usam essa mesma sigla (ex: `Direito
 Constitucional (TCDF-ANACE)`). **Comparação:** ignorar maiúsculas/minúsculas,
-acentuação, e um eventual prefixo `(N-M)` nas subpastas.
+acentuação, um eventual prefixo `(N-M)` nas subpastas, e o sufixo de data
+`(DD-MM-AAAA)` no final tanto da pasta do pacote quanto de cada subpasta de
+matéria.
 
 **Se encontrar exatamente uma pasta de pacote correspondente:**
 
@@ -283,23 +285,23 @@ local), perguntar isso separadamente antes de prosseguir.
 ## Passo 6: Criar a estrutura de pastas
 
 ```
-<pasta raiz>/<Nome do Pacote>/
+<pasta raiz>/<Nome do Pacote> (DD-MM-AAAA)/
 ├── Curso Regular/
-│   ├── Contabilidade Geral (SIGLA-SIGLA)/
-│   ├── Direito Constitucional (SIGLA-SIGLA)/
+│   ├── Contabilidade Geral (SIGLA-SIGLA) (DD-MM-AAAA)/
+│   ├── Direito Constitucional (SIGLA-SIGLA) (DD-MM-AAAA)/
 │   └── ...
 ├── Passo Estratégico/
-│   ├── Contabilidade Geral (SIGLA-SIGLA)/
-│   ├── Direito Constitucional (SIGLA-SIGLA)/
+│   ├── Contabilidade Geral (SIGLA-SIGLA) (DD-MM-AAAA)/
+│   ├── Direito Constitucional (SIGLA-SIGLA) (DD-MM-AAAA)/
 │   └── ...
 ├── Bizu Estratégico/
-│   └── Bizu Estratégico (SIGLA-SIGLA)/   ← pasta única, não separa por matéria
+│   └── Bizu Estratégico (SIGLA-SIGLA) (DD-MM-AAAA)/   ← pasta única, não separa por matéria
 ├── Discursiva Sem Correção/
-│   └── Discursiva Sem Correção (SIGLA-SIGLA)/   ← pasta única, curso já é um bloco só
+│   └── Discursiva Sem Correção (SIGLA-SIGLA) (DD-MM-AAAA)/   ← pasta única, curso já é um bloco só
 ├── Trilha Estratégica/
-│   └── Trilha Estratégica (SIGLA-SIGLA)/        ← pasta única
+│   └── Trilha Estratégica (SIGLA-SIGLA) (DD-MM-AAAA)/        ← pasta única
 └── Simulado/
-    └── Simulado (SIGLA-SIGLA)/                  ← pasta única
+    └── Simulado (SIGLA-SIGLA) (DD-MM-AAAA)/                  ← pasta única
 ```
 
 - Uma pasta por categoria selecionada no Passo 5.
@@ -308,12 +310,22 @@ local), perguntar isso separadamente antes de prosseguir.
   `baixar-curso-especifico-estrategia`: `Matéria (SIGLA_CONCURSO-SIGLA_CARGO)`.
   Esse é o nome "base" criado antes de baixar qualquer aula — no final (Passo 9),
   a pasta é renomeada (nunca apagada e recriada) pra ganhar o prefixo `(N-M)` na
-  frente se o curso ainda não estiver completo.
+  frente se o curso ainda não estiver completo, e o sufixo de data no final.
 - **Bizu Estratégico, Discursiva Sem Correção, Trilha Estratégica e Simulado são
   exceção:** cada uma delas já é um curso único no site (não um curso por
   matéria), então vira **uma pasta só** dentro da categoria (ex:
   `Bizu Estratégico (SIGLA-SIGLA)`), com todos os PDFs das aulas daquele bloco
   dentro (ver Passo 7).
+- **`(DD-MM-AAAA)` no nome do pacote e de cada matéria** — confirmado pelo
+  Elvis em 2026-08-18: a pasta do pacote (nível mais alto) leva um sufixo de
+  data indicando a última vez que **qualquer coisa** dentro dela foi
+  baixada/atualizada; cada pasta de matéria leva o **seu próprio** sufixo de
+  data, indicando a última vez que **aquela matéria específica** foi
+  baixada/atualizada. São controles independentes — é comum atualizar só uma
+  matéria do pacote sem tocar nas outras, e a data de cada pasta reflete isso
+  individualmente. Na criação (download novo), a data em ambos os níveis é a
+  de hoje. Ver Passo 9 pra como a data da matéria é recalculada, e Passo 10
+  pra como a data do pacote é recalculada no final.
 - **Modo novo:** criar tudo do zero com `mkdir -p`, dentro da pasta informada no
   Passo 0 (nenhuma pasta de pacote correspondente foi encontrada no Passo 2).
 - **Modo atualização:** usar a pasta do pacote localizada no Passo 2; criar só
@@ -542,7 +554,7 @@ página (ver Passo 7). A data depois de um **traço** `- DD-MM-AAAA.txt` é só 
 previsão de liberação informada pelo site pra uma aula ainda travada. Os dois
 formatos nunca se confundem visualmente por causa disso.
 
-## Passo 9: Nomear a pasta com indicador de progresso (N-M)
+## Passo 9: Nomear a pasta com indicador de progresso (N-M) e data de atualização
 
 Depois de terminar todas as aulas de uma matéria/bloco (pasta de Curso Regular,
 Passo Estratégico, ou a pasta única de Bizu/Discursiva/Trilha/Simulado):
@@ -551,27 +563,42 @@ Passo Estratégico, ou a pasta única de Bizu/Discursiva/Trilha/Simulado):
    quantas delas realmente têm PDF baixado (arquivos `.pdf` de verdade, não os
    `.txt` placeholder do Passo 8).
 2. **Se N < M** (curso incompleto): renomear a pasta pra começar com `(N-M) `,
-   ex: `(10-20) Direito Administrativo (SIGLA-SIGLA)` (10 aulas com PDF já
-   disponível, de um total de 20 aulas no curso). O indicador fica **entre
-   parênteses, colado direto no nome da matéria** — sem traço separando os dois,
-   só um espaço. **Usar traço dentro do parênteses (`N-M`), nunca barra
-   (`N/M`)** — barra é separador de caminho no Windows e quebra o `Rename-Item`
-   (confirmado na prática: tentar renomear com `/` lança erro "representa um
-   caminho ou nome de dispositivo").
-3. **Se N == M** (curso completo): a pasta fica sem prefixo, só
-   `Direito Administrativo (SIGLA-SIGLA)`.
-4. **Modo atualização:** antes de recalcular, remover qualquer prefixo `(N-M) `
-   que a pasta já tenha (de uma execução anterior) pra não acumular prefixos
-   antigos — sempre recalcular do zero e renomear com os números atuais.
-5. **Sempre renomear a pasta existente com `Rename-Item` (ou equivalente) — nunca
+   ex: `(10-20) Direito Administrativo (SIGLA-SIGLA) (18-08-2026)` (10 aulas
+   com PDF já disponível, de um total de 20 aulas no curso). O indicador fica
+   **entre parênteses, colado direto no nome da matéria** — sem traço
+   separando os dois, só um espaço. **Usar traço dentro do parênteses (`N-M`),
+   nunca barra (`N/M`)** — barra é separador de caminho no Windows e quebra o
+   `Rename-Item` (confirmado na prática: tentar renomear com `/` lança erro
+   "representa um caminho ou nome de dispositivo").
+3. **Se N == M** (curso completo): a pasta fica sem o prefixo `(N-M)`, só
+   `Direito Administrativo (SIGLA-SIGLA) (18-08-2026)`.
+4. **Atualizar também o sufixo de data no final do nome pra data de hoje**
+   (ver regra no Passo 6) — nessa mesma operação de renomear, sempre, pra
+   registrar quando essa matéria específica foi mexida pela última vez. Isso
+   vale mesmo que só essa matéria tenha sido tocada nessa execução, sem mexer
+   nas outras do pacote.
+5. **Modo atualização:** antes de recalcular, remover qualquer prefixo `(N-M) `
+   e qualquer sufixo de data antigo que a pasta já tenha (de uma execução
+   anterior) pra não acumular — sempre recalcular do zero e renomear com os
+   números e a data atuais.
+6. **Sempre renomear a pasta existente com `Rename-Item` (ou equivalente) — nunca
    apagar a pasta (ou a árvore inteira) e recriar do zero pra aplicar esse
-   prefixo.** Apagar e recriar perde a pasta original (e qualquer PDF real já
+   prefixo/data.** Apagar e recriar perde a pasta original (e qualquer PDF real já
    baixado nela) e conta como criar uma pasta nova, não atualizar a existente —
    o que vale tanto pra corrigir o prefixo quanto pra qualquer outro ajuste feito
    em modo atualização.
 
 Isso deixa visível, só olhando o nome da pasta no Explorer, quais matérias ainda
-têm aula pendente de liberação pelo site e quais já estão 100% baixadas.
+têm aula pendente de liberação pelo site, quais já estão 100% baixadas, e quando
+cada uma foi mexida pela última vez.
+
+**Data da pasta do pacote (nível acima):** depois de processar **qualquer**
+matéria/bloco (mesmo só uma, mesmo em modo atualização tocando uma matéria só),
+atualizar também o sufixo de data da pasta do pacote (raiz, ver Passo 6) pra
+data de hoje — ela reflete a atividade mais recente em qualquer parte do
+pacote, não só quando o pacote inteiro é rebaixado. Fazer essa renomeação uma
+vez só, depois de processar todas as matérias da execução atual (não a cada
+matéria individual) — evita renomear a pasta-raiz repetidamente à toa.
 
 ## Passo 10: Validação final (obrigatória — sempre rodar antes de dar o pacote como concluído)
 

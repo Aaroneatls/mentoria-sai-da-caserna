@@ -131,13 +131,22 @@ Não seguir em frente sem as respostas 1 e 2 acima.
 Padrão fixo (sempre seguir esse formato):
 
 ```
-Matéria (SIGLA_CONCURSO-SIGLA_CARGO)
+Matéria (SIGLA_CONCURSO-SIGLA_CARGO) (DD-MM-AAAA)
 ```
 
-Exemplo: `Direito Constitucional (TCDF-ANACE)`
+Exemplo: `Direito Constitucional (TCDF-ANACE) (18-08-2026)`
 
 - Sintetizar o nome da matéria se for muito extenso.
 - Sempre entre parênteses: sigla do concurso, traço, sigla do cargo.
+- **A data no final, entre parênteses, é a data da última vez que essa pasta
+  foi criada/atualizada por essa skill** — confirmado pelo Elvis em
+  2026-08-18. Na criação da pasta (download novo), é a data de hoje (data do
+  carregamento inicial das aulas). Numa atualização (Passo 3), essa data é
+  **recalculada pra hoje** no final do processo (Passo 7) — nunca acumular
+  datas antigas, sempre substituir pela mais recente. Serve pra saber, só
+  olhando o nome da pasta, quando aquela disciplina específica foi mexida pela
+  última vez — importante porque é comum atualizar só uma disciplina por vez,
+  sem tocar nas outras do mesmo pacote.
 - Esse é o padrão definitivo — não trocar sem o usuário pedir explicitamente.
 - **Limite de caminho do Windows (260 caracteres):** antes de criar a pasta,
   estimar o tamanho do caminho completo (`pasta raiz + \ + nome da matéria +
@@ -159,6 +168,9 @@ existente que corresponda a essa matéria. **Comparação:**
   com "Direito Constitucional").
 - Ignorar um eventual prefixo `(N-M)` (ex: `(10-20) Direito Constitucional
   (TCDF-ANACE)` bate com `Direito Constitucional (TCDF-ANACE)`).
+- Ignorar o sufixo de data `(DD-MM-AAAA)` no final do nome (ex: `Direito
+  Constitucional (TCDF-ANACE) (10-03-2026)` bate com `Direito Constitucional
+  (TCDF-ANACE)`).
 
 **Se encontrar exatamente uma pasta correspondente:**
 
@@ -476,32 +488,45 @@ formato dentro de uma pasta de curso, isso indica que aquela aula específica ai
 não tinha o livro liberado no momento em que os dados foram coletados — não é um
 erro nem um arquivo esquecido.
 
-## Passo 7: Nomear a pasta com indicador de progresso (N-M)
+## Passo 7: Nomear a pasta com indicador de progresso (N-M) e data de atualização
 
 Depois de processar todas as aulas do curso:
 
 1. Contar **M** = total de aulas do curso e **N** = quantas delas realmente têm
    PDF baixado (arquivos `.pdf` de verdade, não os `.txt` placeholder do Passo 6).
 2. **Se N < M** (curso incompleto): renomear a pasta pra começar com `(N-M) `,
-   ex: `(10-20) Direito Administrativo (SIGLA-SIGLA)` (10 aulas com PDF já
-   disponível, de um total de 20 aulas no curso). O indicador fica **entre
-   parênteses, colado direto no nome da matéria** — sem traço separando os dois,
-   só um espaço. **Usar traço dentro do parênteses (`N-M`), nunca barra
-   (`N/M`)** — barra é separador de caminho no Windows e quebra o `Rename-Item`
-   (confirmado na prática: tentar renomear com `/` lança erro "representa um
-   caminho ou nome de dispositivo").
-3. **Se N == M** (curso completo): a pasta fica sem prefixo, só
-   `Direito Administrativo (SIGLA-SIGLA)`.
-4. **Modo atualização:** antes de recalcular, remover qualquer prefixo `(N-M) `
-   que a pasta já tenha (de uma execução anterior) pra não acumular prefixos
-   antigos — sempre recalcular do zero e renomear com os números atuais.
-5. **Sempre renomear a pasta existente com `Rename-Item` (ou equivalente) —
-   nunca apagar a pasta e recriar do zero pra aplicar esse prefixo.** Apagar e
-   recriar perde a pasta original (e qualquer PDF real já baixado nela) e conta
-   como criar uma pasta nova, não atualizar a existente.
+   ex: `(10-20) Direito Administrativo (SIGLA-SIGLA) (18-08-2026)` (10 aulas
+   com PDF já disponível, de um total de 20 aulas no curso). O indicador fica
+   **entre parênteses, colado direto no nome da matéria** — sem traço
+   separando os dois, só um espaço. **Usar traço dentro do parênteses (`N-M`),
+   nunca barra (`N/M`)** — barra é separador de caminho no Windows e quebra o
+   `Rename-Item` (confirmado na prática: tentar renomear com `/` lança erro
+   "representa um caminho ou nome de dispositivo").
+3. **Se N == M** (curso completo): a pasta fica sem o prefixo `(N-M)`, só
+   `Direito Administrativo (SIGLA-SIGLA) (18-08-2026)`.
+4. **Atualizar também o sufixo de data no final do nome pra data de hoje** (ver
+   regra no Passo 2) — nessa mesma operação de renomear, sempre, independente
+   de N ser igual ou menor que M. Isso registra quando essa disciplina
+   específica foi mexida pela última vez.
+5. **Modo atualização:** antes de recalcular, remover qualquer prefixo `(N-M) `
+   e qualquer sufixo de data antigo que a pasta já tenha (de uma execução
+   anterior) pra não acumular — sempre recalcular do zero e renomear com os
+   números e a data atuais.
+6. **Sempre renomear a pasta existente com `Rename-Item` (ou equivalente) —
+   nunca apagar a pasta e recriar do zero pra aplicar esse prefixo/data.**
+   Apagar e recriar perde a pasta original (e qualquer PDF real já baixado
+   nela) e conta como criar uma pasta nova, não atualizar a existente.
+7. **Se essa pasta de matéria estiver dentro de uma estrutura de pacote**
+   (identificável por ter uma pasta de categoria como `Curso Regular` ou
+   `Passo Estratégico` entre a pasta raiz do pacote e a pasta da matéria —
+   ver `baixar-curso-completo-estrategia`), **atualizar também o sufixo de
+   data da pasta do pacote** (a pasta-avó, dois níveis acima) pra data de
+   hoje — mesmo mexendo só nessa disciplina, o pacote como um todo teve
+   atividade recente e isso deve refletir no nome da pasta-mãe.
 
 Isso deixa visível, só olhando o nome da pasta no Explorer, se o curso ainda tem
-aula pendente de liberação pelo site ou já está 100% baixado.
+aula pendente de liberação pelo site ou já está 100% baixado, e quando essa
+disciplina foi mexida pela última vez.
 
 ## Passo 8: Validação final (obrigatória — sempre rodar antes de dar o curso como concluído)
 
