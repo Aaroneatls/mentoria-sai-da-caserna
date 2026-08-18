@@ -167,6 +167,17 @@ acentuação, um eventual prefixo `(N-M)` nas subpastas, e o sufixo de data
 `(DD-MM-AAAA)` no final tanto da pasta do pacote quanto de cada subpasta de
 matéria.
 
+**A varredura tem que descer até os arquivos, não parar no primeiro nível** —
+confirmado em 2026-08-18, depois de um erro real: uma matéria pode ter
+**subpastas** (a própria skill cria isso pra Reforma Tributária, ver Passo 1.7),
+então os PDFs podem estar dois níveis abaixo da pasta de matéria. Numa execução
+a pasta `Reforma Tributária (Regular Fiscal)` foi dada como vazia quando na
+verdade tinha 33 PDFs em 3 subpastas — porque a listagem parou num nível acima.
+Usar varredura recursiva (`os.walk` / `find`) ao contar o que já existe, nunca
+só `ls` do primeiro nível. Vale também pro Passo 4 e pro `(N-M)` do Passo 9:
+numa matéria com subpastas, **N e M são a soma de todas elas**, e o prefixo e a
+data vão na pasta da matéria (a mãe), não em cada subpasta.
+
 **Se encontrar exatamente uma pasta de pacote correspondente:**
 
 1. Resumir o que já tem: quais categorias existem, quantas matérias em cada uma,
@@ -386,6 +397,33 @@ parecida que não se encaixe claramente como "tipo de mídia/equipe" nem como
 parte do conteúdo, perguntar ao usuário antes de decidir** — não adivinhar
 sozinho pra esse caso novo.
 
+**A anotação nem sempre vem entre parênteses.** Visto na prática:
+`Aula 16- Somente em PDF`, `Aula 15 - Somente em PDF`, `Aula Extra (Somente
+pdf)`. Tratar todas do mesmo jeito, com ou sem parênteses, com ou sem espaço
+antes do traço.
+
+**Exceção: créditos de professor também não entram no rótulo** — confirmado em
+2026-08-18. O curso de Tecnologia da Informação nomeia as aulas como
+`Aula 00 - Prof. Diego Carvalho e Renato da Costa`. Nome de professor descreve
+*quem deu* a aula, não o *assunto* dela, então sai do rótulo pela mesma lógica
+das anotações de formato: `Aula 00 - Prof. Diego Carvalho e Renato da Costa`
+vira só `Aula 00`. Regra prática: cortar tudo a partir de ` - Prof.` /
+` - Profa.` até o fim do rótulo (isso já leva junto um eventual `(Somente em
+PDF)` no final). Cuidado pra não confundir com `Aula 01 - Parte II`, que **é**
+parte do rótulo e fica.
+
+**Rótulos repetidos na mesma matéria: desempatar pelo conteúdo.** Existem cursos
+com duas aulas de nome idêntico — em Administração Financeira e Orçamentária há
+**duas** `Aula Extra - Somente em PDF`, uma de "Questões Extras FGV" e outra de
+"Questões Extras CEBRASPE". Casando só pelo rótulo, os dois arquivos trocam de
+lugar (e ficam com o assunto errado no nome) ou um sobrescreve o outro. Quando
+o rótulo limpo aparecer mais de uma vez no mesmo curso:
+
+1. comparar o `conteudo` da aula (vem da API) com o nome do arquivo local e
+   parear o que tiver mais palavras em comum;
+2. **se nenhum arquivo bater, não parear** — deixar aquela aula de fora e citar
+   na Validação Final, em vez de arriscar sobrescrever o arquivo errado.
+
 **Exceção: limite de caminho do Windows.** Se o caminho completo do arquivo
 estiver perto do limite de 260 caracteres (ver "Limite de 260 caracteres de
 caminho no Windows" nos Detalhes técnicos), é permitido sintetizar/abreviar o
@@ -532,6 +570,42 @@ else:
   `(DD-MM-AAAA)` e seguir normalmente — não travar o download. Mencionar no
   resumo final quais aulas ficaram sem data identificada.
 
+### Atalho recomendado: pegar todas as aulas de uma vez pela API interna
+
+**Confirmado em 2026-08-18.** Em vez de abrir a listagem e depois cada aula pra
+extrair o `a.LessonButton`, dá pra buscar **o curso inteiro numa única chamada**:
+
+```
+GET https://api.estrategiaconcursos.com.br/api/aluno/curso/{cursoId}
+Authorization: Bearer <token de GET /oauth/token/>
+```
+
+A resposta traz, para **cada** aula: `id`, `nome` (o rótulo exato), `conteudo`
+(o assunto), `is_disponivel`, `data_publicacao`, `pdf` e `pdf_simplificado`
+(links já assinados). Num pacote de 24 cursos / ~480 aulas isso troca centenas
+de navegações por 24 chamadas — a diferença entre horas e minutos.
+
+Como usar sem violar a regra de credenciais:
+
+- O `Bearer` **fica dentro do navegador**. Rodar o `fetch` via `javascript_tool`
+  e trazer de volta **apenas os links assinados** (e os metadados das aulas).
+  Nunca extrair o token pro shell — além de desnecessário, o classificador do
+  Claude Code bloqueia isso, e com razão.
+- A assinatura é **por aula**, mas a mesma serve tanto para `/pdf/download/{id}`
+  quanto para `/pdfSimplificado/download/{id}`.
+- **Os links duram pouco: ~20-30 minutos.** O campo `expiration` da URL vem com
+  o relógio do servidor (umas 2h à frente do local) e **engana** — não usar ele
+  como referência. Trabalhar em blocos de 2-3 cursos, gerando as assinaturas
+  imediatamente antes de cada bloco. Link vencido devolve HTTP 200 com a home
+  em HTML, exatamente igual ao erro de User-Agent.
+- Aula ainda não liberada vem com `pdf` nulo — tratar como travada (Passo 8).
+- Uma forma compacta de trazer os dados sem inflar o contexto: pedir ao
+  navegador só `id:assinatura` por aula e casar com a tabela de rótulos que já
+  foi montada no Passo 3.
+
+Se a API falhar ou mudar, o caminho antigo (navegar aula por aula e ler o
+`a.LessonButton`) continua válido como fallback — está logo abaixo.
+
 ### Mecânica de download (igual em todas as categorias)
 
 1. Navegar para `https://www.estrategiaconcursos.com.br/app/dashboard/cursos/{id}/aulas/{aulaId}`
@@ -556,9 +630,42 @@ else:
    `cdn.estrategiaconcursos.com.br/.../....pdf?Expires=...&Signature=...`), sem
    passar pela pasta de Downloads:
    ```bash
-   curl -sL -o "<pasta>/<nome do arquivo>.pdf.tmp" "<href capturado>" -w "HTTP:%{http_code} SIZE:%{size_download}\n"
+   curl -sL -o "<pasta>/<nome do arquivo>.pdf.tmp" "<href capturado>" \
+     -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" \
+     -H "Referer: https://www.estrategiaconcursos.com.br/" \
+     -w "HTTP:%{http_code} SIZE:%{size_download}\n"
    ```
-   Conferir que retornou `HTTP:200` e um `SIZE` não-trivial.
+
+   **O `User-Agent` de browser é obrigatório** — confirmado na prática em
+   2026-08-18: com o User-Agent padrão de `curl`/`python-requests` o servidor
+   responde **HTTP 200 devolvendo a home do site em HTML (~238 KB)** no lugar
+   do PDF. O `Referer` acompanha pelo mesmo motivo.
+
+   **CRÍTICO — nunca validar o download só pelo tamanho.** Como a home em HTML
+   tem ~238 KB, qualquer teste do tipo "HTTP 200 e SIZE não-trivial" aceita
+   lixo como se fosse PDF. Isso já destruiu 27 PDFs bons numa execução real
+   (eles foram apagados e substituídos pelo HTML). Antes de considerar o
+   download válido, conferir **as três coisas**:
+
+   1. `HTTP:200`;
+   2. os **5 primeiros bytes do arquivo são `%PDF-`** (se o arquivo começa com
+      `<`, é HTML: descartar o `.tmp` e repetir a tentativa);
+   3. o `pypdf` abre o arquivo e retorna **número de páginas > 0**.
+
+   ```bash
+   head -c 5 "<arquivo>.tmp" | grep -q '%PDF-' && echo PDF_OK || echo RECUSADO
+   ```
+
+   **Só apagar/substituir o PDF antigo depois que os três testes passarem.**
+   Enquanto não passarem, o arquivo que já estava na pasta continua intocado.
+
+   **Bloqueio por volume:** depois de algumas centenas de downloads seguidos na
+   mesma conta (~600 numa execução real), a plataforma passa a responder
+   **HTTP 302 → HTML** para qualquer PDF — inclusive quando o download é feito
+   de dentro do próprio navegador logado. Não é User-Agent nem assinatura
+   vencida: é limite da conta. Quando isso acontecer, **parar os downloads,
+   avisar o usuário e retomar as matérias que faltaram noutro momento** — nunca
+   insistir em laço, e nunca deixar o `.tmp` recusado substituir arquivo bom.
 4. Extrair a data (ver acima) e renomear o `.tmp` pro nome final.
 5. Voltar pra lista de aulas da matéria e seguir pra próxima aula. Depois de
    esgotar as aulas da matéria, voltar pra página do pacote e ir pra próxima
@@ -720,6 +827,22 @@ de cair pro Excel silenciosamente; abas "Aulas" + "Legenda"; Curso ID no
 subtítulo; fórmulas com `;` por causa do locale `pt_BR`; ler de volta pra
 conferir que não deu `#ERROR!`/`#REF!`/`#NAME?`, já que não há `recalc.py`
 funcionando nesse ambiente).
+
+**Quota do Google Sheets:** a API permite **60 requisições de escrita por
+minuto por usuário**, e montar uma planilha (update + formatações + freeze +
+aba Legenda) gasta ~10 delas — ou seja, o teto é de ~6 planilhas por minuto.
+Num pacote com 20+ matérias isso estoura e vem `APIError [429] Quota exceeded`
+(aconteceu em 2026-08-18: 8 planilhas passaram, 14 falharam). Espaçar as
+planilhas (~11s entre uma e outra) e, ao pegar um 429, **esperar ~65s e tentar
+de novo** em vez de dar a planilha como perdida. Cuidado também com o padrão
+"tenta abrir a aba, se falhar cria": se o erro for de quota e não de aba
+inexistente, isso tenta criar uma aba que já existe e devolve
+`400 Já existe uma página chamada "Legenda"`. Checar a existência da aba pela
+lista de abas do arquivo, e só então limpar.
+
+**Rodar sempre DEPOIS do Passo 9 (renomear).** A planilha grava o nome da pasta
+no subtítulo (`Pasta: ...`), então se rodar antes da renomeação o subtítulo
+nasce desatualizado.
 
 **Diferença de escala:** num pacote inteiro, repetir esse passo pra **cada
 matéria/bloco processado nessa execução**, uma planilha por pasta de

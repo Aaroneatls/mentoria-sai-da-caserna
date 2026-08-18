@@ -352,6 +352,39 @@ antes de navegar pra qualquer aula individual — só vale a pena abrir a págin
 de uma aula específica (Passo 5) se ela aparecer sem tag de data (ou seja, já
 liberada) e ainda não tiver PDF baixado na pasta.
 
+## Atalho recomendado: pegar todas as aulas de uma vez pela API interna
+
+**Confirmado em 2026-08-18.** Em vez de abrir a listagem e depois cada aula pra
+extrair o `a.LessonButton`, dá pra buscar **o curso inteiro numa única chamada**:
+
+```
+GET https://api.estrategiaconcursos.com.br/api/aluno/curso/{cursoId}
+Authorization: Bearer <token de GET /oauth/token/>
+```
+
+A resposta traz, para **cada** aula: `id`, `nome` (o rótulo exato), `conteudo`
+(o assunto), `is_disponivel`, `data_publicacao`, `pdf` e `pdf_simplificado`
+(links já assinados). Isso substitui uma navegação por aula por uma chamada por
+curso — num curso de 40 aulas, 40 navegações viram 1.
+
+Como usar sem violar a regra de credenciais:
+
+- O `Bearer` **fica dentro do navegador**. Rodar o `fetch` via `javascript_tool`
+  e trazer de volta **apenas os links assinados** (e os metadados das aulas).
+  Nunca extrair o token pro shell — além de desnecessário, o classificador do
+  Claude Code bloqueia isso, e com razão.
+- A assinatura é **por aula**, mas a mesma serve tanto para `/pdf/download/{id}`
+  quanto para `/pdfSimplificado/download/{id}`.
+- **Os links duram pouco: ~20-30 minutos.** O campo `expiration` da URL vem com
+  o relógio do servidor (umas 2h à frente do local) e **engana** — não usar ele
+  como referência. Gerar as assinaturas e consumir na hora; se o lote passar de
+  ~15 min, gerar de novo antes de continuar. Link vencido devolve HTTP 200 com
+  a home em HTML, exatamente igual ao erro de User-Agent.
+- Aula ainda não liberada vem com `pdf` nulo — tratar como travada (Passo 6).
+
+Se a API falhar ou mudar, o caminho antigo (navegar aula por aula e ler o
+`a.LessonButton`) continua válido como fallback — está descrito no Passo 5.
+
 ## Passo 5: Baixar o livro de cada aula (o núcleo do processo)
 
 Para cada aula pendente, repetir:
@@ -387,9 +420,34 @@ Para cada aula pendente, repetir:
    `cdn.estrategiaconcursos.com.br/.../....pdf?Expires=...&Signature=...`),
    sem passar pela pasta de Downloads:
    ```bash
-   curl -sL -o "<pasta>/Aula NN - Assunto Sintetico.pdf.tmp" "<href capturado>" -w "HTTP:%{http_code} SIZE:%{size_download}\n"
+   curl -sL -o "<pasta>/Aula NN - Assunto Sintetico.pdf.tmp" "<href capturado>" \
+     -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" \
+     -H "Referer: https://www.estrategiaconcursos.com.br/" \
+     -w "HTTP:%{http_code} SIZE:%{size_download}\n"
    ```
-   Conferir que retornou `HTTP:200` e um `SIZE` não-trivial.
+
+   **O `User-Agent` de browser é obrigatório** — confirmado na prática em
+   2026-08-18: com o User-Agent padrão de `curl`/`python-requests` o servidor
+   responde **HTTP 200 devolvendo a home do site em HTML (~238 KB)** no lugar
+   do PDF. O `Referer` acompanha pelo mesmo motivo.
+
+   **CRÍTICO — nunca validar o download só pelo tamanho.** Como a home em HTML
+   tem ~238 KB, qualquer teste do tipo "HTTP 200 e SIZE não-trivial" aceita
+   lixo como se fosse PDF. Isso já destruiu 27 PDFs bons numa execução real
+   (eles foram apagados e substituídos pelo HTML). Antes de considerar o
+   download válido, conferir **as três coisas**:
+
+   1. `HTTP:200`;
+   2. os **5 primeiros bytes do arquivo são `%PDF-`** (se o arquivo começa com
+      `<`, é HTML: descartar o `.tmp` e repetir a tentativa);
+   3. o `pypdf` abre o arquivo e retorna **número de páginas > 0**.
+
+   ```bash
+   head -c 5 "<arquivo>.tmp" | grep -q '%PDF-' && echo PDF_OK || echo RECUSADO
+   ```
+
+   **Só apagar/substituir o PDF antigo depois que os três testes passarem.**
+   Enquanto não passarem, o arquivo que já estava na pasta continua intocado.
 7. Extrair a data da primeira página do PDF (ver "Extrair a data do PDF" abaixo)
    e renomear o `.tmp` pro nome final com a data.
 8. Voltar pra lista de aulas e seguir pra próxima.
@@ -444,6 +502,27 @@ processar uma aula errada ou perder tempo com um erro confuso mais adiante.
   aula) que não se encaixe claramente como "tipo de mídia/equipe" nem como
   parte do conteúdo, perguntar ao usuário antes de decidir se entra ou não** —
   não adivinhar sozinho pra esse caso novo.
+- **A anotação nem sempre vem entre parênteses** — visto na prática:
+  `Aula 16- Somente em PDF`, `Aula 15 - Somente em PDF`, `Aula Extra (Somente
+  pdf)`. Tratar todas do mesmo jeito, com ou sem parênteses, com ou sem espaço
+  antes do traço.
+- **Exceção: créditos de professor também não entram no rótulo** — confirmado
+  em 2026-08-18. O curso de Tecnologia da Informação nomeia as aulas como
+  `Aula 00 - Prof. Diego Carvalho e Renato da Costa`. Nome de professor descreve
+  *quem deu* a aula, não o *assunto* dela, então sai do rótulo pela mesma lógica
+  das anotações de formato: vira só `Aula 00`. Regra prática: cortar tudo a
+  partir de ` - Prof.` / ` - Profa.` até o fim do rótulo (isso já leva junto um
+  eventual `(Somente em PDF)` no final). Cuidado pra não confundir com
+  `Aula 01 - Parte II`, que **é** parte do rótulo e fica.
+- **Rótulos repetidos no mesmo curso: desempatar pelo conteúdo.** Existem cursos
+  com duas aulas de nome idêntico — em Administração Financeira e Orçamentária
+  há **duas** `Aula Extra - Somente em PDF`, uma de "Questões Extras FGV" e
+  outra de "Questões Extras CEBRASPE". Casando só pelo rótulo, os dois arquivos
+  trocam de lugar (e ficam com o assunto errado no nome) ou um sobrescreve o
+  outro. Quando o rótulo limpo aparecer mais de uma vez: comparar o `conteudo`
+  da aula com o nome do arquivo local e parear o que tiver mais palavras em
+  comum; **se nenhum arquivo bater, não parear** — deixar de fora e citar na
+  Validação Final, em vez de arriscar sobrescrever o arquivo errado.
 - Assunto sintetizado a partir do título/descrição da aula (não precisa copiar
   literalmente o texto enorme do currículo, resumir pro nome do arquivo ficar
   legível) — mas o **rótulo** (a parte antes do assunto) só é sintetizado ou
@@ -691,6 +770,16 @@ O resultado final é a pasta em si, já com os arquivos dentro, o nome renomeado
 com o progresso `(N-M)`, e a confirmação de que o cruzamento bateu.
 
 ## Passo 9: Planilha de metadados da disciplina (obrigatória, Google Sheets)
+
+**Rodar sempre DEPOIS do Passo 7 (renomear a pasta).** A planilha grava o nome
+da pasta no subtítulo (`Pasta: ...`), então se rodar antes da renomeação o
+subtítulo já nasce desatualizado. Ordem correta do fecho:
+downloads → Passo 7 (renomear) → Passo 9 (planilha) → Passo 8 (validação).
+
+**Cuidado com o padrão "tenta abrir a aba, se falhar cria":** se o erro for de
+quota (`429`) e não de aba inexistente, isso tenta criar uma aba que já existe
+e devolve `400 Já existe uma página chamada "Legenda"`. Checar a existência da
+aba pela lista de abas do arquivo, e só então limpar.
 
 **Confirmado pelo Elvis em 2026-08-18: toda disciplina baixada ou atualizada
 por essa skill tem uma planilha de metadados própria** — validada ao vivo com
