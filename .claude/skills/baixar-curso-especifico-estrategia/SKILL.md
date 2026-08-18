@@ -43,15 +43,28 @@ Sempre perguntar as coisas abaixo antes de fazer qualquer coisa (não assumir, n
 Passo 3, depois de identificar a matéria (Passo 1-2) e procurar automaticamente
 por uma pasta já existente dentro do local informado. Ver Passo 3.
 
-3. **Base de siglas de disciplinas (pergunta temporária):** perguntar se já
-   existe alguma planilha/tabela de referência com nome de disciplina → sigla.
-   **Hoje essa base ainda não existe** — enquanto não existir, seguir usando o
-   nome completo da matéria no nome da pasta (padrão atual do Passo 2). Quando o
-   usuário criar essa base no futuro, ele vai indicar — a partir daí, usar a
-   sigla da disciplina no lugar do nome completo ao montar o nome da pasta. Até
-   lá, essa pergunta serve só de lembrete pro usuário, não bloqueia o fluxo.
+3. **Base de siglas de disciplinas (pergunta temporária, perguntar sempre que
+   a skill for carregada):** perguntar se já existe alguma planilha/tabela de
+   referência com nome de disciplina → sigla. **Hoje essa base ainda não
+   existe** — enquanto não existir, seguir usando o nome completo da matéria
+   no nome da pasta (padrão atual do Passo 2). Quando o usuário criar essa
+   base no futuro, ele vai indicar — a partir daí, usar a sigla da disciplina
+   no lugar do nome completo ao montar o nome da pasta. Até lá, essa pergunta
+   serve só de lembrete pro usuário, não bloqueia o fluxo. **Por que isso
+   importa:** confirmado pelo Elvis em 2026-08-18, depois de um caso real em
+   que somar o sufixo de data (Passo 2) ao nome já grande da matéria estourou
+   o limite de 260 caracteres do Windows num arquivo — usar sigla no lugar do
+   nome completo da matéria é a forma mais eficaz de ganhar margem de caminho
+   de forma permanente, em vez de só sintetizar nome de arquivo caso a caso.
 
 Não seguir em frente sem as respostas 1 e 2 acima.
+
+**Reduzir o tamanho do caminho é uma preocupação constante, não só nos casos
+óbvios** — confirmado pelo Elvis em 2026-08-18. Sempre que for nomear pasta ou
+arquivo, já pensar no caminho completo resultante (ver orçamento de
+caracteres nos "Detalhes técnicos" mais abaixo) e preferir a versão mais curta
+que ainda deixe a aula identificável — não esperar bater no limite pra só
+então cortar.
 
 ## Passo 1: Escolher o navegador, abrir o curso e identificar matéria / concurso / cargo
 
@@ -147,6 +160,17 @@ Exemplo: `Direito Constitucional (TCDF-ANACE) (18-08-2026)`
   olhando o nome da pasta, quando aquela disciplina específica foi mexida pela
   última vez — importante porque é comum atualizar só uma disciplina por vez,
   sem tocar nas outras do mesmo pacote.
+- **Matéria com nome repetido no mesmo pacote:** se já existir (ou vier a
+  existir) outra pasta de matéria com esse mesmo nome dentro do mesmo pacote
+  — caso real: um pacote com duas matérias "Contabilidade Geral e Avançada",
+  uma por professor — usar um diferenciador no nome da pasta pra não colidir.
+  O mais confiável costuma ser o nome do professor, que aparece no título
+  completo do curso no site (ex: "Curso Básico de Contabilidade Geral e
+  Avançada (Prof. Gilmar Possati)" → pasta `Contabilidade Geral e Avançada -
+  Gilmar Possati (SIGLA-SIGLA)`). Se não houver professor único, usar outro
+  elemento do título que diferencie (diploma legal, sigla de norma etc).
+  Reconhecer esse padrão sozinho ao notar o nome duplicado — não precisa
+  perguntar ao usuário. Confirmado pelo Elvis em 2026-08-18.
 - Esse é o padrão definitivo — não trocar sem o usuário pedir explicitamente.
 - **Limite de caminho do Windows (260 caracteres):** antes de criar a pasta,
   estimar o tamanho do caminho completo (`pasta raiz + \ + nome da matéria +
@@ -176,19 +200,28 @@ existente que corresponda a essa matéria. **Comparação:**
 
 1. Listar o que já tem dentro: quantos `.pdf` já baixados, quantos `.txt`
    placeholder pendentes.
-2. Informar o usuário e perguntar como quer proceder, com três opções:
-   - **Atualização Parcial** (padrão sugerido) — baixa só as aulas que ainda
-     estão faltando (travadas na coleta anterior, agora liberadas). Não mexe
-     nos PDFs já baixados. Rápido.
-   - **Atualização Completa** — além de baixar o que falta, reconfere **todos**
-     os PDFs já baixados contra a versão atual no site e substitui os que
-     tiverem sido revisados/atualizados desde a última coleta. Mais lento,
-     porque precisa rebaixar cada aula já existente pra comparar.
+2. **Checar a idade da pasta pelo sufixo de data `(DD-MM-AAAA)` no nome**
+   (ver Passo 2) — se fizer mais de **90 dias** desde essa data até hoje, o
+   padrão sugerido muda: **oferecer Atualização Completa como padrão**, não
+   Parcial, e avisar o usuário o motivo (ex: "essa pasta foi atualizada pela
+   última vez há mais de 90 dias — o conteúdo pode ter sido revisado nesse
+   meio tempo, sugiro Atualização Completa dessa vez"). Confirmado pelo Elvis
+   em 2026-08-18. Se a pasta não tiver sufixo de data (de uma coleta anterior
+   a essa regra existir), tratar como se fosse antiga — sugerir Completa.
+3. Informar o usuário e perguntar como quer proceder, com três opções:
+   - **Atualização Parcial** (padrão sugerido, exceto no cenário dos 90 dias
+     acima) — baixa só as aulas que ainda estão faltando (travadas na coleta
+     anterior, agora liberadas). Não mexe nos PDFs já baixados. Rápido.
+   - **Atualização Completa** (padrão sugerido quando a pasta tem mais de 90
+     dias) — além de baixar o que falta, reconfere **todos** os PDFs já
+     baixados contra a versão atual no site e substitui os que tiverem sido
+     revisados/atualizados desde a última coleta. Mais lento, porque precisa
+     rebaixar cada aula já existente pra comparar.
    - **Criar pasta nova do zero** — mesmo já tendo uma pasta encontrada.
-3. **Se optar por Atualização Parcial ou Atualização Completa:** esse vira o
+4. **Se optar por Atualização Parcial ou Atualização Completa:** esse vira o
    modo atualização pro resto da skill — usar essa pasta, seguir a lógica de
    "Modo atualização" do Passo 4 em diante, no sub-modo escolhido.
-4. **Se optar por criar nova do zero:** perguntar também **se quer que a pasta
+5. **Se optar por criar nova do zero:** perguntar também **se quer que a pasta
    antiga localizada seja apagada** (nunca apagar sem essa confirmação explícita
    — é uma ação destrutiva e irreversível) ou se prefere manter as duas
    coexistindo (nesse caso, a pasta nova precisa de um nome que não conflite,
@@ -401,12 +434,15 @@ processar uma aula errada ou perder tempo com um erro confuso mais adiante.
 - Sem acentos problemáticos ou caracteres especiais que possam dar problema em
   scripts (mas pode manter cedilha/acentuação normal do português nos nomes).
 
-### Extrair a data do PDF
+### Extrair a data do PDF (e checar o conteúdo contra o assunto esperado)
 
 A maioria dos livros eletrônicos do Estratégia traz, na primeira página, a data
 de elaboração/atualização daquele material. Depois de baixar o PDF (todo
 download, não só em modo atualização), extrair essa data pra usar no nome do
-arquivo:
+arquivo — **e aproveitar essa mesma abertura do PDF pra checar, de graça, se o
+conteúdo bate com o assunto esperado** (o `assunto` da tabela montada no
+Passo 4) — confirmado pelo Elvis em 2026-08-18. Essa checagem roda inteira em
+Python/local, nunca abre o conteúdo do PDF pro meu contexto (não gasta token):
 
 ```bash
 python -c "
@@ -415,11 +451,17 @@ from pypdf import PdfReader
 
 MESES = {'janeiro':1,'fevereiro':2,'marco':3,'abril':4,'maio':5,'junho':6,
          'julho':7,'agosto':8,'setembro':9,'outubro':10,'novembro':11,'dezembro':12}
+STOPWORDS = {'para','como','entre','sobre','pela','pelo','pelas','pelos','com',
+             'sem','das','dos','que','uma','um','os','as','de','do','da','em',
+             'na','no','por','seu','sua','ao','aos'}
 
 def strip_accents(s):
     return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+def norm(s):
+    return strip_accents(s).lower()
 
-texto = PdfReader(sys.argv[1]).pages[0].extract_text() or ''
+reader = PdfReader(sys.argv[1])
+texto = reader.pages[0].extract_text() or ''
 
 m = re.search(r'(\d{2})/(\d{2})/(\d{4})', texto)
 if m:
@@ -433,7 +475,19 @@ else:
     else:
         data = ''
 print(data)
-" "<caminho do .tmp>"
+
+assunto = sys.argv[2] if len(sys.argv) > 2 else ''
+if assunto:
+    palavras = [w for w in re.findall(r'[A-Za-zÀ-ÿ0-9]+', assunto)
+                if len(strip_accents(w)) >= 4 and norm(w) not in STOPWORDS]
+    n_pages = min(6, len(reader.pages))
+    texto_conteudo = ' '.join((reader.pages[i].extract_text() or '') for i in range(n_pages))
+    texto_norm = norm(texto_conteudo)
+    hits = sum(1 for w in palavras if norm(w) in texto_norm)
+    print(f'MATCH:{hits}/{len(palavras)}' if palavras else 'MATCH:sem_palavras_chave')
+else:
+    print('MATCH:sem_assunto')
+" "<caminho do .tmp>" "<assunto esperado, vindo da tabela do Passo 4>"
 ```
 
 - **Duas datas por extenso** têm sido observadas na prática: numérica
@@ -441,6 +495,35 @@ print(data)
   de Julho de 2026" — confirmado testando no curso de Direito Administrativo,
   pacote Regular Fiscal). O script acima já cobre os dois formatos, tentando o
   numérico primeiro. Se aparecer um terceiro formato novo, adaptar o regex.
+- **Segunda linha de saída (`MATCH:hits/total`):** compara palavras-chave do
+  assunto esperado (≥4 letras, sem preposições comuns) contra o texto extraído.
+  - `hits` igual a 0 com `total` maior que 0 → **nenhuma palavra-chave bateu**,
+    sinal de possível conteúdo errado (aula baixada não corresponde ao rótulo
+    esperado). Não travar o download por causa disso, mas **registrar essa
+    aula como suspeita** pra citar na Validação Final (Passo 8) — é
+    exatamente o tipo de erro que a validação por nome de arquivo sozinha não
+    pega (aulaId pareado errado com o rótulo lá na origem, por exemplo).
+  - `hits` maior que 0 → conteúdo consistente, seguir normalmente.
+  - `MATCH:sem_assunto` ou `MATCH:sem_palavras_chave` → nada pra comparar
+    (assunto muito curto ou não informado), seguir normalmente sem alarme.
+  - **`total` igual a 1 ou 2 (poucas palavras-chave) é sinal de confiança
+    baixa mesmo quando `hits` dá 0** — confirmado numa checagem em lote real
+    em 2026-08-18: rodando essa checagem contra ~480 aulas já baixadas e
+    confirmadas corretas por outros meios, todos os poucos casos de `0/total`
+    encontrados eram assunto muito curto (1-3 palavras) cujo termo exato não
+    aparecia no texto por variação de fraseado (ex: assunto "Noções
+    Iniciais" vs. o PDF usando "Conceitos Iniciais"), não conteúdo errado de
+    fato. Tratar `0/total` com `total` baixo como aviso fraco, não confirmação
+    de erro — mencionar na Validação Final como "possível falso positivo,
+    conferir manualmente se necessário", sem soar alarmista.
+- **Checagem de conteúdo olha as primeiras 6 páginas do PDF, não só a
+  primeira** — confirmado pelo Elvis em 2026-08-18: a página 1 desses livros
+  costuma ser só uma capa (título, autor, data), sem o conteúdo da aula em si;
+  o texto relevante só aparece a partir da página ~3-6 (depois de índice e
+  apresentação do curso). Usar só a página 1 pra essa checagem gerava falso
+  positivo em quase todo arquivo. A extração de **data** continua usando só a
+  página 1 (isso sempre funcionou bem), é só a checagem de **conteúdo** que
+  precisa olhar mais páginas.
 - Se `pypdf` não estiver instalado no ambiente, instalar com `pip install pypdf`
   antes de seguir.
 - Se a página 1 tiver mais de uma data (raro), usar a primeira encontrada.
@@ -534,11 +617,13 @@ disciplina foi mexida pela última vez.
 skill, não um extra opcional — nunca reportar um curso como concluído sem
 rodar esse passo.**
 
-**Validação é só por nomenclatura, nunca abrindo o conteúdo dos PDFs** —
+**Validação é só por nomenclatura, nunca reabrindo o conteúdo dos PDFs aqui** —
 confirmado pelo Elvis em 2026-08-18: não vale a pena gastar tokens abrindo/lendo
-cada PDF de novo nessa etapa (isso já foi feito uma vez, na hora do download, pra
-extrair a data — não precisa repetir). O cruzamento é puramente comparação de
-texto: rótulo da listagem do site vs. nome do arquivo local.
+cada PDF de novo nessa etapa. A checagem de conteúdo já aconteceu uma vez, de
+graça, durante o download (ver "Extrair a data do PDF" no Passo 5, saída
+`MATCH:hits/total`) — aqui só se **reporta** o que ela sinalizou, sem reabrir
+nada. O cruzamento desse passo é puramente comparação de texto: rótulo da
+listagem do site vs. nome do arquivo local.
 
 Depois de processar todas as aulas:
 
@@ -565,10 +650,14 @@ Depois de processar todas as aulas:
      `mv`/`Rename-Item`).
 4. Conferir que **N** (quantidade de `.pdf` reais) e **M** (total de itens na
    listagem do site) batem com o prefixo `(N-M)` aplicado no Passo 7.
-5. **Reportar o resultado dessa validação pro usuário** — se bateu 100% ou se
-   sobrou algo em algum lado. Essa é a única parte do processo que sempre vale
-   a pena resumir em texto no final, mesmo a skill normalmente não gerando
-   relatório à parte.
+5. **Listar as aulas sinalizadas como suspeitas pelo `MATCH:hits/total`** (ver
+   Passo 5) — as que deram `0/total` durante o download. Não precisa reabrir o
+   PDF aqui pra decidir; só trazer a lista pro resumo, junto com o resto.
+6. **Reportar o resultado dessa validação pro usuário** — se bateu 100% por
+   nome, se sobrou algo em algum lado, e se alguma aula ficou marcada como
+   suspeita de conteúdo (item 5). Essa é a única parte do processo que sempre
+   vale a pena resumir em texto no final, mesmo a skill normalmente não
+   gerando relatório à parte.
 
 O resultado final é a pasta em si, já com os arquivos dentro, o nome renomeado
 com o progresso `(N-M)`, e a confirmação de que o cruzamento bateu.

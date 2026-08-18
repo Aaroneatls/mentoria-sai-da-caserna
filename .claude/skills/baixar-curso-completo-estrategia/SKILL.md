@@ -51,15 +51,28 @@ Passo 2, depois de identificar o concurso/cargo (Passo 1) e procurar
 automaticamente por uma pasta de pacote já existente dentro do local informado.
 Ver Passo 2.
 
-3. **Base de siglas de disciplinas (pergunta temporária):** perguntar se já
-   existe alguma planilha/tabela de referência com nome de disciplina → sigla.
-   **Hoje essa base ainda não existe** — enquanto não existir, seguir usando o
-   nome completo da matéria no nome da pasta (padrão atual do Passo 6). Quando o
-   usuário criar essa base no futuro, ele vai indicar — a partir daí, usar a
-   sigla da disciplina no lugar do nome completo ao montar o nome da pasta. Até
-   lá, essa pergunta serve só de lembrete pro usuário, não bloqueia o fluxo.
+3. **Base de siglas de disciplinas (pergunta temporária, perguntar sempre que
+   a skill for carregada):** perguntar se já existe alguma planilha/tabela de
+   referência com nome de disciplina → sigla. **Hoje essa base ainda não
+   existe** — enquanto não existir, seguir usando o nome completo da matéria
+   no nome da pasta (padrão atual do Passo 6). Quando o usuário criar essa
+   base no futuro, ele vai indicar — a partir daí, usar a sigla da disciplina
+   no lugar do nome completo ao montar o nome da pasta. Até lá, essa pergunta
+   serve só de lembrete pro usuário, não bloqueia o fluxo. **Por que isso
+   importa:** confirmado pelo Elvis em 2026-08-18, depois de um caso real em
+   que somar o sufixo de data (Passo 6) ao nome já grande da matéria estourou
+   o limite de 260 caracteres do Windows num arquivo — usar sigla no lugar do
+   nome completo da matéria é a forma mais eficaz de ganhar margem de caminho
+   de forma permanente, em vez de só sintetizar nome de arquivo caso a caso.
 
 Não seguir em frente sem as respostas 1 e 2 acima.
+
+**Reduzir o tamanho do caminho é uma preocupação constante, não só nos casos
+óbvios** — confirmado pelo Elvis em 2026-08-18. Sempre que for nomear pasta ou
+arquivo (pacote, categoria, matéria ou aula), já pensar no caminho completo
+resultante (ver orçamento de caracteres nos "Detalhes técnicos" mais abaixo) e
+preferir a versão mais curta que ainda deixe a aula identificável — não
+esperar bater no limite pra só então cortar.
 
 ## Passo 1: Escolher o navegador, abrir o pacote e identificar concurso / cargo
 
@@ -427,11 +440,15 @@ não virar `Aula 02`). Fora desse cenário de limite de caminho, o rótulo nunca
   Passo 8; a data entre parênteses no final é a de elaboração do PDF, pode ser
   diferente da data do simulado no título).
 
-### Extrair a data do PDF (nome do arquivo)
+### Extrair a data do PDF (e checar o conteúdo contra o assunto esperado)
 
 Depois de baixar cada PDF (todo download, não só em modo atualização), extrair
 a data de elaboração/atualização que aparece na primeira página, pra usar no
-nome do arquivo (mesmo processo da skill `baixar-curso-especifico-estrategia`):
+nome do arquivo — **e aproveitar essa mesma abertura pra checar, de graça, se
+o conteúdo bate com o assunto esperado da tabela** (mesmo script e mesma
+lógica da skill `baixar-curso-especifico-estrategia`, ver "Extrair a data do
+PDF" lá pra explicação completa da checagem — confirmado pelo Elvis em
+2026-08-18):
 
 ```bash
 python -c "
@@ -440,11 +457,17 @@ from pypdf import PdfReader
 
 MESES = {'janeiro':1,'fevereiro':2,'marco':3,'abril':4,'maio':5,'junho':6,
          'julho':7,'agosto':8,'setembro':9,'outubro':10,'novembro':11,'dezembro':12}
+STOPWORDS = {'para','como','entre','sobre','pela','pelo','pelas','pelos','com',
+             'sem','das','dos','que','uma','um','os','as','de','do','da','em',
+             'na','no','por','seu','sua','ao','aos'}
 
 def strip_accents(s):
     return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+def norm(s):
+    return strip_accents(s).lower()
 
-texto = PdfReader(sys.argv[1]).pages[0].extract_text() or ''
+reader = PdfReader(sys.argv[1])
+texto = reader.pages[0].extract_text() or ''
 
 m = re.search(r'(\d{2})/(\d{2})/(\d{4})', texto)
 if m:
@@ -458,13 +481,38 @@ else:
     else:
         data = ''
 print(data)
-" "<caminho do PDF baixado com nome temporário>"
+
+assunto = sys.argv[2] if len(sys.argv) > 2 else ''
+if assunto:
+    palavras = [w for w in re.findall(r'[A-Za-zÀ-ÿ0-9]+', assunto)
+                if len(strip_accents(w)) >= 4 and norm(w) not in STOPWORDS]
+    n_pages = min(6, len(reader.pages))
+    texto_conteudo = ' '.join((reader.pages[i].extract_text() or '') for i in range(n_pages))
+    texto_norm = norm(texto_conteudo)
+    hits = sum(1 for w in palavras if norm(w) in texto_norm)
+    print(f'MATCH:{hits}/{len(palavras)}' if palavras else 'MATCH:sem_palavras_chave')
+else:
+    print('MATCH:sem_assunto')
+" "<caminho do PDF baixado com nome temporário>" "<assunto esperado>"
 ```
 
 - **Duas formas de data já observadas na prática:** numérica `DD/MM/AAAA` e
   escrita por extenso em português `DD de Mês de AAAA` (ex: "31 de Julho de
   2026" — confirmado testando no curso de Direito Administrativo, pacote
   Regular Fiscal). O script acima cobre os dois, tentando o numérico primeiro.
+- **Segunda linha de saída (`MATCH:hits/total`):** `hits` igual a 0 com
+  `total` maior que 0 → possível conteúdo errado — não travar o download,
+  só registrar essa aula como suspeita pra citar na Validação Final (Passo 10).
+  **`total` igual a 1 ou 2 é sinal de confiança baixa mesmo com `hits` 0** —
+  confirmado numa checagem em lote real em 2026-08-18 contra ~480 aulas já
+  confirmadas corretas: os poucos `0/total` encontrados eram todos assunto
+  curto (1-3 palavras) com variação de fraseado no PDF, não conteúdo errado.
+  Tratar como aviso fraco nesse caso, não como erro confirmado.
+- **Checagem de conteúdo olha as primeiras 6 páginas, não só a primeira** —
+  confirmado pelo Elvis em 2026-08-18: a página 1 costuma ser só capa (título,
+  autor, data), o conteúdo real da aula só aparece depois do índice/apresentação
+  do curso. A extração de **data** continua só na página 1 (sempre funcionou
+  bem); é a checagem de **conteúdo** que precisa olhar mais páginas.
 - Baixar sempre com nome temporário (`.tmp`), extrair a data, e só então renomear
   pro nome final com a data.
 - Se `pypdf` não estiver instalado, instalar com `pip install pypdf` antes de
@@ -606,12 +654,13 @@ matéria individual) — evita renomear a pasta-raiz repetidamente à toa.
 skill, não um extra — nunca reportar o pacote (ou uma matéria dele) como
 concluído sem rodar esse passo.**
 
-**Validação é só por nomenclatura, nunca abrindo o conteúdo dos PDFs** —
+**Validação é só por nomenclatura, nunca reabrindo o conteúdo dos PDFs aqui** —
 confirmado pelo Elvis em 2026-08-18: não vale a pena gastar tokens
-abrindo/lendo cada PDF de novo nessa etapa (isso já foi feito uma vez, na hora
-do download, pra extrair a data — não precisa repetir). O cruzamento é
-puramente comparação de texto: rótulo da listagem do site vs. nome do arquivo
-local.
+abrindo/lendo cada PDF de novo nessa etapa. A checagem de conteúdo já
+aconteceu uma vez, de graça, durante o download (ver "Extrair a data do PDF"
+no Passo 7, saída `MATCH:hits/total`) — aqui só se **reporta** o que ela
+sinalizou, sem reabrir nada. O cruzamento desse passo é puramente comparação
+de texto: rótulo da listagem do site vs. nome do arquivo local.
 
 Depois de processar todas as categorias/matérias selecionadas:
 
@@ -636,8 +685,12 @@ Depois de processar todas as categorias/matérias selecionadas:
 3. Conferir que **N** (quantidade de `.pdf` reais) e **M** (total de itens na
    listagem do site) batem com o prefixo `(N-M)` aplicado no Passo 9 de cada
    matéria/bloco.
-4. Reportar o resultado dessa validação pro usuário — matéria por matéria, se
-   bateu 100% ou se sobrou algo em algum lado — mesmo a skill normalmente não
+4. **Listar as aulas sinalizadas como suspeitas pelo `MATCH:hits/total`**
+   durante o download (ver Passo 7) — as que deram `0/total`. Não precisa
+   reabrir PDF nenhum aqui, só trazer a lista consolidada pro resumo.
+5. Reportar o resultado dessa validação pro usuário — matéria por matéria, se
+   bateu 100% por nome, se sobrou algo em algum lado, e se alguma aula ficou
+   marcada como suspeita de conteúdo (item 4) — mesmo a skill normalmente não
    gerando relatório à parte, essa validação final é sempre resumida em texto.
 
 O resultado final é a estrutura de pastas em si, já com os arquivos dentro,
