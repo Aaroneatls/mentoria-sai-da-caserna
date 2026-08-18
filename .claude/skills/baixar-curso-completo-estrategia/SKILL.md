@@ -740,6 +740,22 @@ Elvis em 2026-08-18:**
 - Em nenhum caso atualizar a planilha de uma matéria que não foi processada
   nessa execução, mesmo que esteja no mesmo pacote.
 
+## Passo 12: Sugestões de melhoria pra skill (sempre, ao final de toda execução)
+
+**Confirmado pelo Elvis em 2026-08-18: ao final de todo download/atualização
+de pacote, refletir se algo observado nessa execução sugere um ajuste na
+própria skill, e apresentar pro usuário aprovar** — não é opcional, é parte
+do encerramento normal do processo. Mesma regra da skill
+`baixar-curso-especifico-estrategia` (Passo 10 dela):
+
+- Sugestão tem que ser **concreta e ligada a algo que realmente aconteceu**
+  nessa execução — não inventar sugestão genérica só pra preencher esse passo.
+- **Se nada relevante surgiu, dizer isso e seguir** — não forçar uma sugestão
+  fraca.
+- Apresentar junto do resto do resumo final (validação + planilhas), não como
+  pergunta solta separada.
+- **Só implementar depois que o usuário aprovar.**
+
 ## Detalhes técnicos e pegadinhas (aprendidos testando esse pacote)
 
 - **Limite de 260 caracteres de caminho no Windows** — orçamento sugerido pra não

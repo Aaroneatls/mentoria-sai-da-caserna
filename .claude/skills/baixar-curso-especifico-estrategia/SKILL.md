@@ -751,6 +751,26 @@ maior na skill `baixar-curso-completo-estrategia`, Passo 11).
    de verificação de cada linha já registra quando foi conferida); não
    precisa manter histórico de execuções anteriores linha a linha.
 
+## Passo 10: Sugestões de melhoria pra skill (sempre, ao final de toda execução)
+
+**Confirmado pelo Elvis em 2026-08-18: ao final de todo download/atualização
+de curso, refletir se algo observado nessa execução sugere um ajuste na
+própria skill, e apresentar pro usuário aprovar** — não é opcional, é parte
+do encerramento normal do processo.
+
+- A sugestão tem que ser **concreta e ligada a algo que realmente aconteceu**
+  nessa execução (um padrão novo do site, uma pegadinha de nomenclatura, um
+  erro que exigiu correção manual, uma repetição que dava pra automatizar) —
+  não inventar sugestão genérica só pra preencher esse passo.
+- **Se nada relevante surgiu na execução, dizer isso e seguir** — não forçar
+  uma sugestão fraca só porque o passo pede uma.
+- Apresentar a sugestão junto do resto do resumo final (validação +
+  planilha), não como uma pergunta solta separada.
+- **Só implementar depois que o usuário aprovar** — esse passo é só de
+  levantar a sugestão pro aval dele, igual ao processo que gerou boa parte das
+  regras já registradas nessa skill (todas nasceram de sugestões discutidas e
+  aprovadas em sessões anteriores, não de decisão unilateral).
+
 ## Detalhes técnicos e pegadinhas (aprendidos na prática)
 
 - **Limite de 260 caracteres de caminho no Windows** — orçamento sugerido pra não
