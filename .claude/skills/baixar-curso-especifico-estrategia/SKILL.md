@@ -824,3 +824,19 @@ do encerramento normal do processo.
   informações antes — confirmar a cada execução da skill.
 - Se o curso tiver dezenas de aulas, processar tudo sem pausar pra pedir confirmação
   a cada aula — só reportar progresso a cada poucas aulas ou no final.
+
+## Passo 10: Sugestão de melhoria da skill (obrigatória ao final de toda execução)
+
+**Regra geral do workspace pra skills de download em massa e de cadernos de
+questões, confirmado pelo Elvis em 2026-08-18** (ver `AGENTS.md`): depois do
+relatório final (Passo 8), avaliar se algo aprendido nessa execução sugere um
+ajuste na própria skill — bug novo, comportamento inesperado do site, passo
+lento/repetitivo, oportunidade de deixar algo mais robusto.
+
+- **Se identificar algo:** apresentar a sugestão ao Elvis de forma objetiva (o
+  que aconteceu, o que mudaria na skill), perguntar se aprova, e só então
+  editar o `SKILL.md` (dessa skill e/ou da `baixar-curso-completo-estrategia`,
+  se aplicável às duas) e rodar `/syncar`.
+- **Se nada de novo surgiu:** dizer isso de forma curta e objetiva — não
+  inventar sugestão só pra ter o que falar.
+- Nunca editar a skill nem sincronizar sem aprovação prévia.

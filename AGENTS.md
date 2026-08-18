@@ -92,6 +92,19 @@ Se sim, identificar onde faz mais sentido salvar:
 
 Salvar com uma linha nova clara, sem reformatar o arquivo inteiro. Confirmar o que foi salvo mostrando a linha adicionada.
 
+---
+
+## Sugestão de melhoria ao final de execução (skills de download em massa e de cadernos de questões)
+
+Toda skill relacionada a **download de materiais em massa** (ex: `baixar-curso-especifico-estrategia`, `baixar-curso-completo-estrategia`, `baixar-resumo-especifico`, `baixar-resumo-combo-completo`) ou a **elaboração de cadernos de questões** (ex: futura skill de cadernos no TecConcursos) precisa terminar toda execução com um passo de "sugestão de melhoria":
+
+1. Depois do relatório final da execução, avaliar se algo aprendido nessa rodada (bug novo, comportamento inesperado da plataforma, passo lento/repetitivo, oportunidade de deixar algo mais robusto) sugere um ajuste na própria skill.
+2. **Se identificar algo:** apresentar a sugestão de forma objetiva (o que aconteceu, o que mudaria), perguntar se o usuário aprova, e só então editar o `SKILL.md` e rodar `/syncar` pra sincronizar com o GitHub.
+3. **Se nada de novo surgiu:** avisar isso de forma curta e objetiva — não inventar sugestão só pra ter o que falar.
+4. Nunca editar a skill nem sincronizar sem aprovação prévia do usuário.
+
+Isso vale por padrão pra qualquer skill nova criada dentro desses dois critérios — incluir esse passo já na criação, sem precisar que o usuário peça de novo.
+
 Não perguntar se a correção for óbvia de contexto imediato (ex: "na verdade o arquivo se chama X"). Só perguntar quando a informação tiver valor duradouro.
 
 ---
