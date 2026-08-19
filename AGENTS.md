@@ -117,7 +117,15 @@ reportar. Confirmado pelo Elvis em 2026-08-18.
    planilhas, pastas), conferir a integridade do resultado, não só que "rodou":
    contagem de arquivos, formato real (ver a regra de download logo abaixo),
    nomes/datas no padrão, e nenhum `.tmp` órfão.
-4. **Processos em segundo plano** — nenhum worker/script ainda rodando.
+4. **Processos e watchers em segundo plano** — não basta olhar os scripts de
+   trabalho (worker/runner/python). **Os `Monitor` e os comandos de espera que
+   eu mesmo armei também contam**: `tail -f` e laços `until ... do sleep`
+   nunca terminam sozinhos e continuam aparecendo como "tarefa em execução"
+   pro Elvis, mesmo com o trabalho já concluído. Parar cada um com `TaskStop`
+   (guardar os ids dos monitores criados na sessão) e depois confirmar que não
+   sobrou nada — **ignorando os processos do próprio comando de verificação**,
+   que casam com o filtro e geram falso positivo. Se aparecer processo de outra
+   sessão, apenas mencionar, não matar.
 5. **Pendências** — listar o que ficou em aberto e o que depende do Elvis,
    separando o que é bloqueante do que não é.
 
