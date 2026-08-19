@@ -160,6 +160,12 @@ Exemplo: `Direito Constitucional (TCDF-ANACE) (18-08-2026)`
   olhando o nome da pasta, quando aquela disciplina específica foi mexida pela
   última vez — importante porque é comum atualizar só uma disciplina por vez,
   sem tocar nas outras do mesmo pacote.
+- **Conferir a data de hoje no ambiente antes de montar o nome** — não copiar a
+  data das pastas vizinhas nem as datas citadas ao longo desta skill. Erro real
+  em 19-08-2026 (pacote ISS Manaus, skill irmã): as pastas já existentes eram
+  de `(18-08-2026)` e tudo nasceu com o sufixo de ontem, obrigando a corrigir
+  pastas, placeholders `.txt` e planilhas depois. A mesma data vale pro texto
+  do `.txt` de aula travada e pra coluna "Data desta Verificação" da planilha.
 - **Matéria com nome repetido no mesmo pacote:** se já existir (ou vier a
   existir) outra pasta de matéria com esse mesmo nome dentro do mesmo pacote
   — caso real: um pacote com duas matérias "Contabilidade Geral e Avançada",
@@ -672,7 +678,13 @@ Para cada aula pendente, repetir:
    com 3 páginas. **Nunca aceitar um simplificado curto sem essa checagem:**
    sem ela, a aula fica na pasta com cara de baixada e sem nenhum conteúdo.
 7. Extrair a data da primeira página do PDF (ver "Extrair a data do PDF" abaixo)
-   e renomear o `.tmp` pro nome final com a data.
+   e renomear o `.tmp` pro nome final com a data. **Guardar também o número de
+   páginas (`len(reader.pages)`) nessa mesma abertura** — é uma das colunas da
+   planilha do Passo 9, e o arquivo já está aberto aqui. Sem isso é preciso
+   reabrir todos os PDFs numa segunda passada só pra montar a planilha
+   (confirmado em 19-08-2026: 227 reaberturas evitáveis no pacote ISS Manaus).
+   Registrar página, data e `MATCH` num log único da execução e alimentar a
+   planilha a partir dele.
 8. Voltar pra lista de aulas e seguir pra próxima.
 
 **Nota sobre cliques no navegador embutido (Browser pane):** testado que clicar
@@ -1100,7 +1112,10 @@ maior na skill `baixar-curso-completo-estrategia`, Passo 11).
     só isso não incomoda, mas o script tem que aguentar o erro **HTTP 429**
     de qualquer jeito: envolver o processamento de cada planilha num retry
     com **espera de ~65s** (até ~6 tentativas) e deixar uma pausa de ~12s
-    entre planilhas. Sem isso a execução morre no meio, com parte das
+    entre planilhas. **O mesmo retry tem que cobrir 5xx** (`503 The service
+    is currently unavailable`) — confirmado em 19-08-2026: com o retry
+    cobrindo só o 429, um 503 transiente derrubou planilhas que passaram
+    normalmente na tentativa seguinte, sem nenhum outro ajuste. Sem isso a execução morre no meio, com parte das
     planilhas criadas. O script tem que ser **idempotente**: procurar pelo
     nome do arquivo na pasta de destino e reaproveitar a planilha existente
     em vez de criar uma duplicada ao retomar. Ver a mesma regra em escala de

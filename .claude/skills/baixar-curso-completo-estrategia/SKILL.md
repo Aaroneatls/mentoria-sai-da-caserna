@@ -377,6 +377,14 @@ local), perguntar isso separadamente antes de prosseguir.
   individualmente. Na criação (download novo), a data em ambos os níveis é a
   de hoje. Ver Passo 9 pra como a data da matéria é recalculada, e Passo 10
   pra como a data do pacote é recalculada no final.
+  **Conferir a data de hoje no ambiente antes de montar qualquer nome** — não
+  copiar a data que aparece nas pastas vizinhas nem a que estiver escrita nesta
+  skill. Erro real em 19-08-2026 (pacote ISS Manaus): as pastas existentes na
+  pasta padrão eram de `(18-08-2026)` e a skill cita essa data em vários
+  pontos, então o pacote inteiro nasceu com o sufixo de ontem — 22 pastas, 30
+  placeholders e 21 planilhas tiveram que ser corrigidos depois. A mesma data
+  de hoje vale pro texto do `.txt` do Passo 8 e pra coluna "Data desta
+  Verificação" da planilha do Passo 11.
 - **Modo novo:** criar tudo do zero com `mkdir -p`, dentro da pasta informada no
   Passo 0 (nenhuma pasta de pacote correspondente foi encontrada no Passo 2).
 - **Modo atualização:** usar a pasta do pacote localizada no Passo 2; criar só
@@ -564,10 +572,25 @@ Como usar sem violar a regra de credenciais:
   quanto para `/pdfSimplificado/download/{id}`.
 - **Os links duram pouco: ~20-30 minutos.** O campo `expiration` da URL vem com
   o relógio do servidor (umas 2h à frente do local) e **engana** — não usar ele
-  como referência. Trabalhar em blocos de 2-3 cursos, gerando as assinaturas
-  imediatamente antes de cada bloco. Link vencido devolve HTTP 200 com a home
-  em HTML, exatamente igual ao erro de User-Agent.
+  como referência. Gerar as assinaturas imediatamente antes de cada bloco. Link
+  vencido devolve HTTP 200 com a home em HTML, exatamente igual ao erro de
+  User-Agent.
+- **Tamanho de bloco que se mostrou seguro: 4 a 8 cursos por vez (~50 aulas),
+  com 4 downloads em paralelo** — confirmado na execução do pacote ISS Manaus
+  (AFTM) em 19-08-2026: 21 matérias, 227 PDFs, 705 MB, **zero** recusa por
+  volume e zero assinatura vencida. Blocos de 2-3 cursos (recomendação
+  anterior) funcionam, mas custam o dobro de idas ao navegador sem ganho de
+  segurança.
 - Aula ainda não liberada vem com `pdf` nulo — tratar como travada (Passo 8).
+- **A previsão de liberação da aula travada sai do próprio `data_publicacao`**
+  — não precisa ler o "Disponível em DD/MM/AAAA" da listagem HTML. Economiza
+  uma consulta por matéria e é o que alimenta o nome do `.txt` do Passo 8
+  (confirmado nos 30 placeholders do pacote ISS Manaus).
+- **`pdf_simplificado` nulo já diz que aquela aula não tem versão
+  simplificada** — dá pra decidir entre simplificado e original **antes** de
+  baixar, sem gastar um download. A checagem das 8 páginas + "possui
+  simplificado" (Curso Regular, mais acima) continua valendo como rede de
+  segurança pro caso do card existir e o PDF ser só o aviso.
 - Uma forma compacta de trazer os dados sem inflar o contexto: pedir ao
   navegador só `id:assinatura` por aula e casar com a tabela de rótulos que já
   foi montada no Passo 3.
@@ -798,6 +821,13 @@ else:
   de uma lista de suspeitas que o usuário vai ter que conferir na mão.
 - Baixar sempre com nome temporário (`.tmp`), extrair a data, e só então renomear
   pro nome final com a data.
+- **Aproveitar essa mesma abertura pra guardar o número de páginas do PDF** —
+  confirmado em 19-08-2026 (pacote ISS Manaus): o arquivo já está aberto no
+  `pypdf` aqui, e o `len(reader.pages)` é uma das colunas da planilha do Passo
+  11. Sem isso, é preciso reabrir todos os PDFs numa segunda passada só pra
+  montar as planilhas (foram 227 reaberturas evitáveis naquela execução).
+  Registrar página, data e `MATCH` num log único por execução, e alimentar a
+  planilha a partir dele.
 - Se `pypdf` não estiver instalado, instalar com `pip install pypdf` antes de
   processar a primeira aula.
 - **Fallback se não achar data:** manter o nome do arquivo sem o sufixo
@@ -1114,7 +1144,13 @@ usuário**, e cada planilha consome várias (criar, `update` das duas abas,
 **HTTP 429** aparece por volta da sétima planilha e derruba a execução no meio.
 Montar o script assim desde o começo:
 
-- Retry por planilha, com espera de ~65s e até ~6 tentativas, só pra erro 429.
+- Retry por planilha, com espera de ~65s e até ~6 tentativas, **para 429 e
+  também para 5xx** (`503 The service is currently unavailable`). Confirmado em
+  19-08-2026: com o retry cobrindo só o 429, duas das 21 planilhas do pacote
+  ISS Manaus morreram num 503 transiente e tiveram que ser refeitas na mão —
+  o 503 passa na tentativa seguinte sem nenhum outro ajuste.
+- **Deixar o script aceitar uma lista de matérias como argumento**, pra
+  reprocessar só as que falharam sem repetir as 20 que já deram certo.
 - Pausa de ~12s entre planilhas.
 - **Idempotência obrigatória:** antes de criar, procurar pelo nome do arquivo
   dentro da pasta de destino no Drive e reaproveitar a planilha existente —
