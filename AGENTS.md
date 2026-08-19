@@ -94,6 +94,35 @@ Salvar com uma linha nova clara, sem reformatar o arquivo inteiro. Confirmar o q
 
 ---
 
+## Checklist de encerramento de sessão
+
+**Sempre que o Elvis perguntar se pode encerrar a sessão** (ou disser "posso
+fechar?", "tem mais alguma coisa?", "está tudo certo?"), rodar esta verificação
+**antes** de responder — e já corrigir o que estiver fora do lugar, não só
+reportar. Confirmado pelo Elvis em 2026-08-18.
+
+1. **Git** — `git status --short` limpo, e comparar `HEAD` com `origin/main`
+   (`git log origin/main..HEAD --oneline`) pra garantir que não ficou commit
+   sem push. Working tree limpo não significa sincronizado.
+2. **Ponte do Codex (`.agents/skills`)** — no Windows ela é **cópia**, não link:
+   toda skill editada em `.claude/skills/` fica desatualizada lá até ser
+   recopiada, e o Codex passa a ler uma versão antiga. Comparar arquivo a
+   arquivo e **ressincronizar** se divergir:
+   ```bash
+   for d in .claude/skills/*/; do n=$(basename "$d"); mkdir -p ".agents/skills/$n"; cp -r "$d." ".agents/skills/$n/"; done
+   ```
+   Essa pasta é ignorada pelo git de propósito — ressincronizar não gera
+   mudança no repositório.
+3. **Entregável da sessão** — se a tarefa mexeu em arquivos (downloads,
+   planilhas, pastas), conferir a integridade do resultado, não só que "rodou":
+   contagem de arquivos, formato real (ver a regra de download logo abaixo),
+   nomes/datas no padrão, e nenhum `.tmp` órfão.
+4. **Processos em segundo plano** — nenhum worker/script ainda rodando.
+5. **Pendências** — listar o que ficou em aberto e o que depende do Elvis,
+   separando o que é bloqueante do que não é.
+
+---
+
 ## Regra geral: nunca sobrescrever arquivo bom com download não validado
 
 Vale pra **qualquer** skill que baixe arquivo em massa, em qualquer plataforma —
