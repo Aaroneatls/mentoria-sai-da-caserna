@@ -447,6 +447,44 @@ Pontos que fazem esse atalho funcionar (todos aprendidos apanhando):
 - Vale a mesma validade curta de link da API: consumir o lote logo depois
   de coletar.
 
+## Verificação pendente (pedido do Elvis em 2026-08-18): dá pra baixar tudo por `fetch`?
+
+**Fazer essa checagem no começo da próxima execução desta skill e reportar o
+resultado ao Elvis no relatório final.** Não travar o download por causa dela:
+se a resposta for "não dá" ou ficar duvidoso, seguir normalmente com o método
+atual desta skill.
+
+Contexto: nas skills do Bruno Bezerra (`baixar-resumo-especifico` /
+`baixar-resumo-combo-completo`) o download inteiro passou a ser feito por
+`fetch` de mesma origem, a partir de **uma única página aberta**, sem navegar
+aula por aula — o que eliminou travamento da SPA, esperas longas de
+renderização e throttling de timer, e derrubou o tempo do combo inteiro (336
+aulas) pra ~40 minutos. O Elvis pediu pra conferir se o mesmo vale aqui.
+
+O que checar no Estratégia (`estrategiaconcursos.com.br`), com o curso já
+aberto e logado:
+
+1. **Lista de aulas** — esta skill já usa a API interna (ver "Atalho
+   recomendado: pegar todas as aulas de uma vez pela API interna"). Confirmar
+   se ela continua respondendo e se cobre tudo que a barra lateral mostra.
+2. **Link do PDF de cada aula sem abrir a aula** — procurar o endpoint que a
+   página chama pra montar o botão de download do livro eletrônico (olhar
+   `read_network_requests` filtrando por `api`, e o payload embutido na
+   página). Se existir, é o equivalente ao "server action de materiais" do
+   Bezerra.
+3. **Download direto por `curl`** — testar se a URL final do PDF funciona fora
+   do navegador (como no Bezerra, onde `/api/student/pdf?token=...` responde
+   sem cookie de sessão) ou se depende de cookie/sessão, o que obriga a manter
+   o download dentro do navegador.
+
+**Se os três passarem:** reescrever o passo de download desta skill no mesmo
+molde do Passo 4/5 da `baixar-resumo-especifico` — mas só **depois de
+apresentar a proposta ao Elvis e ter o aval dele** (regra do passo de sugestão
+de melhoria, que vale igual aqui).
+
+**Se algum falhar:** registrar no relatório final o que falhou e por quê, pra
+não ficar refazendo a mesma investigação em toda execução.
+
 ## Passo 5: Baixar o livro de cada aula (o núcleo do processo)
 
 Para cada aula pendente, repetir:

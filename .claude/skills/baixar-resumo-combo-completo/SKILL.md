@@ -119,7 +119,13 @@ aula longos):
 uma aula só e **nenhum material na plataforma** — a aula manda o aluno pra uma
 pasta pública do Google Drive com baralhos do Anki (confirmado em 2026-08-18).
 Nesse cenário **não criar pasta nem planilha de Flashcards**, só registrar no
-relatório final. Se um dia a playlist passar a expor PDF, aí sim ela ganha
+relatório final e **oferecer ao Elvis** baixar os baralhos da pasta do Drive
+pra `Flashcards (DD-MM-AAAA)` dentro da pasta raiz — link que a aula informa:
+`https://drive.google.com/drive/folders/1UT2O-g6bVan8eNe9Y1i7XIsEBUPwcJXK`
+(pasta pública, arquivos `.apkg` pra importar no Anki). **Só baixar com o "sim"
+dele na conversa** — é fonte externa à plataforma, fora do escopo padrão desta
+skill, e o link pode mudar sem aviso. Se ele recusar, não insistir nas
+próximas execuções: só mencionar numa linha. Se um dia a playlist passar a expor PDF, aí sim ela ganha
 pasta própria `Flashcards (DD-MM-AAAA)` (mesma regra de `(N-M)`; dentro da
 pasta raiz do Passo 0, no mesmo nível das pastas de matéria).
 
