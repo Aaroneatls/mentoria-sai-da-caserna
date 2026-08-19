@@ -1146,6 +1146,15 @@ subtítulo; fórmulas com `;` por causa do locale `pt_BR`; ler de volta pra
 conferir que não deu `#ERROR!`/`#REF!`/`#NAME?`, já que não há `recalc.py`
 funcionando nesse ambiente).
 
+**Linha 3 com o link clicável pro curso** — confirmado pelo Elvis em
+19-08-2026: `A3` = `Link do curso:` e `B3` (mesclada até `I3`) =
+`=HYPERLINK("https://www.estrategiaconcursos.com.br/app/dashboard/cursos/{cursoId}/aulas";"Abrir no Estratégia")`.
+Sem isso não há como voltar do arquivo pro curso no site — as 71 planilhas dos
+4 primeiros pacotes nasceram sem o link e tiveram que ser corrigidas depois.
+Detalhes de layout e idempotência: ver o item 4.0 do Passo 9 da
+`baixar-curso-especifico-estrategia`. Num pacote isso vale por matéria, cada
+uma com o **seu** Curso ID — nunca o ID do pacote.
+
 **Quota do Google Sheets:** a API permite **60 requisições de escrita por
 minuto por usuário**, e montar uma planilha (update + formatações + freeze +
 aba Legenda) gasta ~10 delas — ou seja, o teto é de ~6 planilhas por minuto.

@@ -1077,6 +1077,16 @@ maior na skill `baixar-curso-completo-estrategia`, Passo 11).
    arquivo`. Linha de título mesclada + subtítulo com pasta, **Curso ID
    Estratégia** e nome do pacote/concurso. Linha de resumo com fórmulas
    (`COUNTA`, `COUNTIF`) pro total de aulas, confirmadas e suspeitas.
+4.0. **Linha 3: link clicável pro curso no Estratégia** — confirmado pelo Elvis
+   em 19-08-2026, depois de notar que nenhuma das 71 planilhas dos 4 pacotes já
+   baixados dizia como voltar ao curso no site. Logo abaixo do subtítulo, antes
+   da linha de resumo: `A3` = `Link do curso:` e `B3` (mesclada até `I3`) =
+   `=HYPERLINK("https://www.estrategiaconcursos.com.br/app/dashboard/cursos/{cursoId}/aulas";"Abrir no Estratégia")`,
+   com o mesmo `{cursoId}` registrado no subtítulo. Em planilha antiga que já
+   tenha conteúdo na linha 3, **inserir** uma linha nova (`insertDimension`) em
+   vez de sobrescrever — o Sheets reajusta sozinho as referências das fórmulas
+   de resumo. A regravação é idempotente: se `A3` já for `Link do curso:`, só
+   atualizar o valor, sem inserir outra linha.
 4.1. **Os três valores possíveis de `Status`** — confirmado pelo Elvis em
    2026-08-18:
    - **Baixado** — PDF salvo e conteúdo batendo com o assunto esperado.
