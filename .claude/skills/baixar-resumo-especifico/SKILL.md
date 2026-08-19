@@ -3,8 +3,9 @@ name: baixar-resumo-especifico
 description: >
   Baixa em lote os resumos esquematizados (PDF) de UMA matéria/playlist
   específica do curso "Resumos Esquematizados - Combo Completo | Parceria" do
-  professor Bruno Bezerra (plataforma Tutory), renomeando os arquivos com o
-  rótulo exato de cada aula e organizando numa pasta local. Diferente da
+  professor Bruno Bezerra (plataforma Tutory), renomeando cada arquivo com o
+  título impresso no próprio PDF (que prevalece sobre o rótulo do site quando
+  os dois divergem) e organizando numa pasta local. Diferente da
   baixar-resumo-combo-completo (que baixa todas as matérias de uma vez), essa
   skill baixa só UMA matéria por vez. Use quando o usuário disser "baixa essa
   matéria do Bruno Bezerra", "baixa os resumos de [matéria]", "sincroniza essa
@@ -20,8 +21,10 @@ description: >
 Usa o navegador (embutido por padrão, já logado) pra navegar pelas aulas de uma
 matéria (playlist) dentro do curso "Resumos Esquematizados - Combo Completo |
 Parceria" do professor Bruno Bezerra, e baixa direto no disco o PDF de resumo
-esquematizado de cada aula, renomeado com o rótulo exato da aula e organizado
-numa pasta local.
+esquematizado de cada aula, renomeado com o título que está impresso na capa do
+PDF — que prevalece sobre o rótulo da aula no site quando os dois divergem
+(Passo 5.1) — e organizado numa pasta local. Todo o processo é feito por
+`fetch` na própria página, sem navegar aula por aula (Passo 4).
 
 **Curso fixo, nunca comprar nada:** o Elvis só tem acesso liberado ao curso
 "Combo Área Fiscal + Receita Federal" (id `613765f9-f1e0-4149-a84f-ebac1314faa1`)
@@ -500,8 +503,7 @@ reconsultar o site) e é a base pra checagem de Playlist ID do Passo 3.
      guarda o rótulo antigo pra localizar a aula na plataforma depois.
      `Observação` guarda a nota da skill sobre aquela aula (ex: "nome vindo da
      capa do PDF", "capa lista vários assuntos, mantido o rótulo do site").
-   - `Status` = `Verificado` (bateu na checagem de conteúdo do Passo 5, item
-     6), `Suspeito` (verificação de conteúdo falhou), ou `Não confirmado`
+   - `Status` = `Verificado` (bateu na checagem de conteúdo do Passo 5.2), `Suspeito` (verificação de conteúdo falhou), ou `Não confirmado`
      (Passo 6, item 4) — **cor condicional**: verde pra Verificado, vermelho
      pra Suspeito/Não confirmado.
    - `Data de Atualização (PDF)` vem do **metadado interno do PDF**

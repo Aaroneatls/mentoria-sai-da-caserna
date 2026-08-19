@@ -3,8 +3,8 @@ name: baixar-resumo-combo-completo
 description: >
   Baixa em lote os resumos esquematizados (PDF) de TODAS as matérias do curso
   "Resumos Esquematizados - Combo Completo | Parceria" do professor Bruno
-  Bezerra (plataforma Tutory), organizando cada matéria numa pasta própria e os
-  flashcards numa pasta separada. Pula automaticamente o Boas-vindas, o
+  Bezerra (plataforma Tutory), organizando cada matéria numa pasta própria e
+  nomeando cada arquivo pelo título impresso no próprio PDF. Pula automaticamente o Boas-vindas, o
   Sumário e o módulo de técnicas de revisão. Diferente da baixar-resumo-especifico (que baixa só UMA
   matéria), essa skill mapeia o curso inteiro e baixa tudo de uma vez. Use
   quando o usuário disser "baixa todos os resumos do Bruno Bezerra", "baixa o
@@ -66,7 +66,9 @@ digitar credenciais.
    `https://alunoprofbrunobezerra.plataformatutory.com.br/dash/cursos/613765f9-f1e0-4149-a84f-ebac1314faa1`.
 3. Extrair a lista completa de matérias (playlists) via JavaScript — **todas
    as 33 já estão no DOM mesmo com o carrossel mostrando só algumas visíveis
-   na tela**, não precisa clicar em "Ver mais"/"Mostrar menos":
+   na tela**, não precisa clicar em "Ver mais"/"Mostrar menos". Essa é a
+   **única** vez que se lê o DOM: da lista de aulas em diante é tudo `fetch`
+   (Passo 4):
    ```js
    Array.from(document.querySelectorAll('a[href*="/playlists/"]'))
      .map(a => ({href: a.href, txt: a.textContent.replace(/\s+/g,' ').trim()}));
@@ -113,10 +115,13 @@ aula longos):
   atualizar a data no final do processamento daquela matéria, mesmo que nada
   tenha mudado — renomear a pasta existente, nunca apagar e recriar.
 
-**Caso especial — Flashcards:** a playlist `Flashcards - Parceria` vai pra uma
-pasta própria, separada das matérias: `Flashcards (DD-MM-AAAA)` (mesma regra
-de `(N-M)` acima; dentro da pasta raiz definida no Passo 0, mesmo nível das
-pastas de matéria — confirmado pelo Elvis em 2026-08-18).
+**Caso especial — Flashcards:** hoje a playlist `Flashcards - Parceria` tem
+uma aula só e **nenhum material na plataforma** — a aula manda o aluno pra uma
+pasta pública do Google Drive com baralhos do Anki (confirmado em 2026-08-18).
+Nesse cenário **não criar pasta nem planilha de Flashcards**, só registrar no
+relatório final. Se um dia a playlist passar a expor PDF, aí sim ela ganha
+pasta própria `Flashcards (DD-MM-AAAA)` (mesma regra de `(N-M)`; dentro da
+pasta raiz do Passo 0, no mesmo nível das pastas de matéria).
 
 Não sintetizar nem abreviar os nomes de matéria aqui — são curtos.
 
@@ -124,7 +129,9 @@ Não sintetizar nem abreviar os nomes de matéria aqui — são curtos.
 
 Pra cada playlist da lista do Passo 1 (exceto as três excluídas no Passo 2),
 repetir exatamente a mecânica dos **Passos 3 a 7 da skill
-`baixar-resumo-especifico`**:
+`baixar-resumo-especifico`** — em especial o **Passo 4 (levantamento por
+`fetch`, sem navegar)** e o **Passo 5 (download + nome vindo do PDF)**, que
+foram reescritos em 2026-08-18 depois de baixar o combo inteiro:
 
 1. Procurar pasta existente pra essa matéria dentro da pasta raiz (detecção
    automática — comparação ignorando maiúsculas, acentuação, **e os sufixos
@@ -135,29 +142,26 @@ repetir exatamente a mecânica dos **Passos 3 a 7 da skill
    (com o mesmo aviso ao Elvis se for diferente) do Passo 3, item 2 da skill
    `baixar-resumo-especifico`. Fazer essa checagem matéria por matéria, não
    só uma vez pro combo inteiro.
-2. Levantar a lista de aulas da playlist (extração da barra lateral,
-   deduplicada por `aulaId`).
-3. Baixar o PDF de cada aula:
-   - Extrair o link de material (`a[href*="/dash/downloads/"]`) — se não tiver,
-     pular a aula sem criar arquivo.
-   - Navegar pro link, capturar `token`/`domain` da URL resultante
-     (`pdfs.plataformatutory.com.br/?token=...&domain=...`), chamar
-     `{domain}/api/student/pdf?token=...` via `javascript_tool` (função async
-     imediatamente invocada) pra obter o `uri` assinado da S3 (**válido só 5
-     minutos** — baixar em seguida). Cuidado com o bug do `{domain}` não
-     substituído (Passo 5, item 3 da skill irmã).
-   - `curl -sL -o "<pasta>/tmp_<aulaId>.pdf" "<uri>"`, conferir `HTTP:200`.
-   - Nome final = **rótulo exato da aula**, sem numeração inventada nem sufixo
-     de data. Remover acento/cedilha/caractere especial só se ameaçar
-     desconfigurar o nome do arquivo (traço nunca precisa ser removido).
-   - **Verificação de conteúdo obrigatória** (Passo 5, item 6 da skill irmã):
-     conferir se o assunto da primeira página do PDF bate com o rótulo
-     esperado, antes de aceitar o download como certo — pega o caso raro de
-     baixar a aula errada por causa de estado corrompido na SPA.
-   - **Extrair o Sumário da aula** (Passo 5, item 7 da skill irmã) — lista de
-     tópicos, usada de referência pra comparação em atualização (item 4
-     abaixo) e guardada na planilha de metadados (Passo 6).
-4. Modo atualização (se a pasta da matéria já existir e o usuário confirmar
+2. **Instalar as funções `__lessons` / `__mats` / `__sign` / `__prep` uma vez
+   só** (Passo 4 da skill irmã) e reusar pro combo inteiro — elas ficam no
+   `window` da página aberta. **Não navegar depois disso**, senão elas se
+   perdem e é preciso reinstalar. O `window.__cache` guarda a lista de aulas
+   por playlist, então chamar `__prep(pid, ini, fim)` em lotes da mesma
+   matéria não refaz o levantamento.
+3. Baixar o PDF de cada aula em **lotes de 11 a 14 aulas**: uma chamada
+   `__prep` devolve o TSV com `materialId`, `X-Amz-Date` e `X-Amz-Signature`,
+   e o download por `curl` vem **logo em seguida** (o link assinado dura 5
+   minutos). Playlist grande = 2-3 lotes; playlists pequenas podem ser
+   agrupadas numa chamada só, desde que o total de aulas do lote fique dentro
+   do limite (o `javascript_tool` corta em 30s, ~1,5s por aula).
+   - Nome do arquivo: **título impresso na capa do PDF quando ele divergir do
+     rótulo do site** (Passo 5.1 da skill irmã), mantendo código e matéria.
+   - **Verificação de conteúdo obrigatória** (Passo 5.2 da skill irmã).
+   - **Extrair o Sumário da aula** (Passo 5.3 da skill irmã) — usado na
+     comparação de atualização (item 5) e na planilha (Passo 6).
+4. Aula sem material (aviso, cronograma, Flashcards) não gera arquivo e não é
+   erro. Não existe placeholder `.txt` nessa plataforma.
+5. Modo atualização (se a pasta da matéria já existir e o usuário confirmar
    atualização — perguntar por matéria encontrada, ou perguntar uma vez só no
    início "atualizar todas as matérias que já existem?"): baixar de novo,
    comparar por hash (`Get-FileHash`) com o arquivo local existente — hash
@@ -165,8 +169,9 @@ repetir exatamente a mecânica dos **Passos 3 a 7 da skill
    **Antes de descartar o arquivo antigo, comparar o Sumário dele com o do
    novo** (Passo 6, item 3 da skill irmã) e registrar no relatório o que
    mudou de verdade (tópico removido/adicionado), não só "PDF atualizado".
-5. Não existe placeholder `.txt` nessa plataforma — aula sem material
-   simplesmente não gera arquivo, em qualquer modo.
+   Atenção: **arquivo que mudou de nome pela regra do Passo 5.1 não é aula
+   nova** — cruzar também pelo `Rótulo na plataforma` registrado na planilha
+   antes de concluir que sumiu ou que apareceu.
 6. **Aula que sumiu inteira da playlist daquela matéria** (rótulo de um
    arquivo local não bate com nenhuma aula da lista atual): **nunca apagar**
    — confirmado dobrando a checagem (Passo 6, item 6 da skill irmã), mover o
@@ -175,14 +180,11 @@ repetir exatamente a mecânica dos **Passos 3 a 7 da skill
    nome original. Registrar cada um no relatório final (Passo 5) pra revisão
    manual do Elvis — a skill não decide sozinha se foi descontinuação real ou
    migração pra outro rótulo.
-7. **Pausa preventiva entre aulas, adaptativa (não um número fixo):** o
-   travamento passageiro da SPA (Passo 5, item 2 da skill irmã) fica mais
-   provável ainda aqui, com centenas de aulas no total. Ponto de partida:
-   pausa de ~2-3s a cada 5-6 aulas. **Ajustar esse ritmo ao longo de toda a
-   execução do combo** (entre aulas de uma mesma matéria e entre matérias
-   diferentes) sempre que perceber sinais de lentidão — aumentar a pausa e/ou
-   diminuir o intervalo entre pausas; relaxar de novo se a plataforma voltar a
-   responder rápido. Confirmado pelo Elvis em 2026-08-18.
+7. **Não é preciso pausa preventiva nesse método** (a antiga pausa adaptativa
+   existia por causa do travamento da SPA ao navegar aula por aula, que não
+   acontece mais). Referência de 2026-08-18: 336 aulas, ~40 minutos, sem
+   nenhum travamento. Se ainda assim aparecer lentidão ou erro repetido,
+   diminuir o tamanho do lote antes de pensar em pausa.
 
 **Diferença em relação à skill de matéria específica:** aqui, em vez de
 perguntar pasta-a-pasta se já existe e como proceder, é mais prático perguntar
@@ -209,7 +211,14 @@ escolher sozinho).
      pra reconfirmar o material nessa execução) e quantos arquivos movidos pra
      `Descontinuados` (Passo 4, item 6 desta skill), listando matéria + rótulo
      de cada um pra revisão manual.
-   - Confirmar que os Flashcards foram tratados à parte, na pasta `Flashcards`.
+   - **Quais arquivos ficaram com nome vindo da capa do PDF** em vez do
+     rótulo do site (Passo 5.1 da skill irmã), listando o "de → para" — é
+     mudança de nomenclatura, o Elvis precisa ver.
+   - Situação dos Flashcards: hoje essa playlist não expõe PDF na plataforma
+     (a aula manda pra uma pasta pública do Drive com baralhos do Anki), então
+     **não se cria pasta nem planilha de Flashcards** — só registrar isso no
+     relatório. Se um dia passar a ter PDF, aí sim vale a pasta própria
+     (Passo 3).
    - Confirmar quantas planilhas de metadados foram criadas/atualizadas
      (Passo 6).
 
@@ -219,8 +228,10 @@ escolher sozinho).
 ganha uma planilha de metadados própria, na mesma pasta dela** — mesmo
 processo e mesmo formato validado na skill `baixar-resumo-especifico` (ver
 Passo 8 dela: Google Sheets nativo via `gspread`, nunca `.xlsx` local; abas
-"Aulas" + "Descontinuados" (se aplicável) + "Legenda"; Playlist ID no
-subtítulo; fórmulas com `;`; formatação padrão; ler de volta pra conferir que
+"Aulas" + "Descontinuados" (se aplicável) + "Legenda"; colunas
+`Rótulo na plataforma (quando diferente)` e `Observação` no fim da aba
+"Aulas", pra registrar os casos em que o nome veio da capa do PDF; Playlist
+ID no subtítulo; fórmulas com `;`; formatação padrão; ler de volta pra conferir que
 não deu erro).
 
 **Diferença de escala:** repetir esse passo pra **cada matéria processada
