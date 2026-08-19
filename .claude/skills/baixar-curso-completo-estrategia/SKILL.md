@@ -384,43 +384,42 @@ local), perguntar isso separadamente antes de prosseguir.
   pacote), sem recriar as que já existem — sempre atualizar em cima da pasta
   existente, nunca apagar e recriar (ver regra no Passo 9).
 
-## Verificação pendente (pedido do Elvis em 2026-08-18): dá pra baixar tudo por `fetch`?
+## Método de download: resultado da verificação (18-08-2026) — CONCLUÍDA
 
-**Fazer essa checagem no começo da próxima execução desta skill e reportar o
-resultado ao Elvis no relatório final.** Não travar o download por causa dela:
-se a resposta for "não dá" ou ficar duvidoso, seguir normalmente com o método
-atual desta skill.
+O Elvis pediu pra checar se dava pra baixar tudo por `fetch`, no mesmo molde das
+skills do Bruno Bezerra. **Checagem feita e os três pontos passaram.** Não refazer
+essa investigação a cada execução — o resultado está aqui.
 
-Contexto: nas skills do Bruno Bezerra (`baixar-resumo-especifico` /
-`baixar-resumo-combo-completo`) o download inteiro passou a ser feito por
-`fetch` de mesma origem, a partir de **uma única página aberta**, sem navegar
-aula por aula — o que eliminou travamento da SPA, esperas longas de
-renderização e throttling de timer, e derrubou o tempo do combo inteiro (336
-aulas) pra ~40 minutos. O Elvis pediu pra conferir se o mesmo vale aqui.
+| O que foi checado | Resultado |
+|---|---|
+| A API interna de aulas responde e cobre tudo | **Sim.** `GET /api/aluno/curso/{id}` devolve todas as aulas numa chamada (~4s) |
+| Dá pra obter o link do PDF sem abrir a aula | **Sim — é a mesma chamada.** Ela já traz `pdf` e `pdf_simplificado` prontos de cada aula |
+| O PDF baixa fora do navegador | **Sim.** Não depende de cookie de sessão: basta o link assinado + `User-Agent` de browser |
 
-O que checar no Estratégia (`estrategiaconcursos.com.br`), com o curso já
-aberto e logado:
+Por isso o caminho da API é o **principal** (ver seção da API acima), e navegar
+aula por aula lendo o `a.LessonButton` ficou como **fallback**.
 
-1. **Lista de aulas** — esta skill já usa a API interna (ver "Atalho
-   recomendado: pegar todas as aulas de uma vez pela API interna"). Confirmar
-   se ela continua respondendo e se cobre tudo que a barra lateral mostra.
-2. **Link do PDF de cada aula sem abrir a aula** — procurar o endpoint que a
-   página chama pra montar o botão de download do livro eletrônico (olhar
-   `read_network_requests` filtrando por `api`, e o payload embutido na
-   página). Se existir, é o equivalente ao "server action de materiais" do
-   Bezerra.
-3. **Download direto por `curl`** — testar se a URL final do PDF funciona fora
-   do navegador (como no Bezerra, onde `/api/student/pdf?token=...` responde
-   sem cookie de sessão) ou se depende de cookie/sessão, o que obriga a manter
-   o download dentro do navegador.
+**Vantagem sobre o método do Bezerra:** lá o download roda dentro do navegador;
+aqui a API entrega os links assinados e o download acontece **fora** do navegador,
+no shell, o que permite baixar em paralelo. Numa execução real: 24 cursos / ~480
+aulas / 1,93 GB.
 
-**Se os três passarem:** reescrever o passo de download desta skill no mesmo
-molde do Passo 4/5 da `baixar-resumo-especifico` — mas só **depois de
-apresentar a proposta ao Elvis e ter o aval dele** (regra do passo de sugestão
-de melhoria, que vale igual aqui).
+### Três armadilhas confirmadas na prática (não repetir)
 
-**Se algum falhar:** registrar no relatório final o que falhou e por quê, pra
-não ficar refazendo a mesma investigação em toda execução.
+1. **A assinatura do link dura ~20-30 minutos, não 2 horas.** O campo `expiration`
+   da URL **engana**: vem com o relógio do servidor, que está ~2h à frente do
+   local. Gerar as assinaturas e consumir na hora, em blocos curtos; se o lote
+   passar de ~15 min, gerar de novo.
+2. **`fetch` de dentro da página do Estratégia NÃO serve pra testar download.**
+   Ele responde `302` e devolve HTML mesmo quando o download está funcionando
+   perfeitamente por fora — foi observado o navegador falhando e o `curl`
+   baixando o mesmo link com sucesso no mesmo instante. **Nunca concluir "a
+   plataforma bloqueou" a partir desse teste**; testar sempre por fora.
+3. **Depois de muitas centenas de downloads seguidos, a plataforma parece
+   estrangular** (passa a devolver a home em HTML mesmo com assinatura recém-gerada
+   e User-Agent correto). Não há regra conhecida nem número exato. Quando
+   acontecer: parar, avisar o usuário e retomar mais tarde — algumas horas depois
+   voltou a funcionar normalmente. Nunca insistir em laço.
 
 ## Passo 7: Baixar o livro de cada aula de cada matéria selecionada
 
@@ -428,6 +427,48 @@ Para cada matéria dentro de cada categoria selecionada (Passo 5) ou confirmada
 pra atualização (Passo 4), repetir o mesmo processo da skill
 `baixar-curso-especifico-estrategia` (Passos 4 a 6 dela), com uma diferença por
 categoria:
+
+### CAMINHO PRINCIPAL: pegar todas as aulas e os links pela API interna
+
+**Este é o método padrão desta skill** — verificado e aprovado em 2026-08-18
+(ver "Método de download: resultado da verificação"). Só navegar aula por aula
+se a API falhar ou mudar — nesse caso, usar os itens 1 e 2 da "Mecânica de
+download", mais adiante neste mesmo Passo 7.
+
+Em vez de abrir a listagem e depois cada aula pra extrair o `a.LessonButton`,
+buscar **o curso inteiro numa única chamada**:
+
+```
+GET https://api.estrategiaconcursos.com.br/api/aluno/curso/{cursoId}
+Authorization: Bearer <token de GET /oauth/token/>
+```
+
+A resposta traz, para **cada** aula: `id`, `nome` (o rótulo exato), `conteudo`
+(o assunto), `is_disponivel`, `data_publicacao`, `pdf` e `pdf_simplificado`
+(links já assinados). Num pacote de 24 cursos / ~480 aulas isso troca centenas
+de navegações por 24 chamadas — a diferença entre horas e minutos.
+
+Como usar sem violar a regra de credenciais:
+
+- O `Bearer` **fica dentro do navegador**. Rodar o `fetch` via `javascript_tool`
+  e trazer de volta **apenas os links assinados** (e os metadados das aulas).
+  Nunca extrair o token pro shell — além de desnecessário, o classificador do
+  Claude Code bloqueia isso, e com razão.
+- A assinatura é **por aula**, mas a mesma serve tanto para `/pdf/download/{id}`
+  quanto para `/pdfSimplificado/download/{id}`.
+- **Os links duram pouco: ~20-30 minutos.** O campo `expiration` da URL vem com
+  o relógio do servidor (umas 2h à frente do local) e **engana** — não usar ele
+  como referência. Trabalhar em blocos de 2-3 cursos, gerando as assinaturas
+  imediatamente antes de cada bloco. Link vencido devolve HTTP 200 com a home
+  em HTML, exatamente igual ao erro de User-Agent.
+- Aula ainda não liberada vem com `pdf` nulo — tratar como travada (Passo 8).
+- Uma forma compacta de trazer os dados sem inflar o contexto: pedir ao
+  navegador só `id:assinatura` por aula e casar com a tabela de rótulos que já
+  foi montada no Passo 3.
+
+Se a API falhar ou mudar, o caminho antigo (navegar aula por aula e ler o
+`a.LessonButton`) continua válido como fallback — ver os itens 1 e 2 da
+"Mecânica de download", mais adiante neste mesmo Passo 7.
 
 ### Nome do arquivo — rótulo exato da aula (regra geral, vale pra todas as categorias)
 
@@ -657,52 +698,24 @@ else:
   `(DD-MM-AAAA)` e seguir normalmente — não travar o download. Mencionar no
   resumo final quais aulas ficaram sem data identificada.
 
-### Atalho recomendado: pegar todas as aulas de uma vez pela API interna
-
-**Confirmado em 2026-08-18.** Em vez de abrir a listagem e depois cada aula pra
-extrair o `a.LessonButton`, dá pra buscar **o curso inteiro numa única chamada**:
-
-```
-GET https://api.estrategiaconcursos.com.br/api/aluno/curso/{cursoId}
-Authorization: Bearer <token de GET /oauth/token/>
-```
-
-A resposta traz, para **cada** aula: `id`, `nome` (o rótulo exato), `conteudo`
-(o assunto), `is_disponivel`, `data_publicacao`, `pdf` e `pdf_simplificado`
-(links já assinados). Num pacote de 24 cursos / ~480 aulas isso troca centenas
-de navegações por 24 chamadas — a diferença entre horas e minutos.
-
-Como usar sem violar a regra de credenciais:
-
-- O `Bearer` **fica dentro do navegador**. Rodar o `fetch` via `javascript_tool`
-  e trazer de volta **apenas os links assinados** (e os metadados das aulas).
-  Nunca extrair o token pro shell — além de desnecessário, o classificador do
-  Claude Code bloqueia isso, e com razão.
-- A assinatura é **por aula**, mas a mesma serve tanto para `/pdf/download/{id}`
-  quanto para `/pdfSimplificado/download/{id}`.
-- **Os links duram pouco: ~20-30 minutos.** O campo `expiration` da URL vem com
-  o relógio do servidor (umas 2h à frente do local) e **engana** — não usar ele
-  como referência. Trabalhar em blocos de 2-3 cursos, gerando as assinaturas
-  imediatamente antes de cada bloco. Link vencido devolve HTTP 200 com a home
-  em HTML, exatamente igual ao erro de User-Agent.
-- Aula ainda não liberada vem com `pdf` nulo — tratar como travada (Passo 8).
-- Uma forma compacta de trazer os dados sem inflar o contexto: pedir ao
-  navegador só `id:assinatura` por aula e casar com a tabela de rótulos que já
-  foi montada no Passo 3.
-
-Se a API falhar ou mudar, o caminho antigo (navegar aula por aula e ler o
-`a.LessonButton`) continua válido como fallback — está logo abaixo.
-
 ### Mecânica de download (igual em todas as categorias)
 
-1. Navegar para `https://www.estrategiaconcursos.com.br/app/dashboard/cursos/{id}/aulas/{aulaId}`
+**Os itens 1 e 2 abaixo são FALLBACK** — só use se a API do "Caminho principal"
+falhar ou mudar. Quando a API funcionar (o normal), você já tem `nome`,
+`conteudo`, `is_disponivel`, `pdf` e `pdf_simplificado` de todas as aulas do
+curso, então **pule direto pro item 3**, sem navegar aula nenhuma.
+
+**Do item 3 em diante vale para os dois caminhos**: download, validação, nome do
+arquivo, extração de data e substituição são idênticos.
+
+1. *(fallback)* Navegar para `https://www.estrategiaconcursos.com.br/app/dashboard/cursos/{id}/aulas/{aulaId}`
    (ou clicar no título da aula na lista) e esperar ~2s carregar. **Conferir o
    título da aba depois de navegar** — se voltar genérico ("Área do Aluno", ou
    o mesmo título de antes) em vez do título real da aula/curso, a navegação
    falhou silenciosamente (transiente, observado várias vezes na prática) —
    **renavegar uma vez pra mesma URL antes de seguir**, em vez de extrair o
    `LessonButton` de uma página errada.
-2. **Não precisa clicar no card nem abrir aba nova.** O link de download já
+2. *(fallback)* **Não precisa clicar no card nem abrir aba nova.** O link de download já
    está no HTML da própria página, num `<a class="LessonButton">`. Extrair
    direto via JavaScript (`javascript_tool`):
    ```js

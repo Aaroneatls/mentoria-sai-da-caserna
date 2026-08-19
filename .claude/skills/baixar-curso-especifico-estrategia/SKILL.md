@@ -352,10 +352,14 @@ antes de navegar pra qualquer aula individual — só vale a pena abrir a págin
 de uma aula específica (Passo 5) se ela aparecer sem tag de data (ou seja, já
 liberada) e ainda não tiver PDF baixado na pasta.
 
-## Atalho recomendado: pegar todas as aulas de uma vez pela API interna
+## Passo 5A (CAMINHO PRINCIPAL): pegar todas as aulas e os links pela API interna
 
-**Confirmado em 2026-08-18.** Em vez de abrir a listagem e depois cada aula pra
-extrair o `a.LessonButton`, dá pra buscar **o curso inteiro numa única chamada**:
+**Este é o método padrão desta skill** — verificado e aprovado em 2026-08-18
+(ver "Método de download: resultado da verificação" logo abaixo). Só cair pro
+Passo 5B (navegar aula por aula) se a API falhar ou mudar.
+
+Em vez de abrir a listagem e depois cada aula pra extrair o `a.LessonButton`,
+buscar **o curso inteiro numa única chamada**:
 
 ```
 GET https://api.estrategiaconcursos.com.br/api/aluno/curso/{cursoId}
@@ -447,49 +451,57 @@ Pontos que fazem esse atalho funcionar (todos aprendidos apanhando):
 - Vale a mesma validade curta de link da API: consumir o lote logo depois
   de coletar.
 
-## Verificação pendente (pedido do Elvis em 2026-08-18): dá pra baixar tudo por `fetch`?
+## Método de download: resultado da verificação (18-08-2026) — CONCLUÍDA
 
-**Fazer essa checagem no começo da próxima execução desta skill e reportar o
-resultado ao Elvis no relatório final.** Não travar o download por causa dela:
-se a resposta for "não dá" ou ficar duvidoso, seguir normalmente com o método
-atual desta skill.
+O Elvis pediu pra checar se dava pra baixar tudo por `fetch`, no mesmo molde das
+skills do Bruno Bezerra. **Checagem feita e os três pontos passaram.** Não refazer
+essa investigação a cada execução — o resultado está aqui.
 
-Contexto: nas skills do Bruno Bezerra (`baixar-resumo-especifico` /
-`baixar-resumo-combo-completo`) o download inteiro passou a ser feito por
-`fetch` de mesma origem, a partir de **uma única página aberta**, sem navegar
-aula por aula — o que eliminou travamento da SPA, esperas longas de
-renderização e throttling de timer, e derrubou o tempo do combo inteiro (336
-aulas) pra ~40 minutos. O Elvis pediu pra conferir se o mesmo vale aqui.
+| O que foi checado | Resultado |
+|---|---|
+| A API interna de aulas responde e cobre tudo | **Sim.** `GET /api/aluno/curso/{id}` devolve todas as aulas numa chamada (~4s) |
+| Dá pra obter o link do PDF sem abrir a aula | **Sim — é a mesma chamada.** Ela já traz `pdf` e `pdf_simplificado` prontos de cada aula |
+| O PDF baixa fora do navegador | **Sim.** Não depende de cookie de sessão: basta o link assinado + `User-Agent` de browser |
 
-O que checar no Estratégia (`estrategiaconcursos.com.br`), com o curso já
-aberto e logado:
+Por isso o caminho da API é o **principal** (ver seção da API acima), e navegar
+aula por aula lendo o `a.LessonButton` ficou como **fallback**.
 
-1. **Lista de aulas** — esta skill já usa a API interna (ver "Atalho
-   recomendado: pegar todas as aulas de uma vez pela API interna"). Confirmar
-   se ela continua respondendo e se cobre tudo que a barra lateral mostra.
-2. **Link do PDF de cada aula sem abrir a aula** — procurar o endpoint que a
-   página chama pra montar o botão de download do livro eletrônico (olhar
-   `read_network_requests` filtrando por `api`, e o payload embutido na
-   página). Se existir, é o equivalente ao "server action de materiais" do
-   Bezerra.
-3. **Download direto por `curl`** — testar se a URL final do PDF funciona fora
-   do navegador (como no Bezerra, onde `/api/student/pdf?token=...` responde
-   sem cookie de sessão) ou se depende de cookie/sessão, o que obriga a manter
-   o download dentro do navegador.
+**Vantagem sobre o método do Bezerra:** lá o download roda dentro do navegador;
+aqui a API entrega os links assinados e o download acontece **fora** do navegador,
+no shell, o que permite baixar em paralelo. Numa execução real: 24 cursos / ~480
+aulas / 1,93 GB.
 
-**Se os três passarem:** reescrever o passo de download desta skill no mesmo
-molde do Passo 4/5 da `baixar-resumo-especifico` — mas só **depois de
-apresentar a proposta ao Elvis e ter o aval dele** (regra do passo de sugestão
-de melhoria, que vale igual aqui).
+### Três armadilhas confirmadas na prática (não repetir)
 
-**Se algum falhar:** registrar no relatório final o que falhou e por quê, pra
-não ficar refazendo a mesma investigação em toda execução.
+1. **A assinatura do link dura ~20-30 minutos, não 2 horas.** O campo `expiration`
+   da URL **engana**: vem com o relógio do servidor, que está ~2h à frente do
+   local. Gerar as assinaturas e consumir na hora, em blocos curtos; se o lote
+   passar de ~15 min, gerar de novo.
+2. **`fetch` de dentro da página do Estratégia NÃO serve pra testar download.**
+   Ele responde `302` e devolve HTML mesmo quando o download está funcionando
+   perfeitamente por fora — foi observado o navegador falhando e o `curl`
+   baixando o mesmo link com sucesso no mesmo instante. **Nunca concluir "a
+   plataforma bloqueou" a partir desse teste**; testar sempre por fora.
+3. **Depois de muitas centenas de downloads seguidos, a plataforma parece
+   estrangular** (passa a devolver a home em HTML mesmo com assinatura recém-gerada
+   e User-Agent correto). Não há regra conhecida nem número exato. Quando
+   acontecer: parar, avisar o usuário e retomar mais tarde — algumas horas depois
+   voltou a funcionar normalmente. Nunca insistir em laço.
 
-## Passo 5: Baixar o livro de cada aula (o núcleo do processo)
+## Passo 5B: Baixar o livro de cada aula (o núcleo do processo)
+
+**Os itens 1 e 2 abaixo são FALLBACK** — só use se a API do Passo 5A falhar ou
+mudar. Quando a API funcionar (o normal), você já tem `nome`, `conteudo`,
+`is_disponivel`, `pdf` e `pdf_simplificado` de todas as aulas, então **pule
+direto pro item 3**, sem navegar aula nenhuma.
+
+**Do item 3 em diante vale para os dois caminhos** (API ou fallback): escolha
+entre simplificada e original, download, validação, nome do arquivo, extração
+de data e substituição são idênticos.
 
 Para cada aula pendente, repetir:
 
-1. Navegar para `https://www.estrategiaconcursos.com.br/app/dashboard/cursos/{id}/aulas/{aulaId}`
+1. *(fallback)* Navegar para `https://www.estrategiaconcursos.com.br/app/dashboard/cursos/{id}/aulas/{aulaId}`
    (ou clicar no título da aula na lista) e esperar ~2s carregar. **Conferir o
    título da aba depois de navegar** — o próprio resultado do `navigate` já
    costuma trazer o título de volta. Se o título voltar genérico ("Área do
@@ -498,9 +510,9 @@ Para cada aula pendente, repetir:
    prática) — **renavegar uma vez pra mesma URL antes de seguir**, em vez de
    extrair o `LessonButton` de uma página errada (o que geraria um download
    errado ou um erro sem explicação clara).
-2. **Não precisa clicar no card nem abrir aba nova.** O link de download já
-   está no HTML da própria página, num `<a class="LessonButton">`. Extrair
-   direto via JavaScript (`javascript_tool`):
+2. *(fallback)* **Não precisa clicar no card nem abrir aba nova.** O link de
+   download já está no HTML da própria página, num `<a class="LessonButton">`.
+   Extrair direto via JavaScript (`javascript_tool`):
    ```js
    const links = Array.from(document.querySelectorAll('a.LessonButton'))
      .map(a => ({ texto: a.textContent.replace(/\s+/g, ' ').trim(), href: a.href }));
