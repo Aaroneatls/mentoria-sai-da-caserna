@@ -156,6 +156,18 @@ foram reescritos em 2026-08-18 depois de baixar o combo inteiro:
    do limite (o `javascript_tool` corta em 30s, ~1,5s por aula).
    - Nome do arquivo: **título impresso na capa do PDF quando ele divergir do
      rótulo do site** (Passo 5.1 da skill irmã), mantendo código e matéria.
+   - **Validação obrigatória do arquivo baixado, antes de nomear ou substituir
+     qualquer coisa** (Passo 5 da skill irmã): baixar sempre pra um
+     `tmp_<materialId>.pdf`, mandar `User-Agent` de browser + `Referer` no
+     `curl`, e só aceitar se passar nos três testes — `HTTP:200`, primeiros 5
+     bytes iguais a `%PDF-`, e `pypdf` abrindo com páginas > 0. **Nunca validar
+     só por "HTTP 200 + tamanho não-trivial":** em 2026-08-18, nas skills do
+     Estratégia, o servidor respondeu 200 com uma página HTML de ~238 KB no
+     lugar do PDF e essa checagem frouxa deixou passar — 27 arquivos bons foram
+     destruídos. Vale também antes da comparação por hash do item 5: hash de um
+     HTML contra o PDF antigo dá "diferente" e substituiria o arquivo bom.
+     Se um lote inteiro for recusado, parar e avisar (sessão derrubada por login
+     simultâneo, ou bloqueio por volume) — nunca insistir em laço.
    - **Verificação de conteúdo obrigatória** (Passo 5.2 da skill irmã).
    - **Extrair o Sumário da aula** (Passo 5.3 da skill irmã) — usado na
      comparação de atualização (item 5) e na planilha (Passo 6).

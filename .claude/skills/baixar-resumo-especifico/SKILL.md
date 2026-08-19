@@ -284,9 +284,43 @@ https://tutory-membros.s3.us-east-1.amazonaws.com/student-pdfs/{materialId}-{ema
   &X-Amz-SignedHeaders=host&x-id=GetObject
 ```
 
-Baixar com `curl -sL -o "<pasta>/<nome final>.pdf" "<url>"`, conferindo
-`HTTP:200` e tamanho não-trivial. Em modo atualização (Passo 6), baixar antes
-pra um `tmp_<materialId>.pdf` pra poder comparar por hash.
+Baixar com:
+
+```bash
+curl -sL -o "<pasta>/tmp_<materialId>.pdf" "<url>" \
+  -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" \
+  -H "Referer: https://alunoprofbrunobezerra.plataformatutory.com.br/" \
+  -w "HTTP:%{http_code} SIZE:%{size_download}\n"
+```
+
+**Baixar SEMPRE pra um `tmp_<materialId>.pdf` primeiro** (não só em modo
+atualização) — o arquivo só recebe o nome final depois de passar na validação
+abaixo. Assim um download recusado nunca sobrescreve resumo bom.
+
+**CRÍTICO — nunca validar o download só por `HTTP:200` + tamanho.** Lição
+aprendida em 2026-08-18 nas skills do Estratégia, e o risco é o mesmo aqui:
+naquele caso o servidor respondia **HTTP 200 devolvendo uma página HTML de
+~238 KB** no lugar do PDF, e a checagem de "tamanho não-trivial" aceitou o
+lixo — 27 PDFs bons foram apagados e substituídos por HTML. Qualquer página de
+erro, de login expirado ou de sessão derrubada que a Tutory devolva com 200
+cairia na mesma armadilha. Antes de aceitar o download, conferir **as três**:
+
+1. `HTTP:200`;
+2. os **5 primeiros bytes do arquivo são `%PDF-`** (se começa com `<`, é HTML:
+   descartar o `tmp_` e repetir a tentativa);
+3. o `pypdf` abre o arquivo e retorna **número de páginas > 0**.
+
+```bash
+head -c 5 "<pasta>/tmp_<materialId>.pdf" | grep -q '%PDF-' && echo PDF_OK || echo RECUSADO
+```
+
+**Só renomear pro nome final (ou substituir o arquivo antigo) depois que os três
+testes passarem.** Enquanto não passarem, o que já estava na pasta fica intocado.
+Isso vale inclusive antes da comparação por hash do Passo 6: comparar hash de um
+HTML com o PDF antigo daria "hash diferente" e substituiria o arquivo bom.
+
+**Se um lote inteiro for recusado, parar e avisar o usuário** (sessão derrubada
+por login simultâneo, ou bloqueio por volume) — nunca insistir em laço.
 
 - **É o PDF licenciado que interessa** (`student-pdfs/...`, com o rodapé
   "Licenciado para <nome>, e-mail..."). Existe também uma cópia sem marca em

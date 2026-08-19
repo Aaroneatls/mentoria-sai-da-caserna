@@ -94,6 +94,37 @@ Salvar com uma linha nova clara, sem reformatar o arquivo inteiro. Confirmar o q
 
 ---
 
+## Regra geral: nunca sobrescrever arquivo bom com download não validado
+
+Vale pra **qualquer** skill que baixe arquivo em massa, em qualquer plataforma —
+inclusive skills novas criadas no futuro. Confirmado em 2026-08-18, depois de um
+caso real em que 27 PDFs bons foram apagados e substituídos por lixo.
+
+O erro: o servidor respondeu **HTTP 200 devolvendo uma página HTML** (~238 KB) no
+lugar do PDF, e a skill validava o download só por "HTTP 200 + tamanho não-trivial".
+Página de erro, tela de login expirado, sessão derrubada ou bloqueio por volume
+costumam vir assim — com status 200 e corpo grande.
+
+Portanto, em toda skill de download:
+
+1. Baixar **sempre** pra um arquivo temporário, nunca direto pro nome final.
+2. Validar o **tipo real** do arquivo, não só o tamanho: PDF tem que começar com
+   os bytes `%PDF-` e abrir no `pypdf` com número de páginas > 0. Se o conteúdo
+   começa com `<`, é HTML — descartar e repetir.
+3. **Só apagar ou substituir o arquivo antigo depois que a validação passar.**
+   Enquanto não passar, o que já estava na pasta fica intocado.
+4. Mandar `User-Agent` de browser (e `Referer` do domínio) nas requisições —
+   várias plataformas recusam o User-Agent padrão de `curl`/`python-requests`.
+5. Se um lote inteiro for recusado, **parar e avisar o usuário** em vez de
+   insistir em laço: costuma ser sessão derrubada ou limite da conta.
+
+**Ao automatizar por fora da skill** (montar script próprio pra dar conta do
+volume, em vez de seguir os passos um a um), portar **todas** as travas da skill
+pro script — não só as que vierem à cabeça na hora. Foi assim que o caso acima
+aconteceu.
+
+---
+
 ## Sugestão de melhoria ao final de execução (skills de download em massa e de cadernos de questões)
 
 Toda skill relacionada a **download de materiais em massa** (ex: `baixar-curso-especifico-estrategia`, `baixar-curso-completo-estrategia`, `baixar-resumo-especifico`, `baixar-resumo-combo-completo`) ou a **elaboração de cadernos de questões** (ex: futura skill de cadernos no TecConcursos) precisa terminar toda execução com um passo de "sugestão de melhoria":
