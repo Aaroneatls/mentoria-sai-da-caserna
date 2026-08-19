@@ -4,6 +4,43 @@
 > O `/iniciar` lê isto no começo da sessão; o `/atualizar` escreve aqui no fim.
 > Mantenha curto: o que passou de ~30 dias sai daqui (vai pro histórico ou some).
 
+## Handoff para a sessão "Mapear Aulas" (2026-08-19)
+
+Sessão dedicada a estudar o TecConcursos a fundo. **Tudo que foi levantado está em
+[`_contexto/tecconcursos.md`](tecconcursos.md)** — manual autocontido de 13 seções, feito pra ser
+lido inteiro antes de qualquer trabalho de mapeamento ou montagem de caderno. As
+transcrições dos 51 tutoriais oficiais do canal estão em `_contexto/tecconcursos-transcricoes/`.
+
+**Os quatro achados que mudam o desenho do mapeamento:**
+
+1. **API interna `/api/...`** (cookie de sessão, funciona até no plano grátis) —
+   `/api/assuntos?materia={id}&hierarquico=true` devolve a taxonomia inteira com ids e
+   códigos de hierarquia; `/api/assuntos/buscar-questoes-por-asssunto-relevancia` devolve
+   a lista plana de assuntos com peso numa chamada só. Dispensa clicar na árvore.
+   Filtro também funciona por URL: `?formato=OBJETIVA&f[0].tipo=ASSUNTO&f[0].id=333&...`
+2. **A árvore de assuntos do Tec é ordenada por lógica de aprendizado, como um livro** —
+   serve de espinha dorsal pronta pro plano de estudo, não precisa reordenar.
+3. **"Gerar cadernos em série" não serve pra plano de estudo.** Distribui por frequência
+   histórica: em Português/Fiscal, um caderno de 20 questões sai com 5 de Interpretação de
+   Textos (25%) e 57 dos 73 assuntos zerados — e a composição se repete igual em todos os
+   cadernos da série.
+4. **O filtro não tem memória.** Dois cadernos manuais com o mesmo filtro saem
+   **idênticos**; o "em série" desconta, mas só enquanto a aba fica aberta (recarregou,
+   volta ao início). O controle do que já foi usado tem que ser nosso.
+
+**Desenho acordado pra montagem de caderno a partir de edital:** taxonomia + pesos pela
+API → cruzar com o edital e definir a quantidade por assunto (decisão nossa, registrada em
+planilha) → puxar os `#` das questões → registrar o que foi pra qual caderno →
+criar o caderno e injetar por **"Adicionar questões por código"** (Configurações do
+caderno) → entregar ao aluno **o link do caderno**.
+
+**Direito autoral:** a entrega é só link de caderno. Nada de PDF de material teórico — o
+próprio Tec proíbe comercialização sem autorização.
+
+**Contas:** `bizu.cadastros@gmail.com` (Avançado, zerada, usada nos testes — já limpa) e
+`aaroneatsl.int@gmail.com` (Grátis; sobrou lá o caderno de teste
+"TESTE CLAUDE - Dir Tributario 10q" pra apagar quando logar).
+
 ## Onde paramos
 Sessão longa em 2026-08-18: baixei o pacote inteiro "Regular Fiscal" (22 disciplinas, ~415 aulas) e, na validação, achei e corrigi vários bugs reais de nomenclatura/conteúdo. Isso motivou uma bateria grande de melhorias nas skills `baixar-curso-especifico-estrategia` e `baixar-curso-completo-estrategia` (ambas já sincronizadas no GitHub) — ver lista em "Decisões recentes". Também criei planilha de metadados (Google Sheets) pra cada uma das 22 disciplinas, salva na respectiva pasta no Drive.
 
