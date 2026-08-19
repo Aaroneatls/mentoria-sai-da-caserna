@@ -598,8 +598,14 @@ processar uma aula errada ou perder tempo com um erro confuso mais adiante.
   responsável pela aula, não o *assunto* tratado nela, ficam de fora do nome do
   arquivo — o que interessa é o título indicar o conteúdo, não esse tipo de
   metadado. Exemplos observados que **não** entram: `(Somente PDF)`, `(Somente
-  em PDF)`, `(Equipe de Legislação)`, `(Somente Vídeo)`. Ex: o rótulo do site
-  `Aula 20 (Somente PDF)` vira só `Aula 20` no nome do arquivo. **Se aparecer
+  em PDF)`, `(Aula em PDF)`, `(Equipe de Legislação)`, `(Somente Vídeo)`. Ex: o
+  rótulo do site `Aula 20 (Somente PDF)` vira só `Aula 20` no nome do arquivo.
+- **Nome de professor também não entra no rótulo** — confirmado pelo Elvis em
+  2026-08-18. Alguns cursos rotulam a aula com o autor (ex: `Aula 00 - Prof.
+  Diego Carvalho e Emannuelle Gouveia`, em Análise de Informações, ou `Aula 00
+  - Prof. Leonardo Mathias`, na Monitoria). O professor é metadado de autoria,
+  não assunto: o arquivo fica `Aula 00 - <assunto sintético>`. A autoria já
+  está registrada na primeira página do próprio PDF. **Se aparecer
   algum outro tipo de anotação parecida (entre parênteses, junto ao número da
   aula) que não se encaixe claramente como "tipo de mídia/equipe" nem como
   parte do conteúdo, perguntar ao usuário antes de decidir se entra ou não** —
@@ -733,6 +739,15 @@ else:
   positivo em quase todo arquivo. A extração de **data** continua usando só a
   página 1 (isso sempre funcionou bem), é só a checagem de **conteúdo** que
   precisa olhar mais páginas.
+- **Se der 0 acertos nas 6 primeiras páginas, ampliar pra ~25 antes de marcar
+  como suspeita** — confirmado na prática em 2026-08-18 (pacote Regular
+  Controle): das 211 aulas, 5 caíram como suspeitas e **todas as 5 eram falso
+  positivo** — eram aulas cujo índice ocupa várias páginas, então em 6 páginas
+  só tem capa e sumário. Ampliando a janela, o conteúdo aparece com folga (ex:
+  a aula de SQL tinha 57 ocorrências de "sql" nas 25 primeiras páginas e 0 nas
+  6 primeiras). A segunda passada só roda pras aulas que deram `0/total`, então
+  custa quase nada. Só marcar `Suspeito` se continuar 0 depois dessa segunda
+  passada — e mesmo aí vale a ressalva do `total` 1-2 (aviso fraco).
 - Se `pypdf` não estiver instalado no ambiente, instalar com `pip install pypdf`
   antes de seguir.
 - Se a página 1 tiver mais de uma data (raro), usar a primeira encontrada.
@@ -914,13 +929,29 @@ maior na skill `baixar-curso-completo-estrategia`, Passo 11).
    abrir e **ler o Curso ID registrado antes de sobrescrever qualquer coisa**
    — é o dado que o Passo 3 usa pra comparar contra o ID atual da URL.
 4. **Aba "Aulas"** — mesmas colunas validadas no protótipo: `Rótulo (Aula)`,
-   `Assunto`, `Status` (Baixado/Suspeito, com cor condicional verde/vermelho),
+   `Assunto`, `Status` (Baixado/Baixado (conferido)/Suspeito, com cor
+   condicional verde/vermelho — ver os três status logo abaixo),
    `Data de Elaboração (PDF)`, `Data desta Verificação`, `Palavras-chave
    batidas`, `Total palavras-chave`, `Nº de páginas do PDF`, `Nome do
    arquivo`. Linha de título mesclada + subtítulo com pasta, **Curso ID
    Estratégia** e nome do pacote/concurso. Linha de resumo com fórmulas
    (`COUNTA`, `COUNTIF`) pro total de aulas, confirmadas e suspeitas.
-5. **Aba "Legenda"** — explicação de cada coluna, igual ao protótipo.
+4.1. **Os três valores possíveis de `Status`** — confirmado pelo Elvis em
+   2026-08-18:
+   - **Baixado** — PDF salvo e conteúdo batendo com o assunto esperado.
+   - **Baixado (conferido)** — a checagem automática não achou nenhuma
+     palavra-chave, mas o PDF foi aberto e conferido na hora, e o conteúdo
+     está certo. Serve pra não deixar registrado como suspeita uma aula que já
+     foi verificada — sem esconder que a checagem automática falhou ali (as
+     colunas de palavras-chave continuam mostrando `0/N`).
+   - **Suspeito** — 0 palavras-chave batidas (mesmo depois de ampliar a janela
+     de páginas) e **sem** conferência manual. É o único que fica vermelho.
+
+   Na fórmula de resumo, "Confirmadas" conta os dois primeiros
+   (`=COUNTIF(C7:C<fim>;"Baixado*")`), e a formatação condicional verde usa
+   "começa com Baixado" pelo mesmo motivo.
+5. **Aba "Legenda"** — explicação de cada coluna, igual ao protótipo, incluindo
+   a distinção entre os três status acima.
 6. **Formatação padrão** (ver preferência salva na memória — alinhamento
    centralizado horizontal e vertical, quebra de texto, largura de coluna
    ajustada ao conteúdo, remover excesso de linhas/colunas **deixando margem**

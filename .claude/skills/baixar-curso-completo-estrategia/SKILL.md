@@ -226,7 +226,13 @@ o que atualizar, então não precisa perguntar mais nada sobre isso.
    | Começa com "Simulado" | **Simulado** | livro único por aula (simulado + gabarito são aulas separadas) |
    | É "Discursiva Sem Correção" | **Discursiva** | livro único por aula |
    | Contém "Trilha Estratégica" | **Trilha Estratégica** | livro único por aula (numeração "Trilha NN" em vez de "Aula NN") |
+   | Começa com "Monitoria" | **Monitoria** | livro único por aula (**tem** livro eletrônico — confirmado em 2026-08-18) |
    | Qualquer outro padrão não reconhecido | **Outra categoria** — criar uma categoria nova com nome descritivo baseado no padrão observado | testar ao abrir a primeira aula (Passo 6) |
+
+   **Monitoria** é curso único, com poucas aulas (5 no pacote Regular
+   Controle), sobre ciclo de estudos, análise estatística de banca e
+   estratégia de revisão — não é matéria de conteúdo. Vira **uma pasta só**
+   dentro da categoria, igual Bizu/Trilha/Simulado (ver Passo 6).
 
 3. **Todas as categorias têm livro eletrônico pra baixar**, inclusive Simulado,
    Discursiva e Trilha Estratégica — confirmado na prática: cada uma delas segue
@@ -236,6 +242,16 @@ o que atualizar, então não precisa perguntar mais nada sobre isso.
 4. Se aparecer algum item cuja categoria não dá pra determinar só pelo nome, abrir
    o curso (Passo 6) rapidamente pra checar o card de "Baixar Livro Eletrônico"
    antes de decidir em qual grupo de padrão de download ele se encaixa.
+5. **Dois itens com o nome exatamente igual e Curso IDs diferentes → perguntar,
+   não escolher sozinho.** Confirmado na prática em 2026-08-18: o pacote Regular
+   Controle trazia duas "Trilha Estratégica" com título idêntico, IDs `226812` e
+   `369916` — uma com as aulas descritas como "(Pré-Edital)" e outra com
+   numeração limpa, ou seja, edições diferentes do mesmo material. **O ID maior
+   costuma ser o mais recente, mas isso não é garantia** e o usuário pode querer
+   as duas. Abrir a listagem de cada uma pra descrever a diferença (quantas
+   aulas, como as aulas estão descritas) e perguntar: só a mais nova, só a
+   antiga, ou as duas. Se ele pedir as duas, criar **uma subpasta por edição**
+   dentro da pasta da categoria, pra não misturar arquivos de mesmo rótulo.
 
 ## Passo 4: Modo atualização — mapear o que já existe localmente e cruzar com o site
 
@@ -391,8 +407,17 @@ pela numeração sequencial da ordem de download.
 pelo Elvis em 2026-08-18. Tags que descrevem o *tipo de mídia* ou a *equipe*
 responsável pela aula, não o *assunto* tratado nela, ficam de fora do nome do
 arquivo. Exemplos que **não** entram: `(Somente PDF)`, `(Somente em PDF)`,
-`(Equipe de Legislação)`, `(Somente Vídeo)`. Ex: `Aula 20 (Somente PDF)` no
-site vira só `Aula 20` no arquivo. **Se aparecer algum outro tipo de anotação
+`(Aula em PDF)`, `(Equipe de Legislação)`, `(Somente Vídeo)`. Ex: `Aula 20
+(Somente PDF)` no site vira só `Aula 20` no arquivo.
+
+**Exceção: nome de professor também não entra no rótulo** — confirmado pelo
+Elvis em 2026-08-18. Alguns cursos do pacote rotulam a aula com o autor (ex:
+`Aula 00 - Prof. Diego Carvalho e Emannuelle Gouveia`, em Análise de
+Informações; `Aula 00 - Prof. Leonardo Mathias`, na Monitoria). O professor é
+metadado de autoria, não assunto — o arquivo fica `Aula 00 - <assunto
+sintético>`, e a autoria já está registrada na primeira página do próprio PDF.
+Num pacote isso costuma valer pra **todas** as aulas da mesma matéria, não só
+uma. **Se aparecer algum outro tipo de anotação
 parecida que não se encaixe claramente como "tipo de mídia/equipe" nem como
 parte do conteúdo, perguntar ao usuário antes de decidir** — não adivinhar
 sozinho pra esse caso novo.
@@ -577,6 +602,15 @@ else:
   autor, data), o conteúdo real da aula só aparece depois do índice/apresentação
   do curso. A extração de **data** continua só na página 1 (sempre funcionou
   bem); é a checagem de **conteúdo** que precisa olhar mais páginas.
+- **Se der 0 acertos nas 6 primeiras páginas, ampliar pra ~25 antes de marcar
+  como suspeita** — confirmado na prática em 2026-08-18 (pacote Regular
+  Controle): das 211 aulas, 5 caíram como suspeitas e **todas as 5 eram falso
+  positivo** — aulas cujo índice ocupa várias páginas, então em 6 páginas só
+  tem capa e sumário. Ampliando a janela o conteúdo aparece com folga (a aula
+  de SQL tinha 57 ocorrências de "sql" nas 25 primeiras páginas e 0 nas 6
+  primeiras). A segunda passada só roda pras aulas que deram `0/total`, então
+  custa quase nada — e num pacote isso é o que separa um relatório final limpo
+  de uma lista de suspeitas que o usuário vai ter que conferir na mão.
 - Baixar sempre com nome temporário (`.tmp`), extrair a data, e só então renomear
   pro nome final com a data.
 - Se `pypdf` não estiver instalado, instalar com `pip install pypdf` antes de
@@ -849,8 +883,13 @@ Depois de processar todas as categorias/matérias selecionadas:
    listagem do site) batem com o prefixo `(N-M)` aplicado no Passo 9 de cada
    matéria/bloco.
 4. **Listar as aulas sinalizadas como suspeitas pelo `MATCH:hits/total`**
-   durante o download (ver Passo 7) — as que deram `0/total`. Não precisa
-   reabrir PDF nenhum aqui, só trazer a lista consolidada pro resumo.
+   durante o download (ver Passo 7) — as que deram `0/total` mesmo depois da
+   janela ampliada de páginas. Não precisa reabrir PDF nenhum aqui, só trazer
+   a lista consolidada pro resumo. **Se sobrarem poucas (até ~5 num pacote),
+   vale abrir só essas na hora e conferir** — na prática elas costumam ser
+   falso positivo, e conferir ali evita entregar pro usuário uma lista de
+   pendências que não é pendência. As que forem conferidas e estiverem certas
+   entram na planilha como `Baixado (conferido)` (ver Passo 11).
 5. Reportar o resultado dessa validação pro usuário — matéria por matéria, se
    bateu 100% por nome, se sobrou algo em algum lado, e se alguma aula ficou
    marcada como suspeita de conteúdo (item 4) — mesmo a skill normalmente não

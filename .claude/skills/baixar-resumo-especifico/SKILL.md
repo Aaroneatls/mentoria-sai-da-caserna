@@ -94,7 +94,7 @@ skills do Estratégia e adaptado aqui, confirmado pelo Elvis em 2026-08-18):
 
 - **`(N-M)`** — indicador de progresso/completude: **N** = quantas aulas têm
   hoje um `.pdf` confirmado na pasta (passou pela verificação de conteúdo do
-  Passo 5, item 6 — não conta "não confirmado" nem "verificação de conteúdo
+  Passo 5.2 — não conta "não confirmado" nem "verificação de conteúdo
   falhou" nem o que foi pra `Descontinuados`); **M** = total de aulas da
   playlist. Só existe/é calculado no **fim** da execução (Passo 7), depois de
   processar todas as aulas — no meio do processo a pasta ainda não tem esse
@@ -175,267 +175,186 @@ acentuação, **e ignorando os sufixos `(N-M)` e `(DD-MM-AAAA)` na comparação*
 
 Se não achar nenhuma: é download novo, criar a pasta já com a data de hoje.
 
-## Passo 4: Levantar a lista de aulas da playlist
+## Passo 4: Levantar a lista de aulas da playlist (por `fetch`, sem navegar)
 
-1. Navegar para a URL da playlist
-   (`.../cursos/613765f9-.../playlists/{playlistId}`) — a página redireciona
-   automaticamente pra primeira aula da playlist.
-2. Na página da aula, a barra lateral já lista todas as aulas da playlist.
-   Extrair via JavaScript, deduplicando por `aulaId`. **Cuidado: o mesmo
-   `aulaId` pode aparecer mais de uma vez no DOM com textos diferentes** — em
-   especial, um link sem texto (ícone) pode vir **antes** do link com o rótulo
-   de verdade (bug confirmado testando "Direito Administrativo": a aula R01
-   ficou com rótulo vazio até a extração ser corrigida pra preferir o primeiro
-   texto **não-vazio** encontrado pra cada `aulaId`, em vez de travar no
-   primeiro texto que aparecer):
-   ```js
-   const links = Array.from(document.querySelectorAll('a[href*="/aulas/"]'));
-   const map = new Map();
-   for (const a of links) {
-     const m = a.href.match(/\/playlists\/([0-9a-f-]+)\/aulas\/([0-9a-f-]+)/);
-     if (!m) continue;
-     const id = m[2];
-     const txt = a.textContent.replace(/\s+/g,' ').trim();
-     if (!map.has(id) || (!map.get(id).rotulo && txt)) {
-       map.set(id, {playlistId: m[1], aulaId: id, rotulo: txt});
-     }
-   }
-   JSON.stringify(Array.from(map.values()));
-   ```
-3. Cruzar a quantidade extraída com o número de aulas informado no cabeçalho
-   da página (`"N aulas · M concluídas"`). Se não bater, revisar antes de
-   seguir — **conferir também se sobrou algum item com `rotulo` vazio**, sinal
-   de que algum `aulaId` só apareceu em links sem texto.
-4. **Salvar essa lista no scratchpad antes de baixar a primeira aula** (mesma
-   lógica de "fonte única de verdade" usada nas skills do Estratégia — nunca
-   reconstruir rótulo de memória durante o loop de download).
+**Método principal, confirmado em 2026-08-18 baixando o combo inteiro (336
+aulas, ~40 min, zero travamento):** não navegue aula por aula. A partir de
+**uma única página aberta** do domínio da plataforma (qualquer URL do
+`/dash`), tudo é feito com `fetch` de mesma origem via `javascript_tool`.
+Isso elimina de uma vez os problemas que a versão antiga tinha: travamento da
+SPA (React #310/#418), espera de 10-15s pro conteúdo renderizar, throttling de
+timer quando o painel do navegador está escondido, e o bug do `{domain}`
+(nunca se passa pela tela "Seu arquivo está sendo preparado").
 
-## Passo 5: Baixar o PDF de cada aula (o núcleo do processo)
+Instalar as funções auxiliares uma vez na página (elas se perdem se você
+navegar — por isso o método evita navegação):
 
-Para cada aula da lista:
+```js
+const C = '613765f9-f1e0-4149-a84f-ebac1314faa1';                  // curso fixo
+const ACT = '4026556a4374d30db4fb6a89cdf8dae9bb9015b9a9';          // server action "materiais da aula"
 
-1. Navegar para `https://alunoprofbrunobezerra.plataformatutory.com.br/dash/cursos/613765f9-.../playlists/{playlistId}/aulas/{aulaId}`.
-   Conferir que o título retornado bate com o esperado; se voltar genérico,
-   renavegar uma vez antes de seguir (mesma cautela de falha silenciosa de
-   navegação usada nas skills do Estratégia).
-2. Extrair o(s) link(s) de material via JavaScript — **mas com espera e
-   novas tentativas embutidas na própria chamada, não só um `wait` fixo
-   curto**. Confirmado testando "Direito Administrativo": o conteúdo da aula
-   às vezes demora **10-15 segundos** pra renderizar (bem mais que os ~2s
-   usados nas skills do Estratégia), e nesse intervalo a página mostra só o
-   título, sem a seção de Materiais — o que pareceria "aula sem PDF" se
-   checado cedo demais:
-   ```js
-   (async () => {
-     let links = [];
-     for (let i = 0; i < 6; i++) {
-       await new Promise(r => setTimeout(r, 2500));
-       links = Array.from(document.querySelectorAll('a[href*="/dash/downloads/"]'))
-         .map(a => ({texto: a.getAttribute('aria-label') || a.textContent, href: a.href}));
-       if (links.length) break;
-     }
-     return JSON.stringify(links);
-   })();
-   ```
-   Isso espera até ~15s, checando a cada 2,5s, antes de desistir.
-   **Só depois desse loop completo sem achar nada** é que se considera aula
-   sem PDF (ex: vídeo de boas-vindas, ou Flashcards que hoje não expõe
-   material nessa rota) — pular a aula, sem criar nenhum arquivo. Não é erro.
-   - **Se acontecer de várias aulas seguidas voltarem vazias mesmo depois do
-     loop completo** (não só uma isolada): pode ser um travamento passageiro
-     da SPA da plataforma (observado depois de várias navegações rápidas em
-     sequência, com erros React #310/#418 no console) — não são realmente
-     aulas sem material. Nesse caso, esperar uns 15-20s parado (sem navegar) e
-     tentar de novo a mesma aula antes de marcar como "sem material" de
-     verdade.
-   - **Usar o `wait` do host (`computer` / esperar entre chamadas), não um
-     loop de `setTimeout` dentro do próprio JavaScript, quando a espera for
-     longa** — confirmado em 2026-08-18: se o painel do navegador ficar fora
-     de foco/visível durante a execução, o próprio Chrome pode limitar
-     (throttle) os timers de JavaScript da aba, fazendo um loop de espera em
-     JS estourar por timeout sem nunca reconferir de verdade. Preferir
-     esperas curtas fora da página (poucos segundos por vez) intercaladas com
-     checagens rápidas e diretas no DOM (sem `setTimeout` embutido), repetindo
-     esse par (espera curta + checagem) até achar o material ou desistir.
-   - **Renavegar a partir da listagem da playlist, não só recarregar a mesma
-     URL da aula, se a aula continuar sem "Materiais" depois de várias
-     tentativas** — confirmado em 2026-08-18: em pelo menos um caso, recarregar
-     a própria URL da aula repetidas vezes não resolveu, mas navegar de novo
-     pra URL da playlist (que redireciona pra ela) e esperar resolveu.
-   - **Pausa preventiva adaptativa, não um número fixo:** confirmado testando
-     "Direito Administrativo" — esse travamento tende a aparecer depois de
-     ~8-10 aulas processadas em sequência rápida (navegar aula → navegar
-     material → chamar API → próxima aula, sem pausa nenhuma). Ponto de
-     partida sugerido: pausa curta (`wait` de ~2-3s) a cada 5-6 aulas
-     processadas — mas **ajustar esse ritmo durante a própria execução**
-     (confirmado pelo Elvis em 2026-08-18), não é uma regra fixa:
-     - Se começar a notar sinais de lentidão (loop de espera do item 2 batendo
-       no limite com mais frequência, título da aba demorando mais que o
-       normal pra atualizar, `bodyText`/`innerText` vindo raso): **aumentar a
-       pausa** e/ou **diminuir o intervalo de aulas entre pausas** (ex: pausar
-       a cada 3 aulas em vez de 5-6, ou aumentar a pausa pra 5s).
-     - Se a execução estiver fluindo rápida e sem nenhum sinal de lentidão por
-       várias aulas seguidas: pode manter o ritmo padrão ou até espaçar mais
-       as pausas — não precisa ser conservador à toa quando não há indício de
-       problema.
-     - Essa recalibração pode acontecer quantas vezes for preciso ao longo do
-       download de uma playlist ou do combo completo inteiro — o objetivo é
-       reagir ao comportamento real da plataforma naquele momento, não seguir
-       um número travado do início ao fim.
-3. **Se vier um ou mais links:** pra cada um, seguir a cadeia de redirecionamento
-   pra obter a URL assinada real do arquivo:
-   - Navegar (`navigate`) pro `href` do material. Isso mostra uma página
-     "Seu arquivo está sendo preparado" que redireciona sozinha pra
-     `https://pdfs.plataformatutory.com.br/?token={token}&domain={domain}`.
-   - **Bug frequente confirmado em 2026-08-18 (aconteceu 2x no mesmo teste,
-     não é raro):** às vezes o redirecionamento não acontece sozinho e a
-     página fica travada em "Seu arquivo está sendo preparado" — o servidor
-     devolveu o `domain` como o texto literal `{domain}` (não substituído)
-     dentro do JSON embutido em
-     `#__NEXT_DATA__` (`props.pageProps.redirect`), o que quebra o
-     redirecionamento automático do lado do cliente. **Se depois de ~5-8s a
-     página não tiver saído dessa tela:** extrair o `token` direto desse JSON
-     (via `javascript_tool`, lendo
-     `JSON.parse(document.getElementById('__next_data__')?.textContent ||
-     document.querySelector('#__NEXT_DATA__').textContent).props.pageProps.redirect`
-     — o `token` está dentro da query string desse valor) e navegar
-     manualmente pra `https://pdfs.plataformatutory.com.br/?token={token}&domain=alunoprofbrunobezerra.plataformatutory.com.br`
-     (usando sempre esse domínio fixo, já que o valor vindo do servidor está
-     quebrado). Segue o fluxo normal a partir daí.
-   - Rodar JavaScript na página resultante pra chamar a API que devolve a URL
-     assinada da S3 (**válida por só 5 minutos — baixar em seguida, sem
-     demora**):
-     ```js
-     (async () => {
-       const token = new URLSearchParams(location.search).get('token');
-       const domain = new URLSearchParams(location.search).get('domain');
-       const res = await fetch(`${location.protocol}//${domain}/api/student/pdf?token=${encodeURIComponent(token)}`);
-       const json = await res.json();
-       return JSON.stringify(json);
-     })();
-     ```
-     (usar `javascript_tool` com `action: "javascript_exec"` — o `await` só
-     funciona dentro de uma função async imediatamente invocada, como acima).
-   - O `uri` retornado é um link assinado da AWS S3 (`X-Amz-Expires=300`).
-     **Se ainda não existir arquivo local com o nome final** (download novo,
-     fora do modo atualização): baixar direto pro nome final via
-     `curl -sL -o "<pasta>/<rótulo>.pdf" "<uri>"` — não precisa passar por
-     arquivo temporário nesse caso, confirmado testando "Direito
-     Administrativo". **Se já existir um arquivo com esse nome** (modo
-     atualização, Passo 6): baixar pra um arquivo temporário
-     (`curl -sL -o "<pasta>/tmp_<aulaId>.pdf" "<uri>"`) pra poder comparar por
-     hash antes de decidir se substitui. Em ambos os casos, conferir
-     `HTTP:200` e `SIZE` não-trivial no retorno do `curl`.
-4. **Nome final do arquivo:** o **rótulo exato da aula**, igual está na barra
-   lateral (Passo 4) — **confirmado pelo Elvis em 2026-08-18: sem inventar
-   numeração própria, sem adicionar sufixo de data no nome**. Exemplo:
-   `R00 - Direito Financeiro (AFO) - Sistema Constitucional de Planejamento e Orçamento.pdf`.
-   Se o rótulo já vier com extensão/pontuação estranha, manter como está — é
-   pra bater exatamente com o que aparece no site, **inclusive erros de
-   digitação do próprio site** (ex: "Lei de Acesso á Informação" — o site usa
-   acento agudo em vez de crase, é gramaticalmente errado, mas o nome do
-   arquivo replica exatamente assim, sem corrigir a gramática).
-   - **Acento/cedilha/caractere especial que dá problema no nome do arquivo:**
-     confirmado pelo Elvis em 2026-08-18 — diferente das skills do Estratégia
-     (que mantêm acentuação normal), aqui está autorizado a **remover** acento
-     ou cedilha (ex: `ç`→`c`, `ã`→`a`) só quando isso realmente ameaçar
-     desconfigurar o nome do arquivo. **O traço (`-`) nunca precisa ser
-     removido** — não causa esse tipo de problema, manter como está no rótulo
-     original.
-5. **Download novo:** já baixou direto pro nome final no item 3, nada mais a
-   fazer aqui. **Modo atualização:** ver Passo 6 pra comparar o arquivo
-   temporário com o existente antes de decidir se substitui.
-6. **Verificação de correspondência — obrigatória em todo download, novo ou
-   atualização** (confirmado pelo Elvis em 2026-08-18, depois dele perguntar
-   como a skill se protege contra baixar/nomear a aula errada): **a validação
-   por nome de arquivo do Passo 7 não é suficiente sozinha** — ela só confere
-   que existe um arquivo com o nome esperado, não que o *conteúdo* dele é o
-   PDF certo. Existe um risco real (raro, mas observado indiretamente pelos
-   erros React #310/#418 de estado corrompido na SPA — ver Passo 5, item 2)
-   de a página estar mostrando o material de uma aula errada no momento da
-   extração do link, o que resultaria num arquivo com o **nome certo mas
-   conteúdo errado**. Pra pegar esse caso, depois de cada download (antes de
-   dar como concluído):
-   - Extrair o texto da **primeira página** do PDF baixado (usar `pypdf`,
-     igual já é feito nas skills do Estratégia pra achar a data — aqui é só
-     pra conferir o assunto, não precisa de regex de data):
-     ```bash
-     python -c "
-     from pypdf import PdfReader
-     import unicodedata, re
-     def norm(s):
-         s = unicodedata.normalize('NFD', s)
-         s = ''.join(c for c in s if unicodedata.category(c) != 'Mn')
-         return re.sub(r'[^a-z0-9 ]', ' ', s.lower())
-     texto = PdfReader(r'<arquivo>.pdf').pages[0].extract_text() or ''
-     print(norm(texto)[:600])
-     "
-     ```
-   - Comparar (ignorando acento/caixa) se as palavras significativas do
-     **assunto** da aula (a parte do rótulo depois do código `R00 -
-     Matéria -`, ex: "Sistema Constitucional de Planejamento e Orçamento")
-     aparecem no texto da primeira página. Não precisa bater 100% palavra por
-     palavra — o objetivo é pegar um **assunto completamente diferente**
-     (sinal de aula errada), não exigir correspondência perfeita de redação.
-   - **Bateu:** seguir normalmente.
-   - **Não bateu (ou a primeira página não tem texto extraível, ex: PDF
-     escaneado):** **não apagar o arquivo nem seguir como se estivesse tudo
-     certo** — parar, registrar esse caso específico no relatório final como
-     **"verificação de conteúdo falhou"** com o nome do arquivo e o texto
-     extraído da primeira página (pra o Elvis comparar visualmente), e seguir
-     pras próximas aulas normalmente (não trava o restante do download por
-     causa de uma aula suspeita).
-7. **Extrair o Sumário da aula** (confirmado pelo Elvis em 2026-08-18 — usado
-   como referência de comparação em atualizações, ver Passo 6, e guardado na
-   planilha de metadados, ver Passo 8): essa plataforma não tem uma data de
-   atualização visível no próprio PDF (diferente do Estratégia), então em vez
-   de depender só de data/hash, extrair a lista de tópicos do sumário de cada
-   aula dá uma referência legível de **o que** a aula cobre — útil pra
-   detectar mudança de conteúdo de um jeito que faz sentido pra leitura
-   humana, não só "mudou/não mudou".
-   - **Todo PDF dessa plataforma traz um "Sumário"** nas primeiras páginas
-     (observado consistentemente nas primeiras 2-4 páginas — geralmente a
-     página 2, depois da capa) listando os tópicos da aula, cada um seguido
-     de pontilhado + número de página.
-   - Extrair via `pypdf`, procurando a primeira página (dentre as 4
-     primeiras) que contenha a palavra "Sumário", e limpando cada linha
-     (remove o pontilhado + número de página no final, remove linhas de
-     rodapé como o site do professor e o aviso de "Licenciado para
-     .../Direitos Autorais reservados"):
-     ```python
-     import re
-     from pypdf import PdfReader
+// 1) todas as aulas da playlist (id + rótulo), de uma vez
+window.__lessons = async function (pid) {
+  const base = '/dash/cursos/' + C + '/playlists/' + pid;
+  let r = await fetch(base, {headers: {RSC: '1'}, credentials: 'include'});
+  let t = await r.text();
+  const m = t.match(/aulas\/([0-9a-f-]{36})/);          // a playlist redireciona pra 1a aula
+  if (!m) return null;
+  r = await fetch(base + '/aulas/' + m[1], {headers: {RSC: '1'}, credentials: 'include'});
+  t = await r.text();
+  const i = t.indexOf('"queryKey":["playlist","lessons"');
+  if (i < 0) return null;
+  const s = t.lastIndexOf('{"dehydratedAt"', i);
+  return [...t.slice(s, i).matchAll(/"id":"([0-9a-f-]{36})","title":"((?:[^"\\]|\\.)*)"/g)]
+    .map(x => ({id: x[1], titulo: JSON.parse('"' + x[2] + '"')}));
+};
 
-     def extrair_sumario(caminho_pdf):
-         reader = PdfReader(caminho_pdf)
-         for i in range(min(4, len(reader.pages))):
-             texto = reader.pages[i].extract_text() or ''
-             if not re.search(r'\bSum[áa]rio\b', texto):
-                 continue
-             topicos, em_sumario = [], False
-             for linha in texto.split('\n'):
-                 linha = linha.strip()
-                 if not linha:
-                     continue
-                 if re.match(r'^Sum[áa]rio$', linha):
-                     em_sumario = True
-                     continue
-                 if not em_sumario:
-                     continue
-                 if 'profbrunobezerra.com.br' in linha:
-                     continue
-                 if 'Licenciado para' in linha or 'Direitos Autorais reservados' in linha:
-                     continue
-                 m = re.match(r'^(.*?)\s*\.{2,}\s*\d+\s*$', linha)
-                 topicos.append(m.group(1).strip() if m else linha)
-             return topicos
-         return []
-     ```
-   - Guardar a lista de tópicos (juntada com `" | "`) pra usar no Passo 6 (se
-     for atualização) e no Passo 8 (planilha).
-   - Se não encontrar nenhum "Sumário" nas 4 primeiras páginas (formato
-     diferente do usual), não travar por causa disso — seguir com a lista
-     vazia e registrar isso como observação, não como erro.
+// 2) materiais de uma aula (server action, não precisa renderizar a página)
+window.__mats = async function (pid, lid) {
+  const r = await fetch('/dash/cursos/' + C + '/playlists/' + pid + '/aulas/' + lid, {
+    method: 'POST', credentials: 'include',
+    headers: {'Accept': 'text/x-component', 'next-action': ACT, 'Content-Type': 'text/plain;charset=UTF-8'},
+    body: JSON.stringify([{lessonId: lid}])});
+  const t = await r.text();
+  const mm = t.match(/^1:(\[.*)$/m);
+  try { return JSON.parse(mm[1]); } catch (e) { return []; }
+};
+
+// 3) link assinado da S3 do material
+window.__sign = async function (matId) {
+  const r = await fetch('/dash/downloads/' + matId, {credentials: 'include'});
+  const t = await r.text();
+  const m = t.match(/token=([A-Za-z0-9%._~-]+)/);
+  if (!m) return null;
+  const j = await (await fetch('/api/student/pdf?token=' + m[1])).json();
+  if (!j.uri) return null;
+  const u = new URL(j.uri);
+  return {d: u.searchParams.get('X-Amz-Date'), s: u.searchParams.get('X-Amz-Signature')};
+};
+
+// 4) TSV pronto de um lote de aulas:  p<TAB>materialId<TAB>X-Amz-Date<TAB>X-Amz-Signature<TAB>rótulo
+window.__cache = window.__cache || {};
+window.__prep = async function (pid, ini, fim) {
+  if (!window.__cache[pid]) window.__cache[pid] = await window.__lessons(pid);
+  const ls = window.__cache[pid];
+  let out = '#' + ls.length + '\n';
+  for (const L of ls.slice(ini, fim)) {
+    const pdfs = (await window.__mats(pid, L.id)).filter(m => m.isPdf);
+    if (!pdfs.length) { out += '-\t\t\t\t' + L.titulo + '\n'; continue; }
+    for (const mt of pdfs) {
+      const mid = mt.downloadUrl.split('/').pop();
+      const sg = await window.__sign(mid);
+      out += sg ? ('p\t' + mid + '\t' + sg.d + '\t' + sg.s + '\t' + L.titulo + '\n')
+                : ('-\t\t\t\t' + L.titulo + '\n');
+    }
+  }
+  return out;
+};
+```
+
+Cuidados desse passo:
+
+1. **Nada de `await` solto** na chamada do `javascript_tool` — envolver numa
+   função async imediatamente invocada: `(async()=>await window.__prep(...))()`.
+2. **Lotes de 11 a 14 aulas por chamada.** O `javascript_tool` corta em 30s;
+   com ~1,5s por aula, 5 playlists numa tirada só estoura (aconteceu em
+   2026-08-18). Playlist grande = 2-3 chamadas.
+3. **Nunca usar `setTimeout` dentro do JS pra pausar** — com o painel do
+   navegador escondido o Chrome faz throttling do timer e a chamada estoura o
+   limite sem fazer nada. Não é preciso pausa nenhuma nesse método.
+4. Conferir o `#N` da primeira linha (total de aulas da playlist) com o número
+   que aparece no card do curso. **Rótulo vazio não acontece mais** nesse
+   método (o título vem do JSON, não do texto de um link).
+5. **Salvar o TSV no scratchpad antes de baixar** — segue valendo a regra de
+   fonte única de verdade; nunca reconstruir rótulo de memória.
+
+## Passo 5: Baixar o PDF de cada aula
+
+O `uri` assinado da S3 **vale 5 minutos** — baixe o lote logo depois do
+`__prep`. Montar a URL a partir dos 3 campos do TSV (o resto do link é fixo):
+
+```
+https://tutory-membros.s3.us-east-1.amazonaws.com/student-pdfs/{materialId}-{email-urlencoded}
+  ?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD
+  &X-Amz-Credential=AKIAW6QESTNCR46ISSX5%2F{AAAAMMDD}%2Fus-east-1%2Fs3%2Faws4_request
+  &X-Amz-Date={X-Amz-Date}&X-Amz-Expires=300&X-Amz-Signature={X-Amz-Signature}
+  &X-Amz-SignedHeaders=host&x-id=GetObject
+```
+
+Baixar com `curl -sL -o "<pasta>/<nome final>.pdf" "<url>"`, conferindo
+`HTTP:200` e tamanho não-trivial. Em modo atualização (Passo 6), baixar antes
+pra um `tmp_<materialId>.pdf` pra poder comparar por hash.
+
+- **É o PDF licenciado que interessa** (`student-pdfs/...`, com o rodapé
+  "Licenciado para <nome>, e-mail..."). Existe também uma cópia sem marca em
+  `tutory-membros.s3.amazonaws.com/12295/materiais/aulas/{aulaId}` (a que o
+  visualizador usa, aberta, sem token) — **não usar**: mudaria o conteúdo do
+  arquivo e quebraria a comparação por hash das atualizações futuras.
+- **Aula sem material** (`-` no TSV) não gera arquivo e não é erro. Nessa
+  plataforma existem aulas de aviso/cronograma e a de Flashcards, que não
+  expõem PDF. Não existe placeholder `.txt` aqui.
+- Se um lote inteiro voltar sem material, desconfie de sessão derrubada
+  (login simultâneo) antes de concluir que as aulas não têm PDF.
+
+### Passo 5.1: Nome do arquivo — o que vale é o nome impresso no PDF
+
+**Regra confirmada pelo Elvis em 2026-08-18:** o rótulo da aula na plataforma
+é só o ponto de partida. **Sempre conferir o rótulo contra o título impresso
+no próprio PDF (capa da 1ª página e 1º tópico do Sumário). Havendo
+divergência, vale o nome que está dentro do PDF.**
+
+1. Extrair o texto da 1ª página (`pypdf`) e descartar as linhas de rodapé
+   (`www.profbrunobezerra.com.br`, `Licenciado para...`, `Direitos Autorais
+   reservados...`) e as linhas iniciais que são só o nome da matéria (a capa
+   costuma vir como `DIREITO / CIVIL / <assunto>`).
+2. O que sobra é o **título do PDF**. Comparar (ignorando acento e caixa) com
+   o assunto do rótulo da plataforma:
+   - **Bate:** usar o rótulo da plataforma, como já era feito.
+   - **Diverge:** montar o nome final como
+     `<código> - <matéria> - <título do PDF>`, mantendo o código (R00, R01...)
+     e o nome da matéria do rótulo, e trocando **só o assunto**.
+   - **Capa que lista vários assuntos em vez de um título** (mais de 4 linhas
+     úteis ou mais de ~90 caracteres — ex: `R04 - Contabilidade Pública -
+     Demonstrações Contábeis`, cuja capa lista Balanço Financeiro, Balanço
+     Orçamentário, DVP etc): **manter o rótulo da plataforma**, que nesse caso
+     é o guarda-chuva correto, e registrar a observação na planilha.
+3. A capa vem em CAIXA ALTA — converter pra caixa de título: preposições e
+   conjunções em minúscula (`de, da, do, das, dos, e, em, na, no, a, o, ao,
+   às, para, por, com, ou`) e **siglas preservadas** (`LINDB, DVP, DFC, DMPL,
+   PCASP, MCASP, IBS, CBS, IPI, IRPF, IRPJ, IRRF, ICMS, ITCMD, LGPD, CPC,
+   SQL...`, além de qualquer palavra sem vogal).
+4. **Registrar o rótulo antigo**: quando o nome vier do PDF, guardar o rótulo
+   original da plataforma na coluna `Rótulo na plataforma (quando diferente)`
+   da planilha (Passo 8) — é o que permite achar a aula no site depois.
+5. Fora isso valem as regras de sempre: **sem numeração inventada, sem sufixo
+   de data**, espaço sobrando no começo/fim do rótulo é aparado, caracteres
+   proibidos no Windows (`\ / : * ? " < > |`) trocados (`:` vira ` -`), e
+   acentuação/traço mantidos como estão.
+
+### Passo 5.2: Verificação de conteúdo (obrigatória em todo download)
+
+Depois de cada download, antes de dar a aula como concluída: normalizar
+(sem acento, minúsculo) as palavras com mais de 3 letras do assunto e conferir
+quantas aparecem no texto da 1ª página + Sumário. Metade ou mais = 
+**Verificado**. Abaixo disso = **Suspeito**.
+
+- Na prática, **"Suspeito" quase sempre significa que o rótulo da plataforma
+  não bate com o PDF** — que é exatamente o caso tratado no Passo 5.1. Rodar
+  o Passo 5.1 primeiro e revalidar: se o nome passou a vir do PDF, a aula
+  volta pra Verificado sozinha.
+- Sobrando Suspeito depois disso (ou 1ª página sem texto extraível, ex: PDF
+  escaneado): **não apagar o arquivo**, registrar no relatório final com o
+  nome do arquivo e o texto lido da primeira página, e seguir para as demais
+  aulas.
+
+### Passo 5.3: Sumário da aula
+
+Extrair a lista de tópicos do "Sumário" (procurar nas 4 primeiras páginas a
+página que contenha a palavra "Sumário"; limpar o pontilhado + número de
+página no fim de cada linha e as linhas de rodapé). Serve de referência
+legível do que a aula cobre, alimenta a comparação de versões do Passo 6 e vai
+pra planilha do Passo 8. Não achou Sumário: seguir com lista vazia e registrar
+como observação, não como erro.
 
 ## Passo 6: Atualização — comparar por conteúdo, não por data no nome
 
@@ -475,13 +394,13 @@ Quando o modo escolhido no Passo 3 for **Atualização**:
 4. **Aula que tinha PDF baixado antes e agora aparece sem material** (mesmo
    depois do loop de espera completo do Passo 5): **não apagar o arquivo local
    existente** — isso quase certamente é uma falha temporária de carregamento
-   da plataforma (ver nota sobre travamento da SPA no Passo 5), não uma
+   da plataforma (ver Passo 5), não uma
    remoção de conteúdo real pelo professor. Manter o arquivo antigo como está
    e **reportar esse caso no resumo final** como "não confirmado" pra revisão
    manual, em vez de decidir sozinho.
 5. Como não existe sinalização de "aula ainda não tem PDF" nessa plataforma,
    não existe conceito de placeholder `.txt` aqui — se uma aula não tiver
-   material, ela simplesmente não gera arquivo (Passo 5, item 2), em qualquer
+   material, ela simplesmente não gera arquivo (Passo 5), em qualquer
    modo.
 6. **Aula que sumiu inteira da playlist (rótulo nem aparece mais na lista do
    Passo 4)** — caso diferente do item 4 acima (que é sobre aula que ainda
@@ -526,7 +445,7 @@ Depois de processar todas as aulas da playlist:
    - **M** = total de aulas da playlist (lista salva no Passo 4).
    - **N** = quantas dessas aulas têm hoje, na pasta, um `.pdf` confirmado —
      ou seja, **não** conta as marcadas como "não confirmado" (Passo 6, item
-     4), "verificação de conteúdo falhou" (Passo 5, item 6), nem as que foram
+     4), "verificação de conteúdo falhou" (Passo 5.2), nem as que foram
      pra `Descontinuados` (Passo 6, item 6), nem aulas genuinamente sem
      material na plataforma (essas nem entram na conta de pendência — não é
      um problema, é assim mesmo).
@@ -541,7 +460,7 @@ Depois de processar todas as aulas da playlist:
    souber), quantas ficaram marcadas como **"não confirmado"** (Passo 6, item
    4 — aula que tinha PDF salvo mas não foi possível reconfirmar o material
    nessa execução) pra revisão manual, quantas ficaram marcadas como
-   **"verificação de conteúdo falhou"** (Passo 5, item 6) pra revisão manual,
+   **"verificação de conteúdo falhou"** (Passo 5.2) pra revisão manual,
    e **quantos arquivos foram movidos pra `Descontinuados`** (Passo 6, item
    6), listando o rótulo de cada um pra o Elvis conferir se é descontinuação
    real ou migração pra outro rótulo.
@@ -570,11 +489,17 @@ reconsultar o site) e é a base pra checagem de Playlist ID do Passo 3.
 4. **Aba "Aulas"** — colunas: `Código (Aula)`, `Assunto`, `Status`, `Data de
    Atualização (PDF)`, `Data desta Verificação`, `Palavras-chave batidas`,
    `Total palavras-chave`, `Nº de páginas do PDF`, `Nome do arquivo`,
-   `Tópicos do Sumário`.
-   - `Tópicos do Sumário` = lista de tópicos extraída do Passo 5, item 7,
+   `Tópicos do Sumário`, `Rótulo na plataforma (quando diferente)`,
+   `Observação`.
+   - `Tópicos do Sumário` = lista de tópicos extraída do Passo 5.3,
      unida com `" | "`. Serve de referência legível pra saber o que aquela
      aula cobre sem abrir o PDF, e é usada no Passo 6 pra comparar versões
      numa atualização (o que mudou de verdade, não só "mudou").
+   - `Rótulo na plataforma (quando diferente)` só é preenchida quando o nome
+     do arquivo veio da capa do PDF em vez do rótulo do site (Passo 5.1) —
+     guarda o rótulo antigo pra localizar a aula na plataforma depois.
+     `Observação` guarda a nota da skill sobre aquela aula (ex: "nome vindo da
+     capa do PDF", "capa lista vários assuntos, mantido o rótulo do site").
    - `Status` = `Verificado` (bateu na checagem de conteúdo do Passo 5, item
      6), `Suspeito` (verificação de conteúdo falhou), ou `Não confirmado`
      (Passo 6, item 4) — **cor condicional**: verde pra Verificado, vermelho
