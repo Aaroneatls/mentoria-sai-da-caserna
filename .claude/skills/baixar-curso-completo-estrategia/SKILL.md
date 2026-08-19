@@ -384,20 +384,31 @@ local), perguntar isso separadamente antes de prosseguir.
   pacote), sem recriar as que já existem — sempre atualizar em cima da pasta
   existente, nunca apagar e recriar (ver regra no Passo 9).
 
-## Método de download: resultado da verificação (18-08-2026) — CONCLUÍDA
+## Método de download: qual caminho usar (atualizado em 19-08-2026)
 
 O Elvis pediu pra checar se dava pra baixar tudo por `fetch`, no mesmo molde das
-skills do Bruno Bezerra. **Checagem feita e os três pontos passaram.** Não refazer
-essa investigação a cada execução — o resultado está aqui.
+skills do Bruno Bezerra. A checagem foi feita e a API interna **funciona** — mas
+**deixou de ser utilizável a partir de 19-08-2026**, então o caminho padrão hoje
+é colher os links pela própria SPA. Não refazer essa investigação a cada
+execução — o resultado está aqui.
 
 | O que foi checado | Resultado |
 |---|---|
 | A API interna de aulas responde e cobre tudo | **Sim.** `GET /api/aluno/curso/{id}` devolve todas as aulas numa chamada (~4s) |
 | Dá pra obter o link do PDF sem abrir a aula | **Sim — é a mesma chamada.** Ela já traz `pdf` e `pdf_simplificado` prontos de cada aula |
 | O PDF baixa fora do navegador | **Sim.** Não depende de cookie de sessão: basta o link assinado + `User-Agent` de browser |
+| **Dá pra montar o `Authorization` da API?** | **Não, hoje não.** Ver logo abaixo |
 
-Por isso o caminho da API é o **principal** (ver seção da API acima), e navegar
-aula por aula lendo o `a.LessonButton` ficou como **fallback**.
+**A API interna está bloqueada na prática — confirmado em 19-08-2026 (pacote
+TCDF-ANACE).** Ela exige um `Bearer`, e o classificador do Claude Code recusa
+tanto o `fetch` em `/oauth/token/` quanto a leitura do storage da página. As
+duas tentativas voltam como "Blocked by classifier". Chamar a API direto com
+`credentials:'include'`, sem o header, morre no CORS (`Failed to fetch`).
+
+**Esse bloqueio é correto e não deve ser contornado** — não tentar rotas
+alternativas pra extrair credencial. Só tentar a API de novo se o próprio Elvis
+disser que liberou; caso contrário, ir direto pro caminho da SPA abaixo, que não
+toca em credencial nenhuma.
 
 **Vantagem sobre o método do Bezerra:** lá o download roda dentro do navegador;
 aqui a API entrega os links assinados e o download acontece **fora** do navegador,
@@ -428,12 +439,107 @@ pra atualização (Passo 4), repetir o mesmo processo da skill
 `baixar-curso-especifico-estrategia` (Passos 4 a 6 dela), com uma diferença por
 categoria:
 
-### CAMINHO PRINCIPAL: pegar todas as aulas e os links pela API interna
+### CAMINHO PRINCIPAL: colher rótulos e links pela própria SPA
 
-**Este é o método padrão desta skill** — verificado e aprovado em 2026-08-18
-(ver "Método de download: resultado da verificação"). Só navegar aula por aula
-se a API falhar ou mudar — nesse caso, usar os itens 1 e 2 da "Mecânica de
-download", mais adiante neste mesmo Passo 7.
+**Este é o método padrão desta skill desde 19-08-2026**, porque a API interna
+está bloqueada pelo classificador (ver "Método de download: qual caminho usar").
+Ele não toca em credencial: só lê o DOM da área do aluno, que já está logada.
+
+São duas etapas por matéria — **primeiro a listagem inteira, depois as
+assinaturas**, nessa ordem, e nunca misturadas.
+
+**Etapa 1 — ler a listagem com a página recém-carregada.** Navegar pra
+`/cursos/{id}/aulas` com reload forçado e ler a listagem **antes de clicar em
+qualquer aula**. Isso é obrigatório: depois do primeiro clique a SPA
+reorganiza o DOM e os rótulos passam a sair trocados (visto na prática — a
+mesma aula apareceu ora como "Aula 01", ora como "Aula 02"). Se precisar
+reler a listagem depois de ter aberto alguma aula, recarregar a página antes.
+
+**CRÍTICO — aula travada não é link.** Não iterar por `a.Collapse-header`: a
+aula ainda não liberada existe no DOM como header **sem** `<a>` de aula (o
+`href` aponta pra própria listagem), então ela simplesmente **some** da
+coleta. Consequência real (pacote TCDF-ANACE, 19-08-2026): a aula travada não
+vira placeholder `.txt` (Passo 8) e o `(N-M)` do Passo 9 mente, dando o curso
+como completo. Iterar sempre por `.LessonCollapseHeader`, e tratar como
+travada todo item de que não se consiga extrair `/aulas/{id}`:
+
+```js
+window.__lista = () => Array.from(document.querySelectorAll('.LessonCollapseHeader')).map(x => {
+  const a = x.closest('a'), href = a ? a.getAttribute('href') : '';
+  const m = href && href.match(/\/aulas\/(\d+)/);
+  const h = x.querySelector('h2'), p = x.querySelector('p');
+  let d = null, n = x;                                  // "Disponível em DD/MM/AAAA" fica num pai
+  for (let k = 0; k < 6 && n; k++) {
+    n = n.parentElement; if (!n) break;
+    const t = n.textContent.replace(/\s+/g, ' ');
+    const mm = t.match(/Dispon[ií]vel em\s*(\d{2}\/\d{2}\/\d{4})/);
+    if (mm && t.length < 400) { d = mm; break; }
+  }
+  return { id: m ? m[1] : '', r: h ? h.textContent.trim() : '',
+           c: p ? p.textContent.trim().slice(0, 120) : '',
+           trav: m ? '' : (d ? d[1] : 'SEM-DATA') };
+});
+```
+
+**Etapa 2 — colher as assinaturas, uma aula por vez, em background.** Clicar
+no `<a>` da aula troca a página sem reload e os botões de download aparecem;
+`history.back()` é dispensável, dá pra pular direto de aula em aula. Dois
+detalhes que fazem a diferença entre funcionar e travar:
+
+- **Disparar o loop sem `await`** (fire-and-forget) e ler o acumulador depois.
+  O executor de JS corta em 30s: se a chamada esperar o loop terminar, ela
+  morre no timeout e leva o loop junto. Disparado solto, ele continua rodando
+  no navegador e a chamada volta na hora.
+- **Esperar por polling, não por `sleep` fixo** — checar a cada 150ms se o
+  botão daquela aula já apareceu. Dá ~2,3s por aula, contra ~4s de sleep fixo.
+
+```js
+window.__colher = async function (ids) {
+  const s = ms => new Promise(r => setTimeout(r, ms));
+  const btns = id => Array.from(document.querySelectorAll('a.LessonButton'))
+                          .filter(y => y.href.includes('/download/' + id));
+  for (const id of ids) {
+    let L = btns(id);
+    if (!L.length) {
+      const a = document.querySelector('a[href*="/aulas/' + id + '"]'); if (a) a.click();
+      for (let i = 0; i < 40; i++) { await s(150); L = btns(id); if (L.length) break; }
+    }
+    if (L.length) {
+      const u = new URL(L[0].href);
+      window.__acc.push(id + '|' +
+        L.map(y => y.href.match(/api\/aluno\/([^/]+)\/download/)[1]).join(',') + '|' +
+        encodeURIComponent(u.searchParams.get('expiration')) + '|' + u.searchParams.get('signature'));
+    } else window.__acc.push(id + '|||');
+  }
+  window.__done = true;
+};
+```
+
+**Guardar esse código em `sessionStorage`** (`sessionStorage.setItem('__boot', ...)`)
+e reinjetar com `eval(sessionStorage.getItem('__boot'))` depois de cada reload.
+Num pacote de 17 matérias isso reduz cada matéria a uma chamada de setup, em
+vez de recolar o script inteiro toda vez. `sessionStorage` com código próprio
+passa pelo classificador; `localStorage` da aplicação, não (é onde mora a
+credencial) — não tentar.
+
+**Nunca deixar dois loops rodando ao mesmo tempo.** Um loop antigo continua
+navegando por baixo e embaralha a coleta do novo (rótulos fora de ordem,
+aulas puladas). Como o loop é solto, a forma confiável de matar é
+**recarregar a página** antes de começar a próxima matéria.
+
+**Devolver só `id|tipos|expiration|signature`**, não a URL inteira: o resto é
+template fixo (`clienteId`, `resourceType`, `resourceId`), remontável no
+shell. Num pacote grande isso corta uns 60% do texto que passa pelo contexto.
+
+Se um dia a API voltar a ser utilizável, o caminho dela segue documentado logo
+abaixo e é mais rápido — mas hoje é o plano B, não o A.
+
+### CAMINHO ALTERNATIVO (hoje bloqueado): API interna
+
+**Só usar se o Elvis avisar que o acesso foi liberado** — hoje o classificador
+recusa o passo que monta o `Authorization`, então na prática esta seção fica
+como registro do que já funcionou. Não gastar tentativas com ela a cada
+execução: dois "Blocked by classifier" seguidos e vai pro caminho da SPA.
 
 Em vez de abrir a listagem e depois cada aula pra extrair o `a.LessonButton`,
 buscar **o curso inteiro numa única chamada**:
@@ -743,10 +849,13 @@ arquivo, extração de data e substituição são idênticos.
    **várias aulas num único `javascript_tool`**, em vez de um `navigate` por
    aula. Num pacote de 211 aulas isso trocou ~240 navegações por ~40 chamadas
    (confirmado em 2026-08-18). O script completo está na
-   `baixar-curso-especifico-estrategia`, seção "Fallback rápido: percorrer as
+   `baixar-curso-especifico-estrategia`, seção "CAMINHO PRINCIPAL: percorrer as
    aulas dentro da própria SPA". Regras que valem sempre:
-   - **No máximo 7 aulas por chamada** — cada aula leva ~2,5-3s e o executor
-     de JS corta em 30s; lote maior estoura e perde a chamada inteira.
+   - **Disparar o loop sem `await` e ler o acumulador depois.** O executor de
+     JS corta em 30s: chamada que espera o loop terminar morre no timeout e
+     leva o loop junto. Com fire-and-forget dá pra mandar o curso inteiro de
+     uma vez (o antigo teto de 7 aulas por chamada valia só pro modo
+     `await`). Ver os três ajustes detalhados na skill específica.
    - **Devolver só `expiration` e `signature`** de cada aula, não a URL
      inteira: o resto é template fixo, remontável no shell. Num pacote grande
      isso economiza muito contexto.
@@ -1054,6 +1163,25 @@ robusto.
   da aula: se a soma projetada do caminho passar de ~240 caracteres (margem de
   segurança), sintetizar o que for preciso — priorizando manter sigla, categoria
   e número da aula intactos, cortando a parte descritiva.
+- **Reservar desde já os caracteres que o Passo 9 vai acrescentar depois** —
+  confirmado na prática em 19-08-2026 (pacote TCDF-ANACE): os arquivos nasceram
+  todos dentro do limite, mas o Passo 9 renomeia a pasta da matéria somando o
+  sufixo de data ` (DD-MM-AAAA)` — **+13 caracteres de uma vez em todos os
+  arquivos daquela pasta**. Foram **69 arquivos** que passaram do limite depois
+  do fato e ficaram inacessíveis pela API do Windows. Ao projetar o caminho na
+  hora de nomear o arquivo, contar a pasta **já com** o sufixo de data (e com o
+  prefixo `(N-M) `, que também só entra no Passo 9), não com o nome base.
+- **Se mesmo assim algum arquivo estourar, como consertar** (aprendido no mesmo
+  caso — as duas saídas óbvias não funcionam nesse ambiente):
+  - o prefixo `\\?\` de caminho longo **não funciona no drive do Google Drive**
+    (devolve "não pode encontrar o caminho especificado");
+  - caminho relativo também não resolve, porque o Windows soma o CWD antes de
+    aplicar o limite.
+  - O que funciona: **renomear a pasta da matéria pra um nome curto temporário**
+    (ex: `_x`), encurtar os arquivos lá dentro, e devolver o nome real da pasta.
+    Ao calcular o novo nome, usar o comprimento do caminho **final** (com a
+    pasta já de volta ao nome real), não o do caminho temporário. Preservar o
+    sufixo de data `(DD-MM-AAAA)` do arquivo e cortar só a parte descritiva.
 - **Truncar nome de arquivo sem perder o que diferencia dois arquivos:** se dois
   arquivos da mesma matéria têm título quase idêntico e só diferem no final (ex:
   "Simulado Especial ... (23/08/2026)" vs "... (23/08/2026) Gabarito"), truncar

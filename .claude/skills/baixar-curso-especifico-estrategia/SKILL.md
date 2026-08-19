@@ -276,6 +276,40 @@ seguintes, e em outros cursos o assunto virou genérico porque foi reconstruído
 de memória no meio de um download longo em vez de lido de novo. A tabela
 elimina os dois problemas ao mesmo tempo.
 
+0. **Ler a listagem com a página recém-carregada, antes de clicar em qualquer
+   aula** — confirmado em 19-08-2026. Depois do primeiro clique a SPA
+   reorganiza o DOM e os rótulos passam a sair trocados (a mesma aula apareceu
+   ora como "Aula 01", ora como "Aula 02"). Se precisar reler a listagem depois
+   de já ter aberto alguma aula, **recarregar a página antes**.
+
+0.1. **CRÍTICO — aula travada não é link, e some se a extração for só por
+   `<a>`.** A aula ainda não liberada existe no DOM como header **sem** `<a>`
+   de aula (o `href` aponta pra própria listagem). Extraindo só links, ela
+   desaparece da tabela: não vira placeholder `.txt` (Passo 6) e o `(N-M)` do
+   Passo 7 mente, dando o curso como completo. Descoberto em 19-08-2026 no
+   curso de Noções de Primeiros Socorros, que parecia ter 1 aula quando tem 2.
+   Iterar sempre por `.LessonCollapseHeader` e tratar como travada todo item
+   de que não se consiga extrair `/aulas/{id}` — a data de liberação
+   ("Disponível em DD/MM/AAAA") fica num elemento pai, não no header:
+   ```js
+   Array.from(document.querySelectorAll('.LessonCollapseHeader')).map(x => {
+     const a = x.closest('a'), href = a ? a.getAttribute('href') : '';
+     const m = href && href.match(/\/aulas\/(\d+)/);
+     const h = x.querySelector('h2'), p = x.querySelector('p');
+     let d = null, n = x;
+     for (let k = 0; k < 6 && n; k++) {
+       n = n.parentElement; if (!n) break;
+       const t = n.textContent.replace(/\s+/g, ' ');
+       const mm = t.match(/Dispon[ií]vel em\s*(\d{2}\/\d{2}\/\d{4})/);
+       if (mm && t.length < 400) { d = mm; break; }
+     }
+     return { id: m ? m[1] : '', r: h ? h.textContent.trim() : '',
+              c: p ? p.textContent.trim() : '', trav: m ? '' : (d ? d[1] : 'SEM-DATA') };
+   });
+   ```
+   Esse mesmo `map` já entrega rótulo (`h2`) e assunto (`p`) separados, que é
+   exatamente a tabela única pedida logo acima.
+
 1. Na página `/aulas` do curso, extrair os IDs de aula via `javascript_tool` —
    **não filtrar só links que terminam em `/aulas/{aulaId}`**: algumas aulas
    linkam direto pra uma sub-página de vídeo (`/aulas/{aulaId}/videos/{videoId}`)
@@ -352,11 +386,18 @@ antes de navegar pra qualquer aula individual — só vale a pena abrir a págin
 de uma aula específica (Passo 5) se ela aparecer sem tag de data (ou seja, já
 liberada) e ainda não tiver PDF baixado na pasta.
 
-## Passo 5A (CAMINHO PRINCIPAL): pegar todas as aulas e os links pela API interna
+## Passo 5A (HOJE BLOQUEADO): pegar todas as aulas e os links pela API interna
 
-**Este é o método padrão desta skill** — verificado e aprovado em 2026-08-18
-(ver "Método de download: resultado da verificação" logo abaixo). Só cair pro
-Passo 5B (navegar aula por aula) se a API falhar ou mudar.
+**Este caminho deixou de ser utilizável em 19-08-2026** (ver "Método de
+download: resultado da verificação" logo abaixo). A API funciona, mas exige um
+`Bearer`, e o classificador do Claude Code recusa tanto o `fetch` em
+`/oauth/token/` quanto a leitura do storage da página — as duas voltam como
+"Blocked by classifier". Sem o header, a chamada morre no CORS.
+
+**O método padrão hoje é o "Fallback rápido: percorrer as aulas dentro da
+própria SPA", mais abaixo neste mesmo passo.** Ir direto pra ele; só voltar
+aqui se o Elvis avisar que o acesso foi liberado. **Não tentar rotas
+alternativas pra obter a credencial** — o bloqueio é correto.
 
 Em vez de abrir a listagem e depois cada aula pra extrair o `a.LessonButton`,
 buscar **o curso inteiro numa única chamada**:
@@ -389,14 +430,41 @@ Como usar sem violar a regra de credenciais:
 Se a API falhar ou mudar, o caminho antigo (navegar aula por aula e ler o
 `a.LessonButton`) continua válido como fallback — está descrito no Passo 5.
 
-### Fallback rápido: percorrer as aulas dentro da própria SPA
+### CAMINHO PRINCIPAL: percorrer as aulas dentro da própria SPA
 
-**Confirmado na prática em 2026-08-18**, quando o classificador do Claude Code
-bloqueou a extração do `Bearer` e a API interna ficou indisponível. Em vez de
-uma chamada de `navigate` por aula, dá pra percorrer várias aulas **num único
+**Confirmado na prática em 2026-08-18** (e promovido a caminho principal em
+19-08-2026, quando a API interna ficou inacessível de vez). Em vez de uma
+chamada de `navigate` por aula, dá pra percorrer várias aulas **num único
 `javascript_tool`**: a área do aluno é um SPA React, então clicar no `<a>` da
 aula troca a página sem reload, e `history.back()` volta pra listagem. Num
 pacote de 211 aulas isso trocou ~240 navegações por ~40 chamadas.
+
+**Três ajustes que fazem esse método aguentar um curso inteiro** — aprendidos
+em 19-08-2026, depois de perder lotes por timeout:
+
+1. **Disparar o loop sem `await`** (fire-and-forget), acumulando em
+   `window.__acc`, e ler o acumulador numa chamada seguinte. O executor de JS
+   corta em 30s — se a chamada esperar o loop terminar, ela morre no timeout
+   **e leva o loop junto**, perdendo o lote inteiro. Solto, o loop continua
+   rodando no navegador e a chamada volta na hora. Com isso o limite de "no
+   máximo 7 aulas por chamada" deixa de existir: dá pra disparar o curso todo.
+2. **Esperar por polling (150ms) em vez de `sleep` fixo** até o botão daquela
+   aula aparecer — cai de ~4s pra ~2,3s por aula.
+3. **Nunca deixar dois loops rodando ao mesmo tempo.** Um loop antigo continua
+   navegando por baixo e embaralha a coleta do novo (rótulos fora de ordem,
+   aulas puladas) — foi o que fez os primeiros lotes voltarem com 1 ou 2
+   itens. Como o loop é solto, a forma confiável de matar é **recarregar a
+   página** antes de começar o próximo curso.
+
+**Guardar o script em `sessionStorage`** e reinjetar com
+`eval(sessionStorage.getItem('__boot'))` depois de cada reload, em vez de
+recolar o código inteiro a cada curso. `sessionStorage` com código próprio
+passa pelo classificador; `localStorage` da aplicação, não (é onde mora a
+credencial) — não tentar.
+
+**Trazer de volta só `id|tipos|expiration|signature`**, não a URL inteira: o
+resto (`clienteId`, `resourceType`, `resourceId`) é template fixo, remontável
+no shell.
 
 ```js
 (async () => {
@@ -463,8 +531,11 @@ essa investigação a cada execução — o resultado está aqui.
 | Dá pra obter o link do PDF sem abrir a aula | **Sim — é a mesma chamada.** Ela já traz `pdf` e `pdf_simplificado` prontos de cada aula |
 | O PDF baixa fora do navegador | **Sim.** Não depende de cookie de sessão: basta o link assinado + `User-Agent` de browser |
 
-Por isso o caminho da API é o **principal** (ver seção da API acima), e navegar
-aula por aula lendo o `a.LessonButton` ficou como **fallback**.
+**Atualização de 19-08-2026: a API passou a ser inutilizável na prática.** O
+que trava não é a API em si, é montar o `Authorization` — o classificador
+recusa tanto `/oauth/token/` quanto a leitura do storage da página. Então a
+ordem se inverteu: **percorrer as aulas pela SPA é o caminho principal**, e a
+API fica como registro do que já funcionou, pra caso volte a ser liberada.
 
 **Vantagem sobre o método do Bezerra:** lá o download roda dentro do navegador;
 aqui a API entrega os links assinados e o download acontece **fora** do navegador,
@@ -1066,6 +1137,20 @@ do encerramento normal do processo.
   redução sozinho, sem perguntar ao usuário, priorizando manter a sigla e o
   número da aula intactos (é o que mais identifica o arquivo) e cortando a parte
   descritiva.
+- **Contar a pasta já com o que o Passo 7 vai acrescentar depois** — confirmado
+  em 19-08-2026: o Passo 7 renomeia a pasta somando o sufixo ` (DD-MM-AAAA)`
+  (e, se o curso estiver incompleto, o prefixo `(N-M) `), ou seja **+13
+  caracteres de uma vez em todos os arquivos daquela pasta**. Num pacote isso
+  estourou 69 arquivos que tinham nascido dentro do limite. Ao projetar o
+  caminho na hora de nomear, usar o nome **final** da pasta, não o nome base.
+- **Se algum arquivo estourar mesmo assim, como consertar** — as duas saídas
+  óbvias não funcionam nesse ambiente: o prefixo `\\?\` de caminho longo **não
+  funciona no drive do Google Drive**, e caminho relativo também não resolve
+  (o Windows soma o CWD antes de aplicar o limite). O que funciona é
+  **renomear a pasta pra um nome curto temporário** (ex: `_x`), encurtar os
+  arquivos lá dentro, e devolver o nome real — calculando o corte pelo
+  comprimento do caminho final, não do temporário, e preservando o sufixo de
+  data do arquivo.
 - **Truncar nome de arquivo sem perder o que diferencia dois arquivos:** se dois
   arquivos da mesma matéria têm título quase idêntico e só diferem no final,
   truncar o texto genérico pra um tamanho fixo faz os dois ficarem com o mesmo
