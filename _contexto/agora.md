@@ -54,6 +54,9 @@ Sessão longa em 2026-08-18: baixei o pacote inteiro "Regular Fiscal" (22 discip
 - 2026-08-18 — Planilha de metadados (Google Sheets nativo, nunca Excel local) é saída obrigatória de toda disciplina baixada/atualizada — abas Aulas + Legenda, formatação padrão salva na memória.
 
 ## Pendências
+- **PRIORIDADE — retomar com o Elvis (ele pediu pra ser lembrado, 19-08-2026):** como indicar **resumos e mapas mentais** de cada aula (download separado / dentro do simplificado / só no original, sempre com a página REAL do PDF) e **como isso impacta a indexação do "mapear aulas"** — ele vai gerar uma skill por lá que mexe no trabalho daqui. **Não escrever esse passo nas skills `baixar-curso-*-estrategia` antes dessa conversa.**
+- Pacote **"Curso Regular para Área Fiscal"** (teórico) sumiu do catálogo da assinatura em 19-08-2026 — não dá pra matricular. Os 21 Curso IDs das disciplinas estão nas planilhas de metadados da pasta; quando o pacote voltar, matricular e conferir pela API.
+- Ajustes já escritos nas skills em 19-08-2026 mas **ainda sem commit/push**: Passo 11B (Índice do Pacote na pasta raiz, com as variantes de produto) e o bloco de rodízio de matrícula com a palavra `CORUJA`.
 - **Próxima sessão: Elvis vai passar os links de DOIS cursos específicos do Estratégia pra testar as skills atualizadas do zero, numa janela de contexto nova.** Rodar `baixar-curso-especifico-estrategia` normalmente pra cada um — é um teste de validação de tudo que mudou hoje (nomenclatura, validação final, checagem de conteúdo, Curso ID, planilha de metadados).
 - Rodar /mapear pra criar mais skills personalizadas pro dia a dia.
 

@@ -151,6 +151,57 @@ esperar bater no limite pra só então cortar.
    os títulos completos tendem a ser grandes e parecidos entre si. Reconhecer
    esse padrão sozinho, sem precisar perguntar ao usuário.
 
+### Pacote não matriculado? Rodar o rodízio de matrículas antes de tudo
+
+**Confirmado pelo Elvis em 19/20-08-2026.** A assinatura vitalícia do Estratégia
+permite **no máximo 3 produtos matriculados ao mesmo tempo**. Produto que não
+está em "Produtos matriculados" não abre: a página do pacote vem vazia e a API
+devolve **HTTP 500**. Atenção: **500 significa "sem matrícula", não "curso
+removido"** — não concluir que o material sumiu com base nisso.
+
+Em `/app/dashboard/assinaturas`:
+
+1. Ler o bloco **"Produtos matriculados"**. Se o produto alvo já estiver lá,
+   seguir normalmente.
+2. Se não estiver e os 3 slots estiverem cheios, **liberar um slot**: clicar
+   `DESMATRICULAR` no produto que vai sair, digitar `CORUJA` e confirmar.
+3. Buscar o produto alvo na aba **PACOTES** do bloco "Matricular em novos
+   produtos", clicar `MATRICULAR` e digitar `CORUJA`.
+4. Recarregar e confirmar que ele apareceu em "Produtos matriculados", com o
+   `href` `/app/dashboard/pacote/{id}`.
+
+Regras desse rodízio:
+
+- **A palavra `CORUJA` vale nos dois sentidos** — matrícula e desmatrícula.
+- **Qualquer pacote pode entrar ou sair do rodízio, inclusive o da PRF.** Fazer
+  a troca quando a tarefa pedida exigir, sem perguntar de novo.
+- **Antes de desmatricular, checar a pasta daquele pacote no Drive por
+  placeholders `.txt`** (aulas ainda não publicadas) e avisar o Elvis quantas
+  são: enquanto o pacote estiver fora, essas aulas não podem ser baixadas.
+- Ao terminar, atualizar a coluna `Matriculado hoje` da aba `Produto` no índice
+  do pacote (Passo 11B) dos pacotes afetados — o que entrou e o que saiu.
+
+### Buscar no catálogo é sempre por PACOTE, nunca por curso
+
+**Confirmado pelo Elvis em 20-08-2026, depois de um falso negativo real.** O que
+o usuário chama de "curso" (ex: "Regular Fiscal") é um **pacote** no Estratégia.
+As disciplinas dentro dele têm nomenclatura diferente e não repetem o nome do
+pacote: o pacote `Curso Regular para Área Fiscal - Pacote Completo` (id 220865)
+contém `Concursos da Área Fiscal - Curso Básico de Direito Administrativo`
+(id 220883). Procurar por "Curso Regular ... Direito Administrativo" não acha
+nada, e dá a impressão errada de que o produto saiu do catálogo.
+
+Usar a busca interna do catálogo, com o mesmo Bearer dos outros passos:
+
+```
+GET /api/assinatura/curso/search?q=<nome>&type=pacote&size=51&page=N
+```
+
+Ela devolve `id` + `nome` de cada pacote — é a fonte pra preencher a aba
+`Produto` do índice (Passo 11B) e pra achar o `Pacote ID` de qualquer produto,
+matriculado ou não. Só descer pra `type=curso` quando o alvo for reconhecidamente
+uma disciplina avulsa.
+
 ## Passo 2: Procurar pasta de pacote existente antes de criar (detecção automática)
 
 **Escopo da busca: só dentro da pasta informada no Passo 0** (a pasta padrão ou
@@ -1211,6 +1262,68 @@ Montar o script assim desde o começo:
   duplicadas.
 - Como o processo é longo, imprimir o progresso planilha a planilha
   (`flush=True`) pra dar pra retomar sabendo onde parou.
+
+## Passo 11B: Índice do pacote na pasta raiz (obrigatório, Google Sheets)
+
+**Confirmado pelo Elvis em 2026-08-19.** As planilhas de metadados do Passo 11
+resolvem a disciplina, mas nenhuma delas diz **como voltar ao pacote** nem qual
+produto do Estratégia foi matriculado pra chegar lá. Sem isso, toda vez que o
+pacote sai do rodízio de matrículas (limite de 3 — ver Passo 1) é preciso
+garimpar o catálogo de novo pra descobrir qual dos produtos abre aquele
+material.
+
+Rodar **depois** do Passo 11, na pasta **raiz do pacote** (a que contém as
+subpastas de categoria, ex: `ISS Manaus (AFTM) 2026 (19-08-2026)/`).
+
+- **Nome do arquivo:** `<Nome do Pacote> - Índice do Pacote` — sem data no
+  nome (documento único que se atualiza, igual às planilhas de metadados).
+- **Se já existir**, atualizar em cima; nunca apagar e recriar.
+
+### Aba `Produto` — as variantes do Estratégia
+
+O mesmo concurso/cargo costuma aparecer no catálogo em **três embalagens
+diferentes**, e o link é diferente em cada uma:
+
+1. **Curso Regular / Pacote Teórico** — só o teórico das matérias.
+2. **Pacotaço — Pacote Teórico + Pacote Passo Estratégico** — teórico + Passo.
+3. **Pacotaço + Sistema de Questões** — os dois acima mais o Sistema de
+   Questões.
+
+Uma linha por variante encontrada no catálogo pra aquele concurso/cargo, com as
+colunas: `Variante`, `Nome exato no catálogo`, `Pacote ID`, `Link`
+(`=HYPERLINK("https://www.estrategiaconcursos.com.br/app/dashboard/pacote/{id}";"Abrir pacote")`),
+`Matriculado hoje` (Sim/Não), `Origem desta execução` (Sim só na variante que
+foi efetivamente usada pra baixar).
+
+Como levantar as variantes sem depender de estar matriculado: em
+`/app/dashboard/assinaturas`, usar a busca do bloco "Matricular em novos
+produtos" na aba **PACOTES** com o nome do concurso (ex: `ISS Manaus`), e ler
+os resultados. Os matriculados já expõem o `href` `/app/dashboard/pacote/{id}`
+direto no DOM; pros não matriculados, pegar o id junto ao botão `MATRICULAR`.
+Se alguma variante não aparecer no catálogo, registrar a linha assim mesmo com
+`Pacote ID` = `não encontrado em DD-MM-AAAA` — a ausência é informação.
+
+### Aba `Disciplinas` — uma linha por matéria baixada
+
+Colunas: `Categoria` (Curso Regular / Passo Estratégico / Bizu / ...),
+`Matéria`, `Curso ID`, `Link do curso`
+(`=HYPERLINK(".../app/dashboard/cursos/{cursoId}/aulas";"Abrir curso")`),
+`Pasta local`, `Aulas baixadas`, `Aulas pendentes`, `Planilha de metadados`
+(`=HYPERLINK` pra planilha do Passo 11 daquela matéria).
+
+Os dados todos já existem no fim da execução — é consolidação do que o Passo 11
+gravou disciplina a disciplina, não uma nova coleta no site.
+
+### Formatação e regras
+
+- Título mesclado na linha 1 e subtítulo na linha 2 com `Pasta: ...` e a data
+  desta atualização, no mesmo padrão das planilhas de metadados.
+- Alinhamento centralizado, quebra de texto ligada e aparar linhas/colunas em
+  excesso, como em toda planilha nova do workspace.
+- **Escopo = escopo da execução:** atualizar as linhas das disciplinas
+  processadas agora e as variantes conferidas agora; linhas de matérias que não
+  entraram nessa rodada ficam como estavam, com a data antiga.
+- No relatório final (Passo 10), citar o link do índice junto do resumo.
 
 ## Passo 12: Sugestões de melhoria pra skill (obrigatória ao final de toda execução)
 

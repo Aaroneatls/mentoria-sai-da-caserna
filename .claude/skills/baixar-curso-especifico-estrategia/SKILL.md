@@ -139,6 +139,57 @@ então cortar.
    que já sabe agrupar todos eles numa pasta-mãe `Reforma Tributária` com uma
    subpasta por curso.
 
+### Pacote não matriculado? Rodar o rodízio de matrículas antes de tudo
+
+**Confirmado pelo Elvis em 19/20-08-2026.** A assinatura vitalícia do Estratégia
+permite **no máximo 3 produtos matriculados ao mesmo tempo**. Produto que não
+está em "Produtos matriculados" não abre: a página do pacote vem vazia e a API
+devolve **HTTP 500**. Atenção: **500 significa "sem matrícula", não "curso
+removido"** — não concluir que o material sumiu com base nisso.
+
+Em `/app/dashboard/assinaturas`:
+
+1. Ler o bloco **"Produtos matriculados"**. Se o produto alvo já estiver lá,
+   seguir normalmente.
+2. Se não estiver e os 3 slots estiverem cheios, **liberar um slot**: clicar
+   `DESMATRICULAR` no produto que vai sair, digitar `CORUJA` e confirmar.
+3. Buscar o produto alvo na aba **PACOTES** do bloco "Matricular em novos
+   produtos", clicar `MATRICULAR` e digitar `CORUJA`.
+4. Recarregar e confirmar que ele apareceu em "Produtos matriculados", com o
+   `href` `/app/dashboard/pacote/{id}`.
+
+Regras desse rodízio:
+
+- **A palavra `CORUJA` vale nos dois sentidos** — matrícula e desmatrícula.
+- **Qualquer pacote pode entrar ou sair do rodízio, inclusive o da PRF.** Fazer
+  a troca quando a tarefa pedida exigir, sem perguntar de novo.
+- **Antes de desmatricular, checar a pasta daquele pacote no Drive por
+  placeholders `.txt`** (aulas ainda não publicadas) e avisar o Elvis quantas
+  são: enquanto o pacote estiver fora, essas aulas não podem ser baixadas.
+- Ao terminar, atualizar a coluna `Matriculado hoje` da aba `Produto` no índice
+  do pacote (Passo 11B) dos pacotes afetados — o que entrou e o que saiu.
+
+### Buscar no catálogo é sempre por PACOTE, nunca por curso
+
+**Confirmado pelo Elvis em 20-08-2026, depois de um falso negativo real.** O que
+o usuário chama de "curso" (ex: "Regular Fiscal") é um **pacote** no Estratégia.
+As disciplinas dentro dele têm nomenclatura diferente e não repetem o nome do
+pacote: o pacote `Curso Regular para Área Fiscal - Pacote Completo` (id 220865)
+contém `Concursos da Área Fiscal - Curso Básico de Direito Administrativo`
+(id 220883). Procurar por "Curso Regular ... Direito Administrativo" não acha
+nada, e dá a impressão errada de que o produto saiu do catálogo.
+
+Usar a busca interna do catálogo, com o mesmo Bearer dos outros passos:
+
+```
+GET /api/assinatura/curso/search?q=<nome>&type=pacote&size=51&page=N
+```
+
+Ela devolve `id` + `nome` de cada pacote — é a fonte pra preencher a aba
+`Produto` do índice (Passo 11B) e pra achar o `Pacote ID` de qualquer produto,
+matriculado ou não. Só descer pra `type=curso` quando o alvo for reconhecidamente
+uma disciplina avulsa.
+
 ## Passo 2: Definir o nome da pasta do curso
 
 Padrão fixo (sempre seguir esse formato):
@@ -1138,6 +1189,32 @@ maior na skill `baixar-curso-completo-estrategia`, Passo 11).
     nome do arquivo na pasta de destino e reaproveitar a planilha existente
     em vez de criar uma duplicada ao retomar. Ver a mesma regra em escala de
     pacote na `baixar-curso-completo-estrategia`, Passo 11.
+
+## Passo 9B: Índice do pacote (quando a matéria vive dentro de uma pasta de pacote)
+
+**Confirmado pelo Elvis em 2026-08-19.** Se a pasta da matéria estiver dentro de
+uma pasta de pacote (ex: `ISS Manaus (AFTM) 2026 (19-08-2026)/Curso Regular/
+Direito Administrativo (ISS Manaus-AFTM) (19-08-2026)/`), a raiz do pacote tem
+uma planilha `<Nome do Pacote> - Índice do Pacote`, com a aba `Produto` (as
+variantes do produto no Estratégia — Curso Regular / Pacotaço / Pacotaço +
+Sistema de Questões, com o `Pacote ID` e o link de cada uma) e a aba
+`Disciplinas` (uma linha por matéria, com Curso ID, link, pasta e contagem).
+O formato completo está no **Passo 11B da `baixar-curso-completo-estrategia`** —
+essa skill não redefine o layout, só mantém a planilha em dia.
+
+O que fazer aqui, sempre depois do Passo 9:
+
+- **Se o índice existir:** atualizar só a linha da matéria processada agora
+  (Curso ID, link, pasta, aulas baixadas, aulas pendentes, link da planilha de
+  metadados) e a data da linha. Não mexer nas linhas das outras matérias.
+- **Se não existir e a matéria estiver dentro de uma pasta de pacote:** criar o
+  índice com a aba `Produto` preenchida (levantando as variantes no catálogo,
+  conforme o Passo 11B) e a aba `Disciplinas` só com a matéria desta execução —
+  as demais entram quando forem processadas.
+- **Se a matéria for avulsa** (não está dentro de pasta de pacote), pular este
+  passo. Não criar índice de pacote pra matéria solta.
+- Se houve rodízio de matrícula nessa execução, refletir isso na coluna
+  `Matriculado hoje` da aba `Produto`.
 
 ## Passo 10: Sugestões de melhoria pra skill (sempre, ao final de toda execução)
 

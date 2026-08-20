@@ -279,10 +279,46 @@ Testado: carrega com "Filtros ativos: 3" e o contador certo. **Dispensa clicar n
 árvore**, que é a parte lenta e frágil da automação.
 
 `tipo`: `MATERIA`, `ASSUNTO`, `SEM_CLASSIFICACAO_ASSUNTO`, `BANCA`, `ORGAO`, `CARGO`,
-`ANO`, `AREA_CARGO`, `ESPECIALIDADE`, `ESCOLARIDADE`, `PROFISSAO`, `ESFERA`,
+`ANO`, `AREA_CONCURSO`, `ESPECIALIDADE`, `ESCOLARIDADE`, `PROFISSAO`, `ESFERA`,
 `ENUNCIADO`, `FILTRO_QUESTAO`.
 `formato`: `OBJETIVA`, `OBJETIVA_INEDITAS`, `DISCURSIVA`.
 `universo`: `GLOBAL`, `CONCURSOS`, `OAB`, `CFC`, `VESTIBULAR`, `PASTAS`.
+
+> **Correção (2026-08-19, verificada na prática):** o tipo do filtro de área é
+> **`AREA_CONCURSO`**, não `AREA_CARGO` — este documento trazia o nome errado. Qualquer
+> outro nome (`AREA`, `AREA_CARGO`, `CARREIRA`…) devolve **HTTP 500**, e não um erro de
+> validação, o que faz o problema parecer ser de outro filtro. Os ids vêm de
+> `/api/enums/areas` e são strings (ex.: `GESTAO_CONTROLE_TRIBUNAIS`, `FISCAL`).
+>
+> Como o erro é silencioso e confuso, o jeito mais rápido de descobrir o contrato de
+> qualquer filtro é **interceptar o que a própria aplicação envia**: sobrescrever
+> `window.fetch` e `XMLHttpRequest.prototype.send` pra logar corpo e URL, aplicar o filtro
+> pela interface e ler o log.
+
+#### Armadilha: `MATERIA` e `ASSUNTO` se SOMAM, não se cruzam
+
+Filtros do mesmo grupo são combinados em **OR**, não em AND. Mandar
+`MATERIA=1` junto com `ASSUNTO=497` **não** devolve "as questões do assunto 497 dentro da
+matéria 1" — devolve a matéria 1 inteira, e o assunto passa despercebido (nenhum erro,
+só um número grande demais). Verificado: matéria 1 + assunto qualquer = 1.111 nos dois
+casos; só o assunto 497 = 16.
+
+**Regra prática: ao filtrar por assunto, NÃO mandar o filtro de matéria.** Vários
+`ASSUNTO` juntos também somam (497 = 16, 6055 = 11, os dois = 27).
+
+#### Direito Administrativo são TRÊS matérias distintas
+
+| id | Matéria |
+|---|---|
+| **1** | Direito Administrativo (Doutrina e Leis Federais) |
+| 224 | Direito Administrativo Municipal |
+| 228 | Direito Administrativo Estadual e do DF |
+
+Para plano de estudo genérico, usar **só a matéria 1**. As outras duas são estatutos de
+servidores, organização administrativa e processo administrativo de entes específicos, e
+só entram quando o edital do concurso cobra a legislação daquele ente. Misturar as três
+enche a amostra de ruído — num levantamento da área Fiscal, 60% das questões vinham de
+224/228 e distorciam completamente o peso dos assuntos.
 
 ### 2.7 API interna (`/api/...`)
 
@@ -295,8 +331,10 @@ Autenticada por cookie de sessão; base `/api`. Sem contrato público.
 | `/api/enums/filtros-questao?universo=&formato=` | GET | aba Opções (**exige os 2 params**, senão dá erro de servidor) |
 | `/api/materias?universo=&formato=` | GET | 146 matérias com id e data de atualização |
 | `/api/assuntos?universo=&formato=&materia={id}&hierarquico=true` | GET | **taxonomia completa** com `id`, `nome`, `hierarquia` ("01.02.03") e `subTree` |
-| `/api/bancas`, `/api/orgaos`, `/api/cargos`, `/api/anos`, `/api/profissoes`, `/api/esferas` | GET | listas de filtro |
+| `/api/bancas`, `/api/orgaos`, `/api/cargos`, `/api/anos`, `/api/profissoes`, `/api/esferas` | GET | listas de filtro (**`/api/bancas` sozinho dá 500 — exige `?universo=&formato=`**) |
 | `/api/questoes/contagem/filtros` | POST | **contagem** → `{"int": 486}` |
+| `/api/questoes/filtros` | POST | **lista de ids das questões** do filtro → `{"questoes":[2082916,726641,…]}` (aceita `pagina`) |
+| `/api/questoes/{id}/deslogado` | GET | detalhe da questão: `concursoAno`, `bancaSigla`, `orgaoSigla`, `cargoSigla`, `nomeAssunto`, `idAssunto`, `tipoQuestao`, `anulada`, `desatualizada` |
 | `/api/assuntos/buscar-questoes-por-asssunto-relevancia` | POST | **lista plana de assuntos com peso** (é o "Relevância (apenas assuntos)") |
 | `/api/assuntos/buscar-questoes-por-asssunto-mais-materia` | POST | mesma coisa agrupada por matéria |
 | `/api/cadernos/gerar-caderno` | POST | cria o caderno |
@@ -308,6 +346,83 @@ Autenticada por cookie de sessão; base `/api`. Sem contrato público.
 
 Params dos POSTs (form-urlencoded): `universo`, `formato`, `gerarEmSerie`, `ordenacao`,
 `filtros[0].tipo`, `filtros[0].id`, `filtros[1].tipo`, …
+
+#### Contrato do `/api/cadernos/gerar-caderno` (verificado em 2026-08-19)
+
+Form-urlencoded, com os campos exatamente como o formulário `#geradorForm` da tela serializa:
+
+```
+caderno=                      (vazio)
+universo=                     (vazio)
+formato=OBJETIVA
+formaEscolherQuestoes=RECENTES        (ou ALEATORIA)
+filtros[i].tipo / filtros[i].id       (os mesmos tipos do filtro por URL)
+materias[0].id=1
+materias[0].numeroQuestoes=10         (quantidade que vai pro caderno)
+nomeCaderno=...
+pastaDestino=7460777                  (id da pasta; "Sem classificação" é a padrão)
+abrirEmModoCurso=true
+```
+
+Resposta: `{"id": 101285560, "mensagem": "O caderno foi salvo na pasta Sem classificação"}`.
+
+**Por que chamar a API em vez de clicar em "Gerar Caderno":** com "gerar cadernos em série"
+**desmarcado**, a tela faz `$("#geradorForm").submit()` — um POST de formulário HTML que
+**navega a página**. Só com a opção **marcada** é que ela chama a API e devolve o `id` sem
+sair da tela. Chamar `/api/cadernos/gerar-caderno` direto dá o mesmo resultado da segunda
+via, sem depender do estado da interface.
+
+**Não editar o escopo do Angular na mão.** Alterar `vm.totalQuestoesSelecionadas` /
+`vm.materias[0].numeroQuestoesCaderno` por fora e chamar `vm.gerarCaderno()` faz o servidor
+devolver **"Ocorreu um erro no servidor"** — os campos hidden do formulário não são
+recalculados. Ou se mexe pela interface, ou se monta o POST inteiro.
+
+Para ler o que entrou no caderno: **`GET /api/cadernos/{id}/gabarito`** →
+`{"list":[{"posicaoCaderno":1,"idQuestao":3075563,"tipoQuestao":"CERTO_ERRADO","anulada":false,…}]}`.
+
+#### Edição cirúrgica de caderno já criado (verificado em 2026-08-19)
+
+Não é preciso apagar e refazer um caderno pra corrigi-lo. Dá pra remover e acrescentar
+questão a questão, **mantendo o mesmo id e o mesmo link** já distribuído:
+
+| Rota | Método | Pra quê |
+|---|---|---|
+| `/api/cadernos/{cad}/questoes/remover-questao-id/{questao}` | DELETE | tira uma questão do caderno |
+| `/api/cadernos/{cad}/questoes/remover-questao-atual` | DELETE | tira a questão que está aberta |
+| `/api/cadernos/{cad}/questoes/adicionar-questoes-por-codigo` | POST | injeta lista: `idQuestoes[0]`, `idQuestoes[1]`, … |
+| `/api/cadernos/{cad}/questoes/contar-adicionar-questoes-por-codigo` | POST | **ensaio sem efeito** — mesma assinatura, devolve `{"contagem":{"numeroQuestoes":1,"idQuestoesRepetidas":[],"passouLimite":false}}` |
+
+Sempre rodar o `contar-` antes do `adicionar-`: ele diz quantas entram, **quais já estão no
+caderno** (`idQuestoesRepetidas`) e se estouraria o limite, tudo sem escrever nada.
+
+**A injeção por código ignora a dedução automática.** Uma questão que já está em outro
+caderno da conta é aceita normalmente (verificado: a 534873, então no caderno DADM-002, foi
+aceita no DADM-001 com `idQuestoesRepetidas: []`). Ou seja, o `adicionar-questoes-por-codigo`
+é a **única rota que permite repetir a mesma questão em dois cadernos de propósito** — o
+gerador por filtro nunca faz isso.
+
+Resposta do adicionar: `{"boolean": true}`. Do remover: o objeto `caderno` atualizado.
+
+#### O gerador NÃO repete questão já usada em outro caderno
+
+Descoberta de 2026-08-19, contrariando o que se supunha: ao gerar cadernos em sequência, o
+Tec **exclui automaticamente as questões que já estão em cadernos anteriores da conta**.
+Verificado: o assunto 497 tinha 16 questões no filtro; o primeiro caderno pediu 10 e levou
+10; o segundo, com **filtro idêntico**, pediu 13 e recebeu **apenas as 6 restantes**,
+com intersecção **zero**. Nos 10 cadernos gerados, as 90 questões saíram todas distintas.
+
+Consequências práticas:
+- **Pedir N não garante receber N.** Sempre conferir o resultado pelo `gabarito` — um caderno
+  pode sair menor que o pedido sem nenhum aviso, se o assunto já foi consumido.
+- **A ordem de geração importa:** quem gera primeiro fica com as questões mais recentes.
+  Gerar os cadernos na ordem de prioridade do plano de estudo, não em ordem alfabética.
+- O controle externo em planilha continua valendo — mas como **registro e conferência**, não
+  como única barreira contra repetição.
+
+**Atenção ao `universo` nos POSTs:** a própria aplicação manda `universo=` **vazio**
+(não `CONCURSOS`) junto de `formato=OBJETIVA&gerarEmSerie=false`. Mandar
+`universo=CONCURSOS` funciona em alguns endpoints e falha em outros — o mais seguro é
+copiar o que a aplicação faz e deixar vazio.
 `ordenacao`: `HIERARQUIA` · `RELEVANCIA` · `RELEVANCIA_ASSUNTOS`. Popular: `RECENTES` · `ALEATORIA`.
 
 Retorno da relevância:
