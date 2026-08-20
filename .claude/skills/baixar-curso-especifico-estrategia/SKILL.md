@@ -420,6 +420,21 @@ abaixo depende do sub-modo escolhido no Passo 3 (Atualização Parcial ou Comple
   - **Atualização Completa:** **não pular** — rebaixar essa aula (mesmo processo
     do Passo 5) e comparar a data extraída do PDF novo com a data que já está no
     nome do arquivo local (ver "Comparar e substituir PDF já baixado" no Passo 5).
+
+- **Arquivo no formato ANTIGO, sem o sufixo `LS`/`LC`** (`Aula NN - Assunto
+  (DD-MM-AAAA).pdf`, sem ` LS ` nem ` LC ` antes da data). O sufixo passou a ser
+  obrigatório em 2026-08-20 — arquivo sem ele é de coleta anterior.
+  - **Reconhecer como a mesma aula.** Casar pelo rótulo (`Aula NN`), **nunca** pelo
+    nome completo — senão a skill acha que a aula não existe e baixa um duplicado ao
+    lado do arquivo antigo.
+  - **Atualização Parcial:** não rebaixar. Só **renomear** acrescentando o sufixo,
+    deduzido assim: se `pdf_simplificado` existe na API **e** o número de páginas do
+    arquivo local **difere** do PDF original, é `LS`; se for **igual** ao original, é
+    `LC` (foi stub rebaixado — ver Passo 6.1). Se `pdf_simplificado` não existe, é
+    `LC` direto, sem precisar conferir nada.
+  - **Atualização Completa:** o rebaixe já resolve — gravar o nome novo com sufixo e
+    apagar o arquivo antigo sem sufixo. **Conferir que sobrou só um arquivo por
+    aula.**
 - Arquivos `Aula NN - ... - DD-MM-AAAA.txt` (placeholder, data com traço — ver
   Passo 6) → em **qualquer** sub-modo, **checar de novo** se o livro já ficou
   disponível. Se sim: baixar o PDF normalmente e **apagar o `.txt` antigo** —
@@ -764,8 +779,35 @@ processar uma aula errada ou perder tempo com um erro confuso mais adiante.
 ### Nome do arquivo
 
 ```
-<Rótulo exato da aula, igual está no site> - Assunto Sintético (DD-MM-AAAA).pdf
+<Rótulo exato da aula, igual está no site> - Assunto Sintético [LS|LC] (DD-MM-AAAA).pdf
 ```
+
+**O sufixo `LS` / `LC` é obrigatório** (Elvis, 2026-08-20) e entra **entre o assunto e a
+data**:
+
+| Sufixo | Significa | Quando usar |
+|---|---|---|
+| `LS` | **Livro Simplificado** | o arquivo baixado foi o `pdf_simplificado` |
+| `LC` | **Livro Completo** (versão original) | o arquivo baixado foi o `pdf` original |
+
+Exemplos:
+
+```
+Aula 03 - Fundações, empresas públicas e sociedades de economia mista LS (30-07-2026).pdf
+Aula 18 - Improbidade administrativa - Lei 8.429-1992 LC (30-07-2026).pdf
+```
+
+**Por que isso existe.** O mapeamento de aulas ancora o aluno por **número de página**, e
+o simplificado e o completo têm **paginações diferentes**. Como esta skill prioriza o
+simplificado e cai pro original quando ele não existe (ou é stub — ver Passo 6.1), a
+pasta fica **mista**. Sem o sufixo não há como saber, olhando o arquivo, a qual paginação
+aquela âncora se refere. No pacote TCDF-ANACE isso atinge **54 de 180 aulas (30%)**, e
+quatro disciplinas inteiras não têm simplificado nenhum.
+
+**O sufixo tem que refletir o que foi REALMENTE baixado, não o que a API oferecia.**
+Quando o Passo 6.1 detecta stub e rebaixa na versão original, o arquivo é `LC` — mesmo
+que `pdf_simplificado` existisse na API. Esse é justamente o caso que engana quem tenta
+deduzir a versão pela API depois.
 
 - **O rótulo da aula tem que ser copiado exatamente como aparece na listagem do
   site, nunca um contador sequencial próprio** — confirmado pelo Elvis em
@@ -1120,14 +1162,46 @@ maior na skill `baixar-curso-completo-estrategia`, Passo 11).
 3. **Se já existir uma planilha de metadados na pasta** (modo atualização):
    abrir e **ler o Curso ID registrado antes de sobrescrever qualquer coisa**
    — é o dado que o Passo 3 usa pra comparar contra o ID atual da URL.
-4. **Aba "Aulas"** — mesmas colunas validadas no protótipo: `Rótulo (Aula)`,
-   `Assunto`, `Status` (Baixado/Baixado (conferido)/Suspeito, com cor
-   condicional verde/vermelho — ver os três status logo abaixo),
-   `Data de Elaboração (PDF)`, `Data desta Verificação`, `Palavras-chave
-   batidas`, `Total palavras-chave`, `Nº de páginas do PDF`, `Nome do
-   arquivo`. Linha de título mesclada + subtítulo com pasta, **Curso ID
-   Estratégia** e nome do pacote/concurso. Linha de resumo com fórmulas
-   (`COUNTA`, `COUNTIF`) pro total de aulas, confirmadas e suspeitas.
+4. **Aba "Aulas"** — colunas: `Rótulo (Aula)`, `Assunto`, **`Versão do Livro`**,
+   `Status` (Baixado/Baixado (conferido)/Suspeito, com cor condicional
+   verde/vermelho — ver os três status logo abaixo), `Data de Elaboração (PDF)`,
+   `Data desta Verificação`, `Palavras-chave batidas`, `Total palavras-chave`,
+   `Nº de páginas do PDF`, `Nome do arquivo`. Linha de título mesclada +
+   subtítulo com pasta, **Curso ID Estratégia** e nome do pacote/concurso. Linha
+   de resumo com fórmulas (`COUNTA`, `COUNTIF`) pro total de aulas, confirmadas
+   e suspeitas.
+
+4.0-A. **Coluna `Versão do Livro`** (Elvis, 2026-08-20). Valores: `LS` (Livro
+   Simplificado), `LC` (Livro Completo) ou `—` para categoria que não tem essa
+   distinção. É o mesmo valor que vai no sufixo do nome do arquivo, e serve pra
+   ver de relance quantas aulas da disciplina estão em cada paginação. Vale a pena
+   uma célula no resumo com `=COUNTIF(<col>;"LS")` e `=COUNTIF(<col>;"LC")` —
+   disciplina 100% `LC` é sinal de que aquela matéria não tem simplificado.
+
+4.0-B. **Identificação do material e do pacote** (Elvis, 2026-08-20). O subtítulo
+   passa a registrar, além de pasta e Curso ID:
+
+   | Campo | Exemplo | Por que |
+   |---|---|---|
+   | **Tipo de Material** | `Curso Regular`, `Passo Estratégico`, `Bizu Estratégico`, `Trilha Estratégica`, `Monitoria`, `Rodadas de Simulados`, `Discursiva` | dizer o que é aquela pasta sem abrir os PDFs |
+   | **Nome do Pacote** | `TCDF (Analista Administrativo... - ANACE) Pacotaço ... 2026 (Pós-Edital)` | é o nome exato de busca no catálogo |
+   | **Pacote ID** | `393930` | volta direto no pacote |
+   | **Link do Pacote** | `=HYPERLINK("https://www.estrategiaconcursos.com.br/app/dashboard/pacote/{pacoteId}";"Abrir pacote")` | um clique |
+
+   **Por que o pacote importa tanto:** a matrícula é limitada a 3 produtos e o
+   rodízio é constante, então achar de novo o pacote certo no catálogo é
+   trabalhoso — e já custou tempo. Com o nome exato e o ID guardados, dá pra ir
+   direto. Também é o que permite perceber que **um pacote saiu do ar**: se o
+   `pacote/{id}` não abrir mais, o material daquela pasta virou histórico e não
+   tem como ser atualizado.
+
+   O `Tipo de Material` sai do `tipo_curso_id` de `GET /api/aluno/pacote/{id}`:
+   `1`=Curso Regular, `3`=Monitoria, `5`=Trilha Estratégica, `7`=Passo
+   Estratégico, `27`=Bizu Estratégico, `30`=Rodadas de Simulados.
+
+   **Vale nos dois modos:** ao criar a planilha do zero e ao atualizar. Em
+   planilha antiga que não tenha esses campos, **acrescentar** sem reescrever o
+   resto — mesma lógica idempotente do item 4.0.
 4.0. **Linha 3: link clicável pro curso no Estratégia** — confirmado pelo Elvis
    em 19-08-2026, depois de notar que nenhuma das 71 planilhas dos 4 pacotes já
    baixados dizia como voltar ao curso no site. Logo abaixo do subtítulo, antes
@@ -1319,3 +1393,76 @@ lento/repetitivo, oportunidade de deixar algo mais robusto.
 - **Se nada de novo surgiu:** dizer isso de forma curta e objetiva — não
   inventar sugestão só pra ter o que falar.
 - Nunca editar a skill nem sincronizar sem aprovação prévia.
+
+### Conferir versão/integridade sem baixar o PDF (técnica do `Range`)
+
+**Descoberta em 2026-08-20, e é o jeito barato de auditar uma pasta inteira.**
+
+O endpoint de download **aceita requisição parcial**. Pedindo `Range: bytes=0-99` o
+servidor responde `206` com o header `Content-Range: bytes 0-99/<TAMANHO TOTAL>` — ou
+seja, **100 bytes trazem o tamanho exato do arquivo remoto**.
+
+```python
+UA = {'User-Agent': '<UA de browser>', 'Referer': 'https://www.estrategiaconcursos.com.br/',
+      'Range': 'bytes=0-99'}
+r = requests.get(url_assinada, headers=UA, timeout=60)
+tamanho_remoto = int(r.headers['Content-Range'].split('/')[-1])   # status 206
+```
+
+Comparando com `os.path.getsize()` do arquivo local dá pra saber **qual versão está na
+pasta**, sem baixar nada:
+
+| Diferença local x remoto | Significa |
+|---|---|
+| dezenas de bytes (4 a 30 na prática) | é o mesmo arquivo — a variação é a marca d'água gerada na hora |
+| megabytes | é outra versão |
+
+Limiar usado: `dif < max(2000, tamanho_local * 0.002)`.
+
+**Como identificar o stub do Passo 6.1 por aqui:** o stub tem sempre ~**699 KB**, e é
+esse tamanho que volta no `pdf_simplificado` das aulas rebaixadas. Se o remoto vier em
+~699 KB e o local for muito maior, aquele arquivo é `LC` (rebaixe por stub), mesmo com
+`pdf_simplificado` presente na API.
+
+**Cuidado — HEAD não funciona:** o endpoint devolve `404` para `HEAD`. Só `GET` com
+`Range`. E **não dá pra fazer isso pelo `javascript_tool`**: `Content-Range` não é header
+seguro de CORS e volta `null` no navegador. Tem que ser do shell, com o link assinado.
+
+**Onde isso vale:** auditar uma pasta inteira depois de um mutirão, conferir se o PDF
+local ainda bate com o do site antes de decidir rebaixar em Atualização Completa, e
+preencher o sufixo `LS`/`LC` de coleta antiga sem refazer download. Em 2026-08-20 essa
+técnica conferiu 56 aulas de Contabilidade do Regular Controle e achou **exatamente os
+19 rebaixes por stub** que a skill já tinha registrado — validação independente do método.
+
+### ARMADILHA: assunto que termina em "LC" ou "LS"
+
+**Custou um rótulo errado silencioso em 2026-08-20.** Não repetir.
+
+Ao decidir se um arquivo **já tem** o sufixo, é tentador testar o fim do nome:
+
+```python
+re.search(r' L[SC] \(\d\d-\d\d-\d\d\d\d\)\.pdf$', nome)   # ERRADO
+```
+
+Isso casa por acidente com assunto que **termina** em `LC` ou `LS` — e `LC` é comum em
+matéria jurídica (Lei Complementar). O caso real:
+
+```
+Aula 12 - Previdência complementar - LC 108-2001 e LC (22-07-2026).pdf
+```
+
+O arquivo **não tinha sufixo**, foi tratado como se tivesse, ficou de fora do lote, e
+depois foi lido como `LC` quando na verdade era `LS`. Num acervo de 1096 PDFs, um único
+caso — e sem a conferência por `Range` ele passaria batido.
+
+**Como fazer certo:**
+
+1. **Nunca deduzir a versão lendo o nome do arquivo.** A fonte é a API (ou o log da
+   coleta). O nome é rótulo para humano, não campo de dado.
+2. Para saber se o lote já rodou, **conferir a contagem**: nº de PDFs na pasta contra
+   nº de linhas no log de renomeação. Divergência de 1 já é sinal.
+3. Se precisar mesmo testar pelo nome, exigir que **o token anterior ao sufixo não seja
+   ele próprio** ambíguo — na prática, comparar com a lista de aulas da API em vez de
+   confiar na regex.
+4. **Sempre fechar com conferência por amostra** (ver a técnica do `Range` acima). Foi
+   ela que pegou este caso.

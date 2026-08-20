@@ -48,3 +48,7 @@ contas.yaml
 # Sistema
 .DS_Store
 node_modules/
+
+# cache do Python
+__pycache__/
+*.pyc
