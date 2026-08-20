@@ -347,6 +347,22 @@ Autenticada por cookie de sessão; base `/api`. Sem contrato público.
 Params dos POSTs (form-urlencoded): `universo`, `formato`, `gerarEmSerie`, `ordenacao`,
 `filtros[0].tipo`, `filtros[0].id`, `filtros[1].tipo`, …
 
+### 2.7.1 Correções verificadas ao vivo em 2026-08-20
+
+**Índice de acerto:** `GET /api/questoes/{id}/desempenho` → `desempenhoGeral.acertos/erros`,
+mais `tempoMedio`, distribuição por alternativa e o rótulo `dificuldade` do próprio Tec.
+Não vem em `/deslogado` nem em `/api/questoes/{id}`. Custo: 100 questões em 26s, sem 429.
+
+**Tipo de filtro de opção é `FILTRO_QUESTAO`**, não `OPCAO` (que dá HTTP 500).
+Ano é `ANO` no singular; `ANOS` dá 500.
+
+**Ids de banca:** Cebraspe 4 · FCC 3 · FGV 5 · VUNESP 6. **`id=2` é ESAF** (extinta).
+São 574 bancas — buscar sempre em `/api/bancas?universo=&formato=OBJETIVA`.
+
+**Sem endpoint de exclusão de caderno:** `DELETE /api/cadernos/{id}` dá 405.
+
+**A API exige o cookie do navegador.** Do shell dá 401.
+
 #### Contrato do `/api/cadernos/gerar-caderno` (verificado em 2026-08-19)
 
 Form-urlencoded, com os campos exatamente como o formulário `#geradorForm` da tela serializa:
