@@ -278,8 +278,9 @@ maior. Seria uma versão pior do que ele já tem de graça.
 
 ## 13. As perguntas 3 a 7 do briefing original, respondidas
 
-**3. Onde roda?** Fase 0 em **Google Form com upload de arquivo**, caindo numa planilha.
-Processamento junto com o Claude na janela de atendimento. Sem Tutory, sem servidor.
+**3. Onde roda?** **Google Forms**, confirmado por Elvis. O formulário **não será criado agora**:
+ele é a parte fácil e só faz sentido depois que existir base pra responder. **A prioridade é a base
+de dados, ou seja, o fichamento do Tec.** Sem ele o formulário recebe pedido e não tem o que devolver.
 
 **4. Quantos alunos por vez?** 100 alunos na base, e a **minoria manda**. Volume baixo por
 janela, o que confirma o lote manual como escolha certa por ora.
@@ -292,5 +293,21 @@ link serve N alunos.
 aluno recebe os links dos pontos dele, dentre os que já existem. Um Doc por aluno multiplicaria
 a manutenção por aluno e quebraria a correção centralizada.
 
-**7. Qual o gatilho?** **Janela mensal anunciada** pelo Elvis (ex.: dia 1 a 5), com resposta em
-48h, vendida como extra da mentoria. Não é sob demanda contínua nem automático por calendário.
+**7. Qual o gatilho?** **Janela mensal anunciada** pelo Elvis, **no início de cada mês**, aberta
+por alguns dias, com resposta em 48h. Vendida como extra da mentoria. Não é sob demanda contínua
+nem automático por calendário.
+
+---
+
+## 14. Caminho crítico
+
+O gargalo **não é o formulário, nem o WhatsApp, nem a página do aluno**. É a base.
+
+```
+fichamento (Questao x Ponto + Ponto Principal + indice da comunidade)
+     -> sem isso, nada abaixo funciona
+formulario -> lookup -> prescricao -> entrega
+```
+
+Enquanto a base não existir, o sistema recebe pedido e não tem o que devolver. Por isso os
+três pedidos da seção 8 estão no caminho crítico, e os três são baratos **agora** e caros depois.
