@@ -176,6 +176,19 @@ puxa tudo. **Sem duplicar tópico.**
    dentro de Direito Tributário tem o histórico lá, e a mudança de disciplina faria a plataforma
    tratar como assunto novo.
 
+### Legislação Tributária: fica de fora, MENOS a Lei Kandir
+
+`LTRIBE` e `LTRIBM` **saem do escopo** (Elvis, 21/08/2026): mudam de estado para estado e de
+município para município, então só fazem sentido depois do edital sair.
+
+**Exceção obrigatória: a Lei Kandir.** Ela é **norma geral** (LC 87/1996, ICMS), não legislação
+local. Entra como tópico de `DTRIB`, ainda que **no fim** da disciplina, e ainda que no material
+ela apareça junto da Legislação Tributária ou da Reforma.
+
+É o mesmo princípio da Reforma Tributária: **o conteúdo decide o código, não onde o professor
+guardou**. Sem essa regra, uma norma geral que cai em prova nacional ficaria de fora por estar
+arquivada numa pasta estadual.
+
 ### Professor de referência
 
 | Disciplina | Referência |
