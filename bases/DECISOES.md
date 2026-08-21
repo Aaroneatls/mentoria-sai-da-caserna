@@ -101,33 +101,45 @@ cai para a opção B (`DADM-0018 - Nome do Tópico` no assunto), assumindo que o
 
 ## A8 — Disciplinas e siglas · fechado em 21/08/2026
 
-**22 disciplinas**, consolidadas dos Cursos Regulares Fiscal e Controle. Sigla de **4 a 6
+**21 disciplinas**, consolidadas dos Cursos Regulares Fiscal e Controle. Sigla de **4 a 6
 letras**, com `AFO` como única exceção de 3, por ser o nome consagrado.
 
-| # | Disciplina | Sigla | Controle | Fiscal |
-|---|---|---|---|---|
-| 1 | Administração Pública | `ADMPUB` | sim | — |
-| 2 | Administração Financeira e Orçamentária | `AFO` | sim | sim |
-| 3 | Auditoria | `AUDIT` | sim | sim |
-| 4 | Contabilidade Geral e Avançada | `CONTAB` | sim | sim |
-| 5 | Contabilidade Pública | `CONTPU` | sim | sim |
-| 6 | Contabilidade de Custos | `CUSTOS` | — | sim |
-| 7 | Controle Externo | `CTREXT` | sim | — |
-| 8 | Direito Administrativo | `DADM` | sim | sim |
-| 9 | Direito Civil | `DCIVIL` | — | sim |
-| 10 | Direito Constitucional | `DCONST` | sim | sim |
-| 11 | Direito Empresarial | `DEMPRE` | — | sim |
-| 12 | Direito Penal | `DPENAL` | — | sim |
-| 13 | Direito Tributário | `DTRIB` | — | sim |
-| 14 | Economia e Finanças Públicas | `ECOFIN` | — | sim |
-| 15 | Estatística | `ESTAT` | sim | sim |
-| 16 | Legislação Tributária Estadual | `LTRIBE` | — | sim |
-| 17 | Legislação Tributária Municipal | `LTRIBM` | — | sim |
-| 18 | Matemática Financeira | `MATFIN` | sim | sim |
-| 19 | Português | `PORT` | sim | sim |
-| 20 | Raciocínio Lógico | `RACLOG` | sim | sim |
-| 21 | Reforma Tributária | `REFTRI` | — | sim |
-| 22 | Tecnologia da Informação | `TECINF` | sim | sim |
+| # | Disciplina | Sigla |
+|---|---|---|
+| 1 | Administração Financeira e Orçamentária | `AFO` |
+| 2 | Administração Pública | `ADMPUB` |
+| 3 | Auditoria | `AUDIT` |
+| 4 | Contabilidade de Custos | `CUSTOS` |
+| 5 | Contabilidade Geral e Avançada | `CONTAB` |
+| 6 | Contabilidade Pública | `CONTPU` |
+| 7 | Controle Externo | `CTREXT` |
+| 8 | Direito Administrativo | `DADM` |
+| 9 | Direito Civil | `DCIVIL` |
+| 10 | Direito Constitucional | `DCONST` |
+| 11 | Direito Empresarial | `DEMPRE` |
+| 12 | Direito Penal | `DPENAL` |
+| 13 | Direito Tributário | `DTRIB` |
+| 14 | Economia e Finanças Públicas | `ECOFIN` |
+| 15 | Estatística | `ESTAT` |
+| 16 | Legislação Tributária (parte geral) | `LTRIB` |
+| 17 | Matemática Financeira | `MATFIN` |
+| 18 | Português | `PORT` |
+| 19 | Raciocínio Lógico | `RACLOG` |
+| 20 | Reforma Tributária | `REFTRI` |
+| 21 | Tecnologia da Informação | `TECINF` |
+
+**A coluna de área fica em aberto de propósito.** As pastas dos cursos e os ciclos de estudo
+divergem em alguns pontos (Matemática Financeira, por exemplo, aparece junto do Raciocínio Lógico
+na pasta do Fiscal e separada no ciclo). Isso se resolve ao abrir os PDFs; chutar agora criaria
+dado errado que ninguém iria conferir depois.
+
+### Regra de escopo: o que não está no Curso Regular não entra
+
+Decidido em 21/08/2026, no caso do **Direito Processual Civil**: ele aparecia no ciclo de estudo
+mas não existe em nenhum dos dois Cursos Regulares, então **fica de fora**. Veio de outro curso.
+
+Se uma disciplina aparecer numa lista e não no Curso Regular, é caso a caso, não entrada
+automática.
 
 ### As fusões, e por quê
 

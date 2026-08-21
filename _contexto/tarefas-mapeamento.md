@@ -20,7 +20,7 @@ Estas cinco seguram esse caminho.
 |---|---|---|
 | ~~A8~~ | ~~Siglas de disciplina~~ **FECHADO 21/08**: 22 disciplinas — ver `bases/DECISOES.md` | — |
 | ~~A14~~ | ~~Formato do Cód Mestre~~ **FECHADO 21/08** — ver `bases/DECISOES.md` | — |
-| **A15** | **Quais disciplinas** em cada área (8 do Controle + as do Fiscal) | define o conteúdo da base 1 e o escopo da coleta |
+| ~~A15~~ | ~~Quais disciplinas~~ **FECHADO 21/08**: 21 disciplinas, área a confirmar no mapeamento | — |
 | **A25** | **Ordem de prioridade** das disciplinas | decide o que entra nos 1.000 do primeiro dia |
 | **A24** | **Contas**: 1 nova padrão + a avançada para inéditas? | encaminhado, falta confirmar |
 
