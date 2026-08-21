@@ -22,8 +22,21 @@ NIVEIS = {
     6: dict(nome='Ouro por Aula',        escopo='aula',       alvo=10, teto=10, minimo=3),
     7: dict(nome='Ouro por Disciplina',  escopo='disciplina', alvo=160, teto=None, minimo=20),
 }
-# OURO = questao que discrimina. A que quase todo mundo acerta nao serve para revisao.
-OURO = {'Médio', 'Difícil', 'Muito Difícil'}
+# OURO NAO E' DIFICULDADE. Corrigido pelo Elvis em 21/08/2026, depois de eu ter escrito
+# aqui `OURO = {'Medio','Dificil','Muito Dificil'}`, que estava errado e contradizia a regra
+# que ja estava registrada. Questao ouro pode ser FACIL.
+#
+# Ouro e questao de ALTO RENDIMENTO DE REVISAO, por um destes tres motivos:
+#   (a) ABRANGENCIA  — toca varios pontos/assuntos numa questao so
+#   (b) RESOLUCAO    — o comentario e o mais completo entre as do mesmo ponto
+#   (c) REPRESENTACAO— quando varias questoes repetem o mesmo modelo, escolher a que, ao ser
+#                      resolvida, revisa indiretamente as outras (preferir a mais recente ou a
+#                      de resolucao mais completa)
+#
+# Consequencia: OURO NAO SE LE DA API. So sai do nosso fichamento, porque depende de saber
+# quais pontos cada questao toca e como e o comentario. Nao ha atalho pelo rotulo do Tec.
+def eh_ouro(q):
+    return q.get('ouro') is True        # marcado no fichamento, nunca deduzido da dificuldade
 AMOSTRA_MINIMA = 30      # abaixo disso o indice de acerto e' ruido, nao dado
 
 

@@ -41,7 +41,7 @@
 
 - **Auditoria Governamental**: blocos de 13 a 17 páginas são do material, não do detector. **Aceitar**, com marca na planilha. *(21/08)*
 - **`abrirEmModoCurso=false`**: o caderno tem que abrir como caderno de questões, não como fonte de estudos. *(21/08)*
-- **Ouro** = dificuldade média ou acima. *(20/08)*
+- **Ouro NÃO é dificuldade** (corrigido 21/08): é abrangência, qualidade da resolução ou representatividade. Questão fácil pode ser Ouro. Sai do fichamento, não da API.
 - **Bancas**: só Cebraspe, FGV e FCC, mais o OURO GERAL. *(20/08)*
 - **Recência**: dentro da cota do tópico, nunca no bolo. Marco legal descarta, não despriorriza. *(20/08)*
 - **Janela de anos**: preferir 5 anos; abrir para 10 só quando a amostra for magra. *(20/08)*
