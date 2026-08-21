@@ -163,6 +163,19 @@ Em `TECINF` (e onde mais fizer sentido), cada tópico carrega `Noções` ou `Apr
 que pede "Noções de Informática" puxa só os primeiros; o que pede "Tecnologia da Informação"
 puxa tudo. **Sem duplicar tópico.**
 
+### Reforma Tributária sai de dentro de Direito Tributário
+
+`REFTRI` passa a ser **disciplina própria**, embora hoje o conteúdo esteja **dentro** de
+`DTRIB` no material. Duas consequências, decididas em 21/08/2026:
+
+1. **Quem manda é o conteúdo, não onde o professor guardou.** Bloco da aula de Direito
+   Tributário que trata da reforma recebe código `REFTRI`, com a origem registrada
+   ("veio da aula X de Direito Tributário"). Sem isso, o mesmo conteúdo ganharia um código em
+   cada disciplina, que é o oposto do que o eixo existe para fazer.
+2. **Entra no plano de migração da Tutory** (ver pendência A28): aluno que já estudou a reforma
+   dentro de Direito Tributário tem o histórico lá, e a mudança de disciplina faria a plataforma
+   tratar como assunto novo.
+
 ### Professor de referência
 
 | Disciplina | Referência |

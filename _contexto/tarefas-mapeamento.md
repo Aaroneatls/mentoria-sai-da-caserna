@@ -32,7 +32,7 @@ Estas cinco seguram esse caminho.
 | A11 | Inédita exige plano avançado **do aluno**? | ao montar o primeiro caderno |
 | A27 | As 3 melhorias de composição: tamanho proporcional, ordem didática, peso real em N3-N5 | ao montar o primeiro caderno |
 | A12 | Professor diferente entre áreas (o caso do Direito Civil) | ao ligar a base 2 ao eixo |
-| A28 | Migrar os nomes de disciplina da Tutory (hoje `Direito Administrativo (Fiscal/ Controle)`) | antes do primeiro plano novo |
+| A28 | Migrar os nomes de disciplina da Tutory (hoje `Direito Administrativo (Fiscal/ Controle)`) **e a saída da Reforma Tributária de dentro de Direito Tributário** | antes do primeiro plano novo |
 | A29 | Hospedagem da página de orientação: Google publicado ou site próprio | quando a base alimentar a página |
 | A30 | "Técnica de Estudos" é atributo do plano ou do tópico? | quando a skill da Tutory for feita |
 | A26 | Quais editais entram | ao começar a base 6 |
