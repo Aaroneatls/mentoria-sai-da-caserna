@@ -1,9 +1,11 @@
 # Prévia das mudanças nas skills do Estratégia — 2026-08-20
 
-> **Por que este arquivo existe.** As mudanças descritas aqui foram aplicadas nas skills
-> mas **ainda não foram commitadas no git** no fechamento da sessão. Este documento é o
-> registro independente: se o `SKILL.md` se perder ou for revertido, dá para reconstruir
-> tudo a partir daqui.
+> **Por que este arquivo existe.** É o registro legível do que mudou nas skills: se o
+> `SKILL.md` for revertido ou alguém precisar entender a mudança sem ler o diff, dá para
+> reconstruir tudo a partir daqui.
+>
+> **Status do git:** commitado e sincronizado em 2026-08-20. As seções descritas abaixo
+> estão no repositório.
 >
 > Arquivos alterados:
 > - `.claude/skills/baixar-curso-especifico-estrategia/SKILL.md` — +156 linhas, −9

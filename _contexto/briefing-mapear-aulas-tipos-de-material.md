@@ -8,8 +8,8 @@
 > mudam o desenho, aprendizados técnicos que evitam retrabalho, e pendências herdadas.
 >
 > **Companheiro obrigatório:** `_contexto/skills-estrategia-mudancas-2026-08-20.md` —
-> prévia completa do que mudou nas duas skills de download e no `AGENTS.md`. Como essas
-> mudanças **não estão commitadas**, esse arquivo é o registro independente delas.
+> prévia completa do que mudou nas duas skills de download e no `AGENTS.md`, em linguagem
+> legível. Tudo já está commitado e sincronizado.
 
 ---
 
@@ -259,11 +259,8 @@ PDFs, 468 páginas, 1 imagem por página, sumário em todo arquivo, um arquivo p
 3. **Trava de caminho longo (3.7) nas skills de download** — proposta e **não aplicada**,
    estava esperando o ok do Elvis. O que seria implementado está descrito em
    `_contexto/skills-estrategia-mudancas-2026-08-20.md`, seção "Não aplicado".
-4. **Git — risco real de perda.** `AGENTS.md` e as duas skills de download estão
-   modificados e **não commitados** (+156 e +159 linhas nas skills, +9 no `AGENTS.md`).
-   Nada foi para o GitHub nesta sessão. A prévia em
-   `_contexto/skills-estrategia-mudancas-2026-08-20.md` permite reconstruir tudo se as
-   skills se perderem, mas **rodar `/syncar` continua sendo o certo a fazer**.
+4. ~~**Git**~~ — **RESOLVIDO.** As skills, o `AGENTS.md` e os arquivos de contexto foram
+   commitados e sincronizados em 2026-08-20. Nada pendente.
 
 ## 5.2 Técnicas, sem bloquear
 
