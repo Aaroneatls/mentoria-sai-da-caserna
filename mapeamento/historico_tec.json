@@ -1,0 +1,50 @@
+[
+ {
+  "t": "2026-08-20 21:49",
+  "ev": "captcha_resolvido_pelo_elvis"
+ },
+ {
+  "t": "2026-08-21 06:24",
+  "ev": "bloqueio",
+  "nota": "ainda 429 ~9h depois; havia coletor tentando"
+ },
+ {
+  "t": "2026-08-21 06:35",
+  "ev": "captcha_resolvido_pelo_elvis",
+  "nota": "liberou logo apos"
+ },
+ {
+  "t": "2026-08-21 06:51",
+  "ev": "bloqueio",
+  "chamadas_ate_travar": 400,
+  "minutos": 15,
+  "pace_ms": 1275
+ },
+ {
+  "t": "2026-08-21 07:03",
+  "ev": "captcha_resolvido_pelo_elvis",
+  "nota": "liberou logo apos"
+ },
+ {
+  "t": "2026-08-21 07:30",
+  "ev": "bloqueio",
+  "chamadas_ate_travar": 218,
+  "minutos": 27,
+  "pace_ms": 4000
+ },
+ {
+  "t": "2026-08-21 07:57",
+  "ev": "experimento",
+  "nota": "429 e do proprio Tec: nginx, corpo {\"error\":\"Too Many Requests\"}. Nao e AWS WAF; o CAPTCHA e sistema separado."
+ },
+ {
+  "t": "2026-08-21 08:02",
+  "ev": "experimento",
+  "nota": "5 min de silencio total NAO liberou"
+ },
+ {
+  "t": "2026-08-21 08:03",
+  "ev": "experimento",
+  "nota": "bloqueio GLOBAL: /api/enums/universos, /desempenho e /gabarito todos 429"
+ }
+]
