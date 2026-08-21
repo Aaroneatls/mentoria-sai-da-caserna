@@ -31,6 +31,7 @@
 | A16 | `PPPs e Consórcios` e `Convênios` não têm item no edital do TCDF: ficam de fora? |
 | A17 | Caderno personalizado por aluno é viável na Tutory? |
 | A18 | Cortes de risco do BIZURITO: manter 70/50 ou calibrar pelo `dificuldade` do Tec? |
+| A22 | Confirmar a escada do N8 (cortes 50/65/80/90) e as 2 questões por tópico |
 | A19 | Ordem do Passo Estratégico (gatilho: 1º pós-edital com Passo) |
 | A20 | Indexação de slide e mapa mental por bloco de vídeo |
 | A21 | Amostra mínima de respostas antes de atribuir rótulo de RISCO |
@@ -47,6 +48,9 @@
 - **Ponto que derruba entra sozinho** (mais de uma questão **ou** acerto < 50%). *(20/08)*
 - **Base única por disciplina**, com as áreas em colunas. *(20/08)*
 - **Reconhecimento antes de construir** — ver seção D. *(21/08)*
+- **Nível 8 é diagnóstico, não revisão**: roteia por tópico, não pela média. Status do pulado é "dispensado por diagnóstico". *(21/08)*
+- **Fichamento em duas passadas** (opção D): enunciado de todas as questões, comentário só dos pontos que viram linha de BIZURITO. *(21/08)*
+- **Teste controlado do BIZURITO**: dois tópicos levam a passada completa, para comparar a qualidade da folha. *(21/08)*
 - **Aproveitar o aprendizado, não recomeçar do zero** — ver seção D. *(21/08)*
 
 ---
@@ -59,7 +63,10 @@
 | B2 | Refazer os 64 cadernos com composição própria e `abrirEmModoCurso=false` | sim |
 | B3 | Aba de registro: qual questão entrou em qual caderno | sim |
 | B4 | Fichamento das 3 bancas, sem filtro de banca na entrada | sim |
-| B5 | Camada de "ponto": ler enunciado e comentário para extrair os pontos | sim |
+| B5 | Camada de "ponto": passada 1 (enunciado de todas as 5.463) | sim |
+| B28 | Passada 2: comentário dos pontos que viram BIZURITO | sim |
+| B29 | Teste controlado: 2 tópicos com passada completa, para comparar | sim |
+| B30 | Implementar o N8 (diagnóstico) e a escada de entrada | não |
 | B6 | Segunda planilha do pós-edital TCDF | não |
 | B7 | Comparação **bloco a bloco** entre pacotes (não aula a aula) | não |
 | B8 | Tabela de nomes canônicos de disciplina com aliases | não |
