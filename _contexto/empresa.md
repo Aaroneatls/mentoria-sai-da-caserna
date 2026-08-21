@@ -4,8 +4,8 @@
 **Negócio:** Mentoria Sai da Caserna
 **O que faz:** Mentor para concursos públicos, com foco em militares que querem se tornar Auditores (Fiscal/Controle). Monta planos de estudo pré e pós edital.
 **Perfil:** solopreneur
-**Atende clientes:** ambos — a mentoria é vendida, mas sem personalização individual: os planos de estudo são elaborados por Elvis e disponibilizados via plataforma (Tutori), então na prática o trabalho é feito "pra si mesmo" e distribuído em escala.
-**Equipe:** solo — sem equipe hoje. Parceiros de plataforma/serviço: BTG (financeiro), Estratégia Concursos e TecConcursos (conteúdo/material), Tutori (plataforma de entrega dos planos de estudo), Você Concursado (parceria, cursinho de discursivas), Rabelo Concursos / Erin Milson Rabelo (parceria, legislação tributária).
+**Atende clientes:** ambos — a mentoria é vendida, mas sem personalização individual: os planos de estudo são elaborados por Elvis e disponibilizados via plataforma (Tutory), então na prática o trabalho é feito "pra si mesmo" e distribuído em escala.
+**Equipe:** solo — sem equipe hoje. Parceiros de plataforma/serviço: BTG (financeiro), Estratégia Concursos e TecConcursos (conteúdo/material), Tutory (plataforma de entrega dos planos de estudo), Você Concursado (parceria, cursinho de discursivas), Rabelo Concursos / Erin Milson Rabelo (parceria, legislação tributária).
 **Ferramentas:** Google Drive, Google Sheets (Google Planilhas). Uso eventual futuro de Google Agenda/Meet.
 **Principais entregas:**
 - Planos de estudo pré e pós edital (fonte: material da Estratégia Concursos e TecConcursos)
@@ -29,7 +29,7 @@ Elvis foi militar de carreira da FAB por mais de 12 anos (passou pela EPCAR e pe
 - Curva ABC de relevância dos assuntos: prioriza Curva A (mais cobrado/base) antes de B e C — não dá pra estudar o edital inteiro.
 - Fase **pré-edital**: ciclo básico de disciplinas mais importantes, construção de bagagem antes do edital sair.
 - Fase **pós-edital**: análise estratégica/estatística do edital específico (peso de cada disciplina, edital verticalizado), plano de estudos direcionado pras disciplinas de maior peso.
-- Plataforma (Tutori/"Tutoring") identifica o que o aluno já estudou ao migrar de um plano pro outro, evitando retrabalho.
+- Plataforma (Tutory/"Tutory") identifica o que o aluno já estudou ao migrar de um plano pro outro, evitando retrabalho.
 - Suporte via WhatsApp direto com Elvis, reuniões periódicas gravadas (mensais no pré-edital, ~3 reuniões temáticas no pós-edital).
 - Erros comuns que a metodologia evita: planos de estudo genéricos e infinitos, estudar só no pós-edital, tentar ler todo o material (30 mil+ páginas), não revisar teoria, esperar "o dia perfeito", falta de foco (estudar pra concursos muito diferentes ao mesmo tempo).
 

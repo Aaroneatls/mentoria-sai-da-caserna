@@ -14,7 +14,7 @@ Workspace principal da Mentoria Sai da Caserna. Aqui Elvis organiza planos de es
 - `templates/ferramentas/catalogo.md` — APIs e ferramentas disponíveis pra usar em skills
 
 ## Sobre o negócio
-Elvis Aaron é mentor para concursos públicos, focado em ajudar militares a se tornarem Auditores (Fiscal/Controle). Monta planos de estudo pré e pós edital com base em material da Estratégia Concursos e TecConcursos, entregues via plataforma Tutori. Trabalha solo, com parcerias de plataforma e conteúdo (BTG, Estratégia Concursos, TecConcursos, Tutori, Você Concursado, Rabelo Concursos).
+Elvis Aaron é mentor para concursos públicos, focado em ajudar militares a se tornarem Auditores (Fiscal/Controle). Monta planos de estudo pré e pós edital com base em material da Estratégia Concursos e TecConcursos, entregues via plataforma Tutory. Trabalha solo, com parcerias de plataforma e conteúdo (BTG, Estratégia Concursos, TecConcursos, Tutory, Você Concursado, Rabelo Concursos).
 
 ## O que mais fazemos aqui
 - Montar planos de estudo pré e pós edital
@@ -24,7 +24,7 @@ Elvis Aaron é mentor para concursos públicos, focado em ajudar militares a se 
 - Cuidar da parte financeira do negócio
 
 ## Clientes e contexto
-Negócio próprio, sem personalização individual por cliente — os planos de estudo são elaborados por Elvis e distribuídos em escala via plataforma Tutori.
+Negócio próprio, sem personalização individual por cliente — os planos de estudo são elaborados por Elvis e distribuídos em escala via plataforma Tutory.
 
 ## Tom de voz
 Informal, com gírias do universo militar/concurseiro (ex: "bizu", "bizurado"). Nunca usar travessão. Evitar marcas de escrita "de IA" (contraposições genéricas, "mergulhar de cabeça", etc). O texto deve soar natural, como escrito por uma pessoa.
@@ -32,7 +32,7 @@ Informal, com gírias do universo militar/concurseiro (ex: "bizu", "bizurado"). 
 ## Ferramentas conectadas
 - Google Drive — acesso direto por sistema de arquivos (workspace já vive dentro da pasta sincronizada do Drive)
 - Google Sheets — conectado via `gspread` com OAuth (Python). Credenciais em `credenciais/` (nunca commitar). Client: `credenciais/google-oauth-client.json`, token de sessão: `credenciais/google-oauth-token.json`
-- Claude in Chrome (extensão) — acessa o navegador Chrome real do usuário, já logado nas plataformas (Estratégia Concursos, TecConcursos, Tutori). **Navegador embutido (Claude Browser) é o padrão para QUALQUER pedido de abrir link, site ou plataforma — dentro ou fora de skill — reaproveitando a janela/aba já aberta; só usar o Chrome real com autorização prévia do usuário na conversa, pedida a cada vez** (confirmado 2026-08-18, generalizado em 2026-08-19).
+- Claude in Chrome (extensão) — acessa o navegador Chrome real do usuário, já logado nas plataformas (Estratégia Concursos, TecConcursos, Tutory). **Navegador embutido (Claude Browser) é o padrão para QUALQUER pedido de abrir link, site ou plataforma — dentro ou fora de skill — reaproveitando a janela/aba já aberta; só usar o Chrome real com autorização prévia do usuário na conversa, pedida a cada vez** (confirmado 2026-08-18, generalizado em 2026-08-19).
 - Estratégia Concursos — **limite de 3 produtos matriculados por vez**. Curso/pacote não matriculado não abre: em `/app/dashboard/assinaturas`, clicar `DESMATRICULAR` no que vai sair e digitar `CORUJA`, depois buscar o produto desejado na aba PACOTES, clicar `MATRICULAR` e digitar `CORUJA` de novo, e recarregar. **A palavra `CORUJA` vale nos dois sentidos, matrícula e desmatrícula.** É reversível, e **qualquer pacote pode entrar ou sair do rodízio** — inclusive o da PRF — quando a tarefa pedida pelo Elvis exigir.
 
   **Rodízio é livre, não precisa pedir autorização** (Elvis, 2026-08-20). A única checagem obrigatória antes de matricular ou desmatricular é: **alguma sessão em andamento está usando, baixando ou acessando aquele produto?** Se não estiver, desmatricular e matricular à vontade pra executar a tarefa. Não é mais necessário conferir placeholder `.txt` nem avisar antes — placeholder só interessa se o que vai sair estiver em uso naquele momento.

@@ -62,7 +62,7 @@ dentro da disciplina) e trazer sugestão ao Elvis.
 1. Gerar HTML → subir ao Drive convertendo em Google Doc.
 2. Atualizar com `files().update()`: **o ID não muda**, logo o link não muda.
 3. Permissão `reader/anyone`.
-4. O link que vai para a Tutori é `.../export?format=pdf`.
+4. O link que vai para a Tutory é `.../export?format=pdf`.
 
 **Medido sem credencial nenhuma:** HTTP 200, `application/pdf`, `attachment`, bytes `%PDF-`.
 Editar reflete no mesmo link na hora. **O nome do arquivo que o aluno baixa é o nome do Doc.**
