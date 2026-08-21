@@ -21,9 +21,9 @@
 | A6 | Célula solta na aba Base Estratégia |
 | A7 | R08 duplicado |
 | A8 | As 15 siglas de disciplina propostas |
-| A9 | Tópicos com banco de questões escasso |
+| A9 | ~~Tópicos com banco escasso~~ **decidido 21/08**: registrar e ignorar, sem puxar de vizinho |
 | A10 | A Tutory informa se o aluno começou o caderno? |
-| A11 | Questão inédita exige plano avançado no Tec? |
+| A11 | Questão inédita exige plano avançado **do aluno**? (a nossa conta tem) |
 | A12 | Professor de Direito Civil (alerta de duplicidade) |
 | A13 | Gaps "verdade material" e "segregação de funções" |
 | A14 | Formato do Cód Mestre de edital (`DADM-TCDF-001`) |
@@ -48,6 +48,8 @@
 - **Repetir questão entre níveis é permitido**; o objetivo é cobertura. *(20/08)*
 - **Ponto que derruba entra sozinho** (mais de uma questão **ou** acerto < 50%). *(20/08)*
 - **Base única por disciplina**, com as áreas em colunas. *(20/08)*
+- **Tópico sem questão no banco**: registrar e ignorar. Nunca puxar de assunto vizinho pra encher caderno. *(21/08)*
+- **Questão inédita**: marcar no banco desde a coleta, mas não separar caderno ainda. Só desenhar a separação quando aparecer matéria majoritariamente inédita. *(21/08)*
 - **Reconhecimento antes de construir** — ver seção D. *(21/08)*
 - **Nível 8 é pedágio curto, não portão**: força uma revisada rápida em quem diz que já estudou. Quem estudou desenrola; quem não estudou paga o preço adiante. Roteia por tópico, nunca pela média. *(21/08)*
 - **N8 e dossiê ficam parados** até saber de onde vem o desempenho do aluno. Não bloqueiam N1 a N7 e não pedem coleta nova no Tec. *(21/08)*
@@ -65,6 +67,7 @@
 | B2 | Refazer os 64 cadernos com composição própria e `abrirEmModoCurso=false` | sim |
 | B3 | Aba de registro: qual questão entrou em qual caderno | sim |
 | B4 | Fichamento das 3 bancas, sem filtro de banca na entrada | sim |
+| B32 | Desenhar a separação de cadernos quando surgir matéria com muita inédita | não |
 | B5 | Camada de "ponto": passada 1 (enunciado de todas as 5.463) | sim |
 | B28 | Passada 2: comentário dos pontos que viram BIZURITO | sim |
 | B29 | Teste controlado: 2 tópicos com passada completa, para comparar | sim |
