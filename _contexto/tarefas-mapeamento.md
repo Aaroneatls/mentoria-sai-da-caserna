@@ -11,46 +11,54 @@
 
 ## A — Decisões que dependem do Elvis
 
-### A.1 — TRAVAM o que vamos construir agora
+### A.1 — DECIDIR AGORA (travam o próximo passo)
 
-Estas seguram as cinco bases, a coleta e os cadernos. São as que precisam de resposta primeiro.
+O próximo passo é: base 1 (disciplinas) → eixo (Cód Mestre) → começar a coleta.
+Estas cinco seguram esse caminho.
 
-| # | Item | O que trava |
+| # | Decisão | O que trava |
 |---|---|---|
-| A8 | **As siglas de disciplina** (proposta de 15, a revisar) | é a **base 5**; sem ela não dá para numerar tópico sem repetir |
-| A15 | **Confirmar as disciplinas de cada área** (8 do Controle + as do Fiscal) | define o escopo da coleta diária |
-| A14 | **Formato do Cód Mestre**, com e sem edital (`DADM-001` x `DADM-TCDF-001`) | é a chave do eixo que liga as cinco bases |
-| A12 | **Professor diferente entre áreas** (o caso do Direito Civil) | é o primeiro caso real da regra de "um código, dois endereços" |
-| A24 | **Uma conta ou três?** Sinalizado "uma só", falta fechar | define se a coleta é um fluxo ou três |
-| A25 | **Ordem de prioridade das disciplinas** para a coleta | decide o que entra nos 1.000/dia de amanhã |
-| A26 | **Quais editais entram** na base de taxonomia | é a **base 4** |
-| A11 | Inédita exige plano avançado **do aluno**? | decide se inédita pode entrar em caderno normal |
-| A16 | `PPPs e Consórcios` e `Convênios` ficam fora, por não terem item no edital? | fecha o escopo de Direito Administrativo |
-| A27 | Aprovar as 3 melhorias de composição: tamanho proporcional, ordem didática, peso real em N3-N5 | muda como os cadernos são montados |
+| **A8** | As **siglas de disciplina** (proposta a revisar) | é a base 1, e dela sai a numeração de todo o resto |
+| **A14** | O **formato do Cód Mestre**, com e sem edital (`DADM-001` × `DADM-TCDF-001`) | é a chave do eixo |
+| **A15** | **Quais disciplinas** em cada área (8 do Controle + as do Fiscal) | define o conteúdo da base 1 e o escopo da coleta |
+| **A25** | **Ordem de prioridade** das disciplinas | decide o que entra nos 1.000 do primeiro dia |
+| **A24** | **Contas**: 1 nova padrão + a avançada para inéditas? | encaminhado, falta confirmar |
 
-### A.2 — Podem esperar
+### A.2 — DECIDIR DEPOIS (travam etapas seguintes, não o começo)
 
-| # | Item | Por que espera |
+| # | Decisão | Quando aperta |
 |---|---|---|
-| A1 | 26 casos sem correspondência entre as fontes | é da compatibilização, base 4 |
-| A2 | Texto padrão para tópico sem Bezerra | idem |
-| A3 | Fallback quando não há resumo do Estratégia | idem |
-| A13 | Gaps "verdade material" e "segregação de funções" | idem |
-| A4 | Critérios extras da Curva ABC | não afeta a montagem atual |
-| A5 | Nomenclatura final das skills | as skills vêm depois do processo estar firme |
-| A6 | Célula solta na aba Base Estratégia | limpeza |
-| A7 | R08 duplicado | limpeza |
-| A10 | A Tutory informa se o aluno começou o caderno? | ligado ao dossiê, que está parado |
-| A17 | Caderno personalizado por aluno é viável na Tutory? | idem |
-| A18 | Cortes de risco do BIZURITO | BIZURITO saiu do caminho crítico |
+| A16 | `PPPs e Consórcios` e `Convênios` ficam fora do escopo? | ao fechar Direito Administrativo |
+| A11 | Inédita exige plano avançado **do aluno**? | ao montar o primeiro caderno |
+| A27 | As 3 melhorias de composição: tamanho proporcional, ordem didática, peso real em N3-N5 | ao montar o primeiro caderno |
+| A12 | Professor diferente entre áreas (o caso do Direito Civil) | ao ligar a base 2 ao eixo |
+| A26 | Quais editais entram | ao começar a base 6 |
+| A5 | Nomenclatura final das skills | quando as skills forem empacotadas |
+
+### A.3 — FUTURO (não decidir agora, retomar quando fizer sentido)
+
+| # | Item | Gatilho para voltar |
+|---|---|---|
+| A18 | Cortes de risco do BIZURITO | quando o BIZURITO voltar ao caminho crítico |
 | A21 | Amostra mínima antes do rótulo de RISCO | idem |
-| A19 | Ordem do Passo Estratégico | Passo está fora do escopo por enquanto |
-| A20 | Indexação de slide e mapa mental por bloco | material complementar, depois |
-| A22 | ~~Escada do N8~~ adiada, depende de A23 | N8 está parado |
-| A23 | ~~Desempenho do aluno~~ encaminhado: nasce na conta dele. Falta escolher PDF ou link | o caminho já existe, falta a forma |
-| A9 | ~~Tópico com banco escasso~~ **decidido**: registrar e ignorar | fechado |
+| A22 | Escada do N8 | quando houver leitura de desempenho do aluno |
+| A23 | Forma do caderno de erros: PDF, link, ou os dois | quando o primeiro aluno for usar |
+| A10 | A Tutory informa se o aluno começou o caderno? | quando houver acesso à Tutory |
+| A17 | Caderno personalizado por aluno é viável na Tutory? | idem |
+| A19 | Ordem do Passo Estratégico | no primeiro pós-edital com Passo |
+| A20 | Indexação de slide e mapa mental por bloco | quando material complementar entrar no plano |
+| A4 | Critérios extras da Curva ABC | quando a base de pesos estiver cheia |
 
----
+### A.4 — Ficaram sem objeto com o recomeço
+
+Eram sobre a base antiga, que virou arquivo. **Voltam sozinhos** se reaparecerem na base nova.
+
+`A1` 26 casos sem correspondência · `A2` texto padrão sem Bezerra · `A3` fallback sem resumo ·
+`A6` célula solta · `A7` R08 duplicado · `A13` gaps de verdade material e segregação de funções
+
+### A.5 — Já decididos em 21/08 (registro, não repetir)
+
+- **A9** Tópico com banco escasso: registrar e ignorar, nunca puxar de vizinho
 
 ### Já decididos (registro, não repetir)
 
