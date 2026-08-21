@@ -81,5 +81,23 @@
   "t": "2026-08-21 09:06",
   "ev": "plano",
   "nota": "amanha comecar pelo CENSO (~400 chamadas dao a materia inteira) antes de gastar teto com coleta questao a questao."
+ },
+ {
+  "t": "2026-08-21 09:28",
+  "ev": "captcha_resolvido_pelo_elvis",
+  "nota": "recarregou e resolveu; liberou na hora, DEPOIS de 1h de silencio nao ter liberado"
+ },
+ {
+  "t": "2026-08-21 09:48",
+  "ev": "censo_completo",
+  "chamadas": 675,
+  "minutos": 20,
+  "classificadas": 5423,
+  "nota": "675 chamadas com cookie NOVO sem um unico 429. De manha travava em 218 e 400 com cookie velho."
+ },
+ {
+  "t": "2026-08-21 09:50",
+  "ev": "conclusao",
+  "nota": "o contador e do cookie aws-waf-token, nao do tempo nem do dia. CAPTCHA resolvido = balde zerado. Gatilho de renovacao deve ser por CONTAGEM de chamadas."
  }
 ]
