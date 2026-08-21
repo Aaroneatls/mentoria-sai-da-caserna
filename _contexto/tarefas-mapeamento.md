@@ -50,6 +50,8 @@
 - **Base única por disciplina**, com as áreas em colunas. *(20/08)*
 - **Tópico sem questão no banco**: registrar e ignorar. Nunca puxar de assunto vizinho pra encher caderno. *(21/08)*
 - **Questão inédita**: marcar no banco desde a coleta, mas não separar caderno ainda. Só desenhar a separação quando aparecer matéria majoritariamente inédita. *(21/08)*
+- **Censo por filtro é atalho de amostra**, não desenho final. A skill definitiva pega o percentual de acerto questão a questão. *(21/08)*
+- **Guardar o enunciado na coleta**: o `/deslogado` já traz o texto, e o fichamento vai precisar dele. Não guardar obrigaria a revisitar as 5.463. *(21/08)*
 - **Reconhecimento antes de construir** — ver seção D. *(21/08)*
 - **Nível 8 é pedágio curto, não portão**: força uma revisada rápida em quem diz que já estudou. Quem estudou desenrola; quem não estudou paga o preço adiante. Roteia por tópico, nunca pela média. *(21/08)*
 - **N8 e dossiê ficam parados** até saber de onde vem o desempenho do aluno. Não bloqueiam N1 a N7 e não pedem coleta nova no Tec. *(21/08)*
@@ -69,6 +71,8 @@
 | B4 | Fichamento das 3 bancas, sem filtro de banca na entrada | sim |
 | B32 | Desenhar a separação de cadernos quando surgir matéria com muita inédita | não |
 | B33 | Achar o padrão do limite do Tec pelo histórico e calibrar ritmo/espera | não |
+| B34 | **Censo por filtro** (dificuldade/banca/ano em lote) para a amostra de agora | sim |
+| B35 | Na skill final, trocar o censo pelo **percentual real** questão a questão | não |
 | B5 | Camada de "ponto": passada 1 (enunciado de todas as 5.463) | sim |
 | B28 | Passada 2: comentário dos pontos que viram BIZURITO | sim |
 | B29 | Teste controlado: 2 tópicos com passada completa, para comparar | sim |
