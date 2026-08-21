@@ -18,7 +18,7 @@ Estas cinco seguram esse caminho.
 
 | # | Decisão | O que trava |
 |---|---|---|
-| **A8** | As **siglas de disciplina** (proposta a revisar) | é a base 1, e dela sai a numeração de todo o resto |
+| ~~A8~~ | ~~Siglas de disciplina~~ **FECHADO 21/08**: 22 disciplinas — ver `bases/DECISOES.md` | — |
 | ~~A14~~ | ~~Formato do Cód Mestre~~ **FECHADO 21/08** — ver `bases/DECISOES.md` | — |
 | **A15** | **Quais disciplinas** em cada área (8 do Controle + as do Fiscal) | define o conteúdo da base 1 e o escopo da coleta |
 | **A25** | **Ordem de prioridade** das disciplinas | decide o que entra nos 1.000 do primeiro dia |
@@ -51,6 +51,7 @@ Estas cinco seguram esse caminho.
 | A19 | Ordem do Passo Estratégico | no primeiro pós-edital com Passo |
 | A20 | Indexação de slide e mapa mental por bloco | quando material complementar entrar no plano |
 | A4 | Critérios extras da Curva ABC | quando a base de pesos estiver cheia |
+| A31 | **Aluno escolher o professor** da disciplina (hoje vai tudo num pacote) | migração com tarefa própria |
 
 ### A.4 — Ficaram sem objeto com o recomeço
 

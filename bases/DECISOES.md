@@ -96,3 +96,93 @@ cai para a opção B (`DADM-0018 - Nome do Tópico` no assunto), assumindo que o
 | Planilha da Tutory | Ela é alimentada por planilha. Mapear as colunas, e descobrir se `Referência` é alimentável. | na skill da Tutory |
 | Página de orientação | Hoje é uma planilha publicada, feia e compartilhada entre cursos. Proposta: **uma página por disciplina com âncora por tópico** (`.../direito-administrativo#DADM-0018`), o que dá 25 páginas em vez de 2.300. Falta decidir hospedagem. | depois |
 | Técnica de Estudos | Aparece na página do aluno ("Metodologia Completa") e não está no modelo. É atributo do plano ou do tópico? | depois |
+
+---
+
+## A8 — Disciplinas e siglas · fechado em 21/08/2026
+
+**22 disciplinas**, consolidadas dos Cursos Regulares Fiscal e Controle. Sigla de **4 a 6
+letras**, com `AFO` como única exceção de 3, por ser o nome consagrado.
+
+| # | Disciplina | Sigla | Controle | Fiscal |
+|---|---|---|---|---|
+| 1 | Administração Pública | `ADMPUB` | sim | — |
+| 2 | Administração Financeira e Orçamentária | `AFO` | sim | sim |
+| 3 | Auditoria | `AUDIT` | sim | sim |
+| 4 | Contabilidade Geral e Avançada | `CONTAB` | sim | sim |
+| 5 | Contabilidade Pública | `CONTPU` | sim | sim |
+| 6 | Contabilidade de Custos | `CUSTOS` | — | sim |
+| 7 | Controle Externo | `CTREXT` | sim | — |
+| 8 | Direito Administrativo | `DADM` | sim | sim |
+| 9 | Direito Civil | `DCIVIL` | — | sim |
+| 10 | Direito Constitucional | `DCONST` | sim | sim |
+| 11 | Direito Empresarial | `DEMPRE` | — | sim |
+| 12 | Direito Penal | `DPENAL` | — | sim |
+| 13 | Direito Tributário | `DTRIB` | — | sim |
+| 14 | Economia e Finanças Públicas | `ECOFIN` | — | sim |
+| 15 | Estatística | `ESTAT` | sim | sim |
+| 16 | Legislação Tributária Estadual | `LTRIBE` | — | sim |
+| 17 | Legislação Tributária Municipal | `LTRIBM` | — | sim |
+| 18 | Matemática Financeira | `MATFIN` | sim | sim |
+| 19 | Português | `PORT` | sim | sim |
+| 20 | Raciocínio Lógico | `RACLOG` | sim | sim |
+| 21 | Reforma Tributária | `REFTRI` | — | sim |
+| 22 | Tecnologia da Informação | `TECINF` | sim | sim |
+
+### As fusões, e por quê
+
+| Virou | O que absorveu | Motivo |
+|---|---|---|
+| `AUDIT` | Auditoria Governamental + Auditoria | metade do conteúdo é comum às duas áreas |
+| `TECINF` | Informática + Análise de Informações + Tecnologia da Informação | os editais usam nomes diferentes para a mesma coisa |
+| `CONTAB` | as duas versões de Contabilidade Geral e Avançada | mesma matéria, professores diferentes |
+
+**A regra por trás:** a lista de disciplinas é **a nossa taxonomia**, não a dos editais. Criar uma
+disciplina por nome que edital usa reproduz a bagunça das 170 entradas da Tutory que este
+projeto existe para consertar.
+
+**O que é específico de uma área aparece no NOME DO TÓPICO**, não no da disciplina:
+
+```
+AUDIT-0034   Auditoria Governamental: Achados e Evidências
+AUDIT-0051   Auditoria Fiscal: Malha Fina e Cruzamento
+```
+
+### As três exatas ficam separadas
+
+`RACLOG`, `MATFIN` e `ESTAT` são disciplinas distintas, **mesmo que cursos, bancas e o próprio
+Tec as misturem**. A banca anuncia "Raciocínio Lógico" e cobra Estatística.
+
+**O tópico manda, o rótulo não.** Questão de distribuição normal é `ESTAT`, esteja ela onde
+estiver. Como o fichamento é ponto a ponto, dá para **medir** quantas questões rotuladas como RL
+são de fato de Estatística, em vez de achar.
+
+### Coluna de profundidade
+
+Em `TECINF` (e onde mais fizer sentido), cada tópico carrega `Noções` ou `Aprofundado`. Edital
+que pede "Noções de Informática" puxa só os primeiros; o que pede "Tecnologia da Informação"
+puxa tudo. **Sem duplicar tópico.**
+
+### Professor de referência
+
+| Disciplina | Referência |
+|---|---|
+| Contabilidade Geral e Avançada | **Gilmar Possati** |
+| Direito Civil | **Paulo Sousa** |
+
+---
+
+## Alerta de nomenclatura no plano · decidido em 21/08/2026
+
+Quando o nome da **nossa** disciplina divergir do que o **edital** usa, o plano avisa o aluno:
+
+```
+Estudo de Estatística
+ESTAT-0012
+
+Referência: Distribuição Normal
+            ⚠ No edital do TCDF isso aparece dentro de "Raciocínio Lógico"
+```
+
+Sai de graça: a base já guarda o nosso nome e o do edital lado a lado, então é só comparar e
+avisar quando divergir. Sem isso, o aluno procura o assunto na parte errada do edital.
