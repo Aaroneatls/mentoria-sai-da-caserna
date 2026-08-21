@@ -273,3 +273,72 @@ Referência: Banco de Dados: Normalização
 Bezerra, o assunto do Tec, o nome do curso do Estratégia, o item do edital. Nunca substituir pelo
 nosso nome na hora de guardar — o nosso nome é para identificar, o da fonte é para **localizar**.
 É a mesma regra do `INICIE EM` / `TERMINE EM`.
+
+---
+
+## A24 — Contas · fechado em 21/08/2026
+
+| Conta | Papel | Regra |
+|---|---|---|
+| **Coleta** | imprime as 1.000/dia | uma só; nunca gera caderno de aluno |
+| **Produção** | gera os cadernos do aluno | é a conta atual do Elvis, nível avançado; **nunca** usada para coleta em massa |
+
+Uma conta para imprimir, e não duas: duplicar aceleraria o download, que **não é o gargalo**
+(o fichamento é), e aumentaria a exposição de uma conta que já foi sinalizada pela plataforma.
+
+---
+
+## Qual curso serve de referência · fechado em 21/08/2026
+
+**Corrige uma proposta minha que estava errada.** Eu havia sugerido escolher o curso **mais
+atualizado**, por data e hash. Não é assim:
+
+```
+1º  O Curso REGULAR manda sempre    (Regular Fiscal, Regular Controle, e no futuro Regular Legislativo)
+2º  Não existe no Regular           → vai para o curso específico, como suplemento
+3º  Em pós-edital, com a aula já
+    liberada no específico          → usa a do específico
+```
+
+Não é "o mais novo ganha", é **"o Regular é a espinha, o específico completa"**. O aluno de
+pós-edital já viu no Regular o que estudou antes.
+
+**A data vem da CAPA do PDF**, não da plataforma — o Estratégia não publica data de atualização.
+
+**O `hash_teoria` continua útil, mas para outra coisa:** saber se o conteúdo mudou de verdade, e
+com isso decidir se vale avisar o aluno.
+
+---
+
+## Aulas ainda não liberadas no pós-edital · desenho de 21/08/2026
+
+No pós-edital o Estratégia **lista o nome da aula antes de liberar o arquivo**. Para não travar o
+plano, o mapeamento chuta pelo nome — mas o chute fica **marcado como chute**:
+
+| Elemento | Para quê |
+|---|---|
+| `provisorio = true` | o vínculo entrou por palpite, não por leitura |
+| `confianca` | quão certo o palpite parece |
+| `nome_na_plataforma` | o texto literal que apareceu, para conferir depois |
+| fila de conferência | toda aula provisória espera o arquivo sair |
+
+**Registrar o erro, não só a correção.** Quando o arquivo sair e o palpite estiver errado, gravar
+o que se chutou, o que era, e quando se corrigiu. Serve para o Elvis avisar quem pegou a versão
+errada, e para **medir a taxa de acerto do palpite pelo nome**: se acertar 90%, vale continuar;
+se acertar 50%, melhor esperar o material.
+
+**Enquanto for provisório, o aluno é avisado** na Referência: "Aula ainda não liberada pelo
+Estratégia. A indicação de página pode mudar."
+
+---
+
+## Quando um plano precisa ser recarregado na Tutory
+
+| Mudou | Recarrega? |
+|---|---|
+| Incluiu ou excluiu **aula** | **sim** |
+| Mudou o conteúdo do caderno de questões | **não** — o link é o mesmo |
+| Mudou a Referência ou a Dica | **não** |
+
+Por isso os planos fixos (Regular Fiscal, Regular Controle) mudam pouco. **O mapeamento precisa
+indicar qual curso mexeu**, para o Elvis saber o que recarregar em vez de reprocessar tudo.
