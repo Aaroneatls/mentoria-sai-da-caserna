@@ -135,7 +135,10 @@ def publicar(d, path, doc_id=None, impressao=False):
     creds = Credentials.from_authorized_user_file(RAIZ + 'credenciais/google-oauth-token.json')
     drive = build('drive', 'v3', credentials=creds); docs = build('docs', 'v1', credentials=creds)
     media = MediaFileUpload(path, mimetype='text/html')
-    nome = f"BIZURITO {d['codigo']} - {d['nome']} (MODELO)"
+    # o nome do Doc e' o nome do arquivo que o aluno baixa. "(MODELO)" so' entra quando
+    # os numeros forem ficticios; com fichamento real, sai (Elvis, 21/08/2026).
+    _mod = ' (MODELO)' if d.get('modelo') else ''
+    nome = f"BIZURITO {d['codigo']} - {d['nome']}{_mod}"
     if doc_id:
         drive.files().update(fileId=doc_id, body={'name': nome}, media_body=media).execute()
     else:
