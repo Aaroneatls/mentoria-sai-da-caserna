@@ -311,3 +311,51 @@ formulario -> lookup -> prescricao -> entrega
 
 Enquanto a base não existir, o sistema recebe pedido e não tem o que devolver. Por isso os
 três pedidos da seção 8 estão no caminho crítico, e os três são baratos **agora** e caros depois.
+
+---
+
+## 15. Estrutura real do diagnóstico (capturada em 2026-08-20)
+
+Endpoint que alimenta a tela de Estatísticas:
+
+```
+GET /api/resolucoes/estatisticas?filtro.dataInicio=14%2F08%2F2026&filtro.dataFim=20%2F08%2F2026
+```
+
+```json
+"dadosMateria": [{ "id":1, "nome":"Direito Administrativo...", "nomeAbreviado":"DAD",
+  "acertos":0, "erros":1, "resolucoes":1, "peso":1.0,
+  "assuntos":[{ "id":9619, "hierarquia":"14", "subTree":[{ "id":9622, "hierarquia":"14.02",
+    "subTree":[{ "id":9626, "nome":"Objetivos, Fases e Formalidades (arts. 11 a 17)",
+      "hierarquia":"14.02.01", "descendentes":"9626;",
+      "acertos":0, "erros":1, "total":1, "peso":1.0 }]}]}]}],
+"dadosEvolucao": [{ "inicio":"20/08/2026", "acertos":0, "erros":1, "resolucoes":1 }]
+```
+
+Cada assunto traz **id do Tec**, **hierarquia** (`14.02.01`) e acertos/erros na folha. O `id` é
+a chave de junção com a nossa taxonomia. `dadosEvolucao` é série diária, serve pro antes/depois.
+
+### LIMITE: o export não traz número de questão
+
+Ele conta acertos e erros **por assunto**, e só. Assunto é a granularidade grossa que a camada
+de ponto existe pra corrigir. Logo, **o export sozinho não chega no ponto**.
+
+### Entrada corrigida: link do caderno de erradas
+
+Na mesma tela existe o botão **CRIAR CADERNO COM ERRADAS**. Então:
+
+```
+Aluno: CRIAR CADERNO COM ERRADAS -> Compartilhar -> manda UM link
+Elvis: abre o link (vira copia na conta dele) -> le a lista de questoes
+       -> fichamento -> PONTO
+```
+
+Compartilhar caderno leva a **composição** (o que não atravessa contas é o desempenho). E é
+menos atrito pro aluno: dois cliques e um link, sem anexar arquivo.
+
+**Decisão:** link do caderno de erradas como entrada **principal** (chega no ponto); export da
+planilha como **complemento opcional** (panorama por assunto e série de evolução).
+
+**NÃO TESTADO:** ler a composição de um caderno compartilhado por **outra** conta. O Tec
+bloqueou três vezes na sessão. É o primeiro teste da próxima janela, e o desenho da entrada
+depende dele.
