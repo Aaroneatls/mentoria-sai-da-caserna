@@ -176,18 +176,45 @@ puxa tudo. **Sem duplicar tópico.**
    dentro de Direito Tributário tem o histórico lá, e a mudança de disciplina faria a plataforma
    tratar como assunto novo.
 
-### Legislação Tributária: fica de fora, MENOS a Lei Kandir
+### A família tributária: quatro disciplinas, não uma
 
-`LTRIBE` e `LTRIBM` **saem do escopo** (Elvis, 21/08/2026): mudam de estado para estado e de
-município para município, então só fazem sentido depois do edital sair.
+Corrigido em 21/08/2026 depois de o Elvis explicar. A primeira versão deste registro colocava a
+Lei Kandir dentro de `DTRIB`, e estava **errada**.
 
-**Exceção obrigatória: a Lei Kandir.** Ela é **norma geral** (LC 87/1996, ICMS), não legislação
-local. Entra como tópico de `DTRIB`, ainda que **no fim** da disciplina, e ainda que no material
-ela apareça junto da Legislação Tributária ou da Reforma.
+| Disciplina | O que é | Quando existe |
+|---|---|---|
+| `DTRIB` | Direito Tributário | sempre |
+| `REFTRI` | Reforma Tributária | sempre (hoje o conteúdo mora dentro de `DTRIB` no material) |
+| `LTRIB` | **Legislação Tributária — parte geral**, comum a todos os fiscos, com a **Lei Kandir** | sempre |
+| `LTRIB-<ente>` | legislação do estado ou do município | **só no pós-edital** |
 
-É o mesmo princípio da Reforma Tributária: **o conteúdo decide o código, não onde o professor
-guardou**. Sem essa regra, uma norma geral que cai em prova nacional ficaria de fora por estar
-arquivada numa pasta estadual.
+**A parte geral é permanente e entra no escopo.** A parte local nasce quando o edital sai, e é
+por isso que a skill precisa do modo `atualizar`: essas disciplinas aparecem no meio do caminho.
+
+**Ao mapear, procurar mais conteúdo comum.** A Lei Kandir é o caso conhecido; pode haver outros
+pedaços de legislação que são gerais e estão arquivados junto do que é local.
+
+Vale aqui o mesmo princípio da Reforma: **o conteúdo decide o código, não onde o professor
+guardou**. Norma geral que cai em prova nacional não pode ficar de fora por estar numa pasta
+estadual.
+
+### Mapear tudo que o Curso Regular tem, mesmo fora do ciclo atual
+
+O ciclo de estudo em uso não cobre todas as matérias do Curso Regular, e há matérias que o Elvis
+ainda não lançou na plataforma. **Mapeia mesmo assim**: o ciclo muda, o mapeamento é reaproveitado,
+e refazer depois custa mais do que fazer junto.
+
+Casos concretos: `CONTAB`, `ESTAT` e `ECOFIN` não aparecem no ciclo do Controle, mas o Curso
+Regular de Controle tem o material.
+
+### Ignorar o "(Fiscal/ Controle)" dos nomes
+
+O sufixo entre parênteses que aparece na Tutory (`Direito Administrativo (Fiscal/ Controle)`) foi
+uma forma antiga de mapear e **muda muito**. Não é sinal de nada. **Vale o nome da matéria**, e a
+área é coluna.
+
+**Nem toda matéria está nas duas áreas**, e isso é normal: `CTREXT` é só do Controle, `DTRIB` é só
+do Fiscal.
 
 ### Professor de referência
 
