@@ -205,6 +205,11 @@ atacados e evolução antes/depois. Sem nome de aluno na URL.
    **Tem que ser decidido na mesma passada do fichamento.** Depois exige reler questão a
    questão.
 
+3. **Gravar o índice de acerto da comunidade** no fichamento de cada questão. Ele vem em
+   `/api/questoes/{id}/desempenho`, que o fichamento **já chama**, então é uma coluna a mais,
+   custo zero agora. É o que sustenta a Camada 6 da seção 12: sem ele, comparar nossos alunos
+   com a comunidade exigiria varrer o Tec de novo depois, e o Tec bloqueia por volume.
+
 2. **Nada a reservar.** O pedido anterior de reter cota de questões fora dos N1 a N7 foi
    **retirado**. Vale a cascata da seção 4.
 
