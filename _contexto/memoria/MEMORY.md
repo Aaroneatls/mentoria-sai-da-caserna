@@ -1,0 +1,80 @@
+- [Fluxo de teste de skills](feedback_skill_testing_workflow.md) — testar ao vivo antes de finalizar, simular com .txt antes de baixar de verdade
+- [Nunca apagar-e-recriar pasta](feedback_never_delete_recreate_folder.md) — sempre renomear/atualizar em cima da pasta existente
+- [Pasta padrão Estratégia Concursos](project_estrategia_pasta_padrao.md) — `G:\Meu Drive\Inteligência Artificial\Estrategia`, usada pelas skills de download
+- [Nomes de pasta com maiúscula](feedback_folder_naming_capitalized.md) — sempre capitalizar a primeira letra ao criar pastas
+- [Padrão de cabeçalho em planilha-projeto](feedback_planilha_projeto_padrao_cabecalho.md) — cabeçalho na linha 10, dados a partir da linha 11, linhas 1-9 pra design
+- [Metadados núcleo/secundário](feedback_planilha_metadados_nucleo_secundario.md) — formato de tags pra comparar teoria entre PDFs de aula
+- [Planilha teste mapeamento de aulas](project_projetos_planilha_mapeamento_aulas.md) — protótipo da skill de mapeamento, URL e estrutura das abas
+- [Checklist mestre skills de mapeamento](project_skill_mapeamento_aulas_pendencias.md) — 22 itens consolidados + 4ª fonte futura (edital): estrutura, formatação, compatibilização, roteiro Tec, pendências
+- [Contagem de questões em PDFs de aula](feedback_contagem_questoes_pdf_aulas.md) — anulada conta, duplicada só uma vez, inédita soma
+- [Lembrar de syncar após skill](feedback_lembrar_syncar_apos_skill.md) — ao criar/instalar/atualizar skill, perguntar se quer sincronizar com GitHub
+- [Skills sempre versionadas](feedback_skills_devem_ficar_no_git.md) — removida exceção do .gitignore, todas as skills entram no git agora
+- [Conta Estratégia compartilhada](project_conta_estrategia_compartilhada.md) — login "Gisilene Tatianne Santos de Lima" é esposa do Elvis, conta legítima
+- [Pacotes "Regular" sem concurso específico](project_pacotes_regulares_estrategia.md) — Regular Fiscal/Controle usam `(Regular <Área>)` no lugar da sigla concurso-cargo
+- [Execução autônoma sem usuário](feedback_execucao_autonoma_sem_usuario.md) — quando ele avisa que vai sair, seguir sem perguntar e reportar decisões no final
+- [Navegador preferido no TecConcursos](feedback_navegador_preferido_tecconcursos.md) — usar navegador próprio por padrão, Chrome só se não der
+- [Número da questão no Tec](feedback_numero_questao_tec.md) — é o valor com # ao lado da banca, não o "Questão N de 30"
+- [Navegador só precisa ficar aberto pra screenshot](feedback_navegador_aberto_so_screenshot.md) — avisar no início se vai precisar, avisar quando puder minimizar
+- [Login Resumos Bruno Bezerra](reference_resumos_bruno_bezerra_login.md) — https://alunoprofbrunobezerra.plataformatutory.com.br/dash
+- [Pasta padrão Resumos Esquematizados](project_resumos_esquematizados_pasta_padrao.md) — `G:\Meu Drive\Inteligência Artificial\Resumos Esquematizados`
+- [Dinâmica da página filtrar do Tec](reference_tecconcursos_pagina_filtrar_dinamica.md) — taxonomia de assuntos, bugs de extração, limitação do "Editar quantidades"
+- [Convenções download Bezerra](feedback_download_bezerra_convencoes.md) — skills baixar-resumo-especifico/combo-completo: nome sem data, hash pra atualização, curso fixo, exclusões
+- [3 skills de mapeamento](project_tres_skills_mapeamento.md) — Estratégia, Bezerra e TecConcursos viram skills separadas, não uma só
+- [Filtros padrão skill Tec](feedback_skill_tec_filtros_padrao.md) — perguntar área/ano/banca (ano padrão 10 anos), sempre remover anuladas/desatualizadas
+- [Google Sheets em vez de Excel](feedback_preferencia_google_sheets_sobre_excel.md) — padrão pra qualquer planilha nova: gspread nativo, não .xlsx local
+- [Formatação padrão de planilhas](feedback_formatacao_padrao_google_sheets.md) — alinhamento centralizado, quebra de texto, aparar linhas/colunas em excesso com margem
+- [Bizus navegador do Tec](feedback_tec_navegador_bizus.md) — recarregar se árvore bagunçar, clicar por ref não por pixel, cuidado com get_page_text
+- [Tec: Organizar por Relevância](feedback_tec_organizar_por_relevancia.md) — sempre "Relevância (apenas assuntos)" na exportação, nunca "Hierarquia"
+- [Sugestão de melhoria ao final](feedback_sugestao_melhoria_final_execucao.md) — regra geral: skills de download em massa/cadernos de questões avaliam melhoria própria ao final
+- [Nome do arquivo vem da capa do PDF](feedback_nome_arquivo_vem_da_capa_do_pdf.md) — se o rótulo do site diverge do título do PDF, vale o do PDF
+- [Manual completo do TecConcursos](reference_tecconcursos_manual_completo.md) — mora em _contexto/tecconcursos.md: funcionalidades, planos, limites estruturais, filtro por URL e API interna
+- [Série não serve pra plano de estudo](feedback_tec_serie_nao_serve_plano_estudo.md) — Tec distribui por frequência histórica; definir quantidade por assunto na mão
+- [Filtro do Tec não tem memória](feedback_tec_filtro_sem_memoria.md) — cadernos manuais iguais saem idênticos; "em série" só vale na aba aberta
+- [7 níveis de caderno Tec + pesos + Curva ABC](project_niveis_caderno_tec_e_pesos.md) — tamanhos por nível, amostra de 1000 questões/10 anos, banca por área, A=80%/B=90%/C=100%
+- [Nome Mestre sintetiza, referência é literal](feedback_nome_mestre_sintetiza_referencia_e_literal.md) — taxonomia pode encurtar; "começa em/vai até" é verbatim do PDF, inclusive caixa alta
+- [Limiar é faixa, não constante](feedback_limiares_com_margem_nao_constante_fixa.md) — medir no próprio documento; layout varia por professor e por aula
+- [Qualidade acima de economia de tokens](feedback_qualidade_acima_de_economia_de_tokens.md) — abrir o PDF e olhar a imagem vale mais que inferir barato
+- [Mapeamento das 8 disciplinas](project_mapeamento_8_disciplinas_resultado.md) — 395 blocos; falha quando título e corpo têm o mesmo tamanho; multi-zona gera bloco invertido
+- [Tec: API de desempenho e filtros](reference_tec_api_desempenho_e_filtros.md) — índice de acerto VEM na API; tipo é FILTRO_QUESTAO; Cebraspe é id 4, não 2
+- [Cadernos: cobertura e composição própria](project_cadernos_cobertura_e_composicao_propria.md) — objetivo é cobrir o máximo de assuntos; o gerador do Tec não compõe, só conta
+- [Caderno de erros do aluno](project_caderno_de_erros_do_aluno.md) — desenho FECHADO em 20/08/2026; detalhe em _contexto/briefing-sistema-caderno-de-erros.md
+- [Coleta longa: avisar para não mexer](feedback_coleta_longa_avisar_nao_mexer.md) — navegar na aba mata o script e a coleta para em silêncio; persistir a cada lote
+- [Reconhecimento antes de construir](feedback_reconhecimento_antes_de_construir.md) — caracterizar o material antes de construir; refazer é o dado, não o método
+- [Lista viva de tarefas](../../../../../../G:/Meu Drive/Inteligência Artificial/Claude Code/ccos-ratos/_contexto/tarefas-mapeamento.md) — mora em _contexto/tarefas-mapeamento.md, fora da janela de contexto
+- [Nível 8: diagnóstico e escada](project_nivel8_diagnostico_e_escada.md) — mede quem já estudou; roteia por tópico, não pela média
+- [Fichamento em duas passadas](project_fichamento_duas_passadas.md) — enunciado de todas, comentário só do que vira linha de BIZURITO
+- [Recência na seleção de questões](project_recencia_na_selecao_de_questoes.md) — mais recentes DENTRO da cota do tópico, nunca no bolo; marco legal descarta, não despriorriza
+- [Base regular x pós-edital e Cód Mestre](project_base_regular_e_pos_edital_cod_mestre.md) — Cód Mestre e nome da disciplina são chave no Tutory; comparar BLOCO a bloco, nunca aula a aula
+- [Zonas de teoria e questão no PDF](project_zonas_de_teoria_e_questao_no_pdf.md) — ALERTA: teoria pode voltar depois de questões; medir densidade por área, não por página
+- [Validar cache por amostragem](feedback_validar_cache_por_amostragem.md) — 20% reprocessado do zero a cada execução; hash sozinho não pega detector errado
+- [Detector tipográfico de títulos](project_detector_tipografico_titulos_estrategia.md) — título é o que tem fonte maior que o corpo; não testar negrito, o flag é invertido entre safras
+- [Validação autônoma e corte de tabela](feedback_validacao_autonoma_e_corte_de_tabela.md) — Claude resolve sozinho e só escala caso crítico; nunca cortar tabela ao meio; banner só se descobre olhando
+- [Quebra Estratégia + correlação Bezerra](project_regras_quebra_estrategia_correlacao_bezerra.md) — 10-20 páginas/bloco, página real do PDF, página=só teoria
+- [Taxonomia central / nome mestre](project_taxonomia_central_nome_mestre.md) — proposta de tópico único ligando Estratégia+Bezerra+Tec+Edital, ainda em aberto
+- [Guias do Tec: uso e limites](project_guias_do_tec_uso_e_limites.md) — consulta e alerta, nunca composição; bloco de observações é mutável e precisa de diff
+- [Curso de referência e aulas faltantes](project_curso_referencia_e_aulas_faltantes.md) — Regular por área como referência provisória; casar por conteúdo, não por nº de aula; gaps falsos por curso errado
+- [Páginas do Estratégia são derivadas](project_paginas_estrategia_sao_derivadas.md) — professores repaginam; âncora de prosa (não de título) + hash_teoria recalculam; plataforma não dá data de atualização
+- [Arquitetura das bases e link imutável](project_arquitetura_bases_e_link_imutavel.md) — 1 planilha por disciplina + 1 global; link do caderno nunca muda; inéditas em trilha separada
+- [Código identifica conteúdo, não posição](feedback_codigo_identifica_conteudo_nao_posicao.md) — renomear pode; trocar o conteúdo exige código novo, senão as questões perdem a correlação
+- [Página é sempre a do arquivo PDF](feedback_pagina_sempre_do_arquivo_pdf.md) — regra geral: posição no arquivo, nunca o sumário nem o número impresso na folha
+- [Nomenclatura do nome mestre](feedback_nomenclatura_nome_mestre.md) — "assunto do edital: subtópicos"; hierarquia de fontes; guarda-chuva x lista
+- [Teoria compartilhada entre áreas](project_teoria_compartilhada_entre_areas.md) — mesmo hash_teoria = mesmo Cód Mestre; teoria é agnóstica de área, questões não
+- [Planilhas Base DADM e Simulação TCDF](project_planilhas_base_dadm_e_tcdf.md) — as duas planilhas do teste de 19/08, URLs, abas e a limitação conhecida
+- [Base própria de pesos substitui a do Tec](project_base_propria_de_pesos_substitui_tec.md) — percentual sai do nosso fichamento, fatiável por banca; Tec vira conferência
+- [Banco de fichamento de questões](project_banco_fichamento_questoes.md) — camada de "ponto" abaixo do tópico mestre; 3 abas; define redundância, cobertura e tamanho do caderno
+- [Bloqueio de plataforma: como agir](feedback_bloqueio_plataforma_como_agir.md) — 429: parar, avisar, esperar 2h; o desbloqueio do Tec vem por CAPTCHA que só o Elvis resolve
+- [Gerador do Tec não repete questão](project_tec_gerador_nao_repete_questao.md) — exclui sozinho o que já está em outro caderno; pedir N não garante receber N
+- [Skill de cadernos pergunta parâmetros na abertura](feedback_skill_cadernos_perguntar_parametros_iniciais.md) — sempre perguntar disciplina, nível, banca/área, momento, nome, registro e tratamento de furos
+- [Cód Mestre e atualização da taxonomia](project_taxonomia_codigo_mestre_e_atualizacao.md) — chave é `SIGLA-NNN`, aba de siglas com aliases, skill com modo atualizar + cascata
+- [Tabela de referência viva](feedback_tabela_referencia_viva_reenviar.md) — lista A/B/C do projeto: atualizar e reenviar no chat a cada tarefa cumprida, nova ou substituída
+- [Abrir links no navegador próprio](feedback_abrir_links_navegador_proprio.md) — padrão pra qualquer link: Claude Browser, mesma janela; Chrome só com autorização
+- [Limite de 3 matrículas no Estratégia](project_estrategia_matriculas_limite_coruja.md) — rodízio com CORUJA nos dois sentidos, qualquer pacote pode sair, busca sempre por pacote
+- [Resumos e mapas mentais: pendência](project_resumos_mapas_mentais_indexacao.md) — combinar com o Elvis como indicar e como isso entra na indexação do mapear aulas
+- [Bizu de revisão por tópico](project_bizu_revisao_por_topico.md) — 3º material do aluno: sai do fichamento, entregue por link fixo do Google Docs que exporta PDF
+- [BIZURITO: fontes e validação](project_bizurito_fontes_e_validacao.md) — banco de questões é fonte primária, resumo de terceiro é auditor; 3 pontos cegos do banco
+- [Busca no catálogo do Estratégia](reference_estrategia_busca_catalogo_abas.md) — aba não troca por clique de coordenada e a busca é OR; material granular só aparece em CURSOS
+- [Material padrão e arquivo de referência](project_material_padrao_simplificado_e_passo.md) — Curso Regular pelo PDF simplificado (só 70% das aulas têm); Passo é exceção, avaliação adiada pro 1º pós-edital
+- [Textos sempre justificados](feedback_textos_sempre_justificados.md) — padrão pra qualquer documento, não só o BIZURITO
+- [Pastas do Drive x pacotes do Estratégia](reference_estrategia_pastas_x_pacotes.md) — "Regular Controle" no catálogo é "Concursos de Tribunais de Contas (Nível Superior)"; IDs das 4 pastas
+- [Validação de conteúdo do BIZURITO](project_bizurito_validacao_conteudo.md) — 6 camadas, olhar de fora obrigatório, catálogo de vícios que cresce a cada execução
+- [Briefing do BIZURITO](project_bizu_revisao_por_topico.md) — handoff completo em `_contexto/briefing-bizurito.md`, gerador em `bizurito/`

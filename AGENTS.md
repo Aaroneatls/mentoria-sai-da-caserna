@@ -138,6 +138,31 @@ reportar. Confirmado pelo Elvis em 2026-08-18.
 5. **Pendências** — listar o que ficou em aberto e o que depende do Elvis,
    separando o que é bloqueante do que não é.
 
+6. **Memória portátil** — copiar `~/.claude/projects/<projeto>/memory/*.md` para
+   `_contexto/memoria/`. A memória do Claude fica **fora do repositório**, então quem
+   abrir o projeto no ChatGPT, no Codex ou numa máquina nova não a enxerga. Sem essa
+   cópia, o aprendizado se perde numa reinstalação. Fazer **antes** do commit final,
+   para o conteúdo entrar no push.
+
+---
+
+## Tudo que a gente produz tem de ser portátil
+
+O Elvis pode abrir este projeto em outro assistente, em especial o ChatGPT. Então **decisão,
+regra ou aprendizado que só existe dentro do Claude não existe**.
+
+| Onde escrever | O que vai |
+|---|---|
+| `bases/DECISOES.md` | decisões fechadas com o Elvis |
+| `bases/<n>/APRENDIZADO.md` | lição aprendida trabalhando naquela base |
+| `bases/05-questoes-tec/REGRAS.md` | regras de acesso ao TecConcursos |
+| `_contexto/tarefas-mapeamento.md` | lista viva de tarefas e decisões pendentes |
+| `_contexto/memoria/` | cópia portátil da memória do Claude |
+| `AGENTS.md` | regra de comportamento permanente do workspace |
+
+A memória do Claude continua sendo a cópia de trabalho, pela velocidade de recall. Mas **a fonte
+de verdade é o repositório**, porque é o que qualquer assistente consegue ler.
+
 ---
 
 ## Regra geral: nunca sobrescrever arquivo bom com download não validado
