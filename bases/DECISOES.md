@@ -303,6 +303,27 @@ atualizado**, por data e hash. Não é assim:
 Não é "o mais novo ganha", é **"o Regular é a espinha, o específico completa"**. O aluno de
 pós-edital já viu no Regular o que estudou antes.
 
+### O link se escolhe pela ÁREA do aluno
+
+Refinamento de 21/08/2026. Um tópico compartilhado tem **um código e dois endereços**, e cada
+aluno recebe o do curso **dele**:
+
+```
+Tópico DADM-0018, compartilhado pelas duas áreas
+  Aluno de Controle  ->  Regular Controle, aula 06, p. 17-29
+  Aluno de Fiscal    ->  Regular Fiscal,   aula 07, p. 22-35
+```
+
+Mesmo código, mesmo caderno de questões, PDFs diferentes. Mandar o aluno de Controle para o PDF
+do Fiscal seria pedir que ele abrisse um arquivo que talvez nem tenha.
+
+| Situação | Qual link vai |
+|---|---|
+| Existe nos dois cursos | **o da área do aluno** |
+| Existe só num, e é pertinente | o que existe, mesmo sendo da outra área |
+| Pós-edital, aula do específico já liberada | a do específico |
+| Pós-edital, aula ainda não liberada | **continua no Regular** |
+
 **A data vem da CAPA do PDF**, não da plataforma — o Estratégia não publica data de atualização.
 
 **O `hash_teoria` continua útil, mas para outra coisa:** saber se o conteúdo mudou de verdade, e
@@ -327,8 +348,15 @@ o que se chutou, o que era, e quando se corrigiu. Serve para o Elvis avisar quem
 errada, e para **medir a taxa de acerto do palpite pelo nome**: se acertar 90%, vale continuar;
 se acertar 50%, melhor esperar o material.
 
-**Enquanto for provisório, o aluno é avisado** na Referência: "Aula ainda não liberada pelo
-Estratégia. A indicação de página pode mudar."
+**O texto para o aluno afirma, não duvida.** Nada de "pode mudar", que só planta insegurança:
+
+```
+Referência: Improbidade: Prescrição
+            Aula 12 do Pacotaço TCDF, ainda não liberada pelo Estratégia.
+            Estude por enquanto no Regular Controle, aula 16, p. 90-101.
+```
+
+E isso tende a ser **raro**: o material costuma sair em cerca de 15 dias.
 
 ---
 

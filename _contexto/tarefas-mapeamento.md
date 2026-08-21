@@ -36,6 +36,7 @@ Estas cinco seguram esse caminho.
 | A29 | Hospedagem da página de orientação: Google publicado ou site próprio | quando a base alimentar a página |
 | A30 | "Técnica de Estudos" é atributo do plano ou do tópico? | quando a skill da Tutory for feita |
 | A26 | Quais editais entram | ao começar a base 6 |
+| A32 | **Critérios por matéria** (janela de anos, filtros) — pensando em 5 anos na camada inicial | antes de mapear cada matéria |
 | A5 | Nomenclatura final das skills | quando as skills forem empacotadas |
 
 ### A.3 — FUTURO (não decidir agora, retomar quando fizer sentido)
