@@ -68,6 +68,7 @@
 | B3 | Aba de registro: qual questão entrou em qual caderno | sim |
 | B4 | Fichamento das 3 bancas, sem filtro de banca na entrada | sim |
 | B32 | Desenhar a separação de cadernos quando surgir matéria com muita inédita | não |
+| B33 | Achar o padrão do limite do Tec pelo histórico e calibrar ritmo/espera | não |
 | B5 | Camada de "ponto": passada 1 (enunciado de todas as 5.463) | sim |
 | B28 | Passada 2: comentário dos pontos que viram BIZURITO | sim |
 | B29 | Teste controlado: 2 tópicos com passada completa, para comparar | sim |
