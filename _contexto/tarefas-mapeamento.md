@@ -50,6 +50,7 @@
 - **Base única por disciplina**, com as áreas em colunas. *(20/08)*
 - **Tópico sem questão no banco**: registrar e ignorar. Nunca puxar de assunto vizinho pra encher caderno. *(21/08)*
 - **Questão inédita**: marcar no banco desde a coleta, mas não separar caderno ainda. Só desenhar a separação quando aparecer matéria majoritariamente inédita. *(21/08)*
+- **Classificação no tópico mestre vem de LER o enunciado**, nunca do filtro de assunto do Tec, que erra. Comentário só nos níveis altos. *(21/08)*
 - **Censo por filtro é atalho de amostra**, não desenho final. A skill definitiva pega o percentual de acerto questão a questão. *(21/08)*
 - **Guardar o enunciado na coleta**: o `/deslogado` já traz o texto, e o fichamento vai precisar dele. Não guardar obrigaria a revisitar as 5.463. *(21/08)*
 - **Reconhecimento antes de construir** — ver seção D. *(21/08)*
