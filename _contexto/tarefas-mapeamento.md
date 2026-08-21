@@ -32,7 +32,7 @@
 | A17 | Caderno personalizado por aluno é viável na Tutory? |
 | A18 | Cortes de risco do BIZURITO: manter 70/50 ou calibrar pelo `dificuldade` do Tec? |
 | A22 | ~~Escada do N8~~ **adiada por decisão de 21/08**: só se resolve depois de A23 |
-| A23 | **De onde vem o desempenho do aluno?** (Tec na nossa conta, Tutory, ou o aluno manda) |
+| A23 | ~~De onde vem o desempenho do aluno~~ **encaminhado 21/08**: o próprio aluno gera o caderno de erros na conta dele. Falta escolher entre PDF, link compartilhado ou os dois |
 | A19 | Ordem do Passo Estratégico (gatilho: 1º pós-edital com Passo) |
 | A20 | Indexação de slide e mapa mental por bloco de vídeo |
 | A21 | Amostra mínima de respostas antes de atribuir rótulo de RISCO |
@@ -53,6 +53,10 @@
 - **Classificação no tópico mestre vem de LER o enunciado**, nunca do filtro de assunto do Tec, que erra. Comentário só nos níveis altos. *(21/08)*
 - **Censo por filtro é atalho de amostra**, não desenho final. A skill definitiva pega o percentual de acerto questão a questão. *(21/08)*
 - **Guardar o enunciado na coleta**: o `/deslogado` já traz o texto, e o fichamento vai precisar dele. Não guardar obrigaria a revisitar as 5.463. *(21/08)*
+- **Coleta só por impressão**, dentro do teto publicado de 1.000/dia. Coletor questão a questão proibido. Ver `coleta-tec/REGRAS.md`. *(21/08)*
+- **Uma conta só.** Segunda conta para dobrar limite fica descartada, por risco de banimento. *(21/08)*
+- **BIZURITO sai do caminho crítico.** O foco agora é entregar cadernos por nível com alta qualidade. *(21/08)*
+- **O caderno de erros nasce na conta do aluno**, com os filtros de "remover as que acertei" e "remover as que não resolvi". *(21/08)*
 - **Reconhecimento antes de construir** — ver seção D. *(21/08)*
 - **Nível 8 é pedágio curto, não portão**: força uma revisada rápida em quem diz que já estudou. Quem estudou desenrola; quem não estudou paga o preço adiante. Roteia por tópico, nunca pela média. *(21/08)*
 - **N8 e dossiê ficam parados** até saber de onde vem o desempenho do aluno. Não bloqueiam N1 a N7 e não pedem coleta nova no Tec. *(21/08)*
@@ -72,7 +76,17 @@
 | B4 | Fichamento das 3 bancas, sem filtro de banca na entrada | sim |
 | B32 | Desenhar a separação de cadernos quando surgir matéria com muita inédita | não |
 | B33 | Achar o padrão do limite do Tec pelo histórico e calibrar ritmo/espera | não |
-| B34 | **Censo por filtro** (dificuldade/banca/ano em lote) para a amostra de agora | sim |
+| B34 | ~~Censo por filtro~~ **feito 21/08**: 5.423 com dificuldade e banca | — |
+| B36 | **Leitor do caderno de erros do aluno** (PDF ou link compartilhado) — a debater | não |
+| B37 | Biblioteca de cadernos por ponto, criados sob demanda e reaproveitados | não |
+| B38 | Tamanho de caderno proporcional ao nº de pontos, não fixo em 15 | não |
+| B39 | Ordem didática dentro do caderno (por ponto ou por dificuldade) | não |
+| B40 | Cobertura manda em N1-N2, peso real manda em N3-N5 | não |
+| B41 | Confirmar que a lista de 5.463 já exclui anuladas e desatualizadas | **sim** |
+| B42 | Gabarito junto de cada questão na impressão (JUNTO_QUESTAO) | **sim** |
+| B43 | Testar criar caderno vazio: derrubaria de 5 para 3 requisições | não |
+| B44 | Caderno-base com fatias por `questaoInicial`, em vez de 28 temporários | não |
+| B45 | Apagar os 5 cadernos ZZ-COLETA e limpar `coletor_src` do navegador | não |
 | B35 | Na skill final, trocar o censo pelo **percentual real** questão a questão | não |
 | B5 | Camada de "ponto": passada 1 (enunciado de todas as 5.463) | sim |
 | B28 | Passada 2: comentário dos pontos que viram BIZURITO | sim |
@@ -154,10 +168,13 @@ disciplina fechada para julgar.
 | | |
 |---|---|
 | Base de blocos | **449 blocos em 8 disciplinas**, publicada |
-| Base de questões do Tec | **668 de 5.463** (12%), pausada por 429 |
-| Cadernos criados | 64, mas **com `abrirEmModoCurso=true`** — precisam ser refeitos |
-| BIZURITO | 1 folha real publicada (DADM-089, Improbidade: Prescrição) |
-| Código | versionado em `mapeamento/` |
+| Questões com enunciado | **1.224 de 5.463**, colhidas por impressão |
+| Dificuldade e banca | **5.423**, pelos censos por filtro |
+| Fichamento | **199 questões, 38 pontos, 4 tópicos mestres** |
+| Cadernos N1-N5 | **8 no ar**, cobertura de 100% nos níveis 1 e 3 |
+| Banco | SQLite em `dados/banco-tec/`, fora do git |
+| Código | `mapeamento/`, `coleta-tec/`, `fichamento/` |
 
-**O gargalo é o limite de requisição do Tec.** Coletar a base e criar cadernos competem pela
-mesma cota — não dá para fazer os dois ao mesmo tempo.
+**O gargalo deixou de ser o limite de requisição.** Com a impressão, a disciplina inteira sai em
+**6 dias** e menos de 100 requisições. O que manda agora é o teto de 1.000 questões impressas
+por dia, que o próprio Tec publica.
