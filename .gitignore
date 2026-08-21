@@ -52,3 +52,6 @@ node_modules/
 # cache do Python
 __pycache__/
 *.pyc
+
+# banco local de questoes do Tec: fica no Drive, nunca no repositorio
+dados/banco-tec/
