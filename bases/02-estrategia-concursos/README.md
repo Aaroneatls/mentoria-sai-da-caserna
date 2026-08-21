@@ -2,6 +2,9 @@
 
 Os blocos de estudo cortados dos PDFs do Estrategia: onde o aluno estuda cada topico, com pagina de inicio e de fim.
 
+> **Antes de comecar, ler `../DECISOES.md`.** As decisoes fechadas com o Elvis estao la, e
+> nao devem ser reabertas sem motivo novo.
+
 ## O que esta base produz
 
 - Um bloco por trecho de 5 a 12 paginas, cortado em ponto de titulo

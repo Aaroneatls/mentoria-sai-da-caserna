@@ -2,6 +2,9 @@
 
 O acervo de questoes, com enunciado, alternativas e gabarito, mais a camada de **ponto** que sai da leitura. E a base que alimenta os cadernos.
 
+> **Antes de comecar, ler `../DECISOES.md`.** As decisoes fechadas com o Elvis estao la, e
+> nao devem ser reabertas sem motivo novo.
+
 ## O que esta base produz
 
 - A questao: enunciado, alternativas, gabarito, banca, ano, orgao

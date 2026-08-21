@@ -19,7 +19,7 @@ Estas cinco seguram esse caminho.
 | # | Decisão | O que trava |
 |---|---|---|
 | **A8** | As **siglas de disciplina** (proposta a revisar) | é a base 1, e dela sai a numeração de todo o resto |
-| **A14** | O **formato do Cód Mestre**, com e sem edital (`DADM-001` × `DADM-TCDF-001`) | é a chave do eixo |
+| ~~A14~~ | ~~Formato do Cód Mestre~~ **FECHADO 21/08** — ver `bases/DECISOES.md` | — |
 | **A15** | **Quais disciplinas** em cada área (8 do Controle + as do Fiscal) | define o conteúdo da base 1 e o escopo da coleta |
 | **A25** | **Ordem de prioridade** das disciplinas | decide o que entra nos 1.000 do primeiro dia |
 | **A24** | **Contas**: 1 nova padrão + a avançada para inéditas? | encaminhado, falta confirmar |
@@ -32,6 +32,9 @@ Estas cinco seguram esse caminho.
 | A11 | Inédita exige plano avançado **do aluno**? | ao montar o primeiro caderno |
 | A27 | As 3 melhorias de composição: tamanho proporcional, ordem didática, peso real em N3-N5 | ao montar o primeiro caderno |
 | A12 | Professor diferente entre áreas (o caso do Direito Civil) | ao ligar a base 2 ao eixo |
+| A28 | Migrar os nomes de disciplina da Tutory (hoje `Direito Administrativo (Fiscal/ Controle)`) | antes do primeiro plano novo |
+| A29 | Hospedagem da página de orientação: Google publicado ou site próprio | quando a base alimentar a página |
+| A30 | "Técnica de Estudos" é atributo do plano ou do tópico? | quando a skill da Tutory for feita |
 | A26 | Quais editais entram | ao começar a base 6 |
 | A5 | Nomenclatura final das skills | quando as skills forem empacotadas |
 

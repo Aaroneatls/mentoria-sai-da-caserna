@@ -2,6 +2,9 @@
 
 A arvore de assuntos do TecConcursos, por materia. Serve de palpite inicial para o topico mestre e de vocabulario comum com a plataforma.
 
+> **Antes de comecar, ler `../DECISOES.md`.** As decisoes fechadas com o Elvis estao la, e
+> nao devem ser reabertas sem motivo novo.
+
 ## O que esta base produz
 
 - A arvore completa, com id, nome e hierarquia (`01.02.03`)

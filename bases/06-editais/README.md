@@ -2,6 +2,9 @@
 
 O programa de cada concurso, item a item, ligado ao Cod Mestre. E a fonte que manda no pos-edital: define o que entra e o que fica de fora.
 
+> **Antes de comecar, ler `../DECISOES.md`.** As decisoes fechadas com o Elvis estao la, e
+> nao devem ser reabertas sem motivo novo.
+
 ## O que esta base produz
 
 - Um registro por item de edital, com o texto literal

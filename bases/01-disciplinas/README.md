@@ -2,6 +2,9 @@
 
 O nome canonico de cada disciplina e a sigla que abre o Cod Mestre. E a base mais simples e a mais importante: **e dela que sai a numeracao de todo o resto**.
 
+> **Antes de comecar, ler `../DECISOES.md`.** As decisoes fechadas com o Elvis estao la, e
+> nao devem ser reabertas sem motivo novo.
+
 ## O que esta base produz
 
 - Nome canonico da disciplina, com os apelidos que aparecem em cada fonte
