@@ -99,5 +99,27 @@
   "t": "2026-08-21 09:50",
   "ev": "conclusao",
   "nota": "o contador e do cookie aws-waf-token, nao do tempo nem do dia. CAPTCHA resolvido = balde zerado. Gatilho de renovacao deve ser por CONTAGEM de chamadas."
+ },
+ {
+  "t": "2026-08-21 10:44",
+  "ev": "bloqueio",
+  "chamadas_ate_travar": 125,
+  "nota": "3o cookie do dia; rendimento caindo (775 -> 324 -> 125)"
+ },
+ {
+  "t": "2026-08-21 11:03",
+  "ev": "liberou_sozinho",
+  "minutos": 19,
+  "nota": "SEM captcha. 19 min de silencio TOTAL bastaram."
+ },
+ {
+  "t": "2026-08-21 11:03",
+  "ev": "correcao",
+  "nota": "o teste de 1h da manha estava viciado: eu sondava no meio (08:02, 08:03, 08:04, 09:05). Cada sondagem reinicia o castigo. Silencio de verdade libera."
+ },
+ {
+  "t": "2026-08-21 11:03",
+  "ev": "ajuste",
+  "nota": "coletor deixa de sondar de 45 em 45s. Agora descansa 20, 30, 40 min em silencio total."
  }
 ]
