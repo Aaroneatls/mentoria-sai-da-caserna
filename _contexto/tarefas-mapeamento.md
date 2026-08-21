@@ -11,31 +11,46 @@
 
 ## A — Decisões que dependem do Elvis
 
-| # | Item |
-|---|---|
-| A1 | 26 casos sem correspondência entre as fontes |
-| A2 | Texto padrão para tópico sem Bezerra |
-| A3 | Fallback quando não há resumo do Estratégia |
-| A4 | Critérios extras da Curva ABC |
-| A5 | Nomenclatura final das skills |
-| A6 | Célula solta na aba Base Estratégia |
-| A7 | R08 duplicado |
-| A8 | As 15 siglas de disciplina propostas |
-| A9 | ~~Tópicos com banco escasso~~ **decidido 21/08**: registrar e ignorar, sem puxar de vizinho |
-| A10 | A Tutory informa se o aluno começou o caderno? |
-| A11 | Questão inédita exige plano avançado **do aluno**? (a nossa conta tem) |
-| A12 | Professor de Direito Civil (alerta de duplicidade) |
-| A13 | Gaps "verdade material" e "segregação de funções" |
-| A14 | Formato do Cód Mestre de edital (`DADM-TCDF-001`) |
-| A15 | Confirmar as 8 matérias escolhidas para a base do Controle |
-| A16 | `PPPs e Consórcios` e `Convênios` não têm item no edital do TCDF: ficam de fora? |
-| A17 | Caderno personalizado por aluno é viável na Tutory? |
-| A18 | Cortes de risco do BIZURITO: manter 70/50 ou calibrar pelo `dificuldade` do Tec? |
-| A22 | ~~Escada do N8~~ **adiada por decisão de 21/08**: só se resolve depois de A23 |
-| A23 | ~~De onde vem o desempenho do aluno~~ **encaminhado 21/08**: o próprio aluno gera o caderno de erros na conta dele. Falta escolher entre PDF, link compartilhado ou os dois |
-| A19 | Ordem do Passo Estratégico (gatilho: 1º pós-edital com Passo) |
-| A20 | Indexação de slide e mapa mental por bloco de vídeo |
-| A21 | Amostra mínima de respostas antes de atribuir rótulo de RISCO |
+### A.1 — TRAVAM o que vamos construir agora
+
+Estas seguram as cinco bases, a coleta e os cadernos. São as que precisam de resposta primeiro.
+
+| # | Item | O que trava |
+|---|---|---|
+| A8 | **As siglas de disciplina** (proposta de 15, a revisar) | é a **base 5**; sem ela não dá para numerar tópico sem repetir |
+| A15 | **Confirmar as disciplinas de cada área** (8 do Controle + as do Fiscal) | define o escopo da coleta diária |
+| A14 | **Formato do Cód Mestre**, com e sem edital (`DADM-001` x `DADM-TCDF-001`) | é a chave do eixo que liga as cinco bases |
+| A12 | **Professor diferente entre áreas** (o caso do Direito Civil) | é o primeiro caso real da regra de "um código, dois endereços" |
+| A24 | **Uma conta ou três?** Sinalizado "uma só", falta fechar | define se a coleta é um fluxo ou três |
+| A25 | **Ordem de prioridade das disciplinas** para a coleta | decide o que entra nos 1.000/dia de amanhã |
+| A26 | **Quais editais entram** na base de taxonomia | é a **base 4** |
+| A11 | Inédita exige plano avançado **do aluno**? | decide se inédita pode entrar em caderno normal |
+| A16 | `PPPs e Consórcios` e `Convênios` ficam fora, por não terem item no edital? | fecha o escopo de Direito Administrativo |
+| A27 | Aprovar as 3 melhorias de composição: tamanho proporcional, ordem didática, peso real em N3-N5 | muda como os cadernos são montados |
+
+### A.2 — Podem esperar
+
+| # | Item | Por que espera |
+|---|---|---|
+| A1 | 26 casos sem correspondência entre as fontes | é da compatibilização, base 4 |
+| A2 | Texto padrão para tópico sem Bezerra | idem |
+| A3 | Fallback quando não há resumo do Estratégia | idem |
+| A13 | Gaps "verdade material" e "segregação de funções" | idem |
+| A4 | Critérios extras da Curva ABC | não afeta a montagem atual |
+| A5 | Nomenclatura final das skills | as skills vêm depois do processo estar firme |
+| A6 | Célula solta na aba Base Estratégia | limpeza |
+| A7 | R08 duplicado | limpeza |
+| A10 | A Tutory informa se o aluno começou o caderno? | ligado ao dossiê, que está parado |
+| A17 | Caderno personalizado por aluno é viável na Tutory? | idem |
+| A18 | Cortes de risco do BIZURITO | BIZURITO saiu do caminho crítico |
+| A21 | Amostra mínima antes do rótulo de RISCO | idem |
+| A19 | Ordem do Passo Estratégico | Passo está fora do escopo por enquanto |
+| A20 | Indexação de slide e mapa mental por bloco | material complementar, depois |
+| A22 | ~~Escada do N8~~ adiada, depende de A23 | N8 está parado |
+| A23 | ~~Desempenho do aluno~~ encaminhado: nasce na conta dele. Falta escolher PDF ou link | o caminho já existe, falta a forma |
+| A9 | ~~Tópico com banco escasso~~ **decidido**: registrar e ignorar | fechado |
+
+---
 
 ### Já decididos (registro, não repetir)
 
