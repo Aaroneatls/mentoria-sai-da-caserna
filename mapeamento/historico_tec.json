@@ -46,5 +46,20 @@
   "t": "2026-08-21 08:03",
   "ev": "experimento",
   "nota": "bloqueio GLOBAL: /api/enums/universos, /desempenho e /gabarito todos 429"
+ },
+ {
+  "t": "2026-08-21 08:04",
+  "ev": "experimento",
+  "nota": "com cookie da conta 429; sem cookie 200. O limitador chaveia pela CONTA, nao pelo IP: mesma conexao, mesmo instante, respostas diferentes."
+ },
+ {
+  "t": "2026-08-21 08:05",
+  "ev": "correcao",
+  "nota": "o 200 sem cookie era FALSO: corpo HTML de login, nao JSON. Sem sessao nao ha dado. Armadilha classica de 200+HTML, ja prevista na regra de casa."
+ },
+ {
+  "t": "2026-08-21 08:06",
+  "ev": "pausa",
+  "nota": "pausa deliberada de 60 min sem UMA chamada, para medir o teto do castigo. Sondar uma vez as 09:06."
  }
 ]
