@@ -9,6 +9,7 @@ Os resumos do professor Bruno Bezerra, ligados ao Cod Mestre. Servem de auditor 
 
 - Um registro por resumo, com materia, paginas e o vinculo ao Cod Mestre
 - Os topicos que **nao** tem cobertura no resumo
+- **A materia em que o Bezerra arquivou aquele resumo**, que pode nao ser a nossa disciplina
 
 ## Do que ela depende
 

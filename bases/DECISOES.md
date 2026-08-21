@@ -186,3 +186,25 @@ Referência: Distribuição Normal
 
 Sai de graça: a base já guarda o nosso nome e o do edital lado a lado, então é só comparar e
 avisar quando divergir. Sem isso, o aluno procura o assunto na parte errada do edital.
+
+### Vale para TODA fonte, não só para o edital
+
+Cada fonte guarda **o rótulo dela**, e a referência mostra onde o aluno encontra a coisa **naquela
+fonte**. O caso que motivou: o aluno está em `TECINF` no plano, mas o resumo do Bezerra está
+arquivado na matéria **Informática** dele. Sem o rótulo de origem, o aluno procura e não acha, e
+conclui que o material está errado.
+
+```
+Estudo de Tecnologia da Informação
+TECINF-0203
+
+Referência: Banco de Dados: Normalização
+            Estratégia — Aula 07, páginas 12 a 24
+            Bezerra   — resumo "Modelagem de Dados", na matéria INFORMÁTICA
+            ⚠ No edital do TCDF isso aparece como "Análise de Dados"
+```
+
+**Portanto, toda base de fonte carrega uma coluna com o nome que AQUELA fonte usa**: a matéria do
+Bezerra, o assunto do Tec, o nome do curso do Estratégia, o item do edital. Nunca substituir pelo
+nosso nome na hora de guardar — o nosso nome é para identificar, o da fonte é para **localizar**.
+É a mesma regra do `INICIE EM` / `TERMINE EM`.
