@@ -31,7 +31,8 @@
 | A16 | `PPPs e Consórcios` e `Convênios` não têm item no edital do TCDF: ficam de fora? |
 | A17 | Caderno personalizado por aluno é viável na Tutory? |
 | A18 | Cortes de risco do BIZURITO: manter 70/50 ou calibrar pelo `dificuldade` do Tec? |
-| A22 | Confirmar a escada do N8 (cortes 50/65/80/90) e as 2 questões por tópico |
+| A22 | ~~Escada do N8~~ **adiada por decisão de 21/08**: só se resolve depois de A23 |
+| A23 | **De onde vem o desempenho do aluno?** (Tec na nossa conta, Tutory, ou o aluno manda) |
 | A19 | Ordem do Passo Estratégico (gatilho: 1º pós-edital com Passo) |
 | A20 | Indexação de slide e mapa mental por bloco de vídeo |
 | A21 | Amostra mínima de respostas antes de atribuir rótulo de RISCO |
@@ -48,7 +49,8 @@
 - **Ponto que derruba entra sozinho** (mais de uma questão **ou** acerto < 50%). *(20/08)*
 - **Base única por disciplina**, com as áreas em colunas. *(20/08)*
 - **Reconhecimento antes de construir** — ver seção D. *(21/08)*
-- **Nível 8 é diagnóstico, não revisão**: roteia por tópico, não pela média. Status do pulado é "dispensado por diagnóstico". *(21/08)*
+- **Nível 8 é pedágio curto, não portão**: força uma revisada rápida em quem diz que já estudou. Quem estudou desenrola; quem não estudou paga o preço adiante. Roteia por tópico, nunca pela média. *(21/08)*
+- **N8 e dossiê ficam parados** até saber de onde vem o desempenho do aluno. Não bloqueiam N1 a N7 e não pedem coleta nova no Tec. *(21/08)*
 - **Fichamento em duas passadas** (opção D): enunciado de todas as questões, comentário só dos pontos que viram linha de BIZURITO. *(21/08)*
 - **Teste controlado do BIZURITO**: dois tópicos levam a passada completa, para comparar a qualidade da folha. *(21/08)*
 - **Aproveitar o aprendizado, não recomeçar do zero** — ver seção D. *(21/08)*
@@ -66,7 +68,8 @@
 | B5 | Camada de "ponto": passada 1 (enunciado de todas as 5.463) | sim |
 | B28 | Passada 2: comentário dos pontos que viram BIZURITO | sim |
 | B29 | Teste controlado: 2 tópicos com passada completa, para comparar | sim |
-| B30 | Implementar o N8 (diagnóstico) e a escada de entrada | não |
+| B30 | Implementar o N8 | **parado até A23** |
+| B31 | Dossiê por aluno (`aluno × ponto → acertou/errou/quando`) | **parado até A23** |
 | B6 | Segunda planilha do pós-edital TCDF | não |
 | B7 | Comparação **bloco a bloco** entre pacotes (não aula a aula) | não |
 | B8 | Tabela de nomes canônicos de disciplina com aliases | não |
