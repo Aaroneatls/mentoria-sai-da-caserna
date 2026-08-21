@@ -108,9 +108,9 @@
  },
  {
   "t": "2026-08-21 11:03",
-  "ev": "liberou_sozinho",
+  "ev": "liberou_NAO_CONFIRMADO",
   "minutos": 19,
-  "nota": "SEM captcha. 19 min de silencio TOTAL bastaram."
+  "nota": "o Elvis acha que foi ele que clicou. NAO confirmado que liberou sozinho. Refazer o teste com silencio de verdade e ninguem clicando."
  },
  {
   "t": "2026-08-21 11:03",
@@ -121,5 +121,20 @@
   "t": "2026-08-21 11:03",
   "ev": "ajuste",
   "nota": "coletor deixa de sondar de 45 em 45s. Agora descansa 20, 30, 40 min em silencio total."
+ },
+ {
+  "t": "2026-08-21 11:10",
+  "ev": "pendente",
+  "nota": "testar de novo: bloqueio passa sozinho com ~20 min de silencio TOTAL? O teste de 11:03 foi invalidado porque o Elvis pode ter clicado."
+ },
+ {
+  "t": "2026-08-21 11:10",
+  "ev": "experimento",
+  "nota": "rota /questoes/cadernos/{id}/caderno devolve 376KB mas e' so o esqueleto Angular, zero questao. Nao serve para coleta em lote."
+ },
+ {
+  "t": "2026-08-21 11:10",
+  "ev": "pista",
+  "nota": "POST /questoes/cadernos/{id}/imprimir existe (405 no GET, 500 no POST com corpo errado). Descobrir os parametros: seria 1 requisicao por caderno inteiro."
  }
 ]
