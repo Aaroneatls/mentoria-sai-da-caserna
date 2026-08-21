@@ -49,7 +49,30 @@ Duas contas movidas por duas pessoas é uma coisa; uma segunda conta para dobrar
 outra, e é exatamente o padrão que caracteriza burla. Recomendação retirada em 21/08/2026,
 a pedido do Elvis, que levantou o risco de banimento.
 
-## 7. O clique da verificação é do Elvis
+## 7. A varredura de atualização repete os filtros da base
+
+Uma vez por mês, pedir a lista de ids **com exatamente o mesmo conjunto de filtros que montou a
+base**: assunto, anos da janela, as três bancas, e a limpeza (`REMOVER_ANULADAS`,
+`REMOVER_DESATUALIZADAS`, `REMOVER_ADAPTADAS_INEDITAS`). Comparar com o banco:
+
+| Comparação | Significado |
+|---|---|
+| Está no Tec, não está na base | questão nova, imprimir |
+| Está nos dois | continua válida |
+| Está na base, sumiu do Tec | virou anulada ou desatualizada, trocar nos cadernos |
+
+**Se faltar um filtro, a comparação mente.** Em 21/08/2026 eu rodei sem o filtro de banca e o
+Tec devolveu 292 questões onde a base tem 42: teria acusado 250 "novas" que são de bancas que a
+gente não usa, e gastado ~600 chamadas para produzir lixo. Conferir a contagem por
+`contagem/filtros` (1 chamada, devolve só o número) **antes** de puxar a lista.
+
+**Custo:** com os filtros certos, cabe em ~1 chamada por assunto, ~72 por disciplina.
+
+**Já verificado em 21/08/2026:** a base nasceu limpa. Nos assuntos 497, 503 e 512, a contagem
+com limpeza bate exatamente com o que temos (42, 93 e 144). As sujas existem no acervo e ficaram
+de fora.
+
+## 8. O clique da verificação é do Elvis
 
 Claude não clica em CAPTCHA, nem em "CONTINUAR", nem em "não sou um robô". Vale mesmo a pedido.
 
