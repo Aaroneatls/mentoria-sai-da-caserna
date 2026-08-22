@@ -78,3 +78,10 @@
 - [Pastas do Drive x pacotes do Estratégia](reference_estrategia_pastas_x_pacotes.md) — "Regular Controle" no catálogo é "Concursos de Tribunais de Contas (Nível Superior)"; IDs das 4 pastas
 - [Validação de conteúdo do BIZURITO](project_bizurito_validacao_conteudo.md) — 6 camadas, olhar de fora obrigatório, catálogo de vícios que cresce a cada execução
 - [Briefing do BIZURITO](project_bizu_revisao_por_topico.md) — handoff completo em `_contexto/briefing-bizurito.md`, gerador em `bizurito/`
+- [Encurtar nome de arquivo por padrão](feedback_encurtar_nome_arquivo_padrao.md) — limite de 260 caracteres do Windows; encurtar ao salvar, renomear depois se houver critério
+- [Apoio: resumo e mapa mental do Estratégia](project_apoio_resumo_mapa_mental_estrategia.md) — ficam por vídeo, não por aula; prioridade da aba, dedup por nome do CDN, descarte de capa vazia
+- [Apoio segue o curso indicado](project_apoio_vinculado_ao_curso_indicado.md) — resumo/mapa mental só vale se existir no mesmo curso cujo link foi dado ao aluno
+- [Marca d'água com CPF no texto extraído](project_marca_dagua_cpf_no_texto_extraido.md) — filtrar na extração; é trava de vazamento, não só de hash
+- [Estratégia: status da API e seleção por id](reference_estrategia_api_status_e_selecao.md) — 404/500 = sem matrícula, não removido; selecionar pelo id do href, nunca por texto
+- [Skills encadeadas e gatilho de impacto](project_skills_encadeadas_gatilho_impacto.md) — atualizar download pergunta se roda a base que consome; planilha e o contrato
+- [Padrao de nomes de pasta](../../../../../../G:/Meu Drive/Inteligência Artificial/Claude Code/ccos-ratos/bases/NOMENCLATURA.md) — orcamento de caracteres por nivel, mora em bases/NOMENCLATURA.md

@@ -19,6 +19,8 @@ A assinatura vitalícia do Estratégia (conta da Gisilene, ver [[project-conta-e
 - **Qualquer pacote pode entrar ou sair do rodízio, inclusive o da PRF** — não há mais pacote intocável. Fazer isso quando a tarefa pedida exigir, sem perguntar de novo.
 - **Procurar sempre por PACOTE**, nunca por curso: o que o Elvis chama de "curso" é um pacote no Estratégia, e as disciplinas dentro têm nomenclatura diferente (o pacote `Curso Regular para Área Fiscal - Pacote Completo` (id 220865) contém `Concursos da Área Fiscal - Curso Básico de Direito Administrativo`). Buscar por curso faz o produto "sumir" do catálogo sem ter sumido.
 
+**Atualização de 22-08-2026:** o Elvis confirmou que **o rodízio pode ser feito sozinho, sem avisar**. A única checagem obrigatória continua sendo se alguma sessão em andamento está usando o produto. E **selecionar o produto pelo id do `href`, nunca por texto do nome** — ver [[reference-estrategia-api-status-e-selecao]].
+
 **How to apply:** na busca da API usar `GET /api/assinatura/curso/search?q=<nome>&type=pacote&size=51&page=N` com o mesmo Bearer das skills. Antes de desmatricular, conferir placeholders `.txt` (aulas ainda não publicadas) da pasta daquele pacote no Drive e avisar o Elvis, porque essas aulas ficam inacessíveis enquanto ele estiver fora.
 
 

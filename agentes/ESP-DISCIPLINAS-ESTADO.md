@@ -1,8 +1,10 @@
-# Estado — Base 1 · Disciplinas
+# Estado — ESP-DISCIPLINAS (base 1)
 
 > **Handoff completo.** Quem abrir uma sessão nova (Claude, ChatGPT, Codex, máquina nova) lê este
 > arquivo e continua daqui, **sem nenhum histórico de conversa**. Agente dono:
-> `agentes/ESP-DISCIPLINAS.md`.
+> `agentes/ESP-DISCIPLINAS.md`. O estado mora com o **agente**, nunca com a base:
+> um agente pode servir várias bases ou nenhuma (regra corrigida em 22/08/2026 a partir
+> do `ESP-DOWNLOAD`, que alimenta a base 2 sem ser dono dela).
 
 Atualizado em 22/08/2026. Último commit desta base: **`2c46928`**.
 
