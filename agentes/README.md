@@ -136,10 +136,38 @@ coordenador é o mais exposto, porque é quem acumula contexto de todo mundo.
 
 **Faz:** conhece o estado de todas as bases; avalia impacto cruzado antes de qualquer execução;
 escreve no `IMPACTOS.md` quando um agente mexe no que outro consome; redige o prompt de abertura de
-agente novo; filtra o que sobe ao Elvis; e guarda a memória do porquê de cada decisão.
+agente novo; filtra o que sobe ao Elvis; mantém o `PAINEL.md`; e guarda a memória do porquê de cada
+decisão.
 
-**Não faz:** não executa a tarefa do especialista, não decide o que é do Elvis, e **não vira fonte de
-verdade** — aponta para o documento, e quando não há documento, escreve um.
+**Não faz:** não decide o que é do Elvis, e **não vira fonte de verdade** — aponta para o documento,
+e quando não há documento, escreve um.
+
+### Ele SABE executar, mas não executa por hábito
+
+Decidido em 22/08. O coordenador tem de dominar o método de cada agente — por isso o item 1 do
+relatório. Mas dominar não é assumir.
+
+| | |
+|---|---|
+| **Executa sempre** | **medição e verificação.** É como ele audita, e não é opcional |
+| **Executa quando cabe** | tarefa pequena que não paga abrir agente; agente perdido com trabalho travando |
+| **Não executa** | nada que um agente esteja tocando agora — duas sessões no mesmo arquivo se atropelam |
+
+**Por que a capacidade é obrigatória:** não se audita o que não se sabe fazer. Em 22/08 um agente
+reportou que os 146 caminhos estourados não existiam mais. Sem saber medir, o coordenador teria de
+**escolher** entre duas versões; medindo, achou o erro — 48 caracteres, exatamente a raiz que o
+agente esquecera de contar. No mesmo dia, medir revelou que o teto de 80 do nível arquivo nunca fora
+medido e que o real já era 92.
+
+**Por que não por hábito:** o contexto do coordenador é o recurso mais escasso e o mais exposto a se
+perder; e executor e revisor sendo a mesma pessoa mata a checagem que pegou os três erros do
+coordenador naquele dia.
+
+> ### A simetria: quando o coordenador executa, um especialista revisa
+>
+> A regra da seção 3 — o especialista pode e deve contestar o coordenador — precisa valer nos dois
+> sentidos. Trabalho de peso feito pelo coordenador vai para revisão de um especialista da área,
+> pelo mesmo ciclo da seção 4. Sem isso, a checagem funciona só numa direção.
 
 ---
 
