@@ -149,8 +149,13 @@ sobra depois dela.
 ## 5 · Backup: todo agente escreve o próprio resgate
 
 Se o Elvis perder uma aba, ou uma sessão cair, **o trabalho não pode ir junto**. Cada agente mantém
-um `ESTADO.md` na pasta da sua base, atualizado ao fim de cada bloco de trabalho, servindo de
-**handoff completo**: alguém abrindo sessão nova lê aquilo e continua.
+um `agentes/<NOME>-ESTADO.md`, atualizado ao fim de cada bloco de trabalho, servindo de **handoff
+completo**: alguém abrindo sessão nova lê aquilo e continua.
+
+> **O estado mora com o AGENTE, não com a base.** Corrigido em 22/08 a partir do `ESP-DOWNLOAD`: a
+> primeira versão desta regra mandava gravar em `bases/<sua base>/ESTADO.md`, e ele apontou que
+> **alimenta** a base 2 sem ser dono dela — escrever o `ESTADO` dela seria invadir o território de
+> quem vem depois. Vale para todos: um agente pode servir várias bases, ou nenhuma.
 
 | O que vai nele | |
 |---|---|

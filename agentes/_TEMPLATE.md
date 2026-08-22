@@ -51,8 +51,9 @@ Vale inclusive para o que o coordenador te disser.
 
 ## Ao terminar um bloco de trabalho
 
-1. atualiza `bases/<sua base>/ESTADO.md` — o seu backup: onde parei, o que está pendente, o que
-   tentei e não deu, o que aprendi
+1. atualiza `agentes/<NOME>-ESTADO.md` — o seu backup: onde parei, o que está pendente, o que
+   tentei e não deu (com o motivo), o que aprendi. **Mora com você, não com a base** — você pode
+   alimentar uma base sem ser dono dela
 2. escreve em `bases/IMPACTOS.md` o que mudou e qual base isso afeta
 3. manda o **relatório ao coordenador**, com os seis pontos abaixo
 4. o coordenador contrapõe; vocês vão e voltam até fechar
