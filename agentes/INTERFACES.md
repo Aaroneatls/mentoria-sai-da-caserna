@@ -40,8 +40,24 @@ bloco que falha se o nome divergir.
 
 ### 2 · O download e a base 1 se alimentam nos dois sentidos
 
-A base 1 dá a **sigla** que nomeia a pasta; o download devolve o **`estrategia.txt`** e o
+A base 1 dá a **sigla** que nomeia a pasta; o download devolve o **`estrategia-plataforma.txt`** e o
 `pasta_atual_no_disco` atualizado, que é o que a base 1 diffa.
+
+> **SÃO DOIS ARQUIVOS, e confundi-los apaga uma camada inteira.** Corrigido em 22/08, depois de o
+> coordenador quase mandar sobrescrever o errado:
+>
+> | Arquivo | Camada | Exemplo |
+> |---|---|---|
+> | `fontes/estrategia.txt` | **drive** — nomes de pasta | `Regular Controle \| AFO, Orçamento Público e LRF` |
+> | `fontes/estrategia-plataforma.txt` | **plataforma** — nomes de curso, com id | `220866 \| 1 \| Concursos da Área Fiscal - Curso Básico de Direito Empresarial` |
+>
+> Existem separados porque **22 pastas correspondem a 25 cursos**: a camada de pasta perde
+> informação. Escrever nomes de plataforma no primeiro deixaria **duas cópias de uma camada e zero
+> da outra** — e o estrago só apareceria quando alguém precisasse da que sumiu.
+>
+> **Quem escreve o quê:** o download escreve **só** o `estrategia-plataforma.txt`. O que acontece
+> com a camada `drive` depois de uma renomeação é do `ESP-TAXONOMIA`, que marca as linhas antigas
+> como **histórico** em vez de apagar — mesma lógica da sigla aposentada.
 
 É o único ciclo fechado do projeto, e por isso o mais fácil de quebrar: se um lado deixa de escrever,
 o outro responde *"nada mudou"* com toda a confiança do mundo. **Erro silencioso, não erro ruidoso.**
