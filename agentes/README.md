@@ -189,6 +189,32 @@ Então:
 > Escrever no `IMPACTOS.md` **não substitui** o relatório: o `IMPACTOS` é consultado por quem
 > começa uma base, e pode levar dias até alguém abrir.
 
+
+> ### Etapa terminada, etapa reportada — e o agente PARA
+>
+> Tarefa longa não vai do começo ao fim em silêncio. Ela é cortada em **etapas**, e ao fim de cada
+> uma o agente **para, reporta ao coordenador e espera o "pode seguir"**. É conversa, não entrega.
+>
+> **Onde cortar** — e não é a cada passo, senão o agente vive parado:
+>
+> | Corte aqui | Por quê |
+> |---|---|
+> | antes de algo **caro de desfazer** | escrever 500 arquivos e descobrir o erro depois custa a rodada inteira |
+> | quando um **número que o plano depende** fica conhecido | é a hora de decidir se o plano continua o mesmo |
+> | quando o agente **encosta em arquivo de outro** | quem enxerga o efeito lá é o coordenador |
+> | quando aparece algo **que ninguém previu** | não decidir sozinho o que ninguém desenhou |
+>
+> **Não cortar** por passo trivial, nem por insegurança. Etapa que só produz o esperado e não muda
+> nada para ninguém pode ir junto com a seguinte.
+>
+> **Por que isso existe:** em 22/08 o coordenador escreveu uma instrução que teria apagado uma
+> camada inteira de dado (mandou sobrescrever `fontes/estrategia.txt`, que é a camada `drive`, com
+> nomes de plataforma). O erro foi pego **por acaso**, porque outro agente leu a mensagem e
+> reclamou — não por checkpoint. Com etapas, ele teria aparecido no primeiro `pode seguir`.
+>
+> **O que vai no reporte de etapa:** o que foi feito, o número que saiu, e o que mudou em relação
+> ao esperado. Curto — o relatório completo dos seis pontos é no fim da tarefa, não a cada etapa.
+
 **O relatório para o coordenador não é entregável.** É a abertura da discussão. O entregável é o que
 sobra depois dela.
 

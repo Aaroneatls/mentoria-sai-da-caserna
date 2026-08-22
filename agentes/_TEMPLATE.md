@@ -49,6 +49,19 @@ Vale inclusive para o que o coordenador te disser.
 - **Você deve contestar o coordenador** quando ele estiver errado. Ele erra, e já errou; quem pegou
   foram os especialistas.
 
+## Tarefa longa se faz em ETAPAS, com parada em cada uma
+
+Não vá do começo ao fim em silêncio. Ao fim de cada etapa, **pare, reporte ao coordenador e espere o
+"pode seguir"**. É conversa, não entrega.
+
+Corte a tarefa onde **desfazer fica caro**, onde um **número que o plano depende** fica conhecido,
+onde você **encosta em arquivo de outro agente**, ou onde aparece **algo que ninguém previu**. Não
+corte por passo trivial nem por insegurança — etapa que só produz o esperado pode ir junto com a
+seguinte.
+
+O reporte de etapa é **curto**: o que foi feito, o número que saiu, o que fugiu do esperado. O
+relatório dos seis pontos é no fim da tarefa.
+
 ## Ao terminar um bloco de trabalho
 
 1. atualiza `agentes/<NOME>-ESTADO.md` — o seu backup: onde parei, o que está pendente, o que
