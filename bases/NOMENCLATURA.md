@@ -19,25 +19,43 @@
 
 ## 1 · O orçamento de caracteres
 
-O Windows corta em **260 caracteres no caminho inteiro**. A meta é ficar em **240**, deixando
-folga para quem mover a pasta ou criar uma subpasta.
+**A regra que manda é uma só: nenhum caminho real pode chegar a 240.** O Windows corta em 260; os
+20 de sobra são para quem mover a pasta ou criar uma subpasta.
 
-| Nível | Máximo | Exemplo |
-|---|---|---|
-| Raiz (fixa) | **47** | `G:\Meu Drive\Inteligência Artificial\Estrategia\` |
-| Concurso | **28** | `ISS Manaus (AFTM) 2026\` |
-| Tipo de curso | **20** | `Curso Regular\` |
-| Disciplina | **58** | `LTRIB - Legislação Tributária (19-08-2026)\` |
-| Arquivo | **80** | `Aula 00 - Noções Introdutórias LS (23-03-2026).pdf` |
-| **Total** | **237** | com folga de 23 |
+Os tetos por nível abaixo são **guarda-corpo**, para um nome fugir do controle e ser pego cedo.
+Eles **não somam** o limite, e não deveriam: medido em 22/08, o pior caminho real é **219**,
+enquanto a soma dos tetos dá 255. Os níveis não estouram juntos — o arquivo de 92 caracteres mora
+numa pasta de nome curto.
 
-Os **45** do nome da disciplina (`<SIGLA> - <Disciplina>`) continuam valendo; os 58 são esses 45
-mais os 13 da data.
+| Nível | Teto | Maior real hoje | Exemplo |
+|---|---|---|---|
+| Raiz (fixa) | 47 | 47 | `G:\Meu Drive\Inteligência Artificial\Estrategia\` |
+| Concurso | 28 | 26 | `Pacotaço TCDF (ANACE) 2026\` |
+| Tipo de curso | 20 | 17 | `Passo Estratégico\` |
+| Disciplina | **64** | 58 | `AFO - Administracao Financeira e Orcamentaria (18-08-2026)\` |
+| Arquivo | **92** | 92 | `Aula 16 - Responsabilidades - Sindicância e proc… LC (30-07-2026).pdf` |
 
-**Quem estourar o máximo do seu nível, sintetiza.** Nunca empurrar o problema para o nível
-seguinte.
+Dentro do nível disciplina: **45** para o `<SIGLA> - <Disciplina>`, **13** para a data (regra 9) e
+**6** para a marca de pendência (regra 6). 45 + 13 + 6 = 64.
 
----
+> ### REGRA 10 — quando o caminho passar de 240, quem encurta é o ARQUIVO
+>
+> Se um caminho real chegar a 240 sem que nenhum nível tenha estourado o seu teto, **encurta-se o
+> nome do arquivo**, nunca o da pasta.
+>
+> A pasta é **identidade** — é por ela que se acha a disciplina, e ela aparece em toda a base. O
+> nome do arquivo é **descrição**, e os títulos do Estratégia trazem gordura de sobra
+> (`Aula 14 - Funções essenciais à justiça - 9.1 Ministério Público - 9.2 Ad…`). Cortar descrição
+> custa pouco; cortar identidade quebra o join.
+>
+> Encurta-se **pelo fim do tema**, preservando sempre `Aula NN`, a versão (`LS`/`LC`) e a data.
+
+**O `conferir` tem de FALHAR** quando qualquer caminho real chegar a 240 — não avisar. Teto que
+ninguém testa não é teto.
+
+**Histórico de um erro deste próprio documento:** até 22/08 a tabela dizia teto 80 para o arquivo,
+número que nunca foi medido. O maior real já era 92, e a mediana é 60. Um teto inventado não
+segura nada e ainda faz o orçamento parecer apertado onde ele não é.
 
 ## 2 · O erro que causou o estouro, e a regra que o impede
 
