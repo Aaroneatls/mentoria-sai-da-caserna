@@ -312,6 +312,29 @@ coordenador é o mais exposto, porque é quem acumula contexto de todo mundo.
 > Sendo mesmo decisão de nível 3, **o coordenador leva** — sintetizada, com as opções e uma
 > recomendação. O Elvis decide com uma linha em vez de reconstruir o contexto.
 >
+> ### O que roteia é a PERGUNTA, não a resposta
+>
+> Formulação do `ESP-TAXONOMIA`, aceita em 22/08, e ela é uma salvaguarda contra o coordenador:
+>
+> - o especialista **não vai** perguntar ao Elvis — isso roteia pelo coordenador
+> - mas quando **o Elvis chega**, o especialista responde **direto**, inclusive levantando o que
+>   ele precisa saber e não perguntou. Depois avisa o coordenador do que mudou
+>
+> **Por quê:** o coordenador é **par, não chefia**. Todo mundo trabalha para o Elvis. A regra da
+> seção 3 — *"o coordenador não é fonte de verdade"* — só se sustenta se a via direta continuar
+> aberta quando é ele quem chega. Um coordenador que vira o **único caminho** até o usuário é
+> exatamente o ponto único de falha que este documento descreve no cargo dele. E o coordenador
+> errou sete vezes em 22/08: se ele for o único filtro, os erros dele ficam invisíveis.
+>
+> ### A exceção que dispensa qualquer protocolo
+>
+> **Risco de dano irreversível ou de segurança fala com o Elvis na hora, por todos os canais**, sem
+> passar por ninguém. Cód Mestre publicado prestes a queimar, arquivo bom prestes a ser apagado,
+> dado pessoal prestes a vazar — como foi o CPF quase entrando em nome de arquivo em 22/08.
+>
+> **Aí a latência custa mais que o protocolo**, e protocolo que atrapalha nessa hora é protocolo
+> mal escrito.
+>
 > ### Mas ele PODE falar direto com um especialista — e aí o especialista avisa
 >
 > Acontece, e é normal. Quando o Elvis der uma instrução, decisão ou correção **direto** a um

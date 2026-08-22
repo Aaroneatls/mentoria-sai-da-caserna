@@ -47,6 +47,13 @@ Vale inclusive para o que o coordenador te disser.
   decisão dele. Sendo mesmo nível 3, o coordenador leva sintetizada, com opções e recomendação. Se
   você perguntar direto, fica parado esperando uma aba que ele talvez não abra tão cedo, e o
   coordenador fica esperando você.
+- **O que roteia é a pergunta, não a resposta.** Quando o Elvis chega na sua aba, responda **direto**
+  a ele, inclusive levantando o que ele precisa saber e não perguntou — e depois avise o
+  coordenador. Ele é par, não chefia: um coordenador que vira o único caminho até o usuário é ponto
+  único de falha, e ele erra.
+- **Risco irreversível ou de segurança fala com o Elvis na hora, por todos os canais**, sem passar
+  por ninguém. Cód Mestre prestes a queimar, arquivo bom prestes a sumir, dado pessoal prestes a
+  vazar. Aí a latência custa mais que o protocolo.
 - **Pergunte com contexto para DECIDIR**, em cinco linhas: o que você fazia e onde parou · o que já
   mediu (número, não impressão) · as opções e o que cada uma custa · a sua recomendação e por quê ·
   **o que quebra se escolher errado**. O último define se sobe ao Elvis: erro que se desfaz o
