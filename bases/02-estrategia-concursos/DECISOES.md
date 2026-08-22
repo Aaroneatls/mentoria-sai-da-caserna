@@ -117,6 +117,13 @@ no mesmo caso, devolve **500**.
 outros: o TCDF foi desmatriculado por engano porque o seletor casava por "Sistema de Questoes",
 que aparece tanto no nome dele quanto no do Controle.
 
+## `tipo_curso_id = 1` NAO garante que e disciplina
+
+Medido em 22/08/2026: **"Sistema de Questoes 1 Ano - Cartao ate 12 x"** (id 143237) vem como
+`tipo_curso_id = 1`, igual a uma disciplina, e e **assinatura**.
+
+Filtrar por tipo nao basta. Conferir o nome e excluir explicitamente o que nao for materia.
+
 ---
 
 **Duvida sobre algo que nao esta aqui?** Consulte `../DECISOES.md`.

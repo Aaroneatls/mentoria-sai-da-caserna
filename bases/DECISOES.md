@@ -390,8 +390,25 @@ O ciclo de estudo em uso não cobre todas as matérias do Curso Regular, e há m
 ainda não lançou na plataforma. **Mapeia mesmo assim**: o ciclo muda, o mapeamento é reaproveitado,
 e refazer depois custa mais do que fazer junto.
 
-Casos concretos: `CONTAB`, `ESTAT` e `ECOFIN` não aparecem no ciclo do Controle, mas o Curso
-Regular de Controle tem o material.
+**CORRIGIDO em 22/08/2026.** A versão anterior desta linha afirmava que `CONTAB`, `ESTAT` e
+`ECOFIN` estavam no Curso Regular de Controle. **Só `CONTAB` está.**
+
+O Regular Controle tem **12 disciplinas**, conferidas nas pastas e confirmadas nos dois pacotes
+pela sessão das skills de download:
+
+```
+AFO · Administração Pública · Análise de Informações · Auditoria Governamental
+Contabilidade Geral Avançada (224361) · Contabilidade Pública · Controle Externo
+Direito Administrativo · Direito Constitucional · Matemática Financeira
+Português · Raciocínio Lógico e Analítico
+```
+
+**`ESTAT` e `ECOFIN` são só do Fiscal.** Continuam entre as 21, porque existem no Regular Fiscal.
+
+**Como o erro entrou:** perguntei ao Elvis sobre as três, ele respondeu a regra geral ("mapear
+tudo que o Curso Regular tem"), e eu registrei a regra **como se fosse a confirmação do fato**.
+Pergunta virou afirmação sem ninguém ter verificado a pasta. Vale como alerta: resposta a uma
+regra não confirma o caso concreto que a motivou.
 
 ### Ignorar o "(Fiscal/ Controle)" dos nomes
 

@@ -67,6 +67,13 @@ Controle:  "Concursos de Tribunais de Contas (Nivel Superior) <MATERIA> - Curso 
 No Fiscal a materia vem **no fim**; no Controle vem **no meio**, antes do sufixo. Uma regra so
 nao pega os dois.
 
+## `tipo_curso_id = 1` NAO garante que e disciplina
+
+Medido em 22/08/2026: **"Sistema de Questoes 1 Ano - Cartao ate 12 x"** (id 143237) vem como
+`tipo_curso_id = 1`, igual a uma disciplina, e e **assinatura**.
+
+Filtrar por tipo nao basta. Conferir o nome e excluir explicitamente o que nao for materia.
+
 ---
 
 **Duvida sobre algo que nao esta aqui?** Consulte `../DECISOES.md`.
