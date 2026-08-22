@@ -68,3 +68,52 @@ O padrão antigo de nome de pasta (`Matéria (SIGLA_CONCURSO-SIGLA_CARGO) (DD-MM
 **8 vezes** na skill específica e **19 vezes** na completa, contradizendo o `bases/NOMENCLATURA.md`.
 Enquanto as duas instruções estiverem vivas, quem executa segue a mais próxima do passo — que é a
 antiga. A reescrita está autorizada pelo coordenador e aguarda o Elvis.
+
+---
+
+## Fechamento de 22/08/2026 (fim da sessão)
+
+**Nada executado, e essa é a informação principal.** Zero download, zero pasta
+renomeada, zero planilha, zero `_manifesto.csv`. Todo o trabalho do dia é
+documento.
+
+### O que ficou pronto e commitado
+
+- **As duas skills reescritas.** Passos 2/6 (nome da pasta), 7/9 (fechamento do
+  nome, `(N-M)` e data) e 9/11 (nome da planilha + `_manifesto.csv` + colunas
+  novas). O padrão antigo `Matéria (SIGLA_CONCURSO-SIGLA_CARGO) (DD-MM-AAAA)`
+  foi **eliminado**, não apenas complementado: as ocorrências restantes são só a
+  frase que declara o padrão extinto. Commits `1385e02` e `c588421`.
+- **Três defasagens corrigidas** depois que o padrão andou: teto da disciplina
+  45 -> **64** e do arquivo 80 -> **92** (com o aviso de que teto é guarda-corpo,
+  não orçamento — o que manda é o caminho real não chegar a 240); a coluna do
+  CSV é **`pasta_nova_sem_data`** (a data é acrescentada pela skill, não vem do
+  CSV); e **`LTRIB` não existe mais**, virou `LTEST` / `LTMUN` / `LTFED`.
+- **Verificação dos pacotes contra o disco**, a pedido do Elvis: ISS Manaus
+  `396632` e TCDF `393927` são os pacotes certos, ambos sem Sistema de Questões.
+
+### Estado da matrícula ao fechar
+
+Regular Controle `224364` · ISS Manaus `396632` · TCDF (ANACE) `393927`.
+
+Saíram nesta sessão, sem estarem em uso: PRF `226226` e Regular Fiscal `220865`.
+Rodízio é livre (`agentes/AUTORIZACOES.md`), só registrar — é o que esta linha faz.
+
+### Próximo passo, quando voltar
+
+**`atualizar` no Regular Controle, sozinho e validado, antes de tocar no Fiscal.**
+A sequência está no comando do coordenador: renomear as 12 pastas pelo CSV (com
+log `de -> para`), baixar só o apoio, baixar aula que falte, calcular o
+`hash_conteudo` de linha de base a partir dos PDFs locais (**filtrando a marca
+d'água antes**, senão dá falso positivo em 100% das aulas na execução seguinte),
+gerar manifesto e planilha, rodar `conferir` e **parar para reportar**.
+
+**A execução depende do Elvis liberar** depois de ler o diff — a autorização
+registrada é para reescrever a skill, não para rodar.
+
+### O que continua pendente dele
+
+- confirmar `LTEST` e `LTMUN` para os cursos `220891` e `220896` (as ementas
+  foram lidas: as duas são norma geral — CF/88, CTN, LC 24/75, LC 87/96,
+  LC 116/03 — sem nenhuma norma de ente específico);
+- liberar a execução do `atualizar`.
