@@ -13,6 +13,9 @@
 | **Recebe de** | `ESP-ACERVO` (arquivos e manifesto) e `ESP-TAXONOMIA` (o Cód Mestre) |
 | **Entrega para** | `ESP-PRODUCAO` |
 
+**O prompt de abertura já está pronto:** `agentes/ESP-CONTEUDO-ABERTURA.md`. Basta abrir aba nova
+nesta pasta, renomear para `(Pedagógico) Conteúdo` e colar.
+
 **Primeira tarefa quando abrir:** o piloto de Direito Administrativo, com alvo de ~10 páginas por
 bloco. E a separação de conteúdo dentro do curso 336350, que tem Lei Kandir e Reforma no mesmo
 material — separação de **bloco**, não de pasta.
