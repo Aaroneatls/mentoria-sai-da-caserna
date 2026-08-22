@@ -154,3 +154,23 @@ mandar o aluno para um lugar que a base nao sabe que e equivalente.
    Sobra so a pergunta estreita: sendo genericos, sao **`LTRIB`** tambem? Registrado como **B70**,
    a confirmar pela ementa quando a sessao de download voltar a plataforma.
 3. As 8 entradas do balde 1 do `SEM-DONA.md`.
+
+### 22/08/2026 · A familia da Legislacao Tributaria (ESP-TAXONOMIA)
+
+`LTRIB` aposentada; entram `LTEST`, `LTMUN` e `LTFED`. **23 disciplinas**, e o total deixou de ser
+fixo: a familia por ente cresce a cada pos-edital.
+
+**Base 2 / futuro ESP-CONTEUDO — ATENCAO, isto morde:** os cursos **336350** e **220891** cobrem
+**a mesma Lei Kandir** (o 220891 tem LC 87/96 em tres aulas; o 336350 tem Kandir mais a Reforma).
+E **teoria duplicada em dois cursos**, e e **esperado**. Quem resolve e a regra de que mesmo
+`hash_teoria` significa mesmo Cod Mestre. Se a base 2 tratar isso como anomalia, vai criar topico
+duplicado para o mesmo conteudo, que e o oposto do que o eixo existe para fazer.
+
+**Base 3 — fica mais facil:** o Tec **ja separa** a familia assim (materias 57, 117 e 210). As tres
+sairam de `local`/`olho` e ganharam dona. A estrutura nao e invencao nossa.
+
+**Base 5** — herda o de cima pela base 3. **Base 4** — o Bezerra tem Estadual e Municipal, agora
+com dona; nao cobre `LTFED` (so dentro do bloco RFB, fora do escopo). **Base 6** — nao afetada.
+
+**Desbloqueou duas pastas:** `Legislacao Tributaria Estadual` e `Municipal` sairam de pendente e
+ganharam prefixo. **Sobra 1 pendente de 34** (a `Reforma Tributaria`).

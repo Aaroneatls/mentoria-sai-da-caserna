@@ -145,6 +145,44 @@ material no Curso Regular, nao ha o que o aluno estude, e um codigo apontaria pa
 Se um dia a materia entrar no Regular, ela ganha sigla e codigo pelo modo `atualizar`. Ate la,
 `status = olho` no `apelidos.csv` e o registro no `SEM-DONA.md` bastam.
 
+## A familia da LEGISLACAO TRIBUTARIA · fechado em 22/08/2026
+
+**A `LTRIB` generica morreu.** Detalhe completo em `../DECISOES.md`. O que esta base guarda:
+
+| Sigla | Disciplina | Material |
+|---|---|---|
+| `LTEST` | Legislacao Tributaria Estadual (parte geral) | curso 220891 |
+| `LTMUN` | Legislacao Tributaria Municipal (parte geral) | curso 220896 |
+| `LTFED` | Legislacao Tributaria Federal | **nao ha no Regular**: nasce nomeada e SEM Cod Mestre |
+
+A **Lei Kandir** (LC 87/96) mora em `LTEST`: e norma nacional do ICMS, e ICMS e competencia
+estadual. Por ente (`LTCE`, `LTMAO`, ...) nasce em pos-edital.
+
+### Sigla APOSENTADA nunca se reaproveita
+
+`LTRIB` continua em `dados/nomes-congelados.csv` com `status = APOSENTADA`, **nao foi apagada**.
+Apagar deixaria a sigla parecendo livre, e alguem a reatribuiria a outra disciplina; se ela tiver
+sido publicada em qualquer lugar, o aluno seria mandado para conteudo errado. O bloco 11 do
+`conferir.py` **falha** se uma sigla aposentada reaparecer em `disciplinas.csv`.
+
+### O total de disciplinas deixou de ser fixo
+
+Eram 21; sao 23, e a familia por ente **cresce a cada pos-edital**. O `conferir.py` parou de
+checar "sao 21" e passou a checar o que vale sempre: **unicidade de sigla e de nome**, e que a
+lista nunca **encolha** (sigla nao se apaga, se aposenta).
+
+### Disciplina sem material no Regular fica sem area, e DECLARA isso
+
+`LTFED` nao tem curso no Curso Regular, entao nao ha de onde tirar area. E estado valido, mas o
+bloco 8 exige que a observacao diga `SEM material no Curso Regular` — sem a declaracao, area
+vazia parece esquecimento.
+
+### Teoria duplicada em dois cursos: esperado, nao e defeito
+
+Os cursos **336350** ("Consumo") e **220891** (Estadual) cobrem **a mesma Lei Kandir**. Quem
+resolve e a regra de que **mesmo `hash_teoria` = mesmo Cod Mestre**. A base 2 precisa **esperar**
+isso; se ela tratar como anomalia, vai duplicar topico.
+
 ---
 
 **Duvida sobre algo que nao esta aqui?** Consulte `../DECISOES.md`.
