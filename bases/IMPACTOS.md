@@ -142,7 +142,15 @@ mandar o aluno para um lugar que a base nao sabe que e equivalente.
 
 **Pendente, e depende do Elvis:**
 
-1. A pasta `Reforma Tributaria` guarda `LTRIB` (336350) e `REFTRI` (371461, 389109) juntas.
-2. `Legislacao Tributaria Estadual` e `Municipal` existem no Regular Fiscal (220891, 220896), mas
-   a A8 diz que legislacao local so nasce em pos-edital.
+1. **A pasta `Reforma Tributaria` guarda `LTRIB` (336350) e `REFTRI` (371461, 389109) juntas.**
+   Chegou a ser dado como "se resolve sozinho quando reorganizarem as pastas", e **isso foi
+   retirado em 22/08/2026**: valia quando o plano era reconstruir do zero, porque baixar por curso
+   criaria tres pastas naturalmente. Com o plano em modo `atualizar`, **a pasta existente fica como
+   esta**, e separar virou trabalho explicito. Decisao do Elvis, porque mexe na pasta dele.
+   Registrado como **B69**.
+2. ~~Contradicao entre a A8 e os cursos 220891/220896~~ **resolvida sem precisar do Elvis**: os
+   dois cursos sao **genericos** (o 220891 diz "(Todos Estados)"; o 220896 nao nomeia municipio),
+   entao **nao sao o `local` de que a A8 fala**, que e `LTRIB-<ente>` e nasce em pos-edital.
+   Sobra so a pergunta estreita: sendo genericos, sao **`LTRIB`** tambem? Registrado como **B70**,
+   a confirmar pela ementa quando a sessao de download voltar a plataforma.
 3. As 8 entradas do balde 1 do `SEM-DONA.md`.
