@@ -538,3 +538,66 @@ perde a precisão do ponto.
 
 **Se valer descer ao ponto**, buscar no Tec **só essas questões**, que são poucas: as que ele
 errou e que a gente não tem. Custo pontual, não passada nova.
+
+---
+
+## Parâmetros de tempo do plano · fechado em 22/08/2026
+
+| Componente | Pré-edital | Pós-edital / reta final |
+|---|---|---|
+| **Teoria** | 5 min por página | 5 min por página |
+| **Resumo** | 5 min por página | 5 min por página |
+| **BIZURITO** | 5 min por página | 5 min por página |
+| **Questão certo/errado** | **2 min** | **1,5 min** |
+| **Questão múltipla escolha** | **3 min** | **2,5 min** |
+
+A leitura **não acelera** na reta final; só as questões apertam, 30 segundos em cada formato.
+
+**Por que 2,5 min na múltipla escolha da reta final:** dá **20 questões por hora**, sobrando 10
+minutos para marcar o gabarito. É ritmo de prova.
+
+**A página de resumo tem o mesmo ritmo da teoria** porque ela é densa: condensa o que na teoria
+ocupa várias páginas.
+
+### O `tempoMedio` do Tec NÃO vai ser usado
+
+Ele vem em `/api/questoes/{id}/desempenho`, ou seja, **1 requisição por questão**, e **não vem na
+impressão**. Usá-lo significaria voltar ao caminho que foi aposentado. O parâmetro fixo entrega
+quase o mesmo a custo zero.
+
+### A minutagem atual da Tutory não serve de referência
+
+O Elvis confirmou que os tempos que estão lá hoje não têm parâmetro por trás. **Não calibrar por
+eles.**
+
+---
+
+## Área especializada: imprimir tudo e MARCAR · fechado em 22/08/2026
+
+### O filtro por Formação não resolve
+
+Um concurso que **aceita** formação em TI não é um concurso **de** TI. A maioria aceita qualquer
+formação, então filtrar por ali pegaria os dois casos.
+
+### A Área (Carreira) resolve o corte do Controle
+
+O filtro tem subníveis. Marcar **Controladorias** e **Tribunais de Contas**, deixando **Gestão
+Governamental** de fora. Resolve sem precisar de lista de órgão.
+
+### Para a área especializada: base de concursos
+
+**Imprimir tudo e separar internamente**, em vez de filtrar na origem. Três motivos:
+
+1. **A cota é gasta do mesmo jeito.** Filtro que erra descarta questão boa sem ninguém ver.
+2. **Vira ativo.** Se um dia houver material para concurso de Contador, a base já está pronta.
+3. **É auditável.** O Elvis pode discordar caso a caso.
+
+**O julgamento é por CONCURSO, não por questão.** Contabilidade num concurso de Contador é pesada;
+a mesma matéria num concurso de Analista Administrativo é normal. São centenas de concursos, não
+milhares de questões: trabalho finito.
+
+Isso vira uma **base nova, de concursos**, com a marca "área especializada: sim/não" e a fonte do
+julgamento (busca, nome do cargo, edital).
+
+**O critério final é por matéria.** TI e Contabilidade sofrem mais; Direito Administrativo quase
+não sofre. Definir ao coletar cada matéria.

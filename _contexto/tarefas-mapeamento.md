@@ -94,10 +94,10 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B45 | Apagar os `ZZ-COLETA` e limpar `coletor_src` do navegador | sim, higiene |
 | B27 | Apagar o caderno `101395596` (banca ESAF) pela lixeira | sim, higiene |
 | B53 | Definir a janela de anos **por matéria**, mirando ~2.500 questões e teto de 10 anos | antes de cada coleta |
-| B55 | **Filtro de área do concurso** no critério de coleta, medindo com e sem antes de aplicar | **antes da 1ª coleta** |
-| B58 | **Corte por órgão ou cargo** por cima da área: `GESTAO_CONTROLE_TRIBUNAIS` traz Gestão, que não entra | **antes da 1ª coleta** |
+| B55 | Filtro **Área (Carreira)**: Controladorias + Tribunais de Contas, sem Gestão Governamental | **antes da 1ª coleta** |
+| ~~B58~~ | ~~Corte por órgão~~ **resolvido**: o filtro de Área tem subníveis | — |
 | B59 | Repuxar a lista completa de filtros do Tec: pode haver um de área especializada | 1 chamada |
-| B56 | Coletar `tempoMedio` das questões, para a minutagem do plano | junto do fichamento |
+| ~~B56~~ | ~~Coletar `tempoMedio`~~ **descartado**: custa 1 requisição por questão | — |
 | B44 | Caderno-base com fatias por `questaoInicial`, em vez de um temporário por lote | não |
 | B43 | Testar criar caderno vazio: cairia de 5 para 3 requisições | não |
 | B5 | Camada de **ponto**: ler o enunciado e ligar ao tópico | sim, sustenta os cadernos |
@@ -109,6 +109,13 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B33 | Seguir alimentando o histórico do limite do Tec | não |
 | B35 | Na skill final, trocar o censo pelo **percentual real** questão a questão | não |
 | B21 | Pasta parametrizada e ponto de retomada nas skills | não |
+
+### Base 7 · Concursos
+
+| # | Item | Bloqueia? |
+|---|---|---|
+| B60 | Montar a base de concursos com a marca **área especializada: sim/não** | ao separar o acervo |
+| B61 | Definir a fonte do julgamento: nome do cargo, edital, busca | junto |
 
 ### Base 6 · Editais
 
