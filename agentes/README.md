@@ -7,6 +7,39 @@ O Elvis tem **um coordenador por área**. Aqui é o **coordenador pedagógico**,
 tarefas, bases, skills e decisões. Os demais são **agentes especialistas**: cada um domina um grupo
 de tarefas e conhece os outros o bastante para saber a quem perguntar.
 
+
+---
+
+## 0 · Antes de tudo: o trabalho tem de rodar em outra IA
+
+**Vale para todos — coordenador e especialistas, sem exceção.** O Elvis pode abrir este projeto no
+ChatGPT, no Codex ou numa máquina nova. **O que só existe dentro de um assistente não existe.**
+
+### O teste de aceitação
+
+> Alguém abre este repositório em outra IA, **sem nenhum histórico de conversa**, e consegue
+> continuar de onde você parou.
+
+Se a resposta for não, o trabalho não está entregue — ainda que funcione perfeitamente na sua
+sessão.
+
+### O que isso exige na prática
+
+| | |
+|---|---|
+| **Escrever para estranho** | nada de "como combinamos", "aquele arquivo", "a decisão de ontem". Nomeie o arquivo, cite o commit, repita o motivo |
+| **O porquê junto do quê** | decisão sem motivo é revertida por engano seis semanas depois. O motivo é o que impede |
+| **Formato que qualquer um lê** | Markdown e CSV. Planilha publicada é **vista**, nunca fonte — quem não tem OAuth tem de conseguir trabalhar |
+| **Onde mora cada coisa** | decisão em `bases/DECISOES.md` · lição em `bases/<n>/APRENDIZADO.md` · estado em `ESTADO.md` · impacto cruzado em `bases/IMPACTOS.md` · regra permanente no `AGENTS.md` |
+| **Memória do Claude é cópia de trabalho** | ela não atravessa. Copiar para `_contexto/memoria/` **antes** do commit final, senão o aprendizado morre numa reinstalação |
+| **A ponte do Codex** | `.agents/skills` é **cópia**, não link. Skill editada em `.claude/skills/` fica velha lá até ser recopiada |
+
+### O erro típico
+
+Não é esquecer de escrever. É escrever **pressupondo a conversa**: "ajustado conforme discutido"
+descreve nada para quem não estava lá. Escreva como quem deixa recado para outra pessoa, porque é
+exatamente isso.
+
 ---
 
 ## 1 · O endereço é o arquivo, nunca a sessão
