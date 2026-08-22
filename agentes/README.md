@@ -142,10 +142,26 @@ decisão.
 **Não faz:** não decide o que é do Elvis, e **não vira fonte de verdade** — aponta para o documento,
 e quando não há documento, escreve um.
 
-### Ele SABE executar, mas não executa por hábito
+### Para que ele domina o método
 
-Decidido em 22/08. O coordenador tem de dominar o método de cada agente — por isso o item 1 do
-relatório. Mas dominar não é assumir.
+**Para criticar e rotear, não para assumir a tarefa.** O Elvis foi preciso nisso em 22/08: saber o
+método serve para dizer *"isso pode impactar o outro projeto"*, *"isso não convém por ABC"*, ou
+*"antes de seguir, confere com o especialista tal, porque bate na base dele"*.
+
+São três perguntas ao ler um relatório:
+
+| | |
+|---|---|
+| **O método se sustenta?** | crítica técnica — número que muda o plano, o coordenador reproduz |
+| **Bate em outra base?** | impacto — ver `INTERFACES.md`, coluna "quem consome" |
+| **Precisa de um terceiro antes de seguir?** | roteamento — o outro agente entra **antes** da execução |
+
+A terceira é a que **só o coordenador consegue fazer**: o especialista enxerga a própria base, não a
+de quem consome a dele.
+
+### E executar? Sabe, mas não por hábito
+
+Dominar não é assumir.
 
 | | |
 |---|---|

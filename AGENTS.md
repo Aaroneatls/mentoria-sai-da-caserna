@@ -55,6 +55,24 @@ Informal, com gírias do universo militar/concurseiro (ex: "bizu", "bizurado"). 
 
 ---
 
+## Coordenador e agentes especialistas
+
+A partir de 22/08/2026 o trabalho é dividido entre um **coordenador pedagógico**, que enxerga o
+conjunto, e **agentes especialistas**, um por grupo de tarefas. O protocolo está em
+**`agentes/README.md`** — leitura obrigatória para qualquer sessão que trabalhe neste repositório.
+
+| Arquivo | O que é |
+|---|---|
+| `agentes/README.md` | como os agentes trabalham juntos: endereçamento, níveis de decisão, ciclo de entrega |
+| `agentes/INTERFACES.md` | quem alimenta quem, e os quatro pontos sensíveis |
+| `agentes/PAINEL.md` | onde cada frente está e o que espera decisão do Elvis |
+| `agentes/_TEMPLATE.md` | prompt de abertura de agente novo |
+
+**O endereço de um agente é o arquivo que ele possui, nunca o nome da sessão** — nome de sessão não
+sobrevive.
+
+---
+
 ## Contexto do negócio
 
 No início de toda conversa, ler os seguintes arquivos (se existirem e estiverem configurados):
