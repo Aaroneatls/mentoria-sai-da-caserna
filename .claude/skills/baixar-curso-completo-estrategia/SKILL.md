@@ -74,6 +74,13 @@ resultante (ver orçamento de caracteres nos "Detalhes técnicos" mais abaixo) e
 preferir a versão mais curta que ainda deixe a aula identificável — não
 esperar bater no limite pra só então cortar.
 
+**PERGUNTA 0 — QUAL MODO?** Antes de qualquer outra: `baixar` (não existe no
+disco) · `atualizar` (existe, atualiza só o que mudou) · `conferir` (só lê e
+relata, não escreve nada). Se o usuário não disser, a existência da pasta do
+pacote decide entre `baixar` e `atualizar` — confirmar antes de escrever.
+**Se for `conferir`, não seguir a numeração dos passos:** ir direto ao caminho
+curto descrito na seção abaixo e encerrar ali.
+
 ## Modos de execução: `baixar`, `atualizar`, `conferir`
 
 **Confirmado pelo Elvis em 22-08-2026.** As duas skills de download continuam
@@ -132,6 +139,24 @@ um mudou, mudou de verdade. Se os dois estão iguais, o hash decide.
 >
 > Filtrar na **extração**, antes do hash, antes do slug, antes de qualquer uso.
 > Ver `bases/DECISOES.md`, seção "Marca d'agua do Estrategia".
+
+### Caminho curto do `conferir` (não passa pelos passos de download)
+
+**Termina aqui, não entra nos passos de download.** "Faça tudo mas não escreva"
+erra fácil, e o erro grava no Drive.
+
+1. Levantar o pacote pela API: disciplinas, aulas, `is_disponivel`, e quais
+   vídeos têm `resumo` / `mapa_mental`.
+2. Levantar o disco: pastas de categoria e disciplina, PDFs, placeholders `.txt`,
+   subpasta de apoio, `_manifesto.csv`.
+3. Comparar e relatar, **por disciplina**: aula na plataforma e não no disco;
+   aula no disco e não na plataforma; `hash_conteudo` divergente; apoio ainda não
+   baixado; nome fora do padrão do `bases/NOMENCLATURA.md`; caminho passando de
+   240 caracteres.
+4. Encerrar com o relatório. **Nenhuma gravação** — nem PDF, nem planilha, nem
+   manifesto, nem renomeação, nem troca de matrícula.
+
+Divergência que não der para explicar: **parar e reportar ao Elvis**.
 
 ## Nome de pasta e de arquivo: seguir `bases/NOMENCLATURA.md`
 
@@ -320,7 +345,7 @@ escreve ao terminar.
    "Curso Regular para Área Fiscal - Pacote Completo" → é o pacote "Regular
    Fiscal"; existe também "Regular Controle"), não a ausência de sigla de
    edital. Ao identificar esse padrão, usar `(Regular <Área>)` no lugar de
-   `(SIGLA_CONCURSO-SIGLA_CARGO)` em todo nome de pasta (ex: `Direito
+   o identificador do concurso **na pasta do nível 1** (ex: `Regular Fiscal`), e NUNCA no nome da pasta da disciplina (REGRA 1) (ex: `Direito
    Administrativo (Regular Fiscal)`). Não precisa perguntar ao usuário quando
    reconhecer esse padrão — só confirmar se o próprio nome da área ficar
    ambíguo.
@@ -395,7 +420,7 @@ uma disciplina avulsa.
 o outro local que o usuário indicou) — nunca varrer o computador inteiro nem
 outras pastas fora dali.
 
-Com a sigla `SIGLA_CONCURSO-SIGLA_CARGO` definida no Passo 1, procurar dentro
+Com o identificador do concurso definido no Passo 1, procurar dentro
 dessa pasta por uma pasta de pacote já existente que corresponda a esse
 concurso/cargo — o nome raiz do pacote é livre, então o jeito confiável de
 identificar é abrir as pastas de primeiro nível encontradas e checar se as
@@ -571,64 +596,77 @@ confirmadas lá. Se o usuário quiser, nesse modo, também baixar matérias/cate
 novas que apareceram no pacote desde a última coleta (e ainda não têm pasta
 local), perguntar isso separadamente antes de prosseguir.
 
-## Passo 6: Criar a estrutura de pastas
+## Passo 6: Criar a estrutura de pastas (padrão `bases/NOMENCLATURA.md`)
+
+> **Reescrito em 22-08-2026, autorizado pelo Elvis** (`agentes/AUTORIZACOES.md`).
+> O padrão antigo — `<Pacote> (DD-MM-AAAA)/<Categoria>/<Matéria> (SIGLA-SIGLA) (DD-MM-AAAA)/`
+> — **está extinto**. Ele repetia o concurso dentro da pasta da matéria e punha
+> data em dois níveis; foi a causa medida do caminho de 263 caracteres contra o
+> limite de 260 do Windows, com 157 arquivos acima de 240.
 
 ```
-<pasta raiz>/<Nome do Pacote> (DD-MM-AAAA)/
+<pasta raiz>/<Concurso> (<Sigla>) <Ano>/          <- SEM data (REGRA 9)
 ├── Curso Regular/
-│   ├── Contabilidade Geral (SIGLA-SIGLA) (DD-MM-AAAA)/
-│   ├── Direito Constitucional (SIGLA-SIGLA) (DD-MM-AAAA)/
+│   ├── DCONST - Direito Constitucional (18-08-2026)/
+│   ├── CONTAB - Contabilidade Geral e Avançada - Possati (18-08-2026)/
 │   └── ...
 ├── Passo Estratégico/
-│   ├── Contabilidade Geral (SIGLA-SIGLA) (DD-MM-AAAA)/
-│   ├── Direito Constitucional (SIGLA-SIGLA) (DD-MM-AAAA)/
+│   ├── DCONST - Direito Constitucional (18-08-2026)/
 │   └── ...
 ├── Bizu Estratégico/
-│   └── Bizu Estratégico (SIGLA-SIGLA) (DD-MM-AAAA)/   ← pasta única, não separa por matéria
-├── Discursiva Sem Correção/
-│   └── Discursiva Sem Correção (SIGLA-SIGLA) (DD-MM-AAAA)/   ← pasta única, curso já é um bloco só
-├── Trilha Estratégica/
-│   └── Trilha Estratégica (SIGLA-SIGLA) (DD-MM-AAAA)/        ← pasta única
-└── Simulado/
-    └── Simulado (SIGLA-SIGLA) (DD-MM-AAAA)/                  ← pasta única
+│   └── Bizu Estratégico (18-08-2026)/        <- pasta única, não separa por matéria
+├── Trilha/
+│   └── Trilha Estratégica (18-08-2026)/      <- pasta única
+└── Rodadas Avançadas/
+    └── Rodadas Avançadas (18-08-2026)/       <- pasta única
 ```
 
-- Uma pasta por categoria selecionada no Passo 5.
-- Dentro de cada categoria com múltiplas matérias (Curso Regular, Passo
-  Estratégico), uma subpasta por matéria, no mesmo padrão de nome da skill
-  `baixar-curso-especifico-estrategia`: `Matéria (SIGLA_CONCURSO-SIGLA_CARGO)`.
-  Esse é o nome "base" criado antes de baixar qualquer aula — no final (Passo 9),
-  a pasta é renomeada (nunca apagada e recriada) pra ganhar o prefixo `(N-M)` na
-  frente se o curso ainda não estiver completo, e o sufixo de data no final.
-- **Bizu Estratégico, Discursiva Sem Correção, Trilha Estratégica e Simulado são
-  exceção:** cada uma delas já é um curso único no site (não um curso por
-  matéria), então vira **uma pasta só** dentro da categoria (ex:
-  `Bizu Estratégico (SIGLA-SIGLA)`), com todos os PDFs das aulas daquele bloco
-  dentro (ver Passo 7).
-- **`(DD-MM-AAAA)` no nome do pacote e de cada matéria** — confirmado pelo
-  Elvis em 2026-08-18: a pasta do pacote (nível mais alto) leva um sufixo de
-  data indicando a última vez que **qualquer coisa** dentro dela foi
-  baixada/atualizada; cada pasta de matéria leva o **seu próprio** sufixo de
-  data, indicando a última vez que **aquela matéria específica** foi
-  baixada/atualizada. São controles independentes — é comum atualizar só uma
-  matéria do pacote sem tocar nas outras, e a data de cada pasta reflete isso
-  individualmente. Na criação (download novo), a data em ambos os níveis é a
-  de hoje. Ver Passo 9 pra como a data da matéria é recalculada, e Passo 10
-  pra como a data do pacote é recalculada no final.
-  **Conferir a data de hoje no ambiente antes de montar qualquer nome** — não
-  copiar a data que aparece nas pastas vizinhas nem a que estiver escrita nesta
-  skill. Erro real em 19-08-2026 (pacote ISS Manaus): as pastas existentes na
-  pasta padrão eram de `(18-08-2026)` e a skill cita essa data em vários
-  pontos, então o pacote inteiro nasceu com o sufixo de ontem — 22 pastas, 30
-  placeholders e 21 planilhas tiveram que ser corrigidos depois. A mesma data
-  de hoje vale pro texto do `.txt` do Passo 8 e pra coluna "Data desta
-  Verificação" da planilha do Passo 11.
-- **Modo novo:** criar tudo do zero com `mkdir -p`, dentro da pasta informada no
-  Passo 0 (nenhuma pasta de pacote correspondente foi encontrada no Passo 2).
-- **Modo atualização:** usar a pasta do pacote localizada no Passo 2; criar só
-  as subpastas de categoria/matéria que ainda não existirem (matérias novas no
-  pacote), sem recriar as que já existem — sempre atualizar em cima da pasta
-  existente, nunca apagar e recriar (ver regra no Passo 9).
+### As quatro regras que mudaram
+
+1. **A data mora na disciplina, não no concurso** (REGRA 9). Com o modo
+   `atualizar`, a atualização é **por disciplina**: uma data no nível do pacote
+   passa a mentir assim que uma única matéria for atualizada sozinha. **Não pode
+   ficar nos dois lugares** — são duas versões da mesma verdade, e divergem. Se
+   encontrar data na pasta do concurso, de execução antiga, **remover**.
+2. **A pasta da disciplina é `<SIGLA> - <Nome que a fonte usa> (<DD-MM-AAAA>)`**,
+   e **nunca repete** o concurso, o cargo ou a categoria (REGRA 1). A sigla vem
+   de `bases/01-disciplinas/dados/renomear-pastas.csv`, casando pela coluna
+   `pasta_atual_no_disco` **por igualdade**. Linha `pendente`: **sem prefixo**,
+   nunca chutar sigla.
+3. **O nome da fonte pode ser sintetizado, nunca traduzido** (REGRA 2). Quem
+   procura na plataforma tem de achar pelo nome que está lá.
+4. **Tipo de curso é nível próprio e existe mesmo quando só há um**, porque a
+   estrutura tem de ser previsível para a skill que lê. Valores fixos:
+   `Curso Regular` · `Passo Estratégico` · `Bizu Estratégico` · `Monitoria` ·
+   `Trilha` · `Rodadas Avançadas`.
+
+### Categorias que são um curso só
+
+Bizu Estratégico, Trilha, Monitoria e Rodadas Avançadas já são um curso único no
+site, não um curso por matéria — então viram **uma pasta só** dentro da categoria,
+com todos os PDFs dentro, e **sem prefixo de sigla** (não são disciplina).
+
+### Duas matérias com o mesmo nome
+
+Diferenciar pelo professor, mantendo **a mesma sigla** nas duas (é a mesma
+disciplina nossa, dois professores):
+
+```
+CONTAB - Contabilidade Geral e Avançada - Possati (18-08-2026)/
+CONTAB - Contabilidade Geral e Avançada - Cardozo (18-08-2026)/
+```
+
+### Comprimento
+
+O que manda é o **caminho real chegar a 240**, não a soma dos tetos. Chegando,
+**quem encurta é o ARQUIVO, nunca a pasta** (REGRA 10). Medir sempre o caminho
+**absoluto** — `os.path.join` com componente iniciado por barra invertida
+descarta a raiz e devolve número plausível e errado.
+
+**Conferir a data de hoje no ambiente antes de montar qualquer nome.** Erro real
+em 19-08-2026 (pacote ISS Manaus): as pastas existentes eram de `(18-08-2026)`,
+a skill cita essa data em vários pontos, e o pacote inteiro nasceu com o sufixo
+de ontem — 22 pastas, 30 placeholders e 21 planilhas corrigidos depois.
 
 ## Método de download: qual caminho usar (atualizado em 19-08-2026)
 
@@ -1013,14 +1051,14 @@ não virar `Aula 02`). Fora desse cenário de limite de caminho, o rótulo nunca
   o nome do arquivo usa o **nome da matéria da aula** em vez de "Aula NN":
   `Nome da Matéria (DD-MM-AAAA).pdf` (ex: `Auditoria (DD-MM-AAAA).pdf`,
   `Língua Portuguesa (DD-MM-AAAA).pdf`), todos dentro da mesma pasta
-  `Bizu Estratégico (SIGLA-SIGLA)/`.
+  `Bizu Estratégico (<DD-MM-AAAA>)/` — categoria que é curso único não leva sigla de disciplina.
 
 ### Discursiva Sem Correção
 
 - Mesmo card único "Baixar Livro Eletrônico versão original".
 - Curso já é um bloco só (não por matéria) — nome do arquivo:
   `Aula NN - Assunto Sintético (DD-MM-AAAA).pdf`, todos dentro da pasta única
-  `Discursiva Sem Correção (SIGLA-SIGLA)/`. Algumas aulas vêm marcadas "(Somente
+  `Discursiva Sem Correção (<DD-MM-AAAA>)/`. **A Discursiva não é disciplina** (`bases/DECISOES.md`, 22/08/2026) — baixar só se o usuário pedir a categoria explicitamente. Algumas aulas vêm marcadas "(Somente
   PDF)" no título do site — é só uma informação do site, não muda o processo.
 
 ### Trilha Estratégica
@@ -1029,7 +1067,7 @@ não virar `Aula 02`). Fora desse cenário de limite de caminho, o rótulo nunca
 - **Diferença de nomenclatura:** o site numera como "Trilha NN" em vez de "Aula
   NN" — usar esse mesmo padrão no nome do arquivo: `Trilha NN - Assunto
   Sintético (DD-MM-AAAA).pdf`, dentro da pasta única `Trilha Estratégica
-  (SIGLA-SIGLA)/`. Tem também um item inicial "Como utilizar a Trilha
+  (<DD-MM-AAAA>)/`. Tem também um item inicial "Como utilizar a Trilha
   Estratégica" sem número — tratar como uma aula normal, nomeando o arquivo pelo
   próprio título (`Como Utilizar a Trilha Estratégica (DD-MM-AAAA).pdf`).
 
@@ -1041,7 +1079,7 @@ não virar `Aula 02`). Fora desse cenário de limite de caminho, o rótulo nunca
   cada uma com seu próprio card de download. Baixar as duas.
 - Nome do arquivo baseado no título da aula (geralmente já traz a data do
   simulado em si) + a data extraída do PDF entre parênteses no final, dentro da
-  pasta única `Simulado (SIGLA-SIGLA)/`. Ex: `Simulado Especial -
+  pasta única `Rodadas Avançadas (<DD-MM-AAAA>)/`. Ex: `Simulado Especial -
   23-08-2026 (DD-MM-AAAA).pdf` e `Simulado Especial - 23-08-2026 - Gabarito
   (DD-MM-AAAA).pdf` (barra da data do título trocada por traço, mesma regra do
   Passo 8; a data entre parênteses no final é a de elaboração do PDF, pode ser
@@ -1312,51 +1350,33 @@ página (ver Passo 7). A data depois de um **traço** `- DD-MM-AAAA.txt` é só 
 previsão de liberação informada pelo site pra uma aula ainda travada. Os dois
 formatos nunca se confundem visualmente por causa disso.
 
-## Passo 9: Nomear a pasta com indicador de progresso (N-M) e data de atualização
+## Passo 9: Fechar o nome de cada pasta de disciplina — `(N-M)` e data
 
-Depois de terminar todas as aulas de uma matéria/bloco (pasta de Curso Regular,
-Passo Estratégico, ou a pasta única de Bizu/Discursiva/Trilha/Simulado):
+> **Reescrito em 22-08-2026.** Duas mudanças: o `(N-M)` passou do **começo para o
+> FIM** do nome (REGRA 6), e **a data da pasta do pacote deixou de existir**
+> (REGRA 9 — a data mora na disciplina).
 
-1. Contar **M** = total de aulas do curso (linhas na listagem `/aulas`) e **N** =
-   quantas delas realmente têm PDF baixado (arquivos `.pdf` de verdade, não os
+Para cada disciplina processada:
+
+1. **M** = total de aulas do curso; **N** = quantas têm PDF de verdade (não os
    `.txt` placeholder do Passo 8).
-2. **Se N < M** (curso incompleto): renomear a pasta pra começar com `(N-M) `,
-   ex: `(10-20) Direito Administrativo (SIGLA-SIGLA) (18-08-2026)` (10 aulas
-   com PDF já disponível, de um total de 20 aulas no curso). O indicador fica
-   **entre parênteses, colado direto no nome da matéria** — sem traço
-   separando os dois, só um espaço. **Usar traço dentro do parênteses (`N-M`),
-   nunca barra (`N/M`)** — barra é separador de caminho no Windows e quebra o
-   `Rename-Item` (confirmado na prática: tentar renomear com `/` lança erro
-   "representa um caminho ou nome de dispositivo").
-3. **Se N == M** (curso completo): a pasta fica sem o prefixo `(N-M)`, só
-   `Direito Administrativo (SIGLA-SIGLA) (18-08-2026)`.
-4. **Atualizar também o sufixo de data no final do nome pra data de hoje**
-   (ver regra no Passo 6) — nessa mesma operação de renomear, sempre, pra
-   registrar quando essa matéria específica foi mexida pela última vez. Isso
-   vale mesmo que só essa matéria tenha sido tocada nessa execução, sem mexer
-   nas outras do pacote.
-5. **Modo atualização:** antes de recalcular, remover qualquer prefixo `(N-M) `
-   e qualquer sufixo de data antigo que a pasta já tenha (de uma execução
-   anterior) pra não acumular — sempre recalcular do zero e renomear com os
-   números e a data atuais.
-6. **Sempre renomear a pasta existente com `Rename-Item` (ou equivalente) — nunca
-   apagar a pasta (ou a árvore inteira) e recriar do zero pra aplicar esse
-   prefixo/data.** Apagar e recriar perde a pasta original (e qualquer PDF real já
-   baixado nela) e conta como criar uma pasta nova, não atualizar a existente —
-   o que vale tanto pra corrigir o prefixo quanto pra qualquer outro ajuste feito
-   em modo atualização.
-
-Isso deixa visível, só olhando o nome da pasta no Explorer, quais matérias ainda
-têm aula pendente de liberação pelo site, quais já estão 100% baixadas, e quando
-cada uma foi mexida pela última vez.
-
-**Data da pasta do pacote (nível acima):** depois de processar **qualquer**
-matéria/bloco (mesmo só uma, mesmo em modo atualização tocando uma matéria só),
-atualizar também o sufixo de data da pasta do pacote (raiz, ver Passo 6) pra
-data de hoje — ela reflete a atividade mais recente em qualquer parte do
-pacote, não só quando o pacote inteiro é rebaixado. Fazer essa renomeação uma
-vez só, depois de processar todas as matérias da execução atual (não a cada
-matéria individual) — evita renomear a pasta-raiz repetidamente à toa.
+2. **Se N < M**, a marca vai **no fim, antes da data**:
+   `LTRIB - Legislação Tributária Municipal (3-14) (22-08-2026)`.
+   **Nunca no começo:** o parêntese ordena antes de qualquer letra, e todas as
+   pastas com pendência sobem juntas para o topo, agrupadas pelo **defeito** em
+   vez de pela disciplina — brigando com o prefixo de sigla, que existe para
+   agrupar. Traço (`N-M`), nunca barra: barra é separador de caminho no Windows
+   e quebra o `Rename-Item`.
+3. **Se N == M**, sem marca.
+4. **Atualizar a data daquela disciplina** para hoje, na mesma renomeação.
+5. **NÃO criar nem atualizar data na pasta do pacote.** Se houver data lá, de
+   execução antiga, **remover**.
+6. **Limpar antes de recalcular**: tirar marca `(N-M)` antiga (do começo ou do
+   fim) e data antiga, para não acumular.
+7. **Renomear em cima, sempre** (REGRA 4). Nunca apagar e recriar.
+8. **Devolver o estado**: atualizar `pasta_atual_no_disco` no
+   `bases/01-disciplinas/dados/renomear-pastas.csv` e gravar o log `de -> para`
+   num CSV na pasta de logs.
 
 ## Passo 10: Validação final (obrigatória — sempre rodar antes de dar o pacote como concluído)
 
@@ -1413,6 +1433,30 @@ cada matéria/bloco renomeado com o progresso `(N-M)`, mais a confirmação de
 que o cruzamento bateu em cada uma.
 
 ## Passo 11: Planilha de metadados de cada disciplina (obrigatória, Google Sheets)
+
+> **Atualizado em 22-08-2026.** Três mudanças, todas herdadas do Passo 9 da
+> `baixar-curso-especifico-estrategia`, que é onde o layout está descrito:
+>
+> 1. **Nome do arquivo:** `<SIGLA> - Metadados` (ex. `DCONST - Metadados`). O
+>    padrão antigo `<Matéria> (SIGLA-SIGLA) - Metadados` **está extinto** — foi
+>    ele que gerou o caminho de 263 caracteres, repetindo a disciplina que a
+>    pasta já diz e o concurso que o nível de cima já diz (REGRA 1). Disciplina
+>    sem sigla (`pendente` no `renomear-pastas.csv`): nome da pasta sem o
+>    concurso, ex. `Reforma Tributária - Metadados`.
+> 2. **`_manifesto.csv` na mesma pasta**, com o mesmo conteúdo da aba `Aulas`,
+>    gerado da **mesma estrutura em memória** e gravado **antes** de qualquer
+>    chamada de rede — assim um `429` do Sheets não derruba a execução, e quem
+>    lê o levantamento não precisa de OAuth.
+> 3. **Colunas novas na aba `Aulas`:** `Sigla Disciplina`, `Hash Conteúdo` e
+>    `Alterado em`; e **aba nova `Apoio`** (`Tipo` R/MM · `Assunto` · `Arquivo` ·
+>    `Aulas` como lista · `Fonte do nome` capa/vídeo · `Páginas` ·
+>    `Páginas conteúdo` · `Sigla Disciplina`).
+>    **`Sigla Disciplina` e não `Cód Mestre` nas duas abas:** o Cód Mestre é do
+>    TÓPICO, e bloco x tópico é muitos para muitos (`bases/DECISOES.md`, A14).
+>    Coluna única mentiria na aba Aulas (uma aula tem vários tópicos) e na aba
+>    Apoio (um resumo serve vários assuntos — é a própria razão da REGRA 7).
+>    **Hash:** o texto do PDF local **contém a marca d'água**; linha de base sem
+>    filtrar dá falso positivo em 100% das aulas na execução seguinte (REGRA 8).
 
 **Confirmado pelo Elvis em 2026-08-18: toda matéria/bloco processado ganha uma
 planilha de metadados própria, na mesma pasta dela** — mesmo processo e mesmo
@@ -1623,18 +1667,14 @@ robusto.
 
 ## Detalhes técnicos e pegadinhas (aprendidos testando esse pacote)
 
-- **Limite de 260 caracteres de caminho no Windows** — orçamento sugerido pra não
-  estourar: pasta raiz (~50 caracteres, ex: a pasta padrão já usa isso) + nome
-  do pacote até ~40 caracteres + nome da categoria (curto e fixo, não precisa
-  cortar) + nome da pasta da matéria até ~70 caracteres (`(N-M) Matéria
-  (SIGLA-SIGLA)`) + nome do arquivo da aula até ~80 caracteres. O nome do
-  pacote inteiro costuma ser gigante no site (título completo do concurso) —
-  **está autorizado a sintetizar esse nome sozinho, sem perguntar ao usuário**,
-  usando algo curto e descritivo (ex: `Pacotaço ISS Manaus (AFTM) 2026`) em vez
-  do título completo copiado do site. O mesmo vale pra nome de matéria e assunto
-  da aula: se a soma projetada do caminho passar de ~240 caracteres (margem de
-  segurança), sintetizar o que for preciso — priorizando manter sigla, categoria
-  e número da aula intactos, cortando a parte descritiva.
+- **Limite de 260 caracteres de caminho no Windows** — o orçamento por nível está
+  em `bases/NOMENCLATURA.md` e **este documento não o repete**, para não divergir.
+  O que manda é o **caminho real chegar a 240**, não a soma dos tetos; chegando,
+  **quem encurta é o ARQUIVO, nunca a pasta** (REGRA 10). Medir sempre o caminho
+  **absoluto**: no Windows, `os.path.join(raiz, dirpath, f)` com `dirpath` vindo
+  de `os.walk('.')` **descarta a raiz** quando o componente começa com barra
+  invertida — o número sai plausível (215 em vez de 263) e engana. Usar
+  `os.path.abspath`.
 - **Reservar desde já os caracteres que o Passo 9 vai acrescentar depois** —
   confirmado na prática em 19-08-2026 (pacote TCDF-ANACE): os arquivos nasceram
   todos dentro do limite, mas o Passo 9 renomeia a pasta da matéria somando o

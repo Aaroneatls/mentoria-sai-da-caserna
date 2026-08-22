@@ -57,6 +57,21 @@ por uma pasta já existente dentro do local informado. Ver Passo 3.
    nome completo da matéria é a forma mais eficaz de ganhar margem de caminho
    de forma permanente, em vez de só sintetizar nome de arquivo caso a caso.
 
+**PERGUNTA 0 — QUAL MODO?** Antes de qualquer outra, e sem exceção:
+
+> `baixar` (não existe no disco) · `atualizar` (existe, atualiza o que mudou) ·
+> `conferir` (só lê e relata, não escreve nada)
+
+Se o usuário não disser, **a existência da pasta decide** entre `baixar` e
+`atualizar` — mas confirmar com ele antes de escrever qualquer coisa. Se ele
+disser "confere", "dá uma olhada", "o que mudou?", é `conferir`.
+
+**O modo escolhido muda o que cada passo faz daqui pra frente**, e cada passo diz
+o que muda. Ver a seção "Modos de execução" logo abaixo.
+
+**Se o modo for `conferir`, NÃO seguir a numeração dos passos** — ir direto para
+o "Caminho curto do `conferir`", ao fim da seção de modos, e encerrar ali.
+
 Não seguir em frente sem as respostas 1 e 2 acima.
 
 **Reduzir o tamanho do caminho é uma preocupação constante, não só nos casos
@@ -124,6 +139,30 @@ um mudou, mudou de verdade. Se os dois estão iguais, o hash decide.
 >
 > Filtrar na **extração**, antes do hash, antes do slug, antes de qualquer uso.
 > Ver `bases/DECISOES.md`, seção "Marca d'agua do Estrategia".
+
+### Caminho curto do `conferir` (não passa pelos passos de download)
+
+**`conferir` tem caminho próprio e termina aqui.** Não entra nos Passos 4 em
+diante. O motivo é prático: "faça tudo mas não escreva" erra fácil, e o erro
+grava no Drive.
+
+1. **Levantar a plataforma:** lista de aulas pela API (Passo 5A), com `id`,
+   rótulo, `is_disponivel`, `data_publicacao`, e quais vídeos têm `resumo` /
+   `mapa_mental`.
+2. **Levantar o disco:** PDFs, placeholders `.txt`, apoio na subpasta, e o
+   `_manifesto.csv` se existir.
+3. **Comparar e relatar**, sem escrever nada:
+   - aula na plataforma e não no disco;
+   - aula no disco e não na plataforma (renomeada ou removida na origem);
+   - `hash_conteudo` divergente do manifesto (teoria mudou);
+   - apoio novo que ainda não foi baixado;
+   - nome de pasta ou arquivo fora do padrão do `bases/NOMENCLATURA.md`;
+   - caminho passando de 240 caracteres.
+4. **Encerrar com o relatório.** Nenhuma gravação: nem PDF, nem planilha, nem
+   `_manifesto.csv`, nem renomeação, nem troca de matrícula.
+
+**Divergência que não der para explicar: parar e reportar ao Elvis.** Não tentar
+corrigir dentro do `conferir` — ele é o modo em que nada se escreve.
 
 ## Nome de pasta e de arquivo: seguir `bases/NOMENCLATURA.md`
 
@@ -311,9 +350,10 @@ escreve ao terminar.
    **O sinal pra reconhecer esse caso é a própria palavra "Regular" no nome do
    pacote/curso** (ex: pacote "Curso Regular para Área Fiscal" → é o pacote
    "Regular Fiscal"; existe também "Regular Controle"), não a ausência de
-   sigla de edital. Ao identificar esse padrão, usar `(Regular <Área>)` no
-   lugar de `(SIGLA_CONCURSO-SIGLA_CARGO)` no nome da pasta (ex: `Direito
-   Administrativo (Regular Fiscal)`). Não precisa perguntar ao usuário quando
+   sigla de edital. **Atualizado em 22-08-2026:** esse identificador NÃO vai
+   mais no nome da pasta da disciplina (REGRA 1) — ele vira o **nome da pasta do
+   concurso**, um nível acima: `Regular Fiscal\Curso Regular\DADM - Direito
+   Administrativo (18-08-2026)`. Não precisa perguntar ao usuário quando
    reconhecer esse padrão.
 7. **"Reforma Tributária" conta como disciplina própria** — confirmado pelo
    Elvis em 2026-08-17. Se o curso pedido for de Reforma Tributária, tratar
@@ -536,8 +576,9 @@ listar todas as encontradas (caminho completo de cada uma) e perguntar ao
 usuário qual delas é a certa antes de seguir.
 
 **Se não encontrar nenhuma pasta correspondente:** é download novo — criar
-`<pasta informada>/<Matéria (SIGLA-SIGLA)>/` com `mkdir -p`. Não tem o que
-atualizar, então não precisa perguntar mais nada sobre isso.
+`<pasta informada>/<Tipo de Curso>/<SIGLA> - <Disciplina> (<DD-MM-AAAA>)/` com
+`mkdir -p`, no padrão do Passo 2. Não tem o que atualizar, então não precisa
+perguntar mais nada sobre isso.
 
 ## Passo 4: Levantar a lista de aulas
 
@@ -1550,10 +1591,14 @@ do encerramento normal do processo.
 
 ## Detalhes técnicos e pegadinhas (aprendidos na prática)
 
-- **Limite de 260 caracteres de caminho no Windows** — orçamento sugerido pra não
-  estourar: pasta raiz (~50 caracteres, ex: a pasta padrão já usa isso) + nome da
-  pasta da matéria até ~70 caracteres (`(N-M) Matéria (SIGLA-SIGLA)`) + nome do
-  arquivo da aula até ~80 caracteres. Se a soma projetada passar de ~240
+- **Limite de 260 caracteres de caminho no Windows** — o orçamento por nível está
+  em `bases/NOMENCLATURA.md` e **este documento não o repete**, para não divergir.
+  O que manda é o **caminho real chegar a 240**, não a soma dos tetos; e quando
+  chegar, **quem encurta é o nome do ARQUIVO, nunca o da pasta** (REGRA 10).
+  Medir sempre o caminho **absoluto**: `os.path.join(raiz, dirpath, f)` com
+  `dirpath` vindo de `os.walk('.')` no Windows **descarta a raiz** quando o
+  componente começa com barra invertida, e o número sai plausível (215 em vez de
+  263) — usar `os.path.abspath`. Se a soma projetada passar de ~240
   caracteres (deixando margem de segurança), sintetizar o nome da matéria e/ou o
   assunto da aula no nome do arquivo até caber — está autorizado a fazer essa
   redução sozinho, sem perguntar ao usuário, priorizando manter a sigla e o
@@ -1615,92 +1660,3 @@ do encerramento normal do processo.
   informações antes — confirmar a cada execução da skill.
 - Se o curso tiver dezenas de aulas, processar tudo sem pausar pra pedir confirmação
   a cada aula — só reportar progresso a cada poucas aulas ou no final.
-
-## Passo 10: Sugestão de melhoria da skill (obrigatória ao final de toda execução)
-
-**Regra geral do workspace pra skills de download em massa e de cadernos de
-questões, confirmado pelo Elvis em 2026-08-18** (ver `AGENTS.md`): depois do
-relatório final (Passo 8), avaliar se algo aprendido nessa execução sugere um
-ajuste na própria skill — bug novo, comportamento inesperado do site, passo
-lento/repetitivo, oportunidade de deixar algo mais robusto.
-
-- **Se identificar algo:** apresentar a sugestão ao Elvis de forma objetiva (o
-  que aconteceu, o que mudaria na skill), perguntar se aprova, e só então
-  editar o `SKILL.md` (dessa skill e/ou da `baixar-curso-completo-estrategia`,
-  se aplicável às duas) e rodar `/syncar`.
-- **Se nada de novo surgiu:** dizer isso de forma curta e objetiva — não
-  inventar sugestão só pra ter o que falar.
-- Nunca editar a skill nem sincronizar sem aprovação prévia.
-
-### Conferir versão/integridade sem baixar o PDF (técnica do `Range`)
-
-**Descoberta em 2026-08-20, e é o jeito barato de auditar uma pasta inteira.**
-
-O endpoint de download **aceita requisição parcial**. Pedindo `Range: bytes=0-99` o
-servidor responde `206` com o header `Content-Range: bytes 0-99/<TAMANHO TOTAL>` — ou
-seja, **100 bytes trazem o tamanho exato do arquivo remoto**.
-
-```python
-UA = {'User-Agent': '<UA de browser>', 'Referer': 'https://www.estrategiaconcursos.com.br/',
-      'Range': 'bytes=0-99'}
-r = requests.get(url_assinada, headers=UA, timeout=60)
-tamanho_remoto = int(r.headers['Content-Range'].split('/')[-1])   # status 206
-```
-
-Comparando com `os.path.getsize()` do arquivo local dá pra saber **qual versão está na
-pasta**, sem baixar nada:
-
-| Diferença local x remoto | Significa |
-|---|---|
-| dezenas de bytes (4 a 30 na prática) | é o mesmo arquivo — a variação é a marca d'água gerada na hora |
-| megabytes | é outra versão |
-
-Limiar usado: `dif < max(2000, tamanho_local * 0.002)`.
-
-**Como identificar o stub do Passo 6.1 por aqui:** o stub tem sempre ~**699 KB**, e é
-esse tamanho que volta no `pdf_simplificado` das aulas rebaixadas. Se o remoto vier em
-~699 KB e o local for muito maior, aquele arquivo é `LC` (rebaixe por stub), mesmo com
-`pdf_simplificado` presente na API.
-
-**Cuidado — HEAD não funciona:** o endpoint devolve `404` para `HEAD`. Só `GET` com
-`Range`. E **não dá pra fazer isso pelo `javascript_tool`**: `Content-Range` não é header
-seguro de CORS e volta `null` no navegador. Tem que ser do shell, com o link assinado.
-
-**Onde isso vale:** auditar uma pasta inteira depois de um mutirão, conferir se o PDF
-local ainda bate com o do site antes de decidir rebaixar em Atualização Completa, e
-preencher o sufixo `LS`/`LC` de coleta antiga sem refazer download. Em 2026-08-20 essa
-técnica conferiu 56 aulas de Contabilidade do Regular Controle e achou **exatamente os
-19 rebaixes por stub** que a skill já tinha registrado — validação independente do método.
-
-### ARMADILHA: assunto que termina em "LC" ou "LS"
-
-**Custou um rótulo errado silencioso em 2026-08-20.** Não repetir.
-
-Ao decidir se um arquivo **já tem** o sufixo, é tentador testar o fim do nome:
-
-```python
-re.search(r' L[SC] \(\d\d-\d\d-\d\d\d\d\)\.pdf$', nome)   # ERRADO
-```
-
-Isso casa por acidente com assunto que **termina** em `LC` ou `LS` — e `LC` é comum em
-matéria jurídica (Lei Complementar). O caso real:
-
-```
-Aula 12 - Previdência complementar - LC 108-2001 e LC (22-07-2026).pdf
-```
-
-O arquivo **não tinha sufixo**, foi tratado como se tivesse, ficou de fora do lote, e
-depois foi lido como `LC` quando na verdade era `LS`. Num acervo de 1096 PDFs, um único
-caso — e sem a conferência por `Range` ele passaria batido.
-
-**Como fazer certo:**
-
-1. **Nunca deduzir a versão lendo o nome do arquivo.** A fonte é a API (ou o log da
-   coleta). O nome é rótulo para humano, não campo de dado.
-2. Para saber se o lote já rodou, **conferir a contagem**: nº de PDFs na pasta contra
-   nº de linhas no log de renomeação. Divergência de 1 já é sinal.
-3. Se precisar mesmo testar pelo nome, exigir que **o token anterior ao sufixo não seja
-   ele próprio** ambíguo — na prática, comparar com a lista de aulas da API em vez de
-   confiar na regex.
-4. **Sempre fechar com conferência por amostra** (ver a técnica do `Range` acima). Foi
-   ela que pegou este caso.

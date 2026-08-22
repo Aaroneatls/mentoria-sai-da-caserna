@@ -12,7 +12,17 @@ Atualizado em 22/08/2026. Último commit desta base: **`2c46928`**.
 
 ## Onde parei
 
-**A base está construída e conferida. Falta só o Elvis validar para declará-la fechada.**
+**A base está construída, conferida, e o Elvis resolveu as três pendências em 22/08/2026.**
+
+Decisões dele nesta rodada, todas registradas em `bases/01-disciplinas/DECISOES.md`:
+
+1. **O NOME da disciplina é congelado, igual à sigla.** A Tutory identifica o que o aluno já
+   estudou por *nome do assunto + nome da disciplina*; um espaço a mais quebra o histórico.
+   Travado em `dados/nomes-congelados.csv` e no bloco 11 do `conferir.py`.
+2. **No curso 336350, o conteúdo decide:** Lei Kandir → `LTRIB`; LC 214/227 e EC 132 → `REFTRI`.
+   O curso aparece duas vezes no `apelidos.csv`; a separação sai na base 2.
+3. **Fonte sem dona não vira disciplina e não ganha Cód Mestre.** Fica mapeada na fonte. As 8 do
+   balde 1 estão resolvidas.
 
 O ciclo da seção 4 do `agentes/README.md` foi cumprido inteiro: construí, mandei o relatório ao
 coordenador, ele contrapôs em três rodadas, apliquei o que procedia, rebati o que não procedia, e
@@ -26,17 +36,18 @@ mais depende de mim. **Não refazer nada** e **não executar renomeação nenhum
 
 ## O que já está no repositório
 
-Tudo commitado e íntegro. `python bases/01-disciplinas/conferir.py` passa nos 10 blocos.
+Tudo commitado e íntegro. `python bases/01-disciplinas/conferir.py` passa nos 11 blocos.
 
 | Arquivo | Linhas | O que é |
 |---|---|---|
 | `dados/disciplinas.csv` | 21 | as siglas; transcrição literal da seção A8 de `bases/DECISOES.md` |
-| `dados/apelidos.csv` | 431 | uma linha por par (sigla, fonte, nome literal), sobre 5 camadas |
+| `dados/apelidos.csv` | 432 | uma linha por par (sigla, fonte, nome literal), sobre 5 camadas |
 | `dados/areas.csv` | 31 | uma linha por par (sigla, área), com a evidência em cada linha |
 | `dados/renomear-pastas.csv` | 34 | contrato com o `ESP-DOWNLOAD`: 31 prontas, 3 pendentes |
 | `fontes/tec.txt` | 146 | matérias do Tec, levantadas em 1 chamada |
 | `SEM-DONA.md` | — | as órfãs em 4 baldes; **gerado**, não editar à mão |
-| `conferir.py` | — | 10 blocos de validação; **não escreve nada** |
+| `dados/nomes-congelados.csv` | 21 | trava do nome; o bloco 11 compara contra ela |
+| `conferir.py` | — | 11 blocos de validação; **não escreve nada** |
 | `APRENDIZADO.md` | — | 8 lições, com o mecanismo de cada uma |
 | `.claude/skills/montar-base-disciplinas/SKILL.md` | — | os 3 modos e as 7 regras que não se quebram |
 
@@ -83,14 +94,14 @@ disciplina, senão "Economia Regional do Pará" viraria `ECOFIN`). Conferida por
 | # | O quê | Por que não dava para decidir sozinho |
 |---|---|---|
 | **B69** | separar a pasta `Reforma Tributaria`, que guarda `LTRIB` (curso 336350) e `REFTRI` (371461, 389109) | mexe na pasta dele, e **não se resolve sozinha**: no modo `atualizar` a pasta existente fica como está |
-| **B70** | os cursos 220891 e 220896 são `LTRIB` também? | regra de negócio. Metade já caiu: os dois são **genéricos** (o 220891 diz "(Todos Estados)"), então **não** são o `LTRIB-<ente>` da A8, e a contradição que eu havia levantado não existe |
-| — | as **8 entradas do balde 1** do `SEM-DONA.md` | "esquecer uma disciplina" é irreversível depois de o Cód Mestre ser publicado |
+| **B70** | os cursos 220891 e 220896 são `LTRIB` também? *(depende de rematricular o Regular Fiscal, que saiu do rodízio)* | regra de negócio. Metade já caiu: os dois são **genéricos** (o 220891 diz "(Todos Estados)"), então **não** são o `LTRIB-<ente>` da A8, e a contradição que eu havia levantado não existe |
+| ~~—~~ | ~~as 8 entradas do balde 1~~ | **RESOLVIDO em 22/08**: ficam mapeadas na fonte e **não recebem Cód Mestre**, porque o código pressupõe conteúdo teórico nosso e sem material no Regular apontaria para o vazio |
 
 Enquanto não decididas, as 3 pastas ficam **sem prefixo** no `renomear-pastas.csv`. **Sigla errada
 gravada é pior que pasta sem sigla:** a sem sigla qualquer um vê que falta; a errada ninguém percebe
 e ela contamina o Cód Mestre, que não pode mudar depois de publicado.
 
-### Do ESP-DOWNLOAD (não bloqueia esta base)
+### Do ESP-ACERVO (ex-ESP-DOWNLOAD) (não bloqueia esta base)
 
 1. Depois de renomear, **atualizar a coluna `pasta_atual_no_disco`** com o nome novo. Ela é
    **estado**, não histórico; sem isso o `conferir` desta base casa zero linha.
@@ -155,3 +166,11 @@ Parecer sobre a sequência, já alinhado com o coordenador: **puxar a árvore do
 37 tem mais casos). **Amarrar assunto ao Cód Mestre, só depois da base 2**, porque o tópico nasce da
 teoria que o aluno lê, e o assunto do Tec é apelido que se pendura nele. Amarrar antes inverteria o
 desenho.
+
+---
+
+## Relatório
+
+O relatório entregue ao Elvis está em `agentes/ESP-DISCIPLINAS-RELATORIO.md`, **arquivo e não
+mensagem**. Regra corrigida em 22/08/2026: o relatório era o entregável mais importante do ciclo e
+o único que não deixava rastro no repositório, o que já fez o coordenador presumir estado errado.

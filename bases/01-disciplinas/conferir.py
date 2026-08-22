@@ -129,6 +129,26 @@ for sig, area in sorted(pares_area):
           "%s consta na area %s mas nao tem apelido no %s: o aluno dessa area "
           "nao acha o material" % (sig, area, fonte))
 
+# 11. O NOME DA DISCIPLINA E CONGELADO, igual a sigla.
+#     Decisao do Elvis em 22/08/2026: a Tutory reconhece que o aluno ja estudou um assunto
+#     comparando "nome do assunto + NOME DA DISCIPLINA" entre planos. Mudar o nome da
+#     disciplina, AINDA QUE POR UM UNICO ESPACO, faz a plataforma tratar como disciplina
+#     nova e o historico do aluno se perde. Nao ha desfazer depois de publicado.
+#     Por isso `nome_canonico` tem o mesmo estatuto da sigla: irreversivel, nivel 3.
+cong = {r["sigla"]: r["nome_canonico"] for r in ler(os.path.join(D, "nomes-congelados.csv"))}
+for r in disc:
+    esperado = cong.get(r["sigla"])
+    check(esperado is not None,
+          "sigla %s nao esta em nomes-congelados.csv: nome novo tem de ser congelado ao nascer" % r["sigla"])
+    if esperado is not None:
+        check(r["nome_canonico"] == esperado,
+              "NOME CONGELADO ALTERADO em %s: %r -> %r. Isso quebra o historico do aluno na "
+              "Tutory. Reverter, ou subir ao Elvis (nivel 3)." % (r["sigla"], esperado, r["nome_canonico"]))
+    n = r["nome_canonico"]
+    check(n == n.strip() and "  " not in n,
+          "nome com espaco sobrando ou duplicado em %s: %r. A Tutory le como disciplina "
+          "diferente." % (r["sigla"], n))
+
 print("Base 1 — conferencia")
 print("  disciplinas %d | apelidos %d | areas %d | pastas %d" % (len(disc), len(ap), len(ar), len(ren)))
 c = Counter(r["status"] for r in ap)
@@ -137,4 +157,4 @@ if falhas:
     print("\n%d FALHA(S):" % len(falhas))
     for f_ in falhas: print("  x", f_)
     sys.exit(1)
-print("\n  tudo passou, 10 blocos de verificacao.")
+print("\n  tudo passou, 11 blocos de verificacao.")

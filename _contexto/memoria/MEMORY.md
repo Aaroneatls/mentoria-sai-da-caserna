@@ -85,3 +85,4 @@
 - [Estratégia: status da API e seleção por id](reference_estrategia_api_status_e_selecao.md) — 404/500 = sem matrícula, não removido; selecionar pelo id do href, nunca por texto
 - [Skills encadeadas e gatilho de impacto](project_skills_encadeadas_gatilho_impacto.md) — atualizar download pergunta se roda a base que consome; planilha e o contrato
 - [Padrao de nomes de pasta](../../../../../../G:/Meu Drive/Inteligência Artificial/Claude Code/ccos-ratos/bases/NOMENCLATURA.md) — orcamento de caracteres por nivel, mora em bases/NOMENCLATURA.md
+- [Nome da disciplina é congelado](project_nome_disciplina_congelado_tutory.md) — a Tutory quebra o histórico do aluno se ele mudar, nem que seja por um espaço
