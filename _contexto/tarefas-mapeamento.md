@@ -71,7 +71,7 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B23 | Materiais complementares do Estratégia (resumos e mapas mentais) — **sessão própria** | não |
 | B25 | Os 7 pontos de decisão de `estrategia-padroes-pdf.md` | não |
 | ~~B24~~ | ~~Trava de caminho longo~~ **resolvido 22/08**: orçamento por nível em `bases/NOMENCLATURA.md` | — |
-| B63 | **Renomear os 146 arquivos que já passam de 240 caracteres** | sim, antes de novo download |
+| B63 | **Renomear pela regra 1** (a filha não repete concurso, data nem numeração de aula). São 157 arquivos ≥240, 1 já além de 260. Medido: resolve sozinha, **sem depender da sigla** | sim, é pré-requisito do download de apoio |
 | B64 | **As duas** skills de download (específico e completo) ganham os 3 modos: `baixar`, `atualizar`, `conferir`. **Continuam separadas** — Elvis vetou fundir em 22/08 | mandado à sessão de download |
 | B65 | `hash_conteudo`: sha256 do texto **sem a marca d'água**. Hash de *arquivo* varia entre downloads (medido: 4 tamanhos diferentes); o *texto extraído* não varia (medido: 4 downloads, mesmo sha). Remover a marca é por **comparação entre contas** e por ser dado pessoal, não por instabilidade | sim, sustenta o `atualizar` |
 | B66 | `_manifesto.csv` na pasta da disciplina: é o que a base 2 lê; a planilha é a vista do Elvis | sim |

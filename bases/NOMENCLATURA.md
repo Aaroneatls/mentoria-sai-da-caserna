@@ -4,8 +4,16 @@
 > base 4 (materiais de parceiros) e para qualquer coisa que grave arquivo no Drive.
 >
 > Ele existe por um motivo medido: em 22/08/2026 o caminho mais longo do Drive tinha **263
-> caracteres**, contra o limite de **260 do Windows**, e **146 arquivos** passavam de 240. Já
+> caracteres**, contra o limite de **260 do Windows**, e **157 arquivos** chegavam a 240. Já
 > estava quebrado.
+>
+> **A regra 1 sozinha resolve.** Medido em duas sessões independentes: aplicando só ela, os 157
+> caem para **zero** e o pior caminho vai de 263 para **227**. Sobra folga para a subpasta de
+> apoio (82 caracteres) em todas as 71 disciplinas — a pior fica em 229.
+>
+> Isso importa para a ordem do trabalho: a renomeação **não depende da sigla da base 1**. O
+> prefixo de sigla é ganho de organização, e como ele *acrescenta* 8 caracteres, é bom que a
+> folga já esteja garantida sem ele.
 
 ---
 
