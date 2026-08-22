@@ -59,6 +59,7 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 
 | # | Item | Bloqueia? |
 |---|---|---|
+| **A39** | **Estratégia: download e curso** — discutido em outra sessão, trazer as conclusões | **trava a base 2** |
 | B47 | Mapear Direito Administrativo com o alvo de **~10 páginas** | sim, é o piloto |
 | B13 | As 4 colunas de hash e o arquivo de âncoras de prosa | sim |
 | B48 | Tabela de pares **bloco × tópico** (muitos para muitos) | sim |

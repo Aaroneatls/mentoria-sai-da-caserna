@@ -1,8 +1,9 @@
 # Roteiro — Base 2 - Estrategia Concursos
 
 > **Abra este arquivo primeiro.** Ele existe para que uma sessao nova comece sabendo o que ja foi
-> decidido, o que ja existe e por onde pegar. Leia junto com `../DECISOES.md` (decisoes fechadas)
-> e `APRENDIZADO.md` (licoes, que crescem).
+> decidido, o que ja existe e por onde pegar. Leia junto com **`DECISOES.md` desta pasta**
+> (so o que afeta esta base) e `APRENDIZADO.md` (licoes, que crescem). O `../DECISOES.md`
+> central fica como referencia completa, para consultar quando faltar algo.
 
 Criado em 21/08/2026, na sessao que fechou o Bloco 1 de decisoes.
 
