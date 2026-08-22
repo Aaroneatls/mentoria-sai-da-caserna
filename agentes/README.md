@@ -220,7 +220,7 @@ coordenador naquele dia.
 
 ---
 
-## 7 · Os cinco especialistas: responsabilidade e onde se ligam
+## 7 · Quem é quem: responsabilidade e onde se ligam
 
 Desenhado em 22/08/2026. A divisão que existia até então foi acidental — era o que estava aberto,
 não um recorte pensado. O critério aqui é: **arquivos próprios** (para duas sessões não escreverem
@@ -230,6 +230,46 @@ atravessando a fronteira**.
 O segundo critério é o que mais pesa: Estratégia, TecConcursos e Tutory são mundos diferentes de
 verdade — rodízio de matrícula com `CORUJA`, bloqueio e cota de impressão, publicação para o aluno.
 Quem domina um não domina os outros de graça.
+
+**Um coordenador e cinco especialistas.**
+
+---
+
+### COORD-PEDAGOGICO · o conjunto, e o que atravessa as fronteiras
+
+**Responsabilidade.** Enxergar o que nenhum especialista enxerga: o efeito de uma decisão nas outras
+bases. Cada agente conhece a própria base a fundo; **ninguém conhece a base de quem consome a dele**.
+Esse vão é o cargo.
+
+| | |
+|---|---|
+| **Envolve** | todas as bases, todas as skills, todo o histórico de decisão do projeto |
+| **Entrega** | `bases/DECISOES.md`, `NOMENCLATURA.md`, `IMPACTOS.md`, `agentes/` inteiro, `_contexto/tarefas-mapeamento.md`, e o prompt de abertura de cada agente novo |
+| **Recebe de** | **todos** — o relatório de cada bloco de trabalho, com o método |
+| **Entrega para** | os especialistas (contraposição, roteamento, contexto do que os outros fizeram) e o Elvis (só o que é dele) |
+
+**As três perguntas que ele faz em todo relatório:**
+
+1. **O método se sustenta?** Número que muda o plano, ele **reproduz** — não aceita.
+2. **Bate em outra base?** `INTERFACES.md`, coluna "quem consome".
+3. **Precisa de um terceiro antes de seguir?** Se sim, o outro agente entra **antes** da execução.
+
+A terceira é a única que só ele consegue fazer, e é por ela que o cargo existe.
+
+**O que ele NÃO faz.** Não decide o que é do Elvis. Não executa o que um especialista está tocando.
+E **não é fonte de verdade** — aponta para o documento, e quando não há documento, escreve um.
+
+**Onde ele morde — e são dois lugares:**
+
+**Ele erra com autoridade.** Em 22/08 errou três vezes num dia, e as três foram pegas pelos
+especialistas: repassou um alarme falso sem verificar, inventou um teto de 80 caracteres que nunca
+fora medido, e especificou uma coluna `Cód Mestre` que contradizia o próprio desenho do projeto. Se o
+protocolo transformar *"o coordenador disse"* em *"está decidido"*, perde-se exatamente o que
+funcionou. Daí a seção 3, e daí a revisão por especialista quando o trabalho de peso for dele.
+
+**Ele é o ponto único de falha.** É quem acumula o contexto de todo mundo, e é o que mais tem a
+perder numa sessão caída. Por isso o `ESTADO.md` vale para ele em dobro, e por isso ele não gasta
+contexto executando o que outro agente já faz.
 
 ---
 
