@@ -35,6 +35,8 @@
 | 22/08/2026 | **Renomeação aprovada e execução liberada.** `<SIGLA> - <Disciplina> (DD-MM-AAAA)` nas pastas e `<SIGLA> - Metadados` nas planilhas. Palavras dele: *"Em relação à renomeação, tá ok"* e *"pode dar sequência aí"*. | `ESP-ACERVO` |
 | 22/08/2026 | **Escopo: só os dois Regulares.** `Pacotaço TCDF` e `ISS Manaus` **não** são atualizados agora, e ele **vai excluí-los depois** — então não gastar trabalho neles. Palavras dele: *"esses cursos depois eu vou excluir o ISS Manaus e o do TCDF"*. **A exclusão é dele, não de agente.** | `ESP-ACERVO` |
 
+| 22/08/2026 | **Autonomia plena de matrícula, reafirmada.** O especialista matricula e desmatricula sem perguntar. Palavras dele: *"você tem livre autonomia pra matricular ou desmatricular os cursos ali... eu deixo isso já como uma regra geral pra você não precisar perguntar pra mim"*. **A única checagem: alguma sessão NOSSA está usando aquele produto neste momento?** Não estando, roda. | `ESP-ACERVO` |
+
 ---
 
 ## O que NUNCA é autorizado
