@@ -86,3 +86,46 @@ diferente para o mesmo conteudo, e a falha e silenciosa.
 
 Consequencia boa: **o que ja foi colhido numa conta so e internamente consistente.** A
 normalizacao e obrigatoria para comparar entre contas, nao para reprocessar o que ja existe.
+
+## 22/08/2026 — `pacote_id` NAO e chave estavel; `curso_id` e
+
+Medido pela sessao das skills de download:
+
+**O "Regular Controle" tem pelo menos DOIS ids de pacote.** A busca do catalogo devolve
+**224364** ("Pacote Completo Cursos Regulares"), e esse id da **HTTP 404** na API do aluno. O que
+existe e abre e o **365538** ("Pacote Completo Cursos Regulares + Sistema de Questoes").
+
+Mesmo produto na cabeca do usuario, dois ids, e **o que a busca sugere e justamente o que nao
+funciona**.
+
+**`curso_id`, ao contrario, nao tem evidencia contra:** os 25 cursos do Fiscal e os 12 do
+Controle responderam pelos ids que a API deu, e o `220883` (Direito Administrativo Fiscal)
+continua o mesmo desde o levantamento de 18/08.
+
+**A regra:**
+
+| Campo | Serve de chave? |
+|---|---|
+| `pacote_id` | **nao**, nunca depender dele |
+| `curso_id` | **sim**, mas com `nome_na_fonte` ao lado como chave de recuperacao |
+
+**Suspeita em aberto:** o id do pacote do TCDF mudou de `393927` para `393930` no mesmo dia. Se
+tiver sido o Estrategia recriando o produto, e nao alguem rematriculando, reforca que id de
+pacote e volatil.
+
+## O padrao de nome e INVERTIDO entre os dois cursos
+
+Quem for parsear nome de curso precisa das duas regras:
+
+```
+Fiscal:    "Concursos da Area Fiscal - Curso Basico de <MATERIA>"
+Controle:  "Concursos de Tribunais de Contas (Nivel Superior) <MATERIA> - Curso Regular"
+```
+
+No Fiscal a materia vem **no fim**; no Controle vem **no meio**, antes do sufixo.
+
+## Cuidado ao detectar a contracapa
+
+A ultima pagina e **imagem pura**: zero caractere extraivel, mas com imagens. Quem testar por
+"pagina vazia de texto" acerta; quem testar por "pagina sem imagem" **erra**. O nosso corte usa
+posicao (`page_count - 1`), que nao depende de nenhum dos dois.

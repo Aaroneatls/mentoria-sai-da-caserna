@@ -55,6 +55,18 @@ ficou de fora: aparecia no ciclo de estudo, mas nao existe em nenhum dos dois Re
 | `LTRIB` | Legislacao Tributaria, **parte geral**, com a **Lei Kandir** | sempre |
 | local | legislacao estadual ou municipal | **so no pos-edital** |
 
+## O padrao de nome do Estrategia e INVERTIDO entre os dois cursos
+
+Quem for extrair a materia do nome do curso precisa das duas regras:
+
+```
+Fiscal:    "Concursos da Area Fiscal - Curso Basico de <MATERIA>"
+Controle:  "Concursos de Tribunais de Contas (Nivel Superior) <MATERIA> - Curso Regular"
+```
+
+No Fiscal a materia vem **no fim**; no Controle vem **no meio**, antes do sufixo. Uma regra so
+nao pega os dois.
+
 ---
 
 **Duvida sobre algo que nao esta aqui?** Consulte `../DECISOES.md`.

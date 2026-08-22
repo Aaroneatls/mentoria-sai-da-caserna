@@ -47,11 +47,27 @@
 372715 | 5 | Trilha Estratégica Avançada para a Área Fiscal
 398053 | 3 | Monitoria para Área Fiscal
 
-## PACOTE 224364 - Concursos de Tribunais de Contas (Nivel Superior) Pacote Completo Cursos Regulares
-## (= "Regular Controle")
-##
-## PENDENTE: pacote nao esta matriculado, e a API so responde para produto
-## matriculado (HTTP 500 quando fora). As 3 vagas estavam ocupadas em 22/08
-## (PRF 226226, Regular Fiscal 220865, TCDF 393930 - este matriculado por
-## outra sessao durante o dia). Assim que houver vaga, rodar:
-##   GET /api/aluno/pacote/224364  ->  cursos[].id / .nome / .tipo_curso_id
+## PACOTE 365538 - Concursos de Tribunais de Contas (Nivel Superior)
+##                 Pacote Completo Cursos Regulares + Sistema de Questoes
+## (= "Regular Controle"; 17 cursos, 13 de tipo 1, sendo 12 disciplinas + Sistema de Questoes)
+## Levantado em 22/08/2026 apos matricular o pacote (rodizio: saiu PRF 226226).
+
+224352 | 1 | Concursos de Tribunais de Contas (Nível Superior) Análise de Informações - Curso Regular
+224353 | 1 | Concursos de Tribunais de Contas (Nível Superior) Português - Curso Regular
+224354 | 1 | Concursos de Tribunais de Contas (Nível Superior) Raciocínio Lógico e Analítico - Curso Regular
+224355 | 1 | Concursos de Tribunais de Contas (Nível Superior) Matemática Financeira - Curso Regular
+224356 | 1 | Concursos de Tribunais de Contas (Nível Superior) Direito Constitucional - Curso Regular
+224357 | 1 | Concursos de Tribunais de Contas (Nível Superior) Direito Administrativo - Curso Regular
+224358 | 1 | Concursos de Tribunais de Contas (Nível Superior) AFO, Orçamento Público e LRF - Curso Regular
+224359 | 1 | Concursos de Tribunais de Contas (Nível Superior) Administração Pública - Curso Regular
+224360 | 1 | Concursos de Tribunais de Contas (Nível Superior) Auditoria Governamental - Curso Regular
+224361 | 1 | Concursos de Tribunais de Contas (Nível Superior) Contabilidade Geral Avançada - Curso Regular
+224362 | 1 | Concursos de Tribunais de Contas (Nível Superior) Controle Externo - Curso Regular
+224363 | 1 | Concursos de Tribunais de Contas (Nível Superior) Contabilidade Pública - Curso Regular
+
+## Nao e disciplina, aparece como tipo 1 no mesmo pacote:
+143237 | 1 | Sistema de Questões 1 Ano - Cartão até 12 x
+
+## OBSERVACAO: o id 224364 ("Pacote Completo Cursos Regulares", sem Sistema de
+## Questoes) aparece na busca do catalogo mas devolveu HTTP 404 na API do aluno.
+## O que esta matriculado e o 365538, a variante com Sistema de Questoes.

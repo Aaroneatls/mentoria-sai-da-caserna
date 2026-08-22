@@ -6,6 +6,71 @@
 
 ---
 
+## Marca d'agua do Estrategia: CPF e nome no texto extraido · fechado em 22/08/2026
+
+> **Trava de vazamento. Roda na EXTRACAO, antes de qualquer consumo do texto.**
+> Nao e otimizacao de hash: e impedir que dado pessoal chegue no aluno.
+
+Todo PDF do Estrategia vem **marcado por download**, e a marca **esta na camada de
+texto**, nao so na imagem. Em praticamente toda pagina do livro, do resumo e do
+mapa mental aparece:
+
+```
+02055447114 - Gisilene Tatianne Santos de Lima
+```
+
+CPF e nome completo de pessoa real — a conta compartilhada da familia do Elvis.
+
+**O risco:** esse texto e extraido junto com a teoria. Se passar batido para dentro
+de ancora de prosa, de citacao no BIZURITO, de resumo gerado ou de qualquer coisa
+distribuida, o material publicado em escala carrega o CPF de uma pessoa real.
+
+**A regra:** na extracao de texto de qualquer PDF do Estrategia, **descartar as
+linhas que casem com `\d{11}\s*-\s*<Nome>`** (e, em geral, o que variar por conta
+ou por download) **antes** de usar o texto para qualquer fim — hash, ancora,
+citacao, fichamento, geracao de material.
+
+**Efeito colateral bom — o `hash_teoria` continua valendo.** Medido em 22/08/2026:
+4 downloads do mesmo arquivo geraram 4 hashes de ARQUIVO diferentes, mas o texto
+extraido foi identico nos quatro (4.598 caracteres, mesmo hash), sem normalizacao.
+A marca nao quebrou o hash porque e **constante para a mesma conta**. O problema
+aparece **entre contas diferentes** (coleta x producao): mesmo conteudo, hash
+diferente, e a falha e **silenciosa** — o sistema deixa de reconhecer que dois
+cursos tem a mesma teoria e o aluno estuda duas vezes a mesma coisa.
+
+Com a normalizacao, o `hash_teoria` fica independente de conta e segue sendo a peca
+que liga teoria compartilhada ao mesmo Cod Mestre.
+
+**Nao confundir os dois hashes:**
+
+| | |
+|---|---|
+| hash do ARQUIVO (bytes) | **inutil** — muda a cada download pela marca. Identidade = nome do arquivo no CDN |
+| `hash_teoria` (texto extraido, normalizado) | **valido** — e o que detecta repaginacao/reescrita |
+
+## Capa, indice e contracapa do livro de teoria · medido em 22/08/2026
+
+Padrao rigido, valido em 100% dos PDFs abertos no piloto (15 aulas, simplificado e
+original):
+
+| Pagina | Conteudo |
+|---|---|
+| p1 | capa (titulo da aula, curso, autor, data) |
+| p2 | indice (secoes numeradas + pagina) |
+| p3 | inicio da teoria |
+| ultima | em branco (contracapa, so imagem) |
+
+**O alvo de ~10 paginas de bloco desconta 2 paginas na frente e 1 no fim.** Um PDF
+de 84 paginas tem 81 de conteudo. Sem o desconto, o bloco de abertura de cada aula
+nasce com 2 paginas a menos de teoria do que parece — e e justamente o mais denso.
+
+O mesmo vale para o resumo compilado do apoio: p1 e apresentacao generica
+("Queridos alunos!!") e p2 e folha de rosto. Por isso a tabela de apoio tem
+`paginas` e `paginas_conteudo` separados: a minutagem do plano usa 5 min/pagina, e
+contar bruto cobraria 10 minutos de nada em cada resumo.
+
+---
+
 ## Apoio do Estratégia: resumo e mapa mental · fechado em 22/08/2026
 
 ### Onde eles ficam
