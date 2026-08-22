@@ -459,6 +459,35 @@ uma disciplina pode ter 5.463 questões sem ele e 1.200 com. Ao definir a janela
 matéria, medir **as duas contagens, com e sem área**, e mostrar lado a lado. Custa 1 chamada a
 mais por matéria.
 
+### A área do Tec é larga demais para o Controle
+
+O valor `GESTAO_CONTROLE_TRIBUNAIS` junta três coisas, e o **Curso Regular Controle cobre só
+duas**:
+
+```
+GESTAO_CONTROLE_TRIBUNAIS
+  Gestão        <- NAO entra
+  Controle      <- entra (controladorias)
+  Tribunais     <- entra (tribunais de contas)
+```
+
+Então é preciso **um corte adicional por cima da área**. Duas formas, a testar:
+
+| Corte | A favor | Contra |
+|---|---|---|
+| **Por órgão** | nome padronizado (TCU, TCE, TCM, TCDF, CGU, CGE, CGM), critério explícito e auditável | lista comprida, precisa ser mantida |
+| Por cargo | lista menor | nome de cargo é livre e varia por banca, escapa coisa |
+
+**Aposta:** órgão filtra melhor, porque o nome é padronizado. Mas **medir**: comparar as contagens
+das duas formas e ver qual traz o acervo mais limpo.
+
+### Verificar se existe filtro de "área especializada"
+
+Ao puxar `/api/enums/filtros-questao?universo=&formato=OBJETIVA` em 21/08, a resposta **veio
+cortada** e não deu para ver a lista inteira. Pode haver ali um filtro que remova questão de área
+técnica especializada, que resolveria parte do problema sozinho. **Repuxar inteira** — custa 1
+chamada.
+
 ---
 
 ## Medir o tempo de estudo · desenho de 22/08/2026

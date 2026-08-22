@@ -95,6 +95,8 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B27 | Apagar o caderno `101395596` (banca ESAF) pela lixeira | sim, higiene |
 | B53 | Definir a janela de anos **por matéria**, mirando ~2.500 questões e teto de 10 anos | antes de cada coleta |
 | B55 | **Filtro de área do concurso** no critério de coleta, medindo com e sem antes de aplicar | **antes da 1ª coleta** |
+| B58 | **Corte por órgão ou cargo** por cima da área: `GESTAO_CONTROLE_TRIBUNAIS` traz Gestão, que não entra | **antes da 1ª coleta** |
+| B59 | Repuxar a lista completa de filtros do Tec: pode haver um de área especializada | 1 chamada |
 | B56 | Coletar `tempoMedio` das questões, para a minutagem do plano | junto do fichamento |
 | B44 | Caderno-base com fatias por `questaoInicial`, em vez de um temporário por lote | não |
 | B43 | Testar criar caderno vazio: cairia de 5 para 3 requisições | não |
