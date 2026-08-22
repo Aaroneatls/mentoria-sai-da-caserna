@@ -77,6 +77,8 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B66 | `_manifesto.csv` na pasta da disciplina: é o que a base 2 lê; a planilha é a vista do Elvis | sim |
 | B67 | Aba **`Apoio`** na planilha, com `Aulas` aceitando mais de um valor | junto do download dos apoios |
 | B68 | Gatilho de impacto no fim do `atualizar`: escrever em `IMPACTOS.md` e perguntar se roda a base 2 | não |
+| B69 | **Separar a pasta `Reforma Tributaria`** em `LTRIB` (curso 336350) e `REFTRI` (371461, 389109). Sob reconstrução isso se resolvia sozinho; sob `atualizar` **não**, porque a pasta existente fica como está | sim, é 1 das 3 pendentes |
+| B70 | Ler a ementa dos cursos **220891** (Leg. Trib. Estadual, "Todos Estados") e **220896** (Municipal): se forem norma geral, são `LTRIB` | não, aproveitar quando estiver na plataforma |
 
 ### Base 3 · Taxonomia do Tec
 
