@@ -7,12 +7,32 @@
 
 ---
 
-## Onde parei
+## Onde parei — atualizado ao fechar a sessão em 22/08
 
-A estrutura de coordenação foi desenhada e escrita hoje, do zero. A base 1 fechou. O download está
-com as skills reescritas e **nada executado**. Nenhum arquivo do Drive foi tocado hoje.
+A estrutura de coordenação foi desenhada e escrita hoje, do zero. **Nenhum arquivo do Drive foi
+tocado** — zero download, zero pasta renomeada, zero planilha.
 
-**O próximo passo é do Elvis:** ler o diff dos 4 passos das skills de download e liberar a execução.
+| Frente | Estado |
+|---|---|
+| **Base 1 · disciplinas** | **fechada.** 23 disciplinas (a `LTRIB` virou `LTEST`/`LTMUN`/`LTFED` mais família por ente) · `conferir.py` 11 blocos |
+| **Base 3 · árvore do Tec** | **puxada.** 4.805 assuntos em 30 matérias, 62 chamadas, nenhum 429. Falta o vínculo com o Cód Mestre, que só vem depois da base 2 |
+| **Base 2 · skills de download** | as 4 seções novas entraram; **a reescrita dos Passos 2/6, 7/9 e 9/11 estava em andamento quando a sessão fechou** |
+| **Agentes** | protocolo escrito, 3 cartões ativos, 3 aguardando. Prompt de abertura do `ESP-CONTEUDO` **pronto para colar** |
+
+**O próximo passo é do Elvis:** ler o diff dos 4 passos e liberar a execução do `atualizar` no
+Regular Controle.
+
+### O achado da base 3 que ainda não foi absorvido
+
+Dimensionar `AUDIT` pela matéria 37 do Tec contaria um acervo que é **10/11 de Controle Externo**.
+Isso estragaria a janela de anos da base 5. Está no `bases/IMPACTOS.md`, e o relatório completo da
+taxonomia **ainda não chegou** — foi cobrado.
+
+### Duas armadilhas de API que a taxonomia mediu
+
+- `hierarquico=true` devolve **menos**, não mais — ele filtra (121 contra 276 em DADM)
+- a hierarquia **não vem aninhada**: lista plana, caminho no campo `hierarquia` (`"10.05.02"`).
+  Quem procurar `filhos` conta só o nível 1 e conclui que a árvore é rasa
 
 ---
 
@@ -65,6 +85,7 @@ coordenador.** Sem os nomes e os mecanismos, aquela regra vira formalidade em um
 | 4 | afirmei que um relatório final não tinha saído | **estado presumido** — e não havia como conferir, porque relatório era mensagem |
 | 5 | dei duas convenções diferentes no mesmo par de exemplos de sigla | `LTMAO` (IATA) e `LTMSP` (M+UF) |
 | 6 | deixei o `AUTORIZACOES.md` apontando para um esquema descartado | **registro desatualizado é pior que ausente**, porque é lido com confiança |
+| 7 | `git add -A` varreu a edição em andamento do `ESP-ACERVO` e commitou sob mensagem minha | com sessão viva no mesmo repositório, **adicionar por caminho** |
 
 **Os seis foram pegos pelos especialistas.** Nenhum por mim.
 
