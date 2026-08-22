@@ -160,6 +160,10 @@ Código validado, regras e transcrições feitas à mão continuam valendo.
 **O que só existe na memória do Claude não existe.** A fonte de verdade é o repositório, porque é
 o que qualquer assistente lê. Ver `AGENTS.md`.
 
+**Toda base reporta o impacto nas outras.** Ao terminar, escrever em `bases/IMPACTOS.md` o que
+mudou e qual base isso afeta; ao começar, ler de lá. Se uma base já pronta precisar de ajuste,
+ajustar na hora. Base desatualizada contamina tudo que vem em cima dela.
+
 **Quando não entender, perguntar.** O Elvis escreve por ditado; frase truncada é erro de
 transcrição, não de raciocínio.
 

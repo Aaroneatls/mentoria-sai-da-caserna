@@ -67,6 +67,18 @@ descobriu um filtro faltando, o que teria gasto ~600 chamadas produzindo dado er
    dados a partir da 11, alinhamento centralizado e quebra de texto. A planilha e **vista**, o CSV
    e a fonte.
 
+## Antes de comecar e ao terminar: `../IMPACTOS.md`
+
+**Ao comecar:** ler `../IMPACTOS.md` e verificar se alguma base ja pronta mudou algo que esta
+base usa.
+
+**Ao terminar:** escrever la o que foi construido, **o que mudou em relacao ao decidido**, e
+**qual base isso afeta**. Se uma base ja pronta precisar de ajuste por causa disto, ajustar
+agora, nao depois.
+
+As seis bases se conversam. Sem esse registro, uma muda uma regra, outra fica desatualizada, e
+ninguem percebe ate o material chegar torto na mao do aluno.
+
 ## O que ja existe e nao deve ser refeito
 
 - A **lista das 21 disciplinas com siglas** esta fechada em `../DECISOES.md`, secao A8.

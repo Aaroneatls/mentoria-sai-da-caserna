@@ -38,6 +38,18 @@ descobriu um filtro faltando, o que teria gasto ~600 chamadas produzindo dado er
 
 4. **Marcar os topicos SEM cobertura** no resumo. Diz onde o aluno nao vai ter material de apoio.
 
+## Antes de comecar e ao terminar: `../IMPACTOS.md`
+
+**Ao comecar:** ler `../IMPACTOS.md` e verificar se alguma base ja pronta mudou algo que esta
+base usa.
+
+**Ao terminar:** escrever la o que foi construido, **o que mudou em relacao ao decidido**, e
+**qual base isso afeta**. Se uma base ja pronta precisar de ajuste por causa disto, ajustar
+agora, nao depois.
+
+As seis bases se conversam. Sem esse registro, uma muda uma regra, outra fica desatualizada, e
+ninguem percebe ate o material chegar torto na mao do aluno.
+
 ## O que ja existe e nao deve ser refeito
 
 - Os PDFs estao na pasta Resumos Esquematizados, com **29 materias e 332 PDFs**, baixados em 18/08.
