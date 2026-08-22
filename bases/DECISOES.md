@@ -45,6 +45,72 @@ Testado com `Direito  Administrativo` (espaço duplo): a conferência derrubou.
 
 ---
 
+## A família da LEGISLAÇÃO TRIBUTÁRIA · fechado em 22/08/2026
+
+**A `LTRIB` genérica morre.** No lugar dela entram três disciplinas de parte geral e uma família
+aberta de disciplinas por ente, que nascem em pós-edital.
+
+| Sigla | Disciplina | Existe material? |
+|---|---|---|
+| `LTEST` | Legislação Tributária Estadual (parte geral) | sim — curso 220891 |
+| `LTMUN` | Legislação Tributária Municipal (parte geral) | sim — curso 220896 |
+| `LTFED` | Legislação Tributária Federal | **não no Curso Regular** — ver abaixo |
+
+### A família por ente
+
+Nasce em pós-edital, uma disciplina por ente. **Sigla própria para cada um**, porque o Cód Mestre é
+`SIGLA-NNNN` e dois entes dividindo a mesma sigla fariam os números colidirem em significado.
+
+| Regra | Exemplos |
+|---|---|
+| Estado: `LT` + UF | `LTCE` Ceará · `LTPA` Pará · `LTSP` São Paulo · `LTGO` Goiás |
+| Município: `LT` + três letras | `LTMAO` Manaus · `LTMSP` município de São Paulo |
+
+São Paulo existe como estado **e** como município — o esquema separa os dois, e cabe nos 6
+caracteres do orçamento de nome de pasta.
+
+A sigla do ente **nasce no pós-edital e entra no `nomes-congelados.csv`** na mesma hora, com a
+mesma trava das outras.
+
+### Para onde vai o que a `LTRIB` guardava
+
+| Conteúdo | Vai para |
+|---|---|
+| Lei Kandir (LC 87/96) | **`LTEST`** — é a norma nacional do ICMS, e ICMS é competência estadual |
+| LC 214/2025, LC 227/2026, EC 132/2023 | `REFTRI`, como já estava |
+| curso 220891 (ICMS na CF, CONFAZ, Lei Kandir) | `LTEST` |
+| curso 220896 (IPTU, ITBI, ISS na CF/CTN/LC 116) | `LTMUN` |
+
+### Duas coisas medidas que vão morder depois
+
+**O 336350 e o 220891 cobrem a mesma Lei Kandir.** O 220891 tem LC 87/96 em três aulas; o 336350
+("Consumo") tem Lei Kandir mais a Reforma. É **teoria duplicada em dois cursos**, e quem vai pegar é
+a regra de que mesmo `hash_teoria` significa mesmo Cód Mestre. A base 2 precisa esperar isso, não se
+assustar com isso.
+
+**A `LTFED` não tem material no Curso Regular.** No Tec existe como matéria; no Bezerra só dentro do
+bloco RFB, fora do escopo; no Estratégia não há curso Regular dela. Então ela nasce **nomeada e sem
+Cód Mestre**, pela regra de que código sem teoria atrás aponta para o vazio. Ganha código quando
+aparecer material.
+
+### Por que isto podia ser feito, e só agora
+
+Aposentar uma sigla é livre **hoje** porque nada foi publicado com ela. Depois de um único plano no
+ar, `LTRIB` estaria em links de alunos e a mudança quebraria o histórico deles. **Esta foi a última
+janela em que isso saía de graça.**
+
+### O que confirma a decisão
+
+**O Tec já organiza exatamente assim**, com `Legislação Tributária dos Estados e do Distrito
+Federal`, `Legislação Tributária dos Municípios` e `Legislação Tributária Federal` como matérias
+distintas. A estrutura não é invenção nossa — é como a banca já pensa, o que simplifica o
+mapeamento da base 3.
+
+E a Tutory já tem a família viva no legado: São Paulo, Ceará, Pará, Goiás, Rio Grande do Norte e
+Manaus — seis entradas que finalmente têm onde morar.
+
+---
+
 ## O Estratégia separa por COMPETÊNCIA; nós separamos por ORIGEM DA NORMA · medido em 22/08/2026
 
 **Os dois eixos não coincidem, e por isso o nome do curso nunca resolve sozinho.**

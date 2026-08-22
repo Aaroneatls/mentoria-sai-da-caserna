@@ -15,6 +15,8 @@
 
 | 22/08/2026 | **Matricular e desmatricular à vontade** no Estratégia, em qualquer curso. Ele confirmou que foi ele mesmo que tirou o Regular Fiscal e pôs o PRF. Palavras dele: *"pode mudar à vontade. Pode desmatricular e matricular lá em curso. Tem problema não."* | `ESP-ACERVO` |
 
+| 22/08/2026 | **Desmembrar a `LTRIB`** em `LTEST`, `LTMUN` e `LTFED`, mais família por ente (`LT`+UF para estado, `LT`+3 letras para município). Palavras dele: *"Pra mim tá show."* | `ESP-TAXONOMIA` |
+
 ---
 
 ## O que NUNCA é autorizado
