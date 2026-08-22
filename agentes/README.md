@@ -59,21 +59,29 @@ O que atravessa é a **obra**. Todo agente é dono de um arquivo, e é por ele q
 | **questões** | `agentes/ESP-QUESTOES.md` | o banco do Tec |
 | **produção** | `agentes/ESP-PRODUCAO.md` | o que chega ao aluno |
 
-### O título da aba segue o mesmo nome
+### O título da aba: `ÁREA · agente`
 
-Fixado em 22/08. A aba de cada sessão leva o nome do agente, para o Elvis achar de bate-pronto:
+Fixado em 22/08. **Não existe agrupamento nativo de sessão** — há título e arquivamento, não pasta.
+O prefixo de área faz o mesmo serviço: as abas de uma área ficam juntas em qualquer listagem
+ordenada.
 
 ```
-PEDAGÓGICO · coordenador
-ACERVO · Estratégia e parceiros
-TAXONOMIA · disciplinas, Tec, editais
-CONTEÚDO · blocos e tópicos do Estratégia
-QUESTÕES · banco do TecConcursos
-PRODUÇÃO · planos, cadernos e BIZURITO
+PED · coordenador
+PED · acervo
+PED · taxonomia
+PED · conteúdo
+PED · questões
+PED · produção
 ```
 
-Nome curto em caixa alta, ponto médio, e o escopo em minúsculas. **Ao abrir um agente, renomear a
-aba é parte da abertura** — vale para o próprio agente, que pode se renomear.
+**Por que o prefixo é curto e não `PEDAGÓGICO`:** título de aba trunca, e o que sumiria seria
+justamente a parte que distingue uma aba da outra. `PED · taxonomia` cabe inteiro.
+
+Isso já serve para o que vem: cada área do negócio terá o seu coordenador, e as abas de cada uma se
+agrupam sozinhas — `FIN ·` para o financeiro, `MKT ·` para o marketing, e assim por diante.
+
+**Ao abrir um agente, renomear a aba é parte da abertura.** O coordenador consegue renomear
+qualquer sessão, inclusive a sua própria.
 
 Isso não substitui o endereçamento por arquivo: título de aba é para o **Elvis** enxergar; entre
 agentes o endereço continua sendo o `agentes/<NOME>.md`, porque o nome interno de sessão não
