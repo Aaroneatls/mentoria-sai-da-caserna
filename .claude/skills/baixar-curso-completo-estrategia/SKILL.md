@@ -74,6 +74,193 @@ resultante (ver orçamento de caracteres nos "Detalhes técnicos" mais abaixo) e
 preferir a versão mais curta que ainda deixe a aula identificável — não
 esperar bater no limite pra só então cortar.
 
+## Modos de execução: `baixar`, `atualizar`, `conferir`
+
+**Confirmado pelo Elvis em 22-08-2026.** As duas skills de download continuam
+**separadas por escopo** (uma disciplina x pacote inteiro), e o **modo é
+perpendicular ao escopo**: cada skill aceita os três modos. Não fundir as skills.
+
+| Modo | O que faz | Escreve no Drive? |
+|---|---|---|
+| `baixar` | material não existe no disco. É o fluxo clássico da skill. | sim |
+| `atualizar` | material existe. Baixa para temporário, **compara conteúdo** e só escreve o que mudou. | só o que mudou |
+| `conferir` | **não baixa e não escreve nada.** Lê o disco contra a plataforma e relata divergência. | não |
+
+**Perguntar o modo no Passo 0** quando o usuário não disser. Na dúvida entre
+`baixar` e `atualizar`, a existência da pasta decide.
+
+### O que `atualizar` NÃO faz
+
+**Não rebaixa PDF de aula que já está no disco e íntegro.** Refazer o download de
+material já validado é gastar exatamente o volume de requisição que dispara
+bloqueio na plataforma, para chegar no mesmo byte. Só baixa:
+
+- aula que existe na plataforma e **não** existe no disco;
+- aula cujo `hash_conteudo` divergiu (ver abaixo);
+- **apoio** (resumo e mapa mental), que nunca foi baixado.
+
+**Nunca apaga e recria pasta** (regra 4 do `bases/NOMENCLATURA.md`). Renomeia em
+cima, e grava log `de -> para` num CSV na pasta de logs.
+
+### `hash_conteudo` — a assinatura que diz se o material mudou
+
+A plataforma **não expõe data de atualização** do PDF (só `data_publicacao`, que é
+quando a aula entrou no ar). E **hash de arquivo não serve**: o PDF é marcado por
+download, então o mesmo arquivo baixado 4 vezes dá 4 hashes de bytes diferentes,
+com tamanho variando ~100 bytes.
+
+O que funciona:
+
+```
+hash_conteudo = sha256( texto extraído com a linha da marca d'água removida )
+```
+
+Medido em 22-08-2026: 4 downloads do mesmo arquivo deram **texto idêntico**
+(4.598 caracteres, mesmo sha) — a marca é constante **para a mesma conta**. A
+remoção continua obrigatória por dois motivos: comparar entre **contas
+diferentes** (coleta x produção), e não deixar dado pessoal circular.
+
+**Filtros baratos antes do hash:** número de páginas e data da capa. Se qualquer
+um mudou, mudou de verdade. Se os dois estão iguais, o hash decide.
+
+> ### REGRA 8 — filtrar a marca d'água ANTES de gerar qualquer nome
+>
+> O padrão `^\s*\d{11}\s*-\s*.+$` (CPF e nome do titular) está na camada de texto
+> de quase toda página, **capa inclusive**. O slug do apoio sai do título da capa.
+> Se a extração vier antes do filtro, **o CPF entra no nome do arquivo**, vai para
+> o Drive e aparece em qualquer print de tela.
+>
+> Filtrar na **extração**, antes do hash, antes do slug, antes de qualquer uso.
+> Ver `bases/DECISOES.md`, seção "Marca d'agua do Estrategia".
+
+## Nome de pasta e de arquivo: seguir `bases/NOMENCLATURA.md`
+
+**Este documento não redefine nomenclatura.** O padrão é transversal e vive em
+`bases/NOMENCLATURA.md` — ler antes de gravar qualquer arquivo. Resumo do que mais
+pega nesta skill:
+
+```
+Estrategia\<Concurso> (<Sigla>) <Ano> (<DD-MM-AAAA>)\<Tipo de Curso>\<SIGLA> - <Disciplina>```
+
+- **Regra 1 — não repetir o que o pai já diz.** A pasta da disciplina não repete o
+  concurso nem a data; o arquivo não repete a disciplina. Medido em 22-08-2026:
+  aplicar só essa regra leva **157 arquivos acima de 240 caracteres para zero**, e
+  o pior caminho de 263 para ~230. **É ela que resolve o limite de 260 do Windows**
+  — o prefixo de sigla até consome 8 caracteres, é organização, não espaço.
+- **Regra 2 — a sigla é nossa, o nome é da fonte.** Sintetizar pode, traduzir não.
+- **Regra 3** — primeira letra maiúscula. **Regra 4** — nunca apagar e recriar.
+- **Regra 5** — o nome do arquivo vem da capa do PDF. **Regra 6** — pendência vira
+  `(N-M)` no nome da pasta.
+- **Regra 8** — filtrar a marca d'água antes de gerar qualquer nome (ver acima).
+
+**Encurtar é o padrão, não a exceção:** cortar o nome já na gravação e, se depois
+houver critério de classificação, renomear em cima. Para renomear caminho longo no
+Windows, usar o prefixo estendido (`\?\` + caminho absoluto) — sem ele o próprio
+rename falha com "caminho não encontrado".
+
+**A sigla vem de `bases/01-disciplinas/dados/renomear-pastas.csv`.** Linha marcada
+`pendente` fica **com o nome atual, sem prefixo** — nunca chutar sigla.
+
+## Apoio: resumo e mapa mental (obrigatório em `baixar` e `atualizar`)
+
+**Resumo e mapa mental não são da aula: são de cada VÍDEO dentro dela.** No objeto
+do vídeo (`/api/aluno/aula/{id}` -> `videos[]`) existem os campos `resumo`,
+`slide` e `mapa_mental`, preenchidos quando existem e `null` quando não. Rota:
+
+```
+/api/video/{videoId}/download/{resumo|mapa_mental|slideshow}
+```
+
+**`slideshow` não interessa** — só resumo e mapa mental.
+
+### Deduplicação: o mesmo arquivo serve vários vídeos
+
+O link é por vídeo, mas o arquivo é compartilhado. No piloto de Direito
+Constitucional, 42 links deram **32 arquivos distintos**. Deduplicar **pelo nome
+do arquivo no CDN**, que é estável — nunca por hash (marca por download). Conferir
+com páginas + primeira linha do texto.
+
+**Baixar uma vez, indicar uma vez.** A aula vira **coluna com lista de valores**,
+nunca parte do nome do arquivo.
+
+### Onde salvar e como nomear
+
+Subpasta única por disciplina, **sem subpasta por aula** (regra 7 do
+`bases/NOMENCLATURA.md`):
+
+```
+<SIGLA> - <Disciplina>/
+└── Apoio - Resumos e Mapas Mentais/
+    ├── R - <assunto>.pdf
+    └── MM - <assunto>.pdf
+```
+
+O slug vem **do título da capa do PDF** (regra 5), até 40 caracteres, com a marca
+d'água filtrada antes (regra 8). Sem título utilizável na capa, cai para o título
+do vídeo — e a planilha registra qual fonte foi usada.
+
+### O que descartar
+
+- **Arquivo sem conteúdo (só capa).** Caso real: `apznza-2.pdf`, 1 página, apenas
+  "MAPAS MENTAIS – Direito Constitucional / Material compilado pelo Estratégia".
+- **`slideshow`**, sempre.
+
+### Dois tipos de resumo, e por que isso importa na minutagem
+
+| Tipo | Como reconhecer | Escopo |
+|---|---|---|
+| compilado | abre com "APRESENTAÇÃO DO MATERIAL — Queridos alunos!!" (p1) e folha de rosto com o tema (p2) | tema inteiro, 4 a 12 páginas |
+| pontual | vai direto ao assunto | 1 tópico, ~2 páginas |
+
+Registrar `paginas` **e** `paginas_conteudo` (descontando apresentação e folha de
+rosto). O plano cobra **5 min por página**; contar bruto cobraria 10 minutos de
+nada em cada resumo compilado.
+
+## Saída de dados: `_manifesto.csv` + planilha (a partir da MESMA estrutura)
+
+**Planilha publicada é vista, nunca fonte.** A base 2 precisa ler o levantamento
+sem OAuth, sem rede e com diff no git. Então cada disciplina recebe **os dois**:
+
+| Arquivo | Quem lê |
+|---|---|
+| `_manifesto.csv`, na pasta da disciplina | as skills das bases (e o `git diff`) |
+| planilha `<SIGLA> - Metadados` no Sheets | o Elvis |
+
+**Os dois saem da mesma estrutura em memória, na mesma passada — nunca um a partir
+do outro**, senão divergem. E o CSV é gravado **antes** de qualquer chamada de
+rede: assim um `429` do Sheets não derruba a execução, porque o dado já está em
+disco.
+
+### Colunas novas na aba `Aulas`
+
+Acrescentar, **não reescrever** as que já existem:
+
+- `Cód Mestre` — preencher quando `bases/01-disciplinas/dados/renomear-pastas.csv`
+  já tiver a sigla daquela disciplina; deixar **vazia** nas marcadas `pendente`.
+  **Nunca chutar sigla:** sigla errada contamina o Cód Mestre, que é o número que
+  não pode mudar depois de publicado.
+- `Hash Conteúdo`
+- `Alterado em` — data em que o hash mudou pela última vez.
+
+### Aba nova `Apoio`
+
+`Tipo` (R / MM) · `Assunto` (o slug) · `Arquivo` · `Aulas` (lista, aceita mais de
+um valor) · `Fonte do nome` (capa / vídeo) · `Páginas` · `Páginas conteúdo` ·
+`Cód Mestre`.
+
+## Gatilho de impacto no fim do `atualizar`
+
+Skill não é ilha: download alimenta a base 2, que alimenta o mapeamento, que
+alimenta os cadernos. **Material atualizado sem reprocessar a base deixa a base
+mentindo**, apontando para páginas e blocos que mudaram de lugar — e o erro só
+aparece lá na frente, num caderno com tópico errado, quando já não dá para saber
+de onde veio.
+
+Então o modo `atualizar` **termina escrevendo em `bases/IMPACTOS.md`** o que mudou
+e perguntando ao Elvis se é para rodar também a skill da base que consome aquele
+material. A máquina já existe: é o `IMPACTOS.md` que toda base lê ao começar e
+escreve ao terminar.
+
 ## Passo 1: Escolher o navegador, abrir o pacote e identificar concurso / cargo
 
 1. **Escolher qual navegador controlar, antes de carregar qualquer tool:**

@@ -201,9 +201,19 @@ arquivos. O prefixo já agrupa por tipo e o resto ordena por assunto, então nã
 > Quando o rótulo do site divergir do título impresso na capa, **vale o da capa**. É o que o aluno
 > vê quando abre.
 
-> ### REGRA 6 — pendência entra no nome da pasta
-> Se sobrou material por baixar, a pasta ganha `(N-M)` antes da data, indicando quantos de quantos
-> vieram. Sem pendência, sem marca.
+> ### REGRA 6 — pendência entra no FIM do nome, nunca no começo
+> Se sobrou material por baixar, a pasta ganha `(N-M)` **no fim**: quantos de quantos vieram. Sem
+> pendência, sem marca.
+>
+> ```
+> LTRIB - Legislacao Tributaria Municipal (3-14)     certo
+> (3-14) Legislacao Tributaria Municipal             errado
+> ```
+>
+> **Por que no fim:** no começo, o parêntese ordena antes de qualquer letra, então **todas** as
+> pastas com pendência sobem juntas para o topo da listagem, agrupadas por defeito em vez de por
+> disciplina. Isso briga de frente com o prefixo de sigla, que existe justamente para agrupar.
+> Corrigido em 22/08, a partir da leitura da sessão de download.
 
 ---
 

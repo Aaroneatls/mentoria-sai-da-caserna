@@ -1,0 +1,159 @@
+# Materias do TecConcursos (camada "plataforma")
+# Levantado em 22/08/2026 pela Base 1, com 1 chamada:
+#   GET /api/materias?universo=&formato=OBJETIVA
+# Formato: id | nome literal da materia
+#
+# ATENCAO ao nivel: MATERIA (146, este arquivo) e apelido e mora na BASE 1.
+# ASSUNTO (milhares, por materia) e taxonomia e mora na BASE 3, via
+#   GET /api/assuntos?materia={id}&hierarquico=true
+# O `id` daqui e o parametro daquela chamada.
+#
+# 146 materias, cobrindo TODAS as carreiras. A maioria nao tem dona nossa,
+# e isso e esperado: ver SEM-DONA.md, balde 2.
+
+147 | Administração de Recursos Materiais
+14 | Administração Geral e Pública
+69 | AFO, Direito Financeiro e Contabilidade Pública
+58 | Análise das Demonstrações Contábeis
+170 | Antropologia
+171 | Arqueologia
+109 | Arquitetura
+16 | Arquivologia
+207 | Artes e Música
+17 | Atualidades e Conhecimentos Gerais
+37 | Auditoria Governamental e Controle
+29 | Auditoria Privada
+195 | Bancos - Atendimento, Vendas, História, etc.
+39 | Biblioteconomia
+126 | Biologia e Biomedicina
+87 | Ciências Atuariais (Atuária)
+103 | Ciências Políticas
+80 | Ciências Sociais
+77 | Comunicação Social
+38 | Contabilidade de Custos
+90 | Contabilidade de Instituições Financeiras e Atuariais
+21 | Contabilidade Geral
+188 | Criminalística e Medicina Legal
+220 | Criminologia
+184 | Defesa Civil
+219 | Desenho Técnico e Modelagem da Construção
+127 | Design e Artes Gráficas
+1 | Direito Administrativo (Doutrina e Leis Federais)
+228 | Direito Administrativo Estadual e do DF
+224 | Direito Administrativo Municipal
+93 | Direito Agrário
+30 | Direito Ambiental
+6 | Direito Civil
+2 | Direito Constitucional (CF/1988 e Doutrina)
+226 | Direito Constitucional Estadual e Distrital
+111 | Direito Constitucional Municipal
+98 | Direito Cultural, Desportivo e da Comunicação
+165 | Direito da Criança e do Adolescente
+66 | Direito Digital
+196 | Direito do Consumidor
+10 | Direito do Trabalho
+92 | Direito Econômico
+173 | Direito Educacional
+12 | Direito Eleitoral
+28 | Direito Empresarial (Comercial)
+27 | Direito Internacional Público e Privado
+205 | Direito Marítimo, Portuário e Aeronáutico
+194 | Direito Notarial e Registral
+7 | Direito Penal
+191 | Direito Penal Militar
+22 | Direito Previdenciário
+213 | Direito Processual Civil
+19 | Direito Processual do Trabalho
+11 | Direito Processual Penal
+192 | Direito Processual Penal Militar
+106 | Direito Sanitário e Saúde
+183 | Direitos Humanos
+18 | Direito Tributário
+174 | Direito Urbanístico
+33 | Economia e Finanças Públicas
+110 | Educação Física
+115 | Enfermagem
+129 | Engenharia Aeronáutica
+94 | Engenharia Agronômica e Agrícola
+102 | Engenharia Ambiental, Florestal e Sanitária
+144 | Engenharia Cartográfica e de Agrimensura
+43 | Engenharia Civil e Auditoria de Obras
+202 | Engenharia de Produção
+44 | Engenharia Elétrica e Eletrônica
+45 | Engenharia Mecânica
+206 | Engenharia Naval
+61 | Estatística
+193 | Ética no Serviço Público
+128 | Farmácia
+132 | Filosofia e Teologia
+121 | Finanças e Conhecimentos Bancários
+123 | Física
+198 | Fisioterapia
+215 | Fonoaudiologia
+100 | Geografia
+145 | Geologia e Engenharia de Minas
+135 | Gestão de Projetos (PMBOK)
+99 | História
+4 | Informática
+41 | Legislação Aduaneira
+5 | Legislação Civil e Processual Civil Especial
+119 | Legislação das Casas Legislativas
+104 | Legislação de Trânsito e Transportes
+187 | Legislação e Ética Profissional
+180 | Legislação Específica das Agências Reguladoras
+182 | Legislação Específica das Defensorias Públicas
+197 | Legislação Específica das Procuradorias (Advocacias Públicas)
+169 | Legislação Específica dos Ministérios Públicos
+190 | Legislação Específica dos Tribunais Estaduais
+114 | Legislação Específica dos Tribunais Federais
+164 | Legislação Geral Estadual e do DF
+177 | Legislação Geral Federal
+163 | Legislação Geral Municipal
+209 | Legislação Militar
+172 | Legislação Penal e Processual Penal Especial
+57 | Legislação Tributária dos Estados e do Distrito Federal
+117 | Legislação Tributária dos Municípios
+210 | Legislação Tributária Federal
+200 | Libras e Inclusão
+36 | Língua Espanhola (Espanhol)
+59 | Língua Francesa (Francês)
+25 | Língua Inglesa (Inglês)
+3 | Língua Portuguesa (Português)
+113 | Línguas Estrangeiras Diversas
+101 | Literatura Brasileira e Estrangeira
+62 | Matemática
+20 | Matemática Financeira
+51 | Medicina
+185 | Meteorologia e Astronomia
+218 | Museologia
+131 | Nutrição, Gastronomia e Engenharia de Alimentos
+203 | Oceanografia
+48 | Odontologia
+74 | Organização de Eventos
+79 | Pedagogia
+108 | Psicologia
+125 | Química e Engenharia Química
+217 | Raciocínio Lógico
+211 | Radiologia
+26 | Redação Oficial
+76 | Relações Internacionais e Comércio Internacional
+13 | Secretariado e Taquigrafia
+78 | Segurança e Proteção Contra Incêndios
+65 | Segurança e Saúde no Trabalho (SST)
+105 | Segurança Privada e Transportes
+223 | Segurança Pública e Legislação Policial
+199 | Serviços Gerais
+47 | Serviço Social
+85 | Teoria Geral, Filosofia e Sociologia Jurídica
+124 | Terapia Ocupacional
+141 | TI - Banco de Dados
+227 | TI - Ciência de Dados e Inteligência Artificial
+139 | TI - Desenvolvimento de Sistemas
+138 | TI - Engenharia de Software
+136 | TI - Gestão e Governança de TI
+142 | TI - Organização e Arquitetura dos Computadores
+133 | TI - Redes de Computadores
+134 | TI - Segurança da Informação
+140 | TI - Sistemas Operacionais
+212 | Turismo
+130 | Veterinária e Zootecnia
