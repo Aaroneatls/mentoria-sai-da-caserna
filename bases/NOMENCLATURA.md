@@ -25,11 +25,14 @@ folga para quem mover a pasta ou criar uma subpasta.
 | Nível | Máximo | Exemplo |
 |---|---|---|
 | Raiz (fixa) | **47** | `G:\Meu Drive\Inteligência Artificial\Estrategia\` |
-| Concurso | **40** | `ISS Manaus (AFTM) 2026 (19-08-2026)\` |
+| Concurso | **28** | `ISS Manaus (AFTM) 2026\` |
 | Tipo de curso | **20** | `Curso Regular\` |
-| Disciplina | **45** | `LTRIB - Legislação Tributária\` |
+| Disciplina | **58** | `LTRIB - Legislação Tributária (19-08-2026)\` |
 | Arquivo | **80** | `Aula 00 - Noções Introdutórias LS (23-03-2026).pdf` |
-| **Total** | **236** | com folga de 24 |
+| **Total** | **237** | com folga de 23 |
+
+Os **45** do nome da disciplina (`<SIGLA> - <Disciplina>`) continuam valendo; os 58 são esses 45
+mais os 13 da data.
 
 **Quem estourar o máximo do seu nível, sintetiza.** Nunca empurrar o problema para o nível
 seguinte.
@@ -74,9 +77,9 @@ G:\Meu Drive\Inteligência Artificial\Estrategia\
 
 | | |
 |---|---|
-| Formato | `<Nome> (<Sigla>) <Ano> (<DD-MM-AAAA>)` |
-| Exemplos | `Pacotaço TCDF (ANACE) 2026 (18-08-2026)` · `Regular Controle (18-08-2026)` |
-| A data | é a do **download**, e aparece **só aqui** |
+| Formato | `<Nome> (<Sigla>) <Ano>` |
+| Exemplos | `Pacotaço TCDF (ANACE) 2026` · `Regular Controle` |
+| A data | **não vem aqui** — ver a regra 9 |
 
 Curso Regular não tem concurso nem ano: fica `Regular Controle` e `Regular Fiscal`.
 
@@ -91,8 +94,23 @@ Existe mesmo quando só há um tipo, porque a estrutura tem de ser previsível p
 
 | | |
 |---|---|
-| Formato | `<SIGLA> - <Nome que a fonte usa>` |
-| Exemplo | `DADM - Direito Administrativo` · `TECINF - Análise de Informações` |
+| Formato | `<SIGLA> - <Nome que a fonte usa> (<DD-MM-AAAA>)` |
+| Exemplo | `DADM - Direito Administrativo (18-08-2026)` |
+
+> ### REGRA 9 — a data mora onde a atualização acontece
+>
+> A data fica **na disciplina**, não no concurso. Decidido pelo Elvis em 22/08/2026.
+>
+> Ele já tinha fixado em 18/08 que queria ver, só olhando o Drive, quando cada matéria foi mexida.
+> Esse motivo **ficou mais forte** com o modo `atualizar`: antes o curso vinha inteiro de uma vez e
+> a data do concurso dizia a verdade sobre tudo dentro dele; agora a atualização é **por
+> disciplina**, e uma data no nível do concurso passa a **mentir** assim que uma única matéria for
+> atualizada.
+>
+> Custo: **zero**. Saem 13 caracteres de um nível e entram 13 no outro — o caminho medido fica em
+> ~219, o mesmo do cenário sem data nenhuma.
+>
+> Não duplicar: data em dois níveis são duas versões da mesma verdade, e elas divergem.
 
 > ### REGRA 2 — a sigla é nossa, o nome é da fonte
 >
