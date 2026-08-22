@@ -240,8 +240,25 @@ coordenador é o mais exposto, porque é quem acumula contexto de todo mundo.
 > 2. **Só sobe o que é dele.** Se o coordenador consegue decidir, decide e informa depois — não
 >    pergunta por segurança. Perguntar demais entope o único canal que ele tem.
 >
-> A exceção é quando o **especialista** pergunta algo ao Elvis diretamente: aí o coordenador não
-> responde por ele, leva a pergunta e traz a resposta.
+> ### Mas ele PODE falar direto com um especialista — e aí o especialista avisa
+>
+> Acontece, e é normal. Quando o Elvis der uma instrução, decisão ou correção **direto** a um
+> agente, esse agente **avisa o coordenador** do que mudou. Não é pedir permissão: é **informar**,
+> depois de feito.
+>
+> **Por que isso é obrigatório:** a decisão que ele toma numa aba costuma ter efeito em outra base,
+> e quem enxerga isso é o coordenador — o especialista conhece a própria base, não a de quem
+> consome a dele.
+>
+> Não é hipótese. Em 22/08 o Elvis fechou a família da `LTRIB` conversando com a taxonomia, e
+> aquilo mudou o nome de **33 pastas** que o acervo ia criar. Sem o aviso, o acervo teria criado as
+> pastas pelo esquema velho.
+>
+> **O que avisar:** o que ele pediu, o que você fez, e o que isso muda para fora da sua base. Se
+> não souber se muda algo para fora, avise mesmo assim e deixe o coordenador julgar — é barato.
+>
+> A exceção simétrica: quando o **especialista** pergunta algo ao Elvis, o coordenador não responde
+> por ele — leva a pergunta e traz a resposta.
 
 **Faz:** conhece o estado de todas as bases; avalia impacto cruzado antes de qualquer execução;
 escreve no `IMPACTOS.md` quando um agente mexe no que outro consome; redige o prompt de abertura de

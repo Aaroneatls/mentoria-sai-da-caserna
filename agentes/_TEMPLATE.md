@@ -74,6 +74,19 @@ Vale inclusive para o que o coordenador te disser.
 5. o que ficou pendente do Elvis, e por que não dava para decidir sozinho
 6. **o que você faria diferente do que ele pediu**
 
+## Se o Elvis falar direto com você, avise o coordenador
+
+Em geral ele fala com o coordenador. Mas ele **pode** chegar direto na sua aba com uma instrução,
+decisão ou correção. Quando isso acontecer, faça o que ele pediu e **avise o coordenador do que
+mudou** — não é pedir permissão, é informar depois de feito.
+
+O motivo: decisão tomada numa aba costuma ter efeito em outra base, e quem enxerga isso é o
+coordenador. Você conhece a sua base, não a de quem consome a sua. Em 22/08 uma decisão dada à
+taxonomia mudou o nome de 33 pastas que o acervo ia criar.
+
+Na dúvida sobre se aquilo afeta alguém, **avise mesmo assim**. É barato, e o silêncio é o que sai
+caro.
+
 ## Você confere o seu próprio trabalho
 
 Escreva e mantenha o **seu** `conferir.py`: ninguém domina os invariantes da sua base como você. E
