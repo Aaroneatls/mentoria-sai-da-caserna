@@ -31,12 +31,14 @@ Estas cinco seguram esse caminho.
 | A16 | `PPPs e Consórcios` e `Convênios` ficam fora do escopo? | ao fechar Direito Administrativo |
 | A11 | Inédita exige plano avançado **do aluno**? | ao montar o primeiro caderno |
 | A27 | As 3 melhorias de composição: tamanho proporcional, ordem didática, peso real em N3-N5 | ao montar o primeiro caderno |
-| A12 | Professor diferente entre áreas (o caso do Direito Civil) | ao ligar a base 2 ao eixo |
+| ~~A12~~ | ~~Professor diferente~~ **FECHADO 21/08**: Contabilidade = Gilmar Possati, Direito Civil = Paulo Sousa | — |
 | A28 | Migrar os nomes de disciplina da Tutory (hoje `Direito Administrativo (Fiscal/ Controle)`) **e a saída da Reforma Tributária de dentro de Direito Tributário** | antes do primeiro plano novo |
 | A29 | Hospedagem da página de orientação: Google publicado ou site próprio | quando a base alimentar a página |
 | A30 | "Técnica de Estudos" é atributo do plano ou do tópico? | quando a skill da Tutory for feita |
 | A26 | Quais editais entram | ao começar a base 6 |
 | A32 | **Critérios por matéria** (janela de anos, filtros) — pensando em 5 anos na camada inicial | antes de mapear cada matéria |
+| A33 | **Área Legislativa**: quando entra, e com qual Curso Regular | quando o Elvis decidir abrir a área |
+| A34 | **Parceiros como fonte** (Rabelo e outros): quais entram e em que matérias | ao montar a base 4 |
 | A5 | Nomenclatura final das skills | quando as skills forem empacotadas |
 
 ### A.3 — FUTURO (não decidir agora, retomar quando fizer sentido)

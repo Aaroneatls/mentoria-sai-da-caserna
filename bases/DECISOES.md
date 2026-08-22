@@ -370,3 +370,33 @@ E isso tende a ser **raro**: o material costuma sair em cerca de 15 dias.
 
 Por isso os planos fixos (Regular Fiscal, Regular Controle) mudam pouco. **O mapeamento precisa
 indicar qual curso mexeu**, para o Elvis saber o que recarregar em vez de reprocessar tudo.
+
+---
+
+## A estrutura tem de aceitar área e fonte novas · 21/08/2026
+
+O Elvis vai incluir **outras áreas** (a **Legislativa** é a próxima) e **outras fontes de
+material** (parceiros, como o **Professor Rabelo** em Legislação Tributária).
+
+**Área é LISTA, não coluna.** Se `Fiscal` e `Controle` forem colunas, entrar `Legislativo` obriga a
+mexer em todas as tabelas. Como lista, é linha nova:
+
+```
+topico_area:  DADM-0018 -> Fiscal
+              DADM-0018 -> Controle
+              DADM-0018 -> Legislativo     <- entra sem mexer em nada
+```
+
+**Fonte também é lista.** A base 4 deixa de ser "Resumos do Bezerra" e passa a ser **materiais de
+parceiros**, com o Bezerra como a primeira fonte. Rabelo entra como fonte nova, não como base
+nova. A referência do aluno mostra todas:
+
+```
+Referência: ICMS: Substituição Tributária
+            Estratégia — Regular Fiscal, aula 09, p. 14-26
+            Bezerra    — não cobre
+            Rabelo     — Legislação Tributária, módulo 3
+```
+
+**Cada fonte guarda o rótulo dela** (ver a regra do rótulo de origem), porque é por ele que o
+aluno acha o material dentro daquela fonte.
