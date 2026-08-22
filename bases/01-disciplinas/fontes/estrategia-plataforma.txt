@@ -68,6 +68,21 @@
 ## Nao e disciplina, aparece como tipo 1 no mesmo pacote:
 143237 | 1 | Sistema de Questões 1 Ano - Cartão até 12 x
 
-## OBSERVACAO: o id 224364 ("Pacote Completo Cursos Regulares", sem Sistema de
-## Questoes) aparece na busca do catalogo mas devolveu HTTP 404 na API do aluno.
-## O que esta matriculado e o 365538, a variante com Sistema de Questoes.
+## CONFERIDO EM 22/08/2026: os DOIS ids do "Regular Controle" tem a MESMA lista
+## de 12 disciplinas (224352 a 224363). Testado matriculando os dois.
+##   365538 = 12 disciplinas + Sistema de Questoes 1 Ano (17 cursos)
+##   224364 = as mesmas 12 + Trilha (226812, 369916), Bizu (370329), Monitoria (370459) = 16 cursos
+## Ou seja: "Regular Controle" NAO e ambiguo quanto ao conteudo das disciplinas;
+## os dois pacotes diferem so no que vem empacotado junto.
+##
+## HTTP 404 em /api/aluno/pacote/{id} significa NAO MATRICULADO, nao "nao existe".
+## Confirmado: PRF 226226 e ISS Manaus 396632, que existem, tambem dao 404 quando
+## fora da matricula. (Ja o endpoint de CURSO devolve 500 no mesmo caso.)
+##
+## CONSEQUENCIA PARA A A8 do bases/DECISOES.md: a A8 diz que "CONTAB, ESTAT e
+## ECOFIN nao aparecem no ciclo do Controle, mas o Curso Regular de Controle tem
+## o material". Confrontado com as duas listas:
+##   CONTAB -> EXISTE (224361, Contabilidade Geral Avancada). A8 certa.
+##   ESTAT  -> NAO existe em nenhum dos dois pacotes. A8 contrariada.
+##   ECOFIN -> NAO existe em nenhum dos dois pacotes. A8 contrariada.
+## Pendente de decisao do Elvis.

@@ -87,31 +87,62 @@ diferente para o mesmo conteudo, e a falha e silenciosa.
 Consequencia boa: **o que ja foi colhido numa conta so e internamente consistente.** A
 normalizacao e obrigatoria para comparar entre contas, nao para reprocessar o que ja existe.
 
-## 22/08/2026 — `pacote_id` NAO e chave estavel; `curso_id` e
+## 22/08/2026 — pacote e EMBALAGEM; conteudo e a lista de `curso_id`
 
-Medido pela sessao das skills de download:
+**Este registro corrige uma versao anterior que estava errada.** Por vinte minutos ficou escrito
+aqui que `pacote_id` nao era chave estavel. **Nao e verdade**, e a correcao veio da sessao das
+skills de download, que foi testar em vez de aceitar.
 
-**O "Regular Controle" tem pelo menos DOIS ids de pacote.** A busca do catalogo devolve
-**224364** ("Pacote Completo Cursos Regulares"), e esse id da **HTTP 404** na API do aluno. O que
-existe e abre e o **365538** ("Pacote Completo Cursos Regulares + Sistema de Questoes").
+### O diagnostico errado, e por que enganava
 
-Mesmo produto na cabeca do usuario, dois ids, e **o que a busca sugere e justamente o que nao
-funciona**.
+O "Regular Controle" aparecia com dois ids: **224364** (o que a busca do catalogo devolve) e
+**365538**. O primeiro dava **HTTP 404** na API do aluno. A leitura obvia era "id instavel".
 
-**`curso_id`, ao contrario, nao tem evidencia contra:** os 25 cursos do Fiscal e os 12 do
-Controle responderam pelos ids que a API deu, e o `220883` (Direito Administrativo Fiscal)
-continua o mesmo desde o levantamento de 18/08.
+### O que era de verdade
 
-**A regra:**
+**404 em `/api/aluno/pacote/{id}` significa NAO MATRICULADO**, nao "nao existe". Confirmado com
+PRF 226226 e ISS Manaus 396632, que existem e dao 404 quando estao fora da matricula.
 
-| Campo | Serve de chave? |
+**Assimetria que vale saber:** no mesmo caso, o endpoint de **CURSO devolve 500** e o de **PACOTE
+devolve 404**.
+
+Matriculando os dois e comparando:
+
+| Pacote | Conteudo |
 |---|---|
-| `pacote_id` | **nao**, nunca depender dele |
-| `curso_id` | **sim**, mas com `nome_na_fonte` ao lado como chave de recuperacao |
+| `365538` | as 12 disciplinas (224352..224363) + Sistema de Questoes -> 17 cursos |
+| `224364` | **as MESMAS 12** + Trilha + Bizu + Monitoria -> 16 cursos |
 
-**Suspeita em aberto:** o id do pacote do TCDF mudou de `393927` para `393930` no mesmo dia. Se
-tiver sido o Estrategia recriando o produto, e nao alguem rematriculando, reforca que id de
-pacote e volatil.
+Sao **dois produtos comerciais diferentes com a mesma lista de disciplinas**. Isso e catalogo com
+embalagens diferentes, que e normal.
+
+### A regra correta
+
+| Campo | O que identifica | Serve de chave? |
+|---|---|---|
+| `pacote_id` | a **EMBALAGEM** comercial | **sim**, e estavel |
+| `curso_id` | a disciplina dentro do pacote | **sim** |
+| a lista de `curso_id` | o **CONTEUDO** de verdade | e o que importa comparar |
+
+**O mesmo "curso" na fala do Elvis pode ter mais de uma embalagem.** Entao comparar dois pacotes
+pelo id nao diz nada; comparar pela **lista de `curso_id`** diz tudo.
+
+### E o caso do TCDF tambem se explica
+
+O id do TCDF mudou de `393927` para `393930` no mesmo dia. A hipotese de "o Estrategia recriou o
+produto" **cai**: e muito mais provavel que alguem tenha matriculado uma **embalagem diferente**
+do TCDF, a variante com Sistema de Questoes, que tem id proprio. Mesmo padrao do Controle.
+
+### A licao que sobra, e ela e cara
+
+**Selecionar produto pelo id no href, NUNCA por casamento de texto do nome.**
+
+A sessao das skills desmatriculou o TCDF sem querer usando um seletor que casava por "Sistema de
+Questoes": o nome completo do TCDF matriculado tambem termina assim, e ele vinha antes na lista.
+Corrigido em menos de um minuto, e o pacote voltou com o **mesmo id** — mas se alguma sessao
+tivesse tentado usar o TCDF naquele intervalo, teria levado 404 sem motivo aparente.
+
+**Os nomes dos produtos se contem uns aos outros.** Casamento por texto vai errar.
 
 ## O padrao de nome e INVERTIDO entre os dois cursos
 

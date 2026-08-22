@@ -107,6 +107,16 @@ silencio.
 arquivo deram quatro hashes diferentes. A assinatura de mudanca e **nome no CDN + paginas +
 tamanho aproximado (~1 KB de tolerancia) + data da capa**.
 
+## Ao mexer no Estrategia: dois cuidados que ja custaram caro
+
+**404 no pacote = NAO MATRICULADO**, nao "nao existe". Se receber 404 em
+`/api/aluno/pacote/{id}`, o produto existe e o que falta e matricular. O endpoint de **curso**,
+no mesmo caso, devolve **500**.
+
+**Selecionar produto pelo ID no href, nunca pelo texto do nome.** Os nomes se contem uns aos
+outros: o TCDF foi desmatriculado por engano porque o seletor casava por "Sistema de Questoes",
+que aparece tanto no nome dele quanto no do Controle.
+
 ---
 
 **Duvida sobre algo que nao esta aqui?** Consulte `../DECISOES.md`.
