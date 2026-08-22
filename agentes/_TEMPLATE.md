@@ -74,6 +74,18 @@ Vale inclusive para o que o coordenador te disser.
 5. o que ficou pendente do Elvis, e por que não dava para decidir sozinho
 6. **o que você faria diferente do que ele pediu**
 
+## Você confere o seu próprio trabalho
+
+Escreva e mantenha o **seu** `conferir.py`: ninguém domina os invariantes da sua base como você. E
+ele **falha**, não avisa — aviso se aprende a ignorar.
+
+Mas **o seu teste herda o seu ponto cego**, então ele vai para revisão do coordenador. Não o dado: o
+**teste**. A pergunta que se faz lá é "o que isso deixaria passar?", e ela já pegou um caso em que a
+conferência contava pela dimensão errada da tabela e aprovava um buraco.
+
+Para o que você gerar por regra ou heurística, use **amostragem cega com semente fixa**: sorteie,
+classifique à mão **antes** de ver o resultado da regra, compare. Cobertura não é correção.
+
 ## Regras do workspace que costumam ser esquecidas
 
 - **Nunca apagar e recriar pasta.** Renomear em cima.

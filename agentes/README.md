@@ -412,7 +412,56 @@ o nosso nome de tópico e o nosso texto. E o **link do caderno nunca muda** depo
 
 ---
 
-## 8 · Abrir um agente novo
+## 9 · Quem confere o trabalho
+
+**Não existe agente verificador.** Decidido em 22/08. Um verificador genérico não teria como saber
+que `MATFIN` precisa existir na área Fiscal, ou que o nome da disciplina não pode ganhar um espaço.
+**Conferir exige o domínio, e o domínio é do especialista.**
+
+Mas "conferir" são duas coisas, e só a primeira é dele sozinho.
+
+### O dado: do próprio agente
+
+Cada agente escreve e mantém o **seu** `conferir.py` (ou equivalente), que responde: *o que eu
+produzi satisfaz o que tem de ser verdade?* Ninguém faz isso melhor que ele.
+
+**A checagem FALHA, não avisa.** Aviso se aprende a ignorar em duas semanas. Se algo não pode
+acontecer, a conferência derruba.
+
+### A conferência: precisa de olhar de fora
+
+**Um teste escrito pela mesma cabeça que escreveu o código herda o mesmo ponto cego.** Não é
+desconfiança, é mecânica — e se provou três vezes em 22/08:
+
+- o `conferir.py` da taxonomia passava com 10 blocos e o `MATFIN` escapava: o teste contava por
+  sigla, e a sigla tinha material na outra área, então parecia completa. A lição é dela:
+  **"teste que só olha a dimensão errada da tabela aprova o buraco"**
+- ela mesma escreveu que zero-entradas-sem-regra **prova cobertura, não correção** — conhecia o
+  furo e não conseguia fechá-lo de dentro
+- o acervo mediu caminho relativo achando que era absoluto; o teste dele confirmaria o número
+  errado, porque usaria a mesma função
+
+Por isso o passo, que **não é agente novo**:
+
+> **O coordenador (ou um especialista vizinho) revisa o TESTE, não o dado.**
+>
+> Revisar 431 linhas de dado não escala; revisar 11 blocos de verificação escala. E o olhar de fora
+> rende ali sem precisar dominar o domínio — basta perguntar **"o que isso deixaria passar?"**.
+
+### Duas técnicas que já se provaram
+
+**Amostragem cega com semente fixa.** Para tudo que é gerado por regra ou heurística: sorteie uma
+amostra, classifique **à mão antes** de olhar o resultado da regra, e compare. Não vira certeza,
+vira **teto de erro medido**, e qualquer um reproduz. A taxonomia fez 30 de 168 (semente `20260822`)
+e deu 30/30.
+
+**Reproduzir número alheio que muda o plano.** Quem recebe um número que altera uma decisão, mede de
+novo. Foi assim que se achou uma medição errada por 48 caracteres e um teto de 80 que nunca fora
+medido.
+
+---
+
+## 10 · Abrir um agente novo
 
 O Elvis pede, ou o coordenador sugere quando um grupo de tarefas cresce a ponto de disputar contexto
 com o resto. O coordenador entrega o **prompt de abertura pronto** — modelo em `agentes/_TEMPLATE.md`.
