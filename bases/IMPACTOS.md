@@ -26,7 +26,7 @@ para depois: base desatualizada contamina tudo que vem em cima dela.
 
 | Base | Estado | Ultima revisao |
 |---|---|---|
-| 1 · Disciplinas | nao iniciada | — |
+| 1 · Disciplinas | **construida, aguardando revisao do Elvis** | 22/08/2026 |
 | 2 · Estrategia Concursos | nao iniciada | — |
 | 3 · Taxonomia do Tec | nao iniciada | — |
 | 4 · Materiais de parceiros | nao iniciada | — |
@@ -77,3 +77,61 @@ aproximado + data da capa do PDF**.
 - fechar com o Elvis a convencao de pasta e o destino dos arquivos de apoio;
 - estender o levantamento as demais disciplinas (~800 MB estimados no pacote inteiro).
 
+
+---
+
+### 22/08/2026 · Base 1 — Disciplinas (construida, NAO declarada fechada)
+
+**O que foi construido:** `dados/disciplinas.csv` (21), `dados/apelidos.csv` (429),
+`dados/areas.csv` (30), `dados/renomear-pastas.csv` (34), `fontes/tec.txt` (146 materias,
+1 chamada), `SEM-DONA.md`, `conferir.py` (8 blocos) e a skill `montar-base-disciplinas`.
+Vista publicada em 4 abas. **O gatilho de execucao e do Elvis: nada roda antes do ok dele.**
+
+**O que mudou em relacao ao decidido:**
+
+1. **A secao A8 estava errada.** Ela afirma que o Regular Controle tem `CONTAB`, `ESTAT` e
+   `ECOFIN`. Conferido nos dois pacotes do Controle (365538 e 224364, listas identicas): so o
+   `CONTAB` existe. **Correcao autorizada pelo Elvis em 22/08/2026.**
+2. **`areas.csv` deixou de nascer vazio.** A decisao original mandava deixar em branco para nao
+   chutar. O Elvis fechou em 22/08 que so vale o que existe **de fato** no Curso Regular, o que
+   transforma a lista de matricula dos dois pacotes em evidencia dura. Cada linha carrega a
+   evidencia.
+3. **Entrou a coluna `camada` (`drive` / `plataforma`)** em `apelidos.csv`, porque as duas tem
+   granularidade diferente: 22 pastas para 25 cursos no Regular Fiscal.
+4. **O `id_na_fonte` vale para Estrategia e Tec**, nao so para o Tec. Nome literal serve para
+   achar; id serve para casar.
+5. **`LTRIB` ganhou endereco:** curso 336350 (Legislacao Tributaria sobre o Consumo, a parte da
+   Lei Kandir). Decisao do Elvis, 22/08/2026.
+
+**Qual base isso afeta:**
+
+- **Base 2 (Estrategia)** — recebe `renomear-pastas.csv`, com o **nome exato no disco** e o nome
+  novo ja conferido contra os 45 caracteres: 31 prontas, **3 pendentes de decisao do Elvis**.
+  Recebe tambem o `curso_id` como chave de join para a coluna `Cod Mestre`.
+- **Base 3 (Taxonomia do Tec)** — **corrigir o `ROTEIRO.md`**: a pergunta em aberto "puxar as 146
+  materias ou so as 21?" partia de premissa errada. As 146 custam **1 chamada**, nao 146; o que
+  custa 1 por materia e a arvore de **assuntos**. Materia e apelido e mora na base 1; assunto e
+  taxonomia e mora na base 3. O `id_na_fonte` ja esta guardado.
+  **Alerta novo:** o Tec junta `AFO` com `CONTPU` (materia 69) e `AUDIT` com `CTREXT` (materia
+  37). **Filtrar por materia nao isola disciplina nossa.**
+- **Base 4 (Parceiros)** — os 29 apelidos do Bezerra estao mapeados. Ele **nao cobre `CTREXT`,
+  `LTRIB` nem `REFTRI`**: registrar como "nao cobre", nao como pendencia. Regra nova do Elvis:
+  **toda vez que entrar aula nova, passar o olho no resumo do Bezerra** procurando materia ou
+  conteudo sem correspondencia.
+- **Base 5 (Questoes do Tec)** — herda o alerta da base 3, e com mais peso: o corte do acervo tem
+  de ser por **assunto**, nunca por materia.
+- **Base 6 (Editais)** — nao e afetada agora. Entra como **fonte nova** (linha, nao coluna) em
+  `apelidos.csv` quando existir.
+
+**Regra nova, registrada a pedido do Elvis (22/08/2026):** pos-edital da area Fiscal que precisar
+de materia que so existe no Regular **Controle**, e que ainda nao saiu no curso especifico, manda
+o aluno para o material do Controle **e sem ressalva no texto**. So e seguro porque o Cod Mestre e
+o mesmo nos dois lados; se a mesma teoria receber codigos diferentes por area, a regra passa a
+mandar o aluno para um lugar que a base nao sabe que e equivalente.
+
+**Pendente, e depende do Elvis:**
+
+1. A pasta `Reforma Tributaria` guarda `LTRIB` (336350) e `REFTRI` (371461, 389109) juntas.
+2. `Legislacao Tributaria Estadual` e `Municipal` existem no Regular Fiscal (220891, 220896), mas
+   a A8 diz que legislacao local so nasce em pos-edital.
+3. As 8 entradas do balde 1 do `SEM-DONA.md`.
