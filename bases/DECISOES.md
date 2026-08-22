@@ -45,6 +45,46 @@ Testado com `Direito  Administrativo` (espaço duplo): a conferência derrubou.
 
 ---
 
+## O Estratégia separa por COMPETÊNCIA; nós separamos por ORIGEM DA NORMA · medido em 22/08/2026
+
+**Os dois eixos não coincidem, e por isso o nome do curso nunca resolve sozinho.**
+
+Descoberto pelo `ESP-ACERVO` ao ler as ementas dos cursos 220891 e 220896, que pareciam contradizer
+a regra de que legislação local só nasce em pós-edital.
+
+| Curso | O que o nome sugere | O que a ementa tem |
+|---|---|---|
+| **220891** `...(Todos Estados) Curso Básico de Legislação Trib. Estadual` | norma de um estado | ICMS na CF/88, LC 24/75 (CONFAZ), LC 87/96 (Lei Kandir) em 3 partes |
+| **220896** `...Curso Básico de Legislação Tributária Municipal` | norma de um município | IPTU, ITBI e ISS **na CF/88, no CTN e na LC 116/03** |
+
+Nas duas, **nenhuma linha de norma de ente específico**. É tudo Constituição, Código Tributário
+Nacional e lei complementar nacional.
+
+**O nome engana de dois jeitos diferentes:** "Estadual" quer dizer que **o imposto** é estadual
+(ICMS), não que a norma seja de um estado — e o `(Todos Estados)` do próprio título confirma.
+"Municipal" quer dizer que **os impostos** são municipais (IPTU, ITBI, ISS), estudados pela norma
+nacional que os disciplina.
+
+### O que é legislação local de verdade
+
+Nasce em pós-edital e tem ente no nome: o **Código Tributário do Município** e o **Processo
+Administrativo Tributário** do ISS Manaus, ou o **RICMS** de uma SEFAZ específica. Nada disso
+aparece nos dois cursos acima.
+
+### A regra que fica
+
+> **Curso de legislação tributária se classifica pela EMENTA, nunca pelo título.** O Estratégia
+> organiza por competência do tributo; a nossa taxonomia organiza por origem da norma. Como os dois
+> eixos são independentes, o título pode dizer "Estadual" e o conteúdo ser inteiramente nacional.
+
+Isso explica também o **336350**, que tem Lei Kandir (`LTRIB`) e Reforma (`REFTRI`) no mesmo
+material: pela competência é um curso só; pela origem da norma são duas coisas nossas.
+
+**Consequência de método:** ao classificar qualquer curso de legislação, abrir a lista de aulas.
+Custa uma chamada e evita um Cód Mestre errado, que é irreversível depois de publicado.
+
+---
+
 ## O curso 336350 é COMPARTILHADO: o conteúdo decide o código · fechado em 22/08/2026
 
 O Elvis havia dito que o curso **336350** (`Legislação Tributária sobre o Consumo`) era `LTRIB`.
