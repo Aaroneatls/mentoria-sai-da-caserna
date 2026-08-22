@@ -115,9 +115,13 @@ Subpasta `Apoio - Resumos e Mapas Mentais`, **única por disciplina, sem subpast
 | `MM - ` | mapa mental |
 
 ```
-DADM - Direito Administrativo└── Apoio - Resumos e Mapas Mentais    ├── MM - Atos Administrativos.pdf
+DADM - Direito Administrativo/
+└── Apoio - Resumos e Mapas Mentais/
+    ├── MM - Atos Administrativos.pdf
     ├── MM - Improbidade Administrativa.pdf
+    ├── MM - Licitações e Contratos.pdf
     ├── R - Atos Administrativos.pdf
+    ├── R - Improbidade Administrativa.pdf
     └── R - Poderes Administrativos.pdf
 ```
 

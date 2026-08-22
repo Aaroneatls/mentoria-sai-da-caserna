@@ -72,6 +72,11 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B25 | Os 7 pontos de decisão de `estrategia-padroes-pdf.md` | não |
 | ~~B24~~ | ~~Trava de caminho longo~~ **resolvido 22/08**: orçamento por nível em `bases/NOMENCLATURA.md` | — |
 | B63 | **Renomear os 146 arquivos que já passam de 240 caracteres** | sim, antes de novo download |
+| B64 | Skill de download com **3 modos** (`baixar`/`atualizar`/`conferir`) | mandado à sessão de download |
+| B65 | `hash_conteudo`: sha256 do texto **sem a marca d'água**, já que hash de arquivo muda a cada download | sim, sustenta o `atualizar` |
+| B66 | `_manifesto.csv` na pasta da disciplina: é o que a base 2 lê; a planilha é a vista do Elvis | sim |
+| B67 | Aba **`Apoio`** na planilha, com `Aulas` aceitando mais de um valor | junto do download dos apoios |
+| B68 | Gatilho de impacto no fim do `atualizar`: escrever em `IMPACTOS.md` e perguntar se roda a base 2 | não |
 
 ### Base 3 · Taxonomia do Tec
 
