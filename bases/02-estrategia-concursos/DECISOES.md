@@ -77,7 +77,16 @@ conferencia. **Registrar o erro, nao so a correcao.** O texto para o aluno **afi
 
 ---
 
-## PENDENTE — Estrategia: download e curso
+## Download: pasta, produto e unidade — FECHADO em 22/08/2026
+
+- **A pasta leva o nome do Estrategia**, sintetizado, nunca traduzido para a nossa taxonomia.
+  Por isso o download **nao depende da base 1**.
+- **So o Curso Regular**, nunca o pacotaco: o Passo esta fora do escopo e a vaga de matricula e a
+  mesma. Vale tambem para o TCDF.
+- **Organizar por CURSO**, nao pela nossa disciplina. A reagrupacao acontece no mapeamento.
+- A marca com CPF e da titular da conta (esposa do Elvis). Nunca pode sair em material do aluno.
+
+## Historico — o que estava pendente (resolvido)
 
 **Ha um ponto em aberto que impacta diretamente esta base**, e o Elvis foi discuti-lo em outra
 sessao (22/08/2026): a **estrategia de download e de escolha de curso** no Estrategia Concursos.

@@ -908,3 +908,49 @@ pouquíssimos casos; em Contabilidade e TI, mais.
 contamina a percepção de dificuldade do tópico.
 
 O filtro existe no menu do Tec, logo abaixo de "Área (Carreira)".
+
+---
+
+## Download do Estrategia: pasta, produto e unidade de mapeamento · fechado em 22/08/2026
+
+### A pasta leva o nome do ESTRATEGIA, nao o nosso
+
+Sintetizado se for comprido, mas **nunca traduzido** para a nossa taxonomia. Se a pasta se chamar
+`TECINF`, quem abrir a plataforma procurando `TECINF` nao acha nada; se chamar `Informatica`,
+bate.
+
+E a regra do rotulo da fonte aplicada aqui: **cada fonte guarda o nome dela, porque e por ele que
+se acha o material**. O vinculo com a nossa taxonomia mora na tabela de apelidos da base 1.
+
+**Consequencia boa:** o download **nao depende** da base 1. Ela nao decide nome de pasta nenhum,
+e a traducao se aplica na hora de MAPEAR, nao na de baixar. As duas coisas podem correr em
+paralelo.
+
+### So o CURSO REGULAR, nunca o pacotaco
+
+O Estrategia oferece, para o mesmo concurso, ate quatro produtos: o **Curso Regular** sozinho, o
+**Passo Estrategico** sozinho, o **pacotaco** com os dois, e as vezes o **sistema de questoes**.
+
+**Baixar so o Curso Regular.** O Passo esta fora do escopo, e o pacotaco traria peso morto. A vaga
+de matricula e a mesma (1 produto), entao o pacotaco nao compensa.
+
+Se um dia o Passo entrar no escopo, ai sim vale o pacotaco.
+
+Vale tambem para o TCDF: **o Curso Regular dele**, nao o Pacotaco.
+
+### O mapeamento e por CURSO, nao por disciplina
+
+A unidade de organizacao e o **curso**, do jeito que o Estrategia monta. Uma aula que la se chama
+"Analise de Dados" pode virar `TECINF` aqui, e um curso pode alimentar mais de uma disciplina
+nossa.
+
+**Baixar e organizar por curso**, sem tentar reagrupar pela nossa taxonomia. A reagrupacao
+acontece no mapeamento, pela tabela de pares bloco x topico.
+
+### A marca do CPF e da titular da conta
+
+Confirmado pelo Elvis: e a esposa dele, e a conta e legitima. Entao **todo** material do
+Estrategia carrega a mesma marca enquanto for a mesma conta.
+
+Alem do problema tecnico do hash, e **CPF de uma pessoa real**: nao pode sair em nada que va para
+o aluno.
