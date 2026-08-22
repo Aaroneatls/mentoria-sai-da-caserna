@@ -28,7 +28,7 @@ para depois: base desatualizada contamina tudo que vem em cima dela.
 |---|---|---|
 | 1 · Disciplinas | **construida, aguardando revisao do Elvis** | 22/08/2026 |
 | 2 · Estrategia Concursos | nao iniciada | — |
-| 3 · Taxonomia do Tec | nao iniciada | — |
+| 3 · Taxonomia do Tec | **arvore puxada; falta o vinculo** | 22/08/2026 |
 | 4 · Materiais de parceiros | nao iniciada | — |
 | 5 · Questoes do Tec | nao iniciada | — |
 | 6 · Editais | nao iniciada | — |
@@ -174,3 +174,44 @@ com dona; nao cobre `LTFED` (so dentro do bloco RFB, fora do escopo). **Base 6**
 
 **Desbloqueou duas pastas:** `Legislacao Tributaria Estadual` e `Municipal` sairam de pendente e
 ganharam prefixo. **Sobra 1 pendente de 34** (a `Reforma Tributaria`).
+
+### 22/08/2026 · Base 3 — a arvore do Tec, e a resposta da medicao (ESP-TAXONOMIA)
+
+**Construido:** `bases/03-taxonomia-tec/dados/assuntos.csv` — **4.805 assuntos** em **30 materias**,
+com `materia_id`, nossa `sigla`, `assunto_id`, `hierarquia`, `nivel` e nome. Profundidade **ate 6
+niveis** (499 no nivel 1, 2.008 no 2, 1.672 no 3, 505 no 4, 93 no 5, 28 no 6).
+
+**Custo:** 62 chamadas, **nenhum 429**. Foram 30 com o parametro errado, 30 certas e 2 de
+diagnostico.
+
+**O ROTEIRO da base 3 estava errado em dois numeros, e ja foi corrigido:**
+
+| | Dizia | E |
+|---|---|---|
+| assuntos de Direito Administrativo | 2.755 | **276** |
+| chamadas | ~21 | **30** |
+
+E **`hierarquico=true` devolve MENOS, nao mais** (121 contra 276 em DADM): ele filtra. A hierarquia
+**nao vem aninhada** — a resposta e lista plana e o caminho vem no campo `hierarquia`
+(`"10.05.02"`). Quem procurar `filhos` conta so o nivel 1 e conclui que a arvore e rasa.
+
+#### A RESPOSTA DA MEDICAO: os dois casos conhecidos sao os unicos graves
+
+Era esta a pergunta que justificava puxar antes da base 2. **Varridos os 499 ramos de nivel 1 das
+30 materias:**
+
+| Materia | Ramos n1 | Como se divide |
+|---|---|---|
+| **69** AFO, Dir. Financeiro e Contabilidade Publica | 33 | ~12 sao `AFO`, ~11 sao `CONTPU`, e o Tec **admite a mistura no proprio nome do ramo**: `06 Receita Publica (AFO e CPU)` |
+| **37** Auditoria Governamental e Controle | 11 | **10 de 11 sao `CTREXT`**; so o ramo `11 Auditoria Governamental` e `AUDIT` |
+
+Mais **dois casos menores**, de um ramo so, que nao mudam dimensionamento: `Direito Constitucional`
+tem `07 Tributacao e Orcamento`, e `TI - Seguranca da Informacao` tem `08 Auditoria de TI`.
+
+**Consequencia para a base 5, agora com numero:** dimensionar `AUDIT` pela materia 37 contaria um
+acervo que e **10/11 de Controle Externo**. A janela de anos sairia curta demais e jogaria fora ano
+de Auditoria de verdade. **O tamanho se mede pela soma dos assuntos da disciplina, nunca pela
+materia** — e agora da para fazer isso, porque o `assuntos.csv` existe.
+
+**O que NAO foi feito, de proposito:** o vinculo assunto -> Cod Mestre. Ele depende da base 2,
+porque o topico nasce da teoria que o aluno le e o assunto do Tec e apelido que se pendura nele.

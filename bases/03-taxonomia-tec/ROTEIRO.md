@@ -27,8 +27,21 @@ descobriu um filtro faltando, o que teria gasto ~600 chamadas produzindo dado er
 
 ## Passo a passo
 
-1. **Puxar a arvore por materia**: `GET /api/assuntos?materia={id}&hierarquico=true`. Uma chamada
-   por materia; a de Direito Administrativo voltou com **2.755 assuntos**.
+1. **Puxar a arvore por materia**: `GET /api/assuntos?materia={id}` — **SEM** `hierarquico=true`.
+
+   > **Os dois numeros que estavam aqui estavam errados. Medido em 22/08/2026.**
+   >
+   > | | Dizia | E |
+   > |---|---|---|
+   > | assuntos de Direito Administrativo | 2.755 | **276** |
+   > | chamadas para as nossas materias | ~21 | **30** |
+   >
+   > E `hierarquico=true` devolve **menos**, nao mais: 121 contra 276 em Direito Administrativo.
+   > Ele filtra; o parametro nao serve para levantar a arvore.
+   >
+   > **A hierarquia nao vem aninhada.** A resposta e uma **lista plana**, e o caminho vem
+   > codificado no campo `hierarquia` (`"10.05.02"`). Quem procurar `filhos` ou `children` conta
+   > so o nivel 1 e acha que a arvore e rasa — foi o que aconteceu na primeira passada.
 
 2. **Guardar id, nome e hierarquia** (`01.02.03`), preservando a estrutura.
 
@@ -59,8 +72,10 @@ ninguem percebe ate o material chegar torto na mao do aluno.
 
 ## Perguntas em aberto
 
-1. **Puxar as 146 materias da plataforma ou so as 21 nossas?** As 21 bastam, e custam 21 chamadas
-   em vez de 146.
+1. ~~Puxar as 146 materias ou so as 21 nossas?~~ **Resolvido em 22/08/2026.** A pergunta misturava
+   dois niveis. **Materia** e apelido e mora na base 1: as 146 custam **1 chamada** (`/api/materias`),
+   nao 146. **Assunto** e taxonomia e mora aqui: custa 1 chamada por materia, e sao **30** materias
+   com sigla nossa, nao 21 — `TECINF` sozinha espalha em 10.
 
 2. **A arvore muda com o tempo?** Se mudar, o modo `atualizar` precisa de um diff. Vale medir daqui
    a um mes.
@@ -69,4 +84,6 @@ ninguem percebe ate o material chegar torto na mao do aluno.
 
 Fazer **depois da base 1**, porque o vinculo assunto -> Cod Mestre precisa dos codigos existirem.
 
-E barata: ~21 chamadas, uma vez so. Cabe em qualquer janela de cota.
+**Ja foi puxada em 22/08/2026**: `dados/assuntos.csv`, 4.805 assuntos em 30 materias, profundidade
+ate 6 niveis. Custou 62 chamadas (30 com o parametro errado, 30 certas, 2 de diagnostico), sem
+nenhum 429. O que falta aqui e o **vinculo assunto -> Cod Mestre**, e ele depende da base 2.
