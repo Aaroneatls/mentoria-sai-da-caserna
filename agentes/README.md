@@ -236,6 +236,18 @@ completo**: alguém abrindo sessão nova lê aquilo e continua.
 | O que tentei e não deu | com o motivo — é o que evita repetir |
 | O que aprendi e ainda não virou regra | matéria-prima do `APRENDIZADO.md` |
 
+> ### "Salva tudo" alcança TODAS as sessões, não só a do coordenador
+>
+> Quando o Elvis pedir para salvar — ou avisar que vai fechar o Claude, reiniciar a máquina ou sair
+> —, o coordenador **avisa cada agente vivo na hora**, mandando commitar e escrever o `ESTADO`.
+> Fixado em 22/08, quando ele precisou pedir isso explicitamente.
+>
+> O coordenador só enxerga o que está commitado; o que um agente tem em edição é invisível para
+> ele e morre no fechamento. **Confira a própria árvore não basta.**
+>
+> No aviso, dizer para commitar **como está, mesmo incompleto**, com a mensagem indicando que está
+> pela metade. Meio salvo é infinitamente melhor que inteiro perdido.
+
 **Regra dura:** o que só existe na conversa não existe. Vale para todos, coordenador incluído — e o
 coordenador é o mais exposto, porque é quem acumula contexto de todo mundo.
 
