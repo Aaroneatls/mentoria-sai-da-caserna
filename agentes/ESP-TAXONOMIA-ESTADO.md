@@ -40,7 +40,7 @@ Tudo commitado e íntegro. `python bases/01-disciplinas/conferir.py` passa nos 1
 
 | Arquivo | Linhas | O que é |
 |---|---|---|
-| `dados/disciplinas.csv` | 21 | as siglas; transcrição literal da seção A8 de `bases/DECISOES.md` |
+| `dados/disciplinas.csv` | 23 | as siglas; transcrição literal da seção A8 de `bases/DECISOES.md` |
 | `dados/apelidos.csv` | 432 | uma linha por par (sigla, fonte, nome literal), sobre 5 camadas |
 | `dados/areas.csv` | 31 | uma linha por par (sigla, área), com a evidência em cada linha |
 | `dados/renomear-pastas.csv` | 34 | contrato com o `ESP-ACERVO`: 31 prontas, 3 pendentes |
@@ -174,3 +174,29 @@ desenho.
 O relatório entregue ao Elvis está em `agentes/ESP-TAXONOMIA-RELATORIO.md`, **arquivo e não
 mensagem**. Regra corrigida em 22/08/2026: o relatório era o entregável mais importante do ciclo e
 o único que não deixava rastro no repositório, o que já fez o coordenador presumir estado errado.
+
+---
+
+## Atualização de 22/08/2026 · a família da Legislação Tributária
+
+`LTRIB` **aposentada** (não apagada: `status = APOSENTADA` no `nomes-congelados.csv`, e o bloco 11
+falha se ela reaparecer). No lugar entraram `LTEST`, `LTMUN` e `LTFED`, mais a família por ente.
+
+```
+23 disciplinas · 432 apelidos · 32 áreas · 34 pastas (33 prontas, 1 pendente)
+conferir.py: 11 blocos, todos passando
+```
+
+**Sigla por ente, determinística:** estado `LT`+UF · município capital `LTM`+UF · não-capital
+`LTM`+UF+inicial · **DF é `LTDF` e só** (não existe `LTMDF`: CF art. 32 e 147). A fórmula propõe,
+o `nomes-congelados.csv` decide.
+
+**Sobrou 1 pasta pendente** (`Reforma Tributaria`), e ela deixou de ser problema desta base: com o
+curso 336350 tendo Lei Kandir **e** Reforma dentro, a separação é de **bloco na base 2**.
+
+**Atenção pendente no `AUTORIZACOES.md`:** ele registra o esquema **antigo** (`LT` + 3 letras para
+município). O refinamento (capital, e a exceção do DF) chegou por repasse do coordenador, com
+citação do Elvis, e foi aplicado por ser reversível — **nenhum ente nasceu ainda**. O arquivo
+precisa ser corrigido por quem o mantém.
+
+**Próximo passo:** base 3 (árvore de assuntos do Tec), ~29 chamadas, aguardando o Elvis liberar.

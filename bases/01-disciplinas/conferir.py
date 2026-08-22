@@ -162,6 +162,15 @@ for r in disc:
         check(r["nome_canonico"] == esperado,
               "NOME CONGELADO ALTERADO em %s: %r -> %r. Isso quebra o historico do aluno na "
               "Tutory. Reverter, ou subir ao Elvis (nivel 3)." % (r["sigla"], esperado, r["nome_canonico"]))
+    # O DF nao e dividido em municipios (CF art. 32) e concentra as competencias de estado e
+    # de municipio (CF art. 147): ISS, IPTU e ITBI ali sao lei DISTRITAL. Entao LTDF carrega os
+    # dois blocos e LTMDF nunca existe. Quem aplicar a formula LTM+UF no automatico cria os dois,
+    # e o LTMDF ou nasce vazio para sempre ou leva metade do conteudo do LTDF -- e ai os DOIS
+    # ficam pela metade sem dar erro, que e a falha cara. O TCDF e o pos-edital mais provavel,
+    # entao este e o primeiro ente que vai nascer.
+    check(r["sigla"] != "LTMDF",
+          "LTMDF nao pode existir: o DF nao tem municipios (CF art. 32) e acumula as competencias "
+          "estadual e municipal (CF art. 147). Use LTDF, que carrega as duas.")
     n = r["nome_canonico"]
     check(n == n.strip() and "  " not in n,
           "nome com espaco sobrando ou duplicado em %s: %r. A Tutory le como disciplina "

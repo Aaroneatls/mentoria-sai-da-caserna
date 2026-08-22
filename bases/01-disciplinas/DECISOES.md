@@ -183,6 +183,49 @@ Os cursos **336350** ("Consumo") e **220891** (Estadual) cobrem **a mesma Lei Ka
 resolve e a regra de que **mesmo `hash_teoria` = mesmo Cod Mestre**. A base 2 precisa **esperar**
 isso; se ela tratar como anomalia, vai duplicar topico.
 
+### A sigla de cada ente: deterministica, sem "quem chegou primeiro"
+
+Fechado em 22/08/2026, refinando o esquema aprovado no mesmo dia.
+
+| Ente | Regra | Exemplos |
+|---|---|---|
+| Estado | `LT` + UF | `LTCE` Ceara · `LTSP` Sao Paulo · `LTPA` Para · `LTGO` Goias |
+| Municipio **CAPITAL** | `LTM` + UF | `LTMSP` Sao Paulo · `LTMAM` Manaus · `LTMCE` Fortaleza |
+| Municipio nao-capital | `LTM` + UF + inicial | `LTMSPC` Campinas/SP |
+| **Distrito Federal** | **`LTDF`, e so** | acumula estadual E municipal |
+| Empate | o `nomes-congelados.csv` decide, **nunca a formula** | |
+
+**Por que a capital leva o nome curto, e nao o primeiro que aparecer.** A primeira versao dizia
+`LT` + tres letras para municipio, e os exemplos usavam **duas convencoes diferentes**: `LTMAO`
+(Manaus) vinha do codigo IATA do aeroporto, e `LTMSP` vinha de "M de municipio + SP". Diante de
+"Legislacao Tributaria de Fortaleza", uma sessao geraria `LTFOR` e outra `LTMCE`, **e a que
+gravasse primeiro ganharia para sempre**, porque a sigla congela no nascimento.
+
+A segunda versao (minha) trocou isso por `LTM` + UF, mas deixou o nome curto para **o primeiro
+municipio daquele estado que aparecesse** — um arbitrio menor, da mesma familia. **Capital e fato;
+ordem de chegada e acidente.** Duas sessoes diante do mesmo municipio agora geram a mesma sigla.
+
+**Nao ha colisao entre estado e municipio:** `LT`+UF tem 4 caracteres e `LTM`+UF tem 5. Conferidos
+os casos capciosos: `LTMA` (Maranhao) x `LTMAM` (Manaus), `LTMS` (Mato Grosso do Sul) x `LTMSP`
+(municipio de Sao Paulo). Todos cabem nos 6 caracteres do orcamento de nome de pasta.
+
+**A formula PROPOE; o `nomes-congelados.csv` DECIDE.** Nenhuma formula garante unicidade: dois
+municipios de SP comecando com C colidem em `LTMSPC` de qualquer jeito. A formula existe para ser
+previsivel e legivel; o registro existe para ser verdadeiro. Conferir colisao **antes** de congelar.
+
+#### `LTMDF` NUNCA EXISTE
+
+O Distrito Federal **nao e dividido em municipios** (CF art. 32) e **concentra as competencias
+tributarias de estado e de municipio** (CF art. 147). Logo ISS, IPTU e ITBI no DF sao **lei
+distrital**, e `LTDF` carrega os dois blocos de conteudo.
+
+**Por que isso e trava e nao nota de rodape:** o TCDF e o pos-edital mais provavel, entao o DF e o
+primeiro ente que vai nascer. Quem aplicar a formula no automatico cria `LTDF` **e** `LTMDF`. Na
+melhor hipotese o `LTMDF` nasce vazio para sempre; na pior ele leva metade do conteudo do `LTDF`, e
+**os dois ficam pela metade sem ninguem perceber** — que e a falha cara, porque nao da erro.
+
+O **bloco 11** do `conferir.py` falha se `LTMDF` aparecer.
+
 ---
 
 **Duvida sobre algo que nao esta aqui?** Consulte `../DECISOES.md`.
