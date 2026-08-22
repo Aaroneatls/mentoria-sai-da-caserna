@@ -305,6 +305,9 @@ coordenador é o mais exposto, porque é quem acumula contexto de todo mundo.
 > Fixado em 22/08. **Dúvida de especialista vai para o coordenador, na hora**, e não para o Elvis —
 > nem "para ele decidir", nem "porque é decisão dele".
 >
+> **O que fechou foi um sentido só.** O Elvis fala com qualquer agente sempre que quiser; o que não
+> acontece é o agente procurá-lo por iniciativa própria.
+>
 > **Por que:** o agente que pergunta ao Elvis fica parado esperando uma aba que ele talvez não abra
 > tão cedo, e o coordenador fica esperando o agente. Duas esperas em série, por uma pergunta que
 > muitas vezes o coordenador responderia em segundos. Aconteceu duas vezes em 22/08.

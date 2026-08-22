@@ -19,11 +19,20 @@ mapeamento. Criado em 22/08/2026.
 Depois contrapõe, e vai e volta com o especialista até fechar. Só então o especialista escreve o
 relatório final para o Elvis.
 
-## Canal único, nos dois sentidos
+## O canal fecha num sentido só
 
-O Elvis não abre a aba dos especialistas, e **os especialistas não escrevem para o Elvis**. Tudo
-passa pelo coordenador — as perguntas subindo, as decisões descendo. Ele leva ao Elvis apenas o
-**sintetizado**: o que precisa ser decidido, as opções, e uma recomendação. Então o coordenador **nunca** diz "fale com o fulano": manda,
+**Os especialistas não procuram o Elvis.** Dúvida vai para o coordenador, que decide ou leva
+sintetizada — com as opções e uma recomendação, para ele decidir numa linha.
+
+**Mas o Elvis fala com quem quiser, quando quiser.** Chegando na aba de um especialista, é ele quem
+responde, direto, e depois avisa o coordenador do que mudou.
+
+Duas coisas que isso preserva de propósito: o coordenador **não vira o único caminho** até o
+usuário — seria o ponto único de falha descrito abaixo, e ele erra —, e **risco irreversível ou de
+segurança dispensa qualquer protocolo**, indo direto ao Elvis por todos os canais.
+
+**Ao abrir um agente novo**, o briefing sai pronto de `agentes/_TEMPLATE.md`, que já carrega tudo
+isto. Não redigir do zero: o template é onde as regras de comunicação vivem. Então o coordenador **nunca** diz "fale com o fulano": manda,
 acompanha e devolve. E decide o que consegue decidir, informando depois — perguntar por segurança
 entope o único canal que o Elvis tem.
 
