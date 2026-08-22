@@ -66,19 +66,16 @@ O prefixo de área faz o mesmo serviço: as abas de uma área ficam juntas em qu
 ordenada.
 
 ```
-PED · coordenador
-PED · acervo
-PED · taxonomia
-PED · conteúdo
-PED · questões
-PED · produção
+PEDAGÓGICO · coordenador
+PEDAGÓGICO · acervo
+PEDAGÓGICO · taxonomia
+PEDAGÓGICO · conteúdo
+PEDAGÓGICO · questões
+PEDAGÓGICO · produção
 ```
 
-**Por que o prefixo é curto e não `PEDAGÓGICO`:** título de aba trunca, e o que sumiria seria
-justamente a parte que distingue uma aba da outra. `PED · taxonomia` cabe inteiro.
-
 Isso já serve para o que vem: cada área do negócio terá o seu coordenador, e as abas de cada uma se
-agrupam sozinhas — `FIN ·` para o financeiro, `MKT ·` para o marketing, e assim por diante.
+agrupam sozinhas — `FINANCEIRO ·`, `MARKETING ·`, e assim por diante.
 
 **Ao abrir um agente, renomear a aba é parte da abertura.** O coordenador consegue renomear
 qualquer sessão, inclusive a sua própria.
@@ -486,6 +483,22 @@ e deu 30/30.
 **Reproduzir número alheio que muda o plano.** Quem recebe um número que altera uma decisão, mede de
 novo. Foi assim que se achou uma medição errada por 48 caracteres e um teto de 80 que nunca fora
 medido.
+
+> ### Teste de tabela envelhece; teste de linha não
+>
+> Formulação do `ESP-TAXONOMIA`, em 22/08, depois de a mesma falha aparecer duas vezes no mesmo dia
+> com roupas diferentes:
+>
+> - contando **por sigla** em vez de por par (sigla, área) — e `MATFIN` passou
+> - afirmando **"são 21 disciplinas"** — que virou mentira em dois dias, quando a família da
+>   legislação entrou
+>
+> **Teste que afirma uma propriedade da tabela inteira envelhece. Teste que afirma um invariante de
+> cada linha, não.** "São 21" durou dois dias; "sigla é única" e "toda sigla tem apelido" não
+> vencem nunca.
+>
+> Ao escrever uma conferência, prefira sempre a segunda forma. Contagem serve de diagnóstico no
+> relatório, não de teste.
 
 ---
 
