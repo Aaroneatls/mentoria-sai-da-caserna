@@ -400,3 +400,43 @@ Referência: ICMS: Substituição Tributária
 
 **Cada fonte guarda o rótulo dela** (ver a regra do rótulo de origem), porque é por ele que o
 aluno acha o material dentro daquela fonte.
+
+---
+
+## A32 — Janela de anos por matéria · fechado em 21/08/2026
+
+**Não é fixa. Define-se matéria a matéria**, e Claude propõe antes de coletar.
+
+| | |
+|---|---|
+| Alvo de acervo | **~2.500 questões** por matéria dentro de uma área |
+| Confortável | 3.000 já é um banco muito bom |
+| **Teto de janela** | **10 anos**, nunca mais |
+| Como medir | consulta de **contagem** por filtro — não precisa imprimir nem exportar planilha |
+
+O método: ir somando ano a ano na contagem até chegar perto de 2.500, e parar. Matéria muito
+cobrada fecha com poucos anos; matéria pouco cobrada precisa abrir mais, até o teto de 10.
+
+**Claude sugere, o Elvis confirma**, a cada matéria.
+
+Pode haver assunto sem questão mesmo assim — ver a regra de tópico sem acervo, que manda
+registrar e ignorar.
+
+---
+
+## A16 — PPPs e Convênios · fechado em 21/08/2026
+
+**Permanecem no escopo**, principalmente na área de Controle, mesmo não tendo item explícito no
+edital do TCDF.
+
+---
+
+## A11 — Questão inédita · fechado em 21/08/2026
+
+**Exige plano avançado do aluno.** Logo:
+
+- **cadernos separados** para inédita, nunca misturada com questão de prova real
+- provavelmente numa **conta própria**
+- uso principal em **pós-edital**
+
+Misturar quebraria o caderno para o aluno de plano padrão, e o problema apareceria na mão dele.
