@@ -104,6 +104,19 @@ Então:
   reproduzir, quando o número muda o plano.
 - Erro reconhecido entra no `APRENDIZADO.md` **com o mecanismo**, não só com a correção.
 
+> ### REGRA — o coordenador lê o `ESTADO` antes de diagnosticar
+>
+> Ao retomar um agente depois de queda, o coordenador **lê `agentes/<NOME>-ESTADO.md` antes** de
+> escrever qualquer diagnóstico do que ficou por fazer. Não existindo o arquivo, ele diz *"não sei
+> onde você parou, me conta"* — **não infere**.
+>
+> Em 22/08 o coordenador presumiu que um relatório não tinha saído; tinha, e o Elvis já o lera.
+> Um agente menos teimoso teria refeito trabalho pronto, porque **inferência de coordenador chega
+> com autoridade**.
+>
+> É a mesma falha dos outros três erros daquele dia, numa forma nova: não um **número inventado**,
+> mas um **estado presumido**. Vale para ambos: nem número nem estado se afirmam sem verificar.
+
 ---
 
 ## 4 · O ciclo de entrega
@@ -124,6 +137,16 @@ Então:
 
 **O relatório para o coordenador não é entregável.** É a abertura da discussão. O entregável é o que
 sobra depois dela.
+
+> ### O relatório final é ARQUIVO, não mensagem
+>
+> `agentes/<NOME>-RELATORIO.md`, sobrescrito a cada entrega. Mensagem morre com a sessão, e um
+> relatório que só existe na conversa **não existe** (seção 0).
+>
+> Nasceu de um caso concreto em 22/08: o coordenador afirmou que o relatório final do
+> `ESP-DISCIPLINAS` não tinha saído. Tinha — o Elvis já o havia lido. O coordenador errou por
+> presumir, **e não tinha como conferir**, porque relatório entregue por mensagem não deixa rastro
+> no repositório. Os dois lados do problema foram corrigidos: a regra abaixo e este arquivo.
 
 **Os seis pontos que todo relatório traz:**
 

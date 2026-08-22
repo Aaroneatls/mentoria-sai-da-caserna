@@ -377,52 +377,83 @@ Ela devolve `id` + `nome` de cada pacote — é a fonte pra preencher a aba
 matriculado ou não. Só descer pra `type=curso` quando o alvo for reconhecidamente
 uma disciplina avulsa.
 
-## Passo 2: Definir o nome da pasta do curso
+## Passo 2: Nomear a pasta da disciplina (padrão `bases/NOMENCLATURA.md`)
 
-Padrão fixo (sempre seguir esse formato):
+> **Reescrito em 22-08-2026, autorizado pelo Elvis** (`agentes/AUTORIZACOES.md`).
+> O padrão antigo `Matéria (SIGLA_CONCURSO-SIGLA_CARGO) (DD-MM-AAAA)` **está
+> extinto** — não conviver com ele, não usar como alternativa. Ele repetia no
+> nome da pasta o concurso que o nível de cima já dizia, e foi a causa medida do
+> caminho de 263 caracteres contra o limite de 260 do Windows.
+
+### O formato
 
 ```
-Matéria (SIGLA_CONCURSO-SIGLA_CARGO) (DD-MM-AAAA)
+<SIGLA> - <Nome que a fonte usa> (<DD-MM-AAAA>)
 ```
 
-Exemplo: `Direito Constitucional (TCDF-ANACE) (18-08-2026)`
+Exemplo: `DCONST - Direito Constitucional (18-08-2026)`
 
-- Sintetizar o nome da matéria se for muito extenso.
-- Sempre entre parênteses: sigla do concurso, traço, sigla do cargo.
-- **A data no final, entre parênteses, é a data da última vez que essa pasta
-  foi criada/atualizada por essa skill** — confirmado pelo Elvis em
-  2026-08-18. Na criação da pasta (download novo), é a data de hoje (data do
-  carregamento inicial das aulas). Numa atualização (Passo 3), essa data é
-  **recalculada pra hoje** no final do processo (Passo 7) — nunca acumular
-  datas antigas, sempre substituir pela mais recente. Serve pra saber, só
-  olhando o nome da pasta, quando aquela disciplina específica foi mexida pela
-  última vez — importante porque é comum atualizar só uma disciplina por vez,
-  sem tocar nas outras do mesmo pacote.
-- **Conferir a data de hoje no ambiente antes de montar o nome** — não copiar a
-  data das pastas vizinhas nem as datas citadas ao longo desta skill. Erro real
-  em 19-08-2026 (pacote ISS Manaus, skill irmã): as pastas já existentes eram
-  de `(18-08-2026)` e tudo nasceu com o sufixo de ontem, obrigando a corrigir
-  pastas, placeholders `.txt` e planilhas depois. A mesma data vale pro texto
-  do `.txt` de aula travada e pra coluna "Data desta Verificação" da planilha.
-- **Matéria com nome repetido no mesmo pacote:** se já existir (ou vier a
-  existir) outra pasta de matéria com esse mesmo nome dentro do mesmo pacote
-  — caso real: um pacote com duas matérias "Contabilidade Geral e Avançada",
-  uma por professor — usar um diferenciador no nome da pasta pra não colidir.
-  O mais confiável costuma ser o nome do professor, que aparece no título
-  completo do curso no site (ex: "Curso Básico de Contabilidade Geral e
-  Avançada (Prof. Gilmar Possati)" → pasta `Contabilidade Geral e Avançada -
-  Gilmar Possati (SIGLA-SIGLA)`). Se não houver professor único, usar outro
-  elemento do título que diferencie (diploma legal, sigla de norma etc).
-  Reconhecer esse padrão sozinho ao notar o nome duplicado — não precisa
-  perguntar ao usuário. Confirmado pelo Elvis em 2026-08-18.
-- Esse é o padrão definitivo — não trocar sem o usuário pedir explicitamente.
-- **Limite de caminho do Windows (260 caracteres):** antes de criar a pasta,
-  estimar o tamanho do caminho completo (`pasta raiz + \ + nome da matéria +
-  \ + nome de arquivo mais longo esperado`). Está autorizado a sintetizar o
-  nome da matéria (e, se precisar, o nome dos arquivos de aula) sempre que
-  isso ameaçar estourar o limite — não é preciso perguntar ao usuário toda vez,
-  só nos casos ambíguos. Ver orçamento de caracteres sugerido nos "Detalhes
-  técnicos e pegadinhas" abaixo.
+| Parte | De onde vem | Teto |
+|---|---|---|
+| `<SIGLA>` | `bases/01-disciplinas/dados/renomear-pastas.csv`, coluna `sigla` | — |
+| `<Nome que a fonte usa>` | o nome do curso **no Estratégia**, sintetizado se preciso, **nunca traduzido** | 45 com a sigla |
+| `(<DD-MM-AAAA>)` | data desta atualização **desta disciplina** (REGRA 9) | 13 |
+
+**A pasta do concurso (nível 1) NÃO leva data** — ela desceu para cá em
+22-08-2026. Motivo: com o modo `atualizar`, a atualização é **por disciplina**;
+uma data no nível do concurso passa a mentir assim que uma única matéria for
+atualizada. **Não pode ficar nos dois lugares:** são duas versões da mesma
+verdade, e elas divergem.
+
+**Nunca repetir aqui o concurso, o cargo nem o tipo de curso.** Eles já estão nos
+níveis de cima (REGRA 1).
+
+### A sigla
+
+Sai do `renomear-pastas.csv`, coluna `pasta_nova`, que já vem com a regra 1
+aplicada e conferida contra o teto de caracteres. Casar pela coluna
+`pasta_atual_no_disco`, **por igualdade**, nunca por prefixo.
+
+**Linha marcada `pendente` fica com o nome atual, sem prefixo.** Nunca chutar
+sigla: sigla errada contamina o Cód Mestre, que é o número que não pode mudar
+depois de publicado. Pasta sem sigla qualquer um vê que falta; pasta com sigla
+errada ninguém percebe.
+
+**Se a disciplina não estiver no CSV** (curso novo), gravar sem prefixo e
+registrar a falta no relatório final, para a base 1 atribuir a sigla depois.
+
+### Depois de renomear, devolver o estado
+
+Toda renomeação **atualiza a coluna `pasta_atual_no_disco`** do
+`renomear-pastas.csv` com o nome novo. Sem isso o CSV vira histórico em vez de
+estado, e o `conferir` da base 1 deixa de casar. Gravar também o log
+`de -> para` num CSV na pasta de logs — renomeação é reversível, mas só com log.
+
+### Duas matérias com o mesmo nome no mesmo curso
+
+Caso real: duas "Contabilidade Geral e Avançada", uma por professor. Diferenciar
+pelo nome do professor, que aparece no título do curso no site:
+
+```
+CONTAB - Contabilidade Geral e Avançada - Possati (18-08-2026)
+CONTAB - Contabilidade Geral e Avançada - Cardozo (18-08-2026)
+```
+
+**A mesma sigla nas duas é esperado e correto** — são a mesma disciplina nossa,
+dois professores. Não forçar numa pasta só. Reconhecer o padrão sozinho, sem
+perguntar ao usuário.
+
+### Comprimento
+
+O que manda **não é a soma dos tetos, é o caminho real chegar a 240**. Se chegar,
+**quem encurta é o nome do ARQUIVO, nunca o da pasta** (REGRA 10): a pasta é
+identidade e aparece em toda a base; o nome do arquivo é descrição e os títulos
+do Estratégia trazem gordura de sobra. Encurtar pelo fim do tema, preservando
+sempre `Aula NN`, a versão (`LS`/`LC`) e a data.
+
+**Conferir a data de hoje no ambiente antes de montar o nome** — não copiar das
+pastas vizinhas nem das datas citadas nesta skill. Erro real em 19-08-2026: tudo
+nasceu com a data de ontem e obrigou a corrigir pastas, placeholders e planilhas.
 
 ## Passo 3: Procurar pasta existente antes de criar (detecção automática)
 
@@ -1216,45 +1247,43 @@ formato dentro de uma pasta de curso, isso indica que aquela aula específica ai
 não tinha o livro liberado no momento em que os dados foram coletados — não é um
 erro nem um arquivo esquecido.
 
-## Passo 7: Nomear a pasta com indicador de progresso (N-M) e data de atualização
+## Passo 7: Fechar o nome da pasta — pendência `(N-M)` e data
 
-Depois de processar todas as aulas do curso:
+> **Reescrito em 22-08-2026.** Duas mudanças em relação ao que estava aqui: o
+> `(N-M)` passou do **começo para o FIM** do nome (REGRA 6), e a data do
+> **pacote** deixou de ser atualizada (REGRA 9 — a data mora na disciplina).
 
-1. Contar **M** = total de aulas do curso e **N** = quantas delas realmente têm
-   PDF baixado (arquivos `.pdf` de verdade, não os `.txt` placeholder do Passo 6).
-2. **Se N < M** (curso incompleto): renomear a pasta pra começar com `(N-M) `,
-   ex: `(10-20) Direito Administrativo (SIGLA-SIGLA) (18-08-2026)` (10 aulas
-   com PDF já disponível, de um total de 20 aulas no curso). O indicador fica
-   **entre parênteses, colado direto no nome da matéria** — sem traço
-   separando os dois, só um espaço. **Usar traço dentro do parênteses (`N-M`),
-   nunca barra (`N/M`)** — barra é separador de caminho no Windows e quebra o
-   `Rename-Item` (confirmado na prática: tentar renomear com `/` lança erro
-   "representa um caminho ou nome de dispositivo").
-3. **Se N == M** (curso completo): a pasta fica sem o prefixo `(N-M)`, só
-   `Direito Administrativo (SIGLA-SIGLA) (18-08-2026)`.
-4. **Atualizar também o sufixo de data no final do nome pra data de hoje** (ver
-   regra no Passo 2) — nessa mesma operação de renomear, sempre, independente
-   de N ser igual ou menor que M. Isso registra quando essa disciplina
-   específica foi mexida pela última vez.
-5. **Modo atualização:** antes de recalcular, remover qualquer prefixo `(N-M) `
-   e qualquer sufixo de data antigo que a pasta já tenha (de uma execução
-   anterior) pra não acumular — sempre recalcular do zero e renomear com os
-   números e a data atuais.
-6. **Sempre renomear a pasta existente com `Rename-Item` (ou equivalente) —
-   nunca apagar a pasta e recriar do zero pra aplicar esse prefixo/data.**
-   Apagar e recriar perde a pasta original (e qualquer PDF real já baixado
-   nela) e conta como criar uma pasta nova, não atualizar a existente.
-7. **Se essa pasta de matéria estiver dentro de uma estrutura de pacote**
-   (identificável por ter uma pasta de categoria como `Curso Regular` ou
-   `Passo Estratégico` entre a pasta raiz do pacote e a pasta da matéria —
-   ver `baixar-curso-completo-estrategia`), **atualizar também o sufixo de
-   data da pasta do pacote** (a pasta-avó, dois níveis acima) pra data de
-   hoje — mesmo mexendo só nessa disciplina, o pacote como um todo teve
-   atividade recente e isso deve refletir no nome da pasta-mãe.
+Depois de processar todas as aulas:
 
-Isso deixa visível, só olhando o nome da pasta no Explorer, se o curso ainda tem
-aula pendente de liberação pelo site ou já está 100% baixado, e quando essa
-disciplina foi mexida pela última vez.
+1. Contar **M** = total de aulas do curso e **N** = quantas têm PDF de verdade
+   (não os `.txt` placeholder do Passo 6).
+2. **Se N < M**, a pasta recebe `(N-M)` **no fim do nome, antes da data**:
+
+   ```
+   LTRIB - Legislação Tributária Municipal (3-14) (22-08-2026)
+   ```
+
+   **Nunca no começo.** `(3-14) Legislação...` faz o parêntese ordenar antes de
+   qualquer letra, e todas as pastas com pendência sobem juntas para o topo,
+   agrupadas pelo **defeito** em vez de pela disciplina — brigando de frente com
+   o prefixo de sigla, que existe justamente para agrupar.
+
+   **Traço dentro do parêntese (`N-M`), nunca barra (`N/M`)** — barra é separador
+   de caminho no Windows e quebra o `Rename-Item` com o erro "representa um
+   caminho ou nome de dispositivo".
+3. **Se N == M**, a pasta fica sem a marca: `LTRIB - Legislação Tributária Municipal (22-08-2026)`.
+4. **Atualizar a data desta disciplina** para hoje, nessa mesma renomeação,
+   independente de N ser igual ou menor que M.
+5. **NÃO tocar na data da pasta do concurso.** Ela não tem data (REGRA 9). Se
+   encontrar uma data lá, de execução antiga, **remover** — duas versões da mesma
+   verdade divergem, e a do nível de cima mente assim que uma disciplina é
+   atualizada sozinha.
+6. **Antes de recalcular, limpar o que a pasta já tem**: remover marca `(N-M)`
+   antiga (do começo ou do fim) e data antiga, para não acumular.
+7. **Renomear em cima, sempre** (REGRA 4) — nunca apagar e recriar. Apagar perde
+   os PDFs já baixados e, se o download falhar no meio, perde tudo.
+8. **Atualizar o `renomear-pastas.csv`**: a coluna `pasta_atual_no_disco` recebe
+   o nome novo, e o log `de -> para` vai para o CSV da pasta de logs.
 
 ## Passo 8: Validação final (obrigatória — sempre rodar antes de dar o curso como concluído)
 
@@ -1343,13 +1372,35 @@ maior na skill `baixar-curso-completo-estrategia`, Passo 11).
    hora, explicando o erro encontrado. Só considerar Excel local como último
    recurso se o próprio usuário disser que não vai conseguir reautorizar
    agora.
-2. **Nome do arquivo:** `<Nome da Matéria> (SIGLA-SIGLA) - Metadados` — sem o
-   sufixo de data (é um documento único que se atualiza, não recriado a cada
-   execução).
+2. **Nome do arquivo:** `<SIGLA> - Metadados` — ex. `DCONST - Metadados`.
+   **Reescrito em 22-08-2026:** o padrão antigo era
+   `<Nome da Matéria> (SIGLA-SIGLA) - Metadados`, e foi exatamente ele que gerou
+   o caminho de **263 caracteres**, acima do limite de 260 do Windows — repetia a
+   disciplina que a pasta já dizia e o concurso que o nível de cima já dizia
+   (REGRA 1). Sem sufixo de data: é documento único que se atualiza.
+   **Disciplina sem sigla** (linha `pendente` no `renomear-pastas.csv`): usar o
+   nome da pasta sem o concurso, ex. `Reforma Tributária - Metadados`.
+2b. **Junto da planilha, gravar `_manifesto.csv` na mesma pasta**, com o mesmo
+   conteúdo da aba `Aulas`. Planilha publicada é **vista, nunca fonte**: quem lê
+   o levantamento (a base 2) não pode depender de OAuth nem de rede, e precisa de
+   `git diff`. Os dois saem da **mesma estrutura em memória**, na mesma passada —
+   nunca um a partir do outro, senão divergem. O CSV é gravado **antes** de
+   qualquer chamada de rede, para que um `429` do Sheets não derrube a execução.
 3. **Se já existir uma planilha de metadados na pasta** (modo atualização):
    abrir e **ler o Curso ID registrado antes de sobrescrever qualquer coisa**
    — é o dado que o Passo 3 usa pra comparar contra o ID atual da URL.
-4. **Aba "Aulas"** — colunas: `Rótulo (Aula)`, `Assunto`, **`Versão do Livro`**,
+4. **Aba "Aulas"** — acrescentar, sem reescrever as existentes, as colunas
+   `Sigla Disciplina`, `Hash Conteúdo` e `Alterado em`.
+   **Por que `Sigla Disciplina` e não `Cód Mestre`:** o Cód Mestre é do TÓPICO, e
+   bloco x tópico é **muitos para muitos** (`bases/DECISOES.md`, A14). Uma coluna
+   única de Cód Mestre aqui afirmaria que uma aula tem um tópico só — o oposto do
+   desenho. O vínculo com o tópico vive inteiro na tabela de pares da base 2.
+   **Aviso obrigatório sobre o `Hash Conteúdo`:** o texto extraído do PDF local
+   **contém a marca d'água** (`<CPF> - <Nome>`). Linha de base calculada sem
+   filtrar faz todo hash futuro divergir e dá **falso positivo em 100% das
+   aulas** na execução seguinte. Filtrar o padrão de 11 dígitos + hífen + nome
+   antes de hashear (REGRA 8).
+   Colunas originais: `Rótulo (Aula)`, `Assunto`, **`Versão do Livro`**,
    `Status` (Baixado/Baixado (conferido)/Suspeito, com cor condicional
    verde/vermelho — ver os três status logo abaixo), `Data de Elaboração (PDF)`,
    `Data desta Verificação`, `Palavras-chave batidas`, `Total palavras-chave`,

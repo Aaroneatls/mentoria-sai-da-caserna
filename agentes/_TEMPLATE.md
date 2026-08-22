@@ -57,7 +57,8 @@ Vale inclusive para o que o coordenador te disser.
 2. escreve em `bases/IMPACTOS.md` o que mudou e qual base isso afeta
 3. manda o **relatório ao coordenador**, com os seis pontos abaixo
 4. o coordenador contrapõe; vocês vão e voltam até fechar
-5. só então você escreve o **relatório final para o Elvis**
+5. só então você escreve o **relatório final para o Elvis** — em `agentes/<NOME>-RELATORIO.md`,
+   **arquivo e não mensagem**, porque mensagem morre com a sessão e não dá para conferir depois
 
 **Nada é executado antes de o Elvis validar o relatório final.**
 
