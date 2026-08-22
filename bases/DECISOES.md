@@ -440,3 +440,41 @@ edital do TCDF.
 - uso principal em **pós-edital**
 
 Misturar quebraria o caderno para o aluno de plano padrão, e o problema apareceria na mão dele.
+
+---
+
+## Filtrar por ÁREA do concurso · levantado em 22/08/2026
+
+**Furo no critério de coleta.** O filtro combinado era `assunto + banca + ano`, e ele **não olha o
+cargo**. Entra questão de Contabilidade cobrada em prova de **Contador**, muito mais profunda do
+que o que se cobra de Auditor Fiscal, e questão de TI cobrada em prova de Analista de TI.
+
+O Tec tem o filtro: `/api/enums/areas` devolve valores como `FISCAL` e `GESTAO_CONTROLE_TRIBUNAIS`,
+e há filtros de cargo e profissão.
+
+**O critério passa a ser `assunto + banca + ano + área`.**
+
+**Mas medir antes de aplicar.** Filtro de área restritivo demais troca contaminação por escassez:
+uma disciplina pode ter 5.463 questões sem ele e 1.200 com. Ao definir a janela de anos de cada
+matéria, medir **as duas contagens, com e sem área**, e mostrar lado a lado. Custa 1 chamada a
+mais por matéria.
+
+---
+
+## Medir o tempo de estudo · desenho de 22/08/2026
+
+A Tutory pede minutagem por meta ("estude 120 min"). Três componentes, três fontes:
+
+| Componente | De onde vem | Qualidade |
+|---|---|---|
+| **Teoria** | páginas do bloco x minutos por página | precisa calibrar |
+| **Questões** | **`tempoMedio` do Tec**, por questão, em segundos | **dado real**, média de milhares de alunos |
+| **Releitura do resumo** | páginas do resumo x ritmo mais leve | precisa calibrar |
+
+O componente de questões é o mais sólido: `GET /api/questoes/{id}/desempenho` traz `tempoMedio`
+(na amostra de 21/08, 71 segundos). Um caderno de 30 questões soma o tempo real das 30, em vez de
+um "2 minutos por questão" inventado.
+
+**Calibrar a teoria com dado do próprio público.** O painel do aluno tem "Tempos de Estudos" e
+"Horas Líquidas (cronômetro)". Se esses dados forem acessíveis, o minutos-por-página sai do
+comportamento real dos alunos do Elvis, e não de estimativa.

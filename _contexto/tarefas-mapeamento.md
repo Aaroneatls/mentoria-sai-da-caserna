@@ -41,6 +41,7 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | A20 | Slide e mapa mental por bloco de vídeo | material complementar entrar no plano |
 | A4 | Critérios extras da Curva ABC | a base de pesos estiver cheia |
 | A30 | "Técnica de Estudos" é do plano ou do tópico? | na skill da Tutory |
+| A35 | **Minutos por página** da teoria: estimar ou calibrar com os dados dos alunos? | ao montar o 1º plano |
 | A29 | Hospedagem da página de orientação | a base alimentar a página |
 
 ---
@@ -66,7 +67,7 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B9 | Cruzamento Fiscal × Controle: quais tópicos são compartilhados | não |
 | B12 | Reaproveitamento de teoria entre áreas | não |
 | B14 | Cadência de revalidação de páginas | não |
-| B23 | Materiais complementares do Estratégia (resumos e mapas mentais) | não |
+| B23 | Materiais complementares do Estratégia (resumos e mapas mentais) — **sessão própria** | não |
 | B25 | Os 7 pontos de decisão de `estrategia-padroes-pdf.md` | não |
 | B24 | Trava de caminho longo do Windows nas skills de download | não |
 
@@ -93,6 +94,8 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B45 | Apagar os `ZZ-COLETA` e limpar `coletor_src` do navegador | sim, higiene |
 | B27 | Apagar o caderno `101395596` (banca ESAF) pela lixeira | sim, higiene |
 | B53 | Definir a janela de anos **por matéria**, mirando ~2.500 questões e teto de 10 anos | antes de cada coleta |
+| B55 | **Filtro de área do concurso** no critério de coleta, medindo com e sem antes de aplicar | **antes da 1ª coleta** |
+| B56 | Coletar `tempoMedio` das questões, para a minutagem do plano | junto do fichamento |
 | B44 | Caderno-base com fatias por `questaoInicial`, em vez de um temporário por lote | não |
 | B43 | Testar criar caderno vazio: cairia de 5 para 3 requisições | não |
 | B5 | Camada de **ponto**: ler o enunciado e ligar ao tópico | sim, sustenta os cadernos |
