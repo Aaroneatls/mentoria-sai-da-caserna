@@ -9,10 +9,13 @@
 
 | # | O quê | Por que agora | Com quem |
 |---|---|---|---|
-| **1** | **Ler o diff dos 4 passos** das skills de download | é a única coisa entre nós e a execução | `Acervo` |
-| **2** | **Liberar (ou segurar) a base 3** — a árvore do Tec | ela perguntou direto e está parada esperando | `Taxonomia` |
-| **3** | Ler o relatório do `atualizar` do **Regular Controle** | antes de soltar o Fiscal, que é o triplo do tamanho | `Acervo` |
-| **4** | Abrir o **`ESP-CONTEUDO`** (base 2) | o coordenador entrega o prompt pronto | novo agente |
+| ~~1~~ | ~~diff dos 4 passos~~ **aprovado em 22/08** | — | — |
+| ~~2~~ | ~~árvore do Tec~~ **puxada:** 4.805 assuntos, 30 matérias | — | — |
+| **1** | Ler o relatório do `atualizar` do **Regular Controle** | antes de soltar o Fiscal, que é o triplo do tamanho | `Acervo` |
+| **2** | Abrir o **`ESP-CONTEUDO`** (base 2) | o prompt já está pronto em `ESP-CONTEUDO-ABERTURA.md` | novo agente |
+
+**Escopo desta rodada:** só `Regular Fiscal` e `Regular Controle`. O `Pacotaço TCDF` e o
+`ISS Manaus` ficam de fora — o Elvis vai **excluí-los** depois, então não se gasta trabalho neles.
 
 Nada além disso está bloqueado nele.
 

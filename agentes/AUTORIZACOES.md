@@ -32,6 +32,9 @@
 | 22/08/2026 | **Desmembrar a `LTRIB`** em `LTEST`, `LTMUN` e `LTFED`, mais família por ente. Palavras dele: *"Pra mim tá show."* **O esquema de siglas foi refinado depois — ver a linha seguinte, que é a que vale.** | `ESP-TAXONOMIA` |
 | 22/08/2026 | **Esquema de siglas por ente, versão final.** Estado `LT`+UF · município capital `LTM`+UF · município não-capital `LTM`+UF+inicial · **Distrito Federal `LTDF` e só** (não existe `LTMDF`) · empate resolvido pelo `nomes-congelados.csv`, nunca pela fórmula. Aprovação **geral**, nas palavras dele: *"em relação ao OK e às decisões que você tomou, sou de acordo"* — dita logo após o coordenador apresentar este esquema. | `ESP-TAXONOMIA` |
 
+| 22/08/2026 | **Renomeação aprovada e execução liberada.** `<SIGLA> - <Disciplina> (DD-MM-AAAA)` nas pastas e `<SIGLA> - Metadados` nas planilhas. Palavras dele: *"Em relação à renomeação, tá ok"* e *"pode dar sequência aí"*. | `ESP-ACERVO` |
+| 22/08/2026 | **Escopo: só os dois Regulares.** `Pacotaço TCDF` e `ISS Manaus` **não** são atualizados agora, e ele **vai excluí-los depois** — então não gastar trabalho neles. Palavras dele: *"esses cursos depois eu vou excluir o ISS Manaus e o do TCDF"*. **A exclusão é dele, não de agente.** | `ESP-ACERVO` |
+
 ---
 
 ## O que NUNCA é autorizado
