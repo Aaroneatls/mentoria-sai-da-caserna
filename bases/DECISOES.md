@@ -6,6 +6,28 @@
 
 ---
 
+## Discursiva nao entra como disciplina · fechado em 22/08/2026
+
+O curso **"Concursos da Area Fiscal - Curso Basico de Discursiva (Sem Correcao)"**
+(id 268932) esta dentro do pacote Regular Fiscal (220865) e vem com
+`tipo_curso_id = 1`. Pela regra "o que nao esta no Curso Regular nao entra", ele
+seria candidato a disciplina.
+
+**Decisao do Elvis: NAO entra como disciplina.** E treino de producao de texto, e o
+modelo do projeto (topico -> ponto -> questao objetiva -> caderno do Tec) nao se
+aplica a ele.
+
+Existe ainda um segundo produto no catalogo, **"Curso Basico de Correcao Analitica
+de Discursiva (3 Correcoes por aluno)"** (id 268941), que **nao** esta dentro do
+pacote 220865 — e avulso. Sao dois produtos diferentes, um com correcao e outro
+sem, e nenhum dos dois vira disciplina.
+
+**Consequencia:** o Regular Fiscal tem 25 cursos de tipo 1, dos quais a Discursiva
+sai por esta decisao e o "Sistema de Questoes 1 Ano" sai por nao ser curso. Reforca
+a regra de que **`tipo_curso_id = 1` nao garante disciplina**.
+
+---
+
 ## Marca d'agua do Estrategia: CPF e nome no texto extraido · fechado em 22/08/2026
 
 > **Trava de vazamento. Roda na EXTRACAO, antes de qualquer consumo do texto.**

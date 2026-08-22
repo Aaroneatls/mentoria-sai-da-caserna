@@ -105,18 +105,43 @@ Existe mesmo quando só há um tipo, porque a estrutura tem de ser previsível p
 | `LS` / `LC` | livro simplificado ou completo. **O simplificado é o padrão**; o completo entra quando não existe simplificado |
 | O tema | vem **da capa do PDF**, não do rótulo do site, quando os dois divergirem |
 
-### Nível 4b — Apoio
+### Nível 4b — Apoio (resumo e mapa mental)
 
-Subpasta `Apoio - Resumos e Mapas Mentais`, **única por disciplina**, sem subpasta por aula: o
-mesmo arquivo serve vários vídeos e às vezes aulas diferentes. **Aula é circunstância, não
-identidade** — vira coluna na base, não pasta.
+Subpasta `Apoio - Resumos e Mapas Mentais`, **única por disciplina, sem subpasta por aula**.
 
 | Prefixo | O que é |
 |---|---|
 | `R - ` | resumo |
 | `MM - ` | mapa mental |
 
-Slug curto, até 40 caracteres.
+```
+DADM - Direito Administrativo└── Apoio - Resumos e Mapas Mentais    ├── MM - Atos Administrativos.pdf
+    ├── MM - Improbidade Administrativa.pdf
+    ├── R - Atos Administrativos.pdf
+    └── R - Poderes Administrativos.pdf
+```
+
+> ### REGRA 7 — o nome do apoio leva o ASSUNTO, nunca a aula
+>
+> **Por que sem subpasta por aula:** o mesmo arquivo serve vários vídeos e às vezes aulas
+> diferentes. Subpasta obrigaria a duplicar (e as cópias divergem) ou a esconder o arquivo das
+> outras aulas.
+>
+> **Por que o nome não leva a aula:** se o arquivo serve as aulas 6, 7 e 9, chamá-lo de
+> `R - A06 - ...` **mente** para as outras duas. Aula é circunstância, não identidade — vira
+> **coluna** na base, e pode ter mais de um valor.
+>
+> **Por que o assunto:** é como um humano procura ("o resumo de Improbidade", não "o resumo da
+> aula 16"), e é como a correlação funciona — a API não diz que páginas do livro o vídeo cobre,
+> então o vínculo com o bloco é **por assunto**. O nome já carrega o que vai ser usado.
+
+**O slug vem da capa do PDF**, não do título do vídeo, quando os dois divergirem (regra 5). Se a
+capa não tiver título utilizável, cai para o título do vídeo, e a base registra qual fonte foi
+usada. Até 40 caracteres.
+
+**Volume esperado:** o piloto de Direito Constitucional deu 12 resumos e 20 mapas mentais, 32
+arquivos. O prefixo já agrupa por tipo e o resto ordena por assunto, então não precisa subdividir.
+**Se alguma disciplina passar de ~60 arquivos**, aí sim reavaliar.
 
 ---
 

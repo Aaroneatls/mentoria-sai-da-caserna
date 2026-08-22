@@ -74,6 +74,18 @@ Medido em 22/08/2026: **"Sistema de Questoes 1 Ano - Cartao ate 12 x"** (id 1432
 
 Filtrar por tipo nao basta. Conferir o nome e excluir explicitamente o que nao for materia.
 
+## A DISCURSIVA nao e disciplina
+
+Decisao do Elvis em 22/08/2026. Ela existe no pacote do Regular Fiscal (cursos 268932 e 268941),
+mas **nao entra nas 21**: e treino de producao de texto, e o modelo do projeto
+(topico -> ponto -> questao objetiva -> caderno do Tec) nao se aplica a ela.
+
+Registrado para ninguem reabrir daqui a um mes achando que foi esquecimento. **Nao e furo de
+levantamento, e decisao.**
+
+Pelo mesmo motivo fica de fora o **"Sistema de Questoes 1 Ano"** (143237), que nem curso e — e
+assinatura, e vem com `tipo_curso_id = 1` igual a uma disciplina.
+
 ---
 
 **Duvida sobre algo que nao esta aqui?** Consulte `../DECISOES.md`.
