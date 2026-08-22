@@ -200,3 +200,46 @@ citação do Elvis, e foi aplicado por ser reversível — **nenhum ente nasceu 
 precisa ser corrigido por quem o mantém.
 
 **Próximo passo:** base 3 (árvore de assuntos do Tec), ~29 chamadas, aguardando o Elvis liberar.
+
+---
+
+## Ponto de retomada · 22/08/2026, antes de o Elvis reiniciar a máquina
+
+**Nada em andamento. Árvore de trabalho limpa, tudo commitado e no `origin`.**
+
+### O que está pronto
+
+| | Estado | Commit |
+|---|---|---|
+| **Base 1** · disciplinas | **fechada** — 23 disciplinas, 432 apelidos, 32 áreas, 34 pastas (33 prontas, 1 pendente) | `32590d7` |
+| **Base 3** · árvore do Tec | **puxada** — 4.805 assuntos, 30 matérias, até 6 níveis | `0d65be5` |
+| Relatório dos dois | `agentes/ESP-TAXONOMIA-RELATORIO.md`, pelos seis pontos, método na frente | `8559b20` |
+
+`python bases/01-disciplinas/conferir.py` → 11 blocos, todos passando. **Rodar isto primeiro ao
+voltar**: é a checagem mais barata de que nada se corrompeu no reinício.
+
+### Os dois itens que o coordenador listou como pendentes JÁ FORAM FEITOS
+
+Ele mandou o aviso do reinício antes de receber a minha resposta. Os dois estão no `8559b20`:
+
+1. o relatório da árvore do Tec pelos seis pontos;
+2. as 30 chamadas com o parâmetro errado — está na seção 6 do relatório, com o que eu tiro delas:
+   **não foi desconfiança que me salvou, foi um número do documento que não bateu com o meu.**
+
+### O que falta, e não depende de mim
+
+- **vínculo assunto do Tec → Cód Mestre**: depende da base 2 existir. Não antecipar.
+- **base 6** (editais): não começou.
+- **1 pasta pendente** (`Reforma Tributaria`): virou separação de bloco na base 2.
+
+### Aviso aberto para o ESP-ACERVO
+
+Meu commit **`522e1b6`** varreu, por `git add -A`, **410 linhas** das duas skills
+`baixar-curso-*-estrategia`, que são dele. Nada se perdeu, mas o histórico atribui o trabalho a um
+commit meu sobre outro assunto. Ele decide se corrige. **Já adotei `git add <caminho>`.**
+
+### O furo declarado da base 3
+
+A varredura de ramos cruzados é **por palavra-chave de uma lista que eu escrevi**. Achou 4 casos, e
+**não prova que não há um quinto**. Não fiz amostragem cega aqui porque não há gabarito barato:
+julgar uma amostra de ramos é o trabalho inteiro, não a conferência dele. Continua em aberto.
