@@ -6,6 +6,84 @@
 
 ---
 
+## O NOME DA DISCIPLINA é congelado, igual à sigla · fechado em 22/08/2026
+
+**Até hoje o irreversível era só o Cód Mestre. Agora o `nome_canonico` tem o mesmo estatuto.**
+
+**O mecanismo, e é de plataforma:** a Tutory reconhece que o aluno já estudou um assunto comparando
+**nome do assunto + NOME DA DISCIPLINA** entre planos. Se o nome da disciplina mudar — **ainda que
+por um único espaço** — a plataforma trata como disciplina nova e **o histórico do aluno se perde**.
+
+Não é hipótese. O `fontes/tutory.txt` tem `Direito Administrativo (Fiscal/ Controle)` e
+`Direito Administrativo (Fiscal/Controle)`, que diferem por um espaço e são duas entradas distintas
+na plataforma até hoje.
+
+| | |
+|---|---|
+| `sigla` | irreversível |
+| **`nome_canonico`** | **irreversível também** |
+| apelido de fonte | muda à vontade, e é gravado literal, com erro e tudo |
+
+### O que isso decide na prática
+
+**Ao carregar plano novo na Tutory vai o NOSSO nome, nunca o legado.** Os 168 nomes legados servem
+como conhecimento para a migração (A28) — nunca como alvo a imitar. A troca dos antigos é passada
+própria, depois.
+
+**Disciplina nossa que cobre várias matérias da fonte tem UM nome só.** `Tecnologia da Informação`
+é um nome, mesmo o Tec fatiando em 10 matérias e o Estratégia em 2 cursos. **O fatiamento da fonte
+vira apelido, nunca nome novo.**
+
+### Travado, não só documentado
+
+Documento não impede alguém de "arrumar" um nome seis semanas depois.
+`bases/01-disciplinas/dados/nomes-congelados.csv` guarda o par (sigla, nome) com data e motivo, e o
+**bloco 11** do `conferir.py` **falha** se o nome divergir, ganhar espaço sobrando ou duplicado.
+Testado com `Direito  Administrativo` (espaço duplo): a conferência derrubou.
+
+**Quem isso atinge mais:** o `ESP-PRODUCAO`, que é quem escreve na Tutory.
+
+---
+
+## O curso 336350 é COMPARTILHADO: o conteúdo decide o código · fechado em 22/08/2026
+
+O Elvis havia dito que o curso **336350** (`Legislação Tributária sobre o Consumo`) era `LTRIB`.
+**Revisou em 22/08, e a correção é mais fina:**
+
+| Conteúdo | Código |
+|---|---|
+| Lei Kandir (parte geral) | `LTRIB` |
+| LC 214/2025, LC 227/2026, EC 132/2023 | `REFTRI` |
+
+**Um curso só, dois códigos.** Mesmo princípio que já valia para a Reforma que mora dentro de
+`DTRIB`: o conteúdo decide, não o continente.
+
+> ### Consequência para o B69, e ela inverte o plano anterior
+>
+> A pasta `Reforma Tributaria` guarda duas disciplinas nossas — isso não mudou. Mas **não dá para
+> separá-la por curso**, porque o 336350 sozinho já tem os dois conteúdos dentro.
+>
+> **A separação é de BLOCO, feita na base 2 lendo os PDFs — não de pasta.** Quem for reorganizar
+> aquela pasta não resolve nada movendo cursos de lugar.
+
+---
+
+## Fonte sem dona não é problema a resolver · fechado em 22/08/2026
+
+As 8 entradas do balde 1 do `SEM-DONA.md` (Administração Geral, Análise das Demonstrações Contábeis,
+Ética no Serviço Público, Legislação Tributária Federal, Matemática, Redação Oficial, Gestão de
+Contratos, Legislação e Ética no Serviço Público) esperavam decisão sobre entrar ou não como
+disciplina.
+
+**A resposta do Elvis desmonta a pergunta:** elas ficam mapeadas na fonte e **simplesmente não
+recebem Cód Mestre**, porque o Cód Mestre pressupõe que exista conteúdo teórico nosso por trás.
+Sem material no Curso Regular, o código apontaria para o vazio.
+
+É o que a coluna `status` do `apelidos.csv` já fazia — zero mudança de estrutura. Se um dia a
+matéria entrar no Regular, ganha sigla e código pelo modo `atualizar`.
+
+---
+
 ## Discursiva nao entra como disciplina · fechado em 22/08/2026
 
 O curso **"Concursos da Area Fiscal - Curso Basico de Discursiva (Sem Correcao)"**

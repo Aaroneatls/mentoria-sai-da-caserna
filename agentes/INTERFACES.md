@@ -26,11 +26,17 @@ Sem isto, o roteamento vive na cabeça de quem está na conversa — e cabeça s
 Estes já mordertam ou quase morderam. Ao ver um relatório encostar num deles, **rotear antes de
 deixar seguir**.
 
-### 1 · O Cód Mestre é irreversível
+### 1 · O Cód Mestre E O NOME DA DISCIPLINA são irreversíveis
 
 `SIGLA-NNNN` vai no link que o aluno recebe. Renomear o tópico pode; **trocar o conteúdo dele exige
-código novo**, senão as questões já publicadas perdem a correlação em silêncio. Qualquer mexida em
-sigla ou numeração é nível 3 — sobe ao Elvis.
+código novo**, senão as questões já publicadas perdem a correlação em silêncio.
+
+**E desde 22/08 o `nome_canonico` da disciplina tem o mesmo estatuto**, por motivo de plataforma: a
+Tutory reconhece que o aluno já estudou um assunto comparando **nome do assunto + nome da
+disciplina**. Um espaço a mais e ela trata como disciplina nova — **o histórico do aluno se perde**.
+
+Qualquer mexida em sigla, numeração ou nome canônico é nível 3. O `conferir.py` da base 1 tem um
+bloco que falha se o nome divergir.
 
 ### 2 · O download e a base 1 se alimentam nos dois sentidos
 
@@ -42,7 +48,11 @@ o outro responde *"nada mudou"* com toda a confiança do mundo. **Erro silencios
 
 ### 3 · Uma entrada da fonte pode valer por duas disciplinas nossas
 
-Já apareceu três vezes: a matéria 69 do Tec (AFO + Contabilidade Pública), a matéria 37 (Auditoria +
+Já apareceu quatro vezes — e a quarta é a mais fina, porque acontece **dentro de um curso só**: o
+curso **336350** tem Lei Kandir (`LTRIB`) e a Reforma (`REFTRI`) no mesmo material. Ali a separação
+não é de pasta nem de curso, é **de bloco**, e sai na base 2 lendo os PDFs.
+
+As outras três: a matéria 69 do Tec (AFO + Contabilidade Pública), a matéria 37 (Auditoria +
 Controle Externo), e a pasta "Raciocinio Logico e Matematica" do Regular Fiscal (RACLOG + MATFIN).
 
 Sempre que uma fonte junta o que a gente separa, **duas linhas, nunca uma escolhida como principal**
