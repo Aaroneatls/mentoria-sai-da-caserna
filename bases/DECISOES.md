@@ -478,3 +478,34 @@ um "2 minutos por questão" inventado.
 **Calibrar a teoria com dado do próprio público.** O painel do aluno tem "Tempos de Estudos" e
 "Horas Líquidas (cronômetro)". Se esses dados forem acessíveis, o minutos-por-página sai do
 comportamento real dos alunos do Elvis, e não de estimativa.
+
+---
+
+## Para a skill do plano na Tutory · anotado em 22/08/2026
+
+### A revisão de 15 minutos
+
+Tarefa curta de **revisão teórica** que precisa entrar na grade sem inchar o dia. Perguntas a
+resolver quando a skill for feita:
+
+- é tarefa própria na Tutory, ou pedaço de outra?
+- revisa qual tópico: o da véspera, o de uma semana atrás, ou o que o desempenho apontar?
+- entra todo dia, ou em cadência?
+
+### Caderno de erros com questão que não está no nosso banco
+
+O aluno pode resolver questões por conta própria, fora dos nossos cadernos. Quando ele mandar o
+caderno de erros, parte das questões não vai existir na nossa base.
+
+**Não é perda total.** O caderno impresso traz **matéria e assunto** no cabeçalho de cada questão:
+
+| O que dá para saber | Como |
+|---|---|
+| A que **tópico** pertence | pelo assunto impresso, cruzando com a base 3 |
+| A que **ponto** pertence | **não dá** — isso só lendo a questão |
+
+Então o alerta de tópico continua funcionando ("errou três de Atos Administrativos"), e só se
+perde a precisão do ponto.
+
+**Se valer descer ao ponto**, buscar no Tec **só essas questões**, que são poucas: as que ele
+errou e que a gente não tem. Custo pontual, não passada nova.

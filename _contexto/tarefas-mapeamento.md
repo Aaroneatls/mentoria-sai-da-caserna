@@ -124,7 +124,8 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B26 | Seção 7 do BIZURITO: granularidade, onde os Docs ficam, Bizu do Bizu |
 | B30 | Implementar o N8 |
 | B31 | Dossiê por aluno |
-| B36 | Leitor do caderno de erros do aluno |
+| B36 | Leitor do caderno de erros do aluno, **inclusive questão fora do nosso banco** |
+| B57 | **Revisão de 15 minutos** na grade do plano: como entra, o que revisa, com que cadência |
 | B16 | Peso com piso de confiança |
 
 ---
