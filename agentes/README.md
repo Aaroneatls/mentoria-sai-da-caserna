@@ -167,6 +167,22 @@ Então:
    Elvis valida  ->  so entao executa
 ```
 
+> ### TERMINAR É REPORTAR
+>
+> **Tarefa concluída sem relatório não está concluída.** O relatório é o último passo do trabalho,
+> não um extra que se manda quando alguém pede.
+>
+> Vale mesmo que nada tenha surpreendido, mesmo que o commit esteja no repositório, e mesmo que o
+> Elvis não tenha perguntado. **Ninguém vai buscar** — o coordenador só descobre por acaso, olhando
+> o `git log`, e aí a informação chega tarde e incompleta.
+>
+> Aconteceu em 22/08: a taxonomia puxou a árvore do Tec, achou que dimensionar `AUDIT` pela matéria
+> 37 contaria um acervo que é **10/11 de Controle Externo** — um erro que estragaria a base 5 — e
+> **não avisou**. O coordenador só viu porque foi conferir o `git log` por outro motivo.
+>
+> Escrever no `IMPACTOS.md` **não substitui** o relatório: o `IMPACTOS` é consultado por quem
+> começa uma base, e pode levar dias até alguém abrir.
+
 **O relatório para o coordenador não é entregável.** É a abertura da discussão. O entregável é o que
 sobra depois dela.
 
@@ -259,6 +275,15 @@ coordenador é o mais exposto, porque é quem acumula contexto de todo mundo.
 >
 > A exceção simétrica: quando o **especialista** pergunta algo ao Elvis, o coordenador não responde
 > por ele — leva a pergunta e traz a resposta.
+
+> ### O coordenador não usa `git add -A` com sessões vivas
+>
+> Descoberto na prática em 22/08: um `git add -A` do coordenador **varreu junto** a edição em
+> andamento do `ESP-ACERVO` no `SKILL.md`, e o trabalho dele foi commitado sob uma mensagem que
+> falava de outra coisa. Ninguém perdeu nada, mas o histórico passou a mentir sobre quem fez o quê.
+>
+> Com mais de uma sessão viva no mesmo repositório, **adicionar por caminho**, nunca `-A`. E antes
+> de commitar, `git status` para ver se apareceu arquivo de outro agente.
 
 **Faz:** conhece o estado de todas as bases; avalia impacto cruzado antes de qualquer execução;
 escreve no `IMPACTOS.md` quando um agente mexe no que outro consome; redige o prompt de abertura de

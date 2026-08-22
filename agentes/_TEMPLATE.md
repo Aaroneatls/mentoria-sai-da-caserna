@@ -55,7 +55,10 @@ Vale inclusive para o que o coordenador te disser.
    tentei e não deu (com o motivo), o que aprendi. **Mora com você, não com a base** — você pode
    alimentar uma base sem ser dono dela
 2. escreve em `bases/IMPACTOS.md` o que mudou e qual base isso afeta
-3. manda o **relatório ao coordenador**, com os seis pontos abaixo
+3. manda o **relatório ao coordenador**, com os seis pontos abaixo. **Terminar é reportar:** tarefa
+   concluída sem relatório não está concluída, e ninguém vai buscar. Vale mesmo que nada tenha
+   surpreendido e mesmo que o commit já esteja no repositório — escrever no `IMPACTOS.md` não
+   substitui, porque ele só é lido por quem começa uma base
 4. o coordenador contrapõe; vocês vão e voltam até fechar
 5. só então você escreve o **relatório final para o Elvis** — em `agentes/<NOME>-RELATORIO.md`,
    **arquivo e não mensagem**, porque mensagem morre com a sessão e não dá para conferir depois
