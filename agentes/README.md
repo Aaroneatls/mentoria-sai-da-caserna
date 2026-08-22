@@ -220,7 +220,124 @@ coordenador naquele dia.
 
 ---
 
-## 7 · Abrir um agente novo
+## 7 · Os cinco especialistas: responsabilidade e onde se ligam
+
+Desenhado em 22/08/2026. A divisão que existia até então foi acidental — era o que estava aberto,
+não um recorte pensado. O critério aqui é: **arquivos próprios** (para duas sessões não escreverem
+no mesmo lugar), **mundo técnico próprio**, **trabalho que justifique uma sessão** e **pouca conversa
+atravessando a fronteira**.
+
+O segundo critério é o que mais pesa: Estratégia, TecConcursos e Tutory são mundos diferentes de
+verdade — rodízio de matrícula com `CORUJA`, bloqueio e cota de impressão, publicação para o aluno.
+Quem domina um não domina os outros de graça.
+
+---
+
+### ESP-ACERVO · o material existe, está íntegro e está atualizado
+
+**Responsabilidade.** Garantir que a matéria-prima esteja no Drive, válida e no padrão. Ele é o único
+que fala com as plataformas de material.
+
+| | |
+|---|---|
+| **Envolve** | Estratégia (rodízio de 3 matrículas, `CORUJA`), resumos do Bezerra, parceiros futuros |
+| **Entrega** | PDFs no padrão do `NOMENCLATURA.md`, apoios, `_manifesto.csv`, planilhas de metadados |
+| **Recebe de** | `ESP-TAXONOMIA` — a sigla que nomeia a pasta |
+| **Entrega para** | `ESP-CONTEUDO` (arquivos e manifesto) e `ESP-TAXONOMIA` (o `estrategia.txt` de volta) |
+| **NÃO faz** | não abre o PDF para entender o conteúdo. Ele traz e valida; entender é do `ESP-CONTEUDO` |
+
+**Onde ele morde:** é o único que apaga e sobrescreve arquivo. As travas de validação são dele.
+
+---
+
+### ESP-TAXONOMIA · toda coisa tem um nome nosso e um código
+
+**Responsabilidade.** O vocabulário do projeto. Quando uma fonte chama algo de um jeito e a gente de
+outro, é ele quem concilia — e é dele que sai o código que amarra tudo.
+
+| | |
+|---|---|
+| **Envolve** | base 1 (disciplinas), base 3 (assuntos do Tec), base 6 (editais) |
+| **Entrega** | sigla, **Cód Mestre**, apelidos por fonte, áreas, item do edital → tópico |
+| **Recebe de** | `ESP-ACERVO` (o `.txt` das plataformas) e `ESP-CONTEUDO` (os tópicos que nascem da quebra dos PDFs) |
+| **Entrega para** | **todos** |
+
+**Por que as três bases são um agente só:** fazem o mesmo trabalho — conciliar vocabulário alheio com
+o nosso. A base 1 já criou o padrão (`apelidos.csv`, uma linha por par); as bases 3 e 6 têm a mesma
+forma.
+
+**Onde ele morde:** o **Cód Mestre é irreversível** — vai no link que o aluno recebe. Mexer nele é
+sempre nível 3.
+
+---
+
+### ESP-CONTEUDO · o que tem dentro do material
+
+**Responsabilidade.** Saber onde cada assunto começa e acaba, quantas páginas tem, quanto tempo custa
+ao aluno, e o que mudou desde a última vez.
+
+| | |
+|---|---|
+| **Envolve** | base 2, `pymupdf`, detecção tipográfica de títulos, zonas de teoria e questão, `hash_teoria` |
+| **Entrega** | blocos de 10 a 20 páginas, página real do PDF, âncoras de prosa, pares **bloco × tópico** (muitos-para-muitos), correlação com o Bezerra |
+| **Recebe de** | `ESP-ACERVO` (arquivos) e `ESP-TAXONOMIA` (o Cód Mestre) |
+| **Entrega para** | `ESP-PRODUCAO` — é o que define o que o aluno lê e quanto tempo leva |
+
+**Por que é separado do ESP-ACERVO:** baixar um arquivo e entender o que tem dentro são ofícios
+diferentes. E são 71 disciplinas de análise de PDF — sozinho, lota uma sessão.
+
+---
+
+### ESP-QUESTOES · o banco, e o que ele sabe
+
+**Responsabilidade.** O acervo de questões e tudo que se extrai dele: peso por tópico, dificuldade,
+cobertura, redundância.
+
+| | |
+|---|---|
+| **Envolve** | TecConcursos, coleta por impressão (1.000/dia), fichamento em duas passadas, `bases/05-questoes-tec/REGRAS.md` |
+| **Entrega** | banco fichado, camada de **ponto**, pesos próprios por tópico, Curva ABC |
+| **Recebe de** | `ESP-TAXONOMIA` — assunto do Tec → Cód Mestre |
+| **Entrega para** | `ESP-PRODUCAO` (cadernos), `ESP-CONTEUDO` (peso por tópico) e o BIZURITO |
+
+**Onde ele morde:** é o único com risco real de **derrubar a conta**. Nunca clica CAPTCHA, nunca
+insiste depois de um 429, nunca usa a conta de produção para coleta.
+
+---
+
+### ESP-PRODUCAO · o que chega ao aluno
+
+**Responsabilidade.** Montar, a partir das bases, o que o aluno efetivamente recebe — e responder pela
+qualidade disso.
+
+| | |
+|---|---|
+| **Envolve** | Tutory, cadernos do Tec, BIZURITO, tom de voz e regras de escrita |
+| **Entrega** | plano de estudo, caderno por nível (1 a 8), bizu de revisão por tópico |
+| **Recebe de** | **todos** |
+
+**Onde ele morde:** conteúdo do Tec **nunca** vai literal para o aluno — ele recebe o link do caderno,
+o nosso nome de tópico e o nosso texto. E o **link do caderno nunca muda** depois de publicado.
+
+**Provavelmente se parte em dois** (cadernos e planos) quando o volume pedir. Não agora.
+
+---
+
+### Quando cada um abre
+
+| Quando | O que acontece |
+|---|---|
+| ao fechar a base 1 | `ESP-DISCIPLINAS` vira **ESP-TAXONOMIA** e recebe as bases 3 e 6 |
+| ao liberar a execução do download | `ESP-DOWNLOAD` vira **ESP-ACERVO** e recebe a base 4 |
+| ao começar a base 2 | abre **ESP-CONTEUDO** |
+| quando existir a conta nova do Tec | abre **ESP-QUESTOES** |
+| quando as bases 1, 2 e 5 tiverem o que montar | abre **ESP-PRODUCAO** |
+
+**Não se renomeia agente no meio de uma entrega.** O nome certo entra quando a tarefa corrente fechar.
+
+---
+
+## 8 · Abrir um agente novo
 
 O Elvis pede, ou o coordenador sugere quando um grupo de tarefas cresce a ponto de disputar contexto
 com o resto. O coordenador entrega o **prompt de abertura pronto** — modelo em `agentes/_TEMPLATE.md`.
