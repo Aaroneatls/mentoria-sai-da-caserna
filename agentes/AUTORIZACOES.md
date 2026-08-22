@@ -5,6 +5,20 @@
 > `agentes/README.md` manda, e é o certo.
 >
 > Só o coordenador escreve aqui, e só o que o Elvis disse de fato.
+>
+> ### Decisão refinada exige linha nova, na hora
+>
+> Em 22/08 este arquivo ficou **apontando para uma versão descartada** do esquema de siglas por
+> algumas horas: a autorização original foi registrada, o esquema foi refinado depois, e a linha
+> não acompanhou. O `ESP-TAXONOMIA` percebeu e avisou — se não tivesse, uma sessão nova poderia ler
+> daqui, criar um ente pela regra velha e **congelar a sigla errada**.
+>
+> **Registro desatualizado é pior que registro ausente**, porque ele é consultado com confiança.
+> Refinou, escreve na hora; e a linha antiga fica, apontando para a nova.
+>
+> **Quando a aprovação for geral** (*"de acordo com o que você decidiu"*), registrar assim, com a
+> frase literal e o que estava em cima da mesa naquele momento — nunca como se ele tivesse
+> aprovado ponto a ponto.
 
 | Data | O que ele autorizou | A quem |
 |---|---|---|
@@ -15,7 +29,8 @@
 
 | 22/08/2026 | **Matricular e desmatricular à vontade** no Estratégia, em qualquer curso. Ele confirmou que foi ele mesmo que tirou o Regular Fiscal e pôs o PRF. Palavras dele: *"pode mudar à vontade. Pode desmatricular e matricular lá em curso. Tem problema não."* | `ESP-ACERVO` |
 
-| 22/08/2026 | **Desmembrar a `LTRIB`** em `LTEST`, `LTMUN` e `LTFED`, mais família por ente (`LT`+UF para estado, `LT`+3 letras para município). Palavras dele: *"Pra mim tá show."* | `ESP-TAXONOMIA` |
+| 22/08/2026 | **Desmembrar a `LTRIB`** em `LTEST`, `LTMUN` e `LTFED`, mais família por ente. Palavras dele: *"Pra mim tá show."* **O esquema de siglas foi refinado depois — ver a linha seguinte, que é a que vale.** | `ESP-TAXONOMIA` |
+| 22/08/2026 | **Esquema de siglas por ente, versão final.** Estado `LT`+UF · município capital `LTM`+UF · município não-capital `LTM`+UF+inicial · **Distrito Federal `LTDF` e só** (não existe `LTMDF`) · empate resolvido pelo `nomes-congelados.csv`, nunca pela fórmula. Aprovação **geral**, nas palavras dele: *"em relação ao OK e às decisões que você tomou, sou de acordo"* — dita logo após o coordenador apresentar este esquema. | `ESP-TAXONOMIA` |
 
 ---
 

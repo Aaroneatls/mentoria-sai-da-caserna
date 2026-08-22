@@ -499,6 +499,11 @@ medido.
 >
 > Ao escrever uma conferência, prefira sempre a segunda forma. Contagem serve de diagnóstico no
 > relatório, não de teste.
+>
+> **E há um efeito colateral bom**, notado pelo `ESP-TAXONOMIA` depois de aplicar: a contagem sai
+> do teste e vira **linha de relatório**. Aí o número pode mudar a cada pós-edital sem nada
+> quebrar. Pelo caminho antigo, cada ente novo exigiria **editar o teste para ele passar** — e
+> editar teste para ele passar é o começo de teste que não testa nada.
 
 ---
 
