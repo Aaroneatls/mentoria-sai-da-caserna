@@ -96,6 +96,25 @@ Existe mesmo quando só há um tipo, porque a estrutura tem de ser previsível p
 
 **Nunca repetir o concurso aqui.** Ele já está no nível 1.
 
+**Nunca levar numeração de aula.** Sobras como `(41-42)` são posição, não identidade, e a pasta
+identifica conteúdo. Fora.
+
+**Sufixo de professor entra quando DISTINGUE.** Só há um caso hoje — as duas Contabilidades do
+Regular Fiscal, que sem o sobrenome viram o mesmo nome e perdem a distinção de que o A8 depende:
+
+| | |
+|---|---|
+| `CONTAB - Contab Geral e Avancada (Possati)` | 42 |
+| `CONTAB - Contab Geral e Avancada (Cardozo)` | 42 |
+
+Note o tipo de síntese: encurtou-se **uma palavra** (`Contabilidade` → `Contab`), não um conceito.
+`Geral`, `Avancada` e o professor sobrevivem inteiros. **Síntese tira caracteres, nunca informação.**
+
+**Medido em 22/08:** dos 29 pares `<SIGLA> - <Disciplina>` das fontes, **27 cabem** nos 45. Os dois
+que estouram são esses. E a sigla não é a culpada — o par mais apertado que ainda cabe é
+`AFO - Administracao Financeira e Orcamentaria`, com **45 exatos** e a menor sigla do conjunto.
+Encurtar sigla não compra folga onde a folga falta; quem come o orçamento é o nome da fonte.
+
 ### Nível 4 — Arquivo de aula
 
 | | |
@@ -142,6 +161,18 @@ DADM - Direito Administrativo/
 **O slug vem da capa do PDF**, não do título do vídeo, quando os dois divergirem (regra 5). Se a
 capa não tiver título utilizável, cai para o título do vídeo, e a base registra qual fonte foi
 usada. Até 40 caracteres.
+
+> ### REGRA 8 — filtrar a marca d'água ANTES de gerar o slug
+>
+> Os PDFs do Estratégia trazem `<CPF> - <Nome do titular>` na camada de texto, em quase toda
+> página, **capa inclusive**. Se a extração do título acontecer antes do filtro
+> `^\s*\d{11}\s*-\s*.+$`, o CPF entra no **nome do arquivo**.
+>
+> Aí ele deixa de ser um dado no texto e vira **dado pessoal no caminho da pasta**, sincronizado
+> pro Drive e visível em qualquer print de tela. O filtro roda antes do slug, não só antes do
+> hash.
+>
+> Vale para todo nome derivado de conteúdo de PDF, não só o do apoio.
 
 **Volume esperado:** o piloto de Direito Constitucional deu 12 resumos e 20 mapas mentais, 32
 arquivos. O prefixo já agrupa por tipo e o resto ordena por assunto, então não precisa subdividir.
