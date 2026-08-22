@@ -71,13 +71,17 @@ for r in disc:
 for r in ren:
     if r["status"] != "ok": continue
     check(r["sigla"] in S, "renomear-pastas: sigla desconhecida %r" % r["sigla"])
-    check(len(r["pasta_nova"]) <= 45,
-          "pasta_nova estoura 45 (%d): %s" % (len(r["pasta_nova"]), r["pasta_nova"]))
-    check(r["pasta_nova"].startswith(r["sigla"] + " - "),
-          "pasta_nova fora do padrao <SIGLA> - <Disciplina>: %s" % r["pasta_nova"])
+    check(len(r["pasta_nova_sem_data"]) <= 45,
+          "pasta_nova_sem_data estoura 45 (%d): %s" % (len(r["pasta_nova_sem_data"]), r["pasta_nova_sem_data"]))
+    check(r["pasta_nova_sem_data"].startswith(r["sigla"] + " - "),
+          "pasta fora do padrao <SIGLA> - <Disciplina>: %s" % r["pasta_nova_sem_data"])
+    # regra 9 do NOMENCLATURA.md: a data desce para o nivel da disciplina, teto 58.
+    # ` (DD-MM-AAAA)` = 13 caracteres. AFO fecha em 58 exatos, com ZERO folga.
+    check(int(r["chars_com_data"]) <= 58,
+          "com a data da regra 9 estoura 58 (%s): %s" % (r["chars_com_data"], r["pasta_nova_sem_data"]))
 for r in ren:
     if r["status"] == "pendente":
-        check(r["sigla"] == "" and r["pasta_nova"] == "",
+        check(r["sigla"] == "" and r["pasta_nova_sem_data"] == "",
               "linha pendente nao pode ter sigla nem nome novo: %s" % r["pasta_atual_no_disco"])
 
 # 7. trava de vazamento: nenhum CPF em lugar nenhum
