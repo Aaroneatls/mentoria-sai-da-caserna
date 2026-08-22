@@ -118,8 +118,19 @@ Vista publicada em 4 abas. **O gatilho de execucao e do Elvis: nada roda antes d
   `LTRIB` nem `REFTRI`**: registrar como "nao cobre", nao como pendencia. Regra nova do Elvis:
   **toda vez que entrar aula nova, passar o olho no resumo do Bezerra** procurando materia ou
   conteudo sem correspondencia.
-- **Base 5 (Questoes do Tec)** — herda o alerta da base 3, e com mais peso: o corte do acervo tem
-  de ser por **assunto**, nunca por materia.
+- **Base 5 (Questoes do Tec)** — herda o alerta da base 3, e o impacto foi **localizado** com a
+  sessao de mapear aulas em 22/08/2026:
+
+  | | Contamina? |
+  |---|---|
+  | O **corte** da coleta | **nao.** Os filtros ja cortam por assunto; o piloto usou os assuntos 497, 503 e 512 |
+  | O **dimensionamento** | **sim.** A decisao A32 e a tarefa B53 dizem "janela de anos **por materia**, mirando ~2.500 questoes" |
+
+  Se a materia 69 e `AFO` + `CONTPU`, entao "2.500 questoes de AFO" medido na materia 69 esta
+  **inflado por questoes de outra disciplina nossa**, e a janela de anos sairia **curta demais**,
+  jogando fora anos de AFO de verdade.
+
+  **O tamanho tem de ser medido pela soma dos assuntos da disciplina, nunca pela materia.**
 - **Base 6 (Editais)** — nao e afetada agora. Entra como **fonte nova** (linha, nao coluna) em
   `apelidos.csv` quando existir.
 

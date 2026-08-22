@@ -94,3 +94,50 @@ falha se achar 11 digitos em qualquer CSV desta base.
 
 **A licao maior:** um achado tecnico pequeno pode ser um risco grande com outro nome. Vale
 perguntar sempre "o pior caso disto e so tecnico?".
+
+## 22/08/2026 · Cobertura nao e correcao: validar por amostragem
+
+As 168 entradas da Tutory foram classificadas por regra (regex ordenada), e eu tinha provado que
+**zero** ficou sem regra. Isso prova **cobertura**, nao **correcao**: regra casa errado em
+silencio.
+
+Aplicada a regra de validacao por amostragem que o projeto ja usa no cache do mapeamento:
+**30 entradas sorteadas (18%), semente fixa `20260822`, classificadas a mao antes de olhar o que a
+regex deu**. Resultado: **30/30**. Nao e certeza absoluta, mas troca "e o ponto mais fraco da
+base" por um teto de erro medido.
+
+**Regra que fica:** ponto fraco que ninguem testa continua fraco para sempre. Se der para medir,
+mede-se, mesmo que a medida seja parcial.
+
+## 22/08/2026 · Falha silenciosa com aparencia de sucesso: o caso MATFIN
+
+A pasta `Raciocinio Logico e Matematica` do Regular Fiscal foi marcada `RACLOG`, com observacao de
+que o nome mistura `MATFIN`. Parecia inofensivo. Nao era:
+
+```
+MATFIN tinha material no Controle  ->  a tabela PARECIA completa
+MATFIN nao tinha nada no Fiscal    ->  e ninguem perceberia
+```
+
+E o **mesmo** problema das materias 69 e 37 do Tec (uma entrada da fonte para duas disciplinas
+nossas), que ja tinha sido resolvido certo com duas linhas. **A solucao existia e nao tinha sido
+aplicada por analogia.**
+
+Corrigido: a pasta virou **duas linhas**, `RACLOG` e `MATFIN`, com o vinculo explicito e pendente
+de refino. E o `conferir.py` ganhou o **bloco 10**, que confere cobertura por **par (sigla, area)**
+em vez de por sigla. Do jeito antigo, `MATFIN` passava no teste.
+
+**Regra que fica:** quando um problema for resolvido, procurar onde mais ele aparece. E teste que
+so olha a dimensao errada da tabela aprova o buraco.
+
+## 22/08/2026 · Aviso por prazo e defesa fraca; melhor e nao depender de memoria
+
+Eu propus gravar a data do levantamento no `.txt` e o `conferir.py` avisar quando ficasse velha.
+Contraposicao da sessao de mapear aulas, aceita: **aviso por prazo e a categoria de alerta que se
+aprende a ignorar em duas semanas**, e ai o furo volta com falsa seguranca por cima.
+
+O encaminhamento melhor e estrutural: **quem ja esta logado reescreve o `.txt` como subproduto**
+de cada rodada de download. A data continua sendo gravada, mas como **diagnostico** ("faz 40 dias
+que ninguem roda"), nunca como defesa principal.
+
+**Regra que fica:** entre lembrar de fazer e nao precisar lembrar, escolher a segunda.

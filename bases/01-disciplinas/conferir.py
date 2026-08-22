@@ -93,6 +93,26 @@ for s in siglas:
     check(s in comap, "sigla sem nenhum apelido: %s (ninguem acha o material dela)" % s)
     check(any(r["sigla"] == s for r in ar), "sigla sem area: %s" % s)
 
+# 9. entrada de fonte SEM REGRA falha, nao avisa.
+#    Furo apontado em 22/08/2026: cobertura foi provada uma vez, na mao. Quando a area
+#    Legislativa entrar, virao nomes que as regras nunca viram, e "sem regra" tem de
+#    quebrar ruidosamente em vez de virar linha sem sigla que ninguem le.
+for r in ap:
+    check(not (r["status"] == "" or r["status"] is None),
+          "apelido sem classificacao nenhuma: %r (%s)" % (r["nome_na_fonte"], r["fonte"]))
+
+# 10. cobertura por PAR (sigla, area), nao por sigla.
+#     Sem isto, MATFIN passava: tinha material no Controle, nenhum no Fiscal, e a tabela
+#     parecia completa. Falha silenciosa com aparencia de sucesso.
+FONTE_DA_AREA = {"Fiscal": "Estrategia Regular Fiscal", "Controle": "Estrategia Regular Controle"}
+pares_area = set((r["sigla"], r["area"]) for r in ar)
+for sig, area in sorted(pares_area):
+    fonte = FONTE_DA_AREA.get(area)
+    if not fonte: continue
+    check(any(r["sigla"] == sig and r["fonte"] == fonte and r["status"] == "ok" for r in ap),
+          "%s consta na area %s mas nao tem apelido no %s: o aluno dessa area "
+          "nao acha o material" % (sig, area, fonte))
+
 print("Base 1 — conferencia")
 print("  disciplinas %d | apelidos %d | areas %d | pastas %d" % (len(disc), len(ap), len(ar), len(ren)))
 c = Counter(r["status"] for r in ap)
@@ -101,4 +121,4 @@ if falhas:
     print("\n%d FALHA(S):" % len(falhas))
     for f_ in falhas: print("  x", f_)
     sys.exit(1)
-print("\n  tudo passou, 8 blocos de verificacao.")
+print("\n  tudo passou, 10 blocos de verificacao.")
