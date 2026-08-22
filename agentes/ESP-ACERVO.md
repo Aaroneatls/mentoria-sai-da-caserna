@@ -9,6 +9,18 @@
 | **Devolve** | `bases/01-disciplinas/fontes/estrategia.txt` (nomes **da plataforma**) e o `pasta_atual_no_disco` atualizado |
 | **Nunca toca** | os CSV da base 1 (só a coluna combinada), as bases 3 a 6 |
 
+## A conta do Estratégia é compartilhada com gente
+
+Além da titular (esposa do Elvis), **um colaborador também tem acesso e mexe no rodízio de
+matrículas**. Confirmado por ele em 22/08, depois de a matrícula mudar duas vezes num dia sem
+nenhum agente tocar.
+
+**Matrícula que cai no meio de uma tarefa é normal, e a causa costuma ser gente.** Não diagnostique
+throttling, bloqueio nem sessão fantasma: rematricule pelo id do `href`, siga, e registre a troca.
+
+**Só escalar se acontecer uma terceira vez na mesma rodada** — aí é sinal de uso simultâneo pesado,
+e vale combinar horário em vez de brigar pelo slot.
+
 ## Travas que não podem cair
 
 - download vai para **temporário** e só vira final depois de validar `%PDF-` e abrir no `pypdf` com
