@@ -630,8 +630,44 @@ Consequências:
                              90 min  <- o teto
    ```
 
-**Isso sugere alvo de 12 páginas, e não 10.** O 10 foi decidido em 21/08 quando o critério era só
-o corte do PDF; com o tempo na conta, o 12 fecha redondo. **Falta o Elvis confirmar.**
+**O alvo fica em 10 páginas** — confirmado em 22/08, depois de entrar o Pomodoro na conta.
+
+O que decide não é o arredondamento da Tutory, é o **Pomodoro**: o bloco de 30 minutos dela são
+**25 de estudo e 5 de intervalo**. Logo, uma tarefa de 90 minutos tem **75 minutos efetivos**, não
+90.
+
+| Páginas | Teoria | Pomodoros de teoria | Sobra para questões (de 75 min) |
+|---|---|---|---|
+| 5 | 25 min | **1 exato** | 50 min |
+| **10** | **50 min** | **2 exatos** | **25 min = 1 Pomodoro** |
+| 12 | 60 min | 2,4 (quebra) | 15 min, ~5 questões |
+| 13 | 65 min | 2,6 (quebra) | 10 min, ~3 questões |
+| 15 | 75 min | **3 exatos** | **zero** |
+
+**Por que 12 é o teto:** em 13 páginas sobram 10 minutos, que dão três questões — enfeite, não
+caderno. Em 15, a teoria come os três Pomodoros e a tarefa vira só leitura.
+
+**Por que o piso é 5 e não 6:** cinco páginas dão um Pomodoro exato; seis dão 1,2 e quebram.
+
+**Acima de 12** a tarefa vai para 120 min (4 Pomodoros, 100 min efetivos), e aí o número que fecha
+é **15 páginas**: 3 Pomodoros de teoria + 1 de questões. Funciona, mas passa do teto de 90 que o
+Elvis prefere.
+
+| | |
+|---|---|
+| **Alvo** | **10 páginas** |
+| Faixa que fecha bem | **5 a 12** |
+| Números redondos | 5, 10 e 15 |
+| Tarefa típica | 2 Pomodoros de teoria + 1 de questões |
+
+**É alvo, não regra.** Quem manda no corte é o título: se o tópico acaba na página 13, corta na 13.
+A escada serve para escolher entre dois títulos possíveis, não para forçar.
+
+### Guardar o tempo exato, arredondar só ao publicar
+
+O banco guarda o tempo calculado com precisão; o arredondamento para múltiplo de 30 acontece **na
+hora de publicar na Tutory**. Assim dá para somar tempos e planejar com o número real, e se a
+plataforma mudar a granularidade nada se perde.
 
 **O corte continua sendo sempre em título.** O alvo orienta, o título manda: nunca cortar no meio
 de um tópico.
