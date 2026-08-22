@@ -50,15 +50,22 @@ agentes.
 
 O que atravessa é a **obra**. Todo agente é dono de um arquivo, e é por ele que se identifica:
 
-```
-agentes/COORD-PEDAGOGICO.md      o coordenador
-agentes/ESP-DISCIPLINAS.md       base 1
-agentes/ESP-DOWNLOAD.md          material do Estratégia e dos parceiros
-```
+| Como o Elvis chama | Arquivo | O que é |
+|---|---|---|
+| **pedagógico** | `agentes/COORD-PEDAGOGICO.md` | o coordenador |
+| **acervo** | `agentes/ESP-ACERVO.md` | traz e valida o material |
+| **taxonomia** | `agentes/ESP-TAXONOMIA.md` | disciplinas, assuntos do Tec, editais |
+| **conteúdo** | `agentes/ESP-CONTEUDO.md` | o que tem dentro do material |
+| **questões** | `agentes/ESP-QUESTOES.md` | o banco do Tec |
+| **produção** | `agentes/ESP-PRODUCAO.md` | o que chega ao aluno |
+
+**O Elvis fala pelo nome curto** — "fala com o acervo", "isso é do questões". Qualquer sessão tem de
+entender essa linguagem. Os três últimos ainda não abriram, mas já têm cartão: o vocabulário existe
+antes do agente.
 
 **Ao abrir conversa com um agente desconhecido**, endereçar assim:
 
-> "Para quem tem `agentes/ESP-DOWNLOAD.md` no disco. Se não é você, ignore e me diga quem é."
+> "Para quem tem `agentes/ESP-ACERVO.md` no disco. Se não é você, ignore e me diga quem é."
 
 Verificável com um `ls`, em vez de depender de memória. E **toda mensagem que manda executar algo
 vai travada por identidade** — a parte executável não roda se o destinatário for outro.
@@ -144,7 +151,7 @@ sobra depois dela.
 > relatório que só existe na conversa **não existe** (seção 0).
 >
 > Nasceu de um caso concreto em 22/08: o coordenador afirmou que o relatório final do
-> `ESP-DISCIPLINAS` não tinha saído. Tinha — o Elvis já o havia lido. O coordenador errou por
+> `ESP-TAXONOMIA` não tinha saído. Tinha — o Elvis já o havia lido. O coordenador errou por
 > presumir, **e não tinha como conferir**, porque relatório entregue por mensagem não deixa rastro
 > no repositório. Os dois lados do problema foram corrigidos: a regra abaixo e este arquivo.
 
@@ -175,7 +182,7 @@ Se o Elvis perder uma aba, ou uma sessão cair, **o trabalho não pode ir junto*
 um `agentes/<NOME>-ESTADO.md`, atualizado ao fim de cada bloco de trabalho, servindo de **handoff
 completo**: alguém abrindo sessão nova lê aquilo e continua.
 
-> **O estado mora com o AGENTE, não com a base.** Corrigido em 22/08 a partir do `ESP-DOWNLOAD`: a
+> **O estado mora com o AGENTE, não com a base.** Corrigido em 22/08 a partir do `ESP-ACERVO`: a
 > primeira versão desta regra mandava gravar em `bases/<sua base>/ESTADO.md`, e ele apontou que
 > **alimenta** a base 2 sem ser dono dela — escrever o `ESTADO` dela seria invadir o território de
 > quem vem depois. Vale para todos: um agente pode servir várias bases, ou nenhuma.
@@ -395,8 +402,8 @@ o nosso nome de tópico e o nosso texto. E o **link do caderno nunca muda** depo
 
 | Quando | O que acontece |
 |---|---|
-| ao fechar a base 1 | `ESP-DISCIPLINAS` vira **ESP-TAXONOMIA** e recebe as bases 3 e 6 |
-| ao liberar a execução do download | `ESP-DOWNLOAD` vira **ESP-ACERVO** e recebe a base 4 |
+| ao fechar a base 1 | `ESP-TAXONOMIA` vira **ESP-TAXONOMIA** e recebe as bases 3 e 6 |
+| ao liberar a execução do download | `ESP-ACERVO` vira **ESP-ACERVO** e recebe a base 4 |
 | ao começar a base 2 | abre **ESP-CONTEUDO** |
 | quando existir a conta nova do Tec | abre **ESP-QUESTOES** |
 | quando as bases 1, 2 e 5 tiverem o que montar | abre **ESP-PRODUCAO** |

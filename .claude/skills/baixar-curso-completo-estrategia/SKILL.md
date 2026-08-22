@@ -640,6 +640,17 @@ local), perguntar isso separadamente antes de prosseguir.
    `Curso Regular` · `Passo Estratégico` · `Bizu Estratégico` · `Monitoria` ·
    `Trilha` · `Rodadas Avançadas`.
 
+### A pasta `Reforma Tributária` fica como está
+
+**Não desmembrar por curso** (revisado pelo Elvis em 22-08-2026). A pasta guarda
+três cursos (`336350`, `371461`, `389109`), mas **o 336350 sozinho já tem os dois
+conteúdos dentro**: Lei Kandir (parte geral) é `LTRIB`, e LC 214/2025, LC 227/2026
+e EC 132/2023 são `REFTRI`. Um curso, dois códigos.
+
+Separar pasta ou curso gasta trabalho e **continua com os dois conteúdos
+misturados** dentro de um deles. **A separação é de BLOCO**, feita na base 2 lendo
+os PDFs. Ver `bases/DECISOES.md`, seção "O curso 336350 é COMPARTILHADO".
+
 ### Categorias que são um curso só
 
 Bizu Estratégico, Trilha, Monitoria e Rodadas Avançadas já são um curso único no
@@ -1562,6 +1573,26 @@ Montar o script assim desde o começo:
   duplicadas.
 - Como o processo é longo, imprimir o progresso planilha a planilha
   (`flush=True`) pra dar pra retomar sabendo onde parou.
+
+> ### O `nome_canonico` é congelado — nunca "arrumar"
+>
+> A coluna `nome_canonico` que sai nas planilhas e no `_manifesto.csv` é
+> **irreversível, igual à sigla**. Motivo de plataforma: a Tutory reconhece que o
+> aluno já estudou um assunto comparando **nome do assunto + nome da disciplina**;
+> **um espaço a mais e ela trata como disciplina nova, e o histórico do aluno se
+> perde**. Já existem hoje duas entradas de `Direito Administrativo` na Tutory que
+> diferem por um único espaço.
+>
+> Portanto: **não corrigir** um nome canônico por parecer estranho, mal
+> formatado ou inconsistente. Disciplina que a fonte fatia em vários cursos
+> (`Tecnologia da Informação`, que o Estratégia parte em dois) tem **um nome
+> canônico só**; o fatiamento vira apelido, na base 1.
+>
+> **Não confundir com o nome da PASTA**, que continua sendo o da fonte,
+> sintetizado (REGRA 2). São coisas diferentes e podem divergir de propósito.
+>
+> O `conferir.py` da base 1 falha se algum nome divergir — uma "correção" bem
+> intencionada derruba a conferência dela.
 
 ## Passo 11B: Índice do pacote na pasta raiz (obrigatório, Google Sheets)
 

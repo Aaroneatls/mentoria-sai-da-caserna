@@ -1543,6 +1543,26 @@ maior na skill `baixar-curso-completo-estrategia`, Passo 11).
     em vez de criar uma duplicada ao retomar. Ver a mesma regra em escala de
     pacote na `baixar-curso-completo-estrategia`, Passo 11.
 
+> ### O `nome_canonico` é congelado — nunca "arrumar"
+>
+> A coluna `nome_canonico` que sai nas planilhas e no `_manifesto.csv` é
+> **irreversível, igual à sigla**. Motivo de plataforma: a Tutory reconhece que o
+> aluno já estudou um assunto comparando **nome do assunto + nome da disciplina**;
+> **um espaço a mais e ela trata como disciplina nova, e o histórico do aluno se
+> perde**. Já existem hoje duas entradas de `Direito Administrativo` na Tutory que
+> diferem por um único espaço.
+>
+> Portanto: **não corrigir** um nome canônico por parecer estranho, mal
+> formatado ou inconsistente. Disciplina que a fonte fatia em vários cursos
+> (`Tecnologia da Informação`, que o Estratégia parte em dois) tem **um nome
+> canônico só**; o fatiamento vira apelido, na base 1.
+>
+> **Não confundir com o nome da PASTA**, que continua sendo o da fonte,
+> sintetizado (REGRA 2). São coisas diferentes e podem divergir de propósito.
+>
+> O `conferir.py` da base 1 falha se algum nome divergir — uma "correção" bem
+> intencionada derruba a conferência dela.
+
 ## Passo 9B: Índice do pacote (quando a matéria vive dentro de uma pasta de pacote)
 
 **Confirmado pelo Elvis em 2026-08-19.** Se a pasta da matéria estiver dentro de

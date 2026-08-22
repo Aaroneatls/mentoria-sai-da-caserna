@@ -1,4 +1,4 @@
-# ESP-DOWNLOAD — estado
+# ESP-ACERVO — estado
 
 > Atualizado em 22/08/2026. Escrito para quem chega sem histórico de conversa: nomes de arquivo
 > completos, commits citados, motivo junto de cada decisão.

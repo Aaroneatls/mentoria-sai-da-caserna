@@ -5,8 +5,8 @@
 
 | Frente | Agente | Estado | Trava |
 |---|---|---|---|
-| **Base 1 · Disciplinas** | `ESP-DISCIPLINAS` | **construída e relatada** · `conferir.py` com 11 blocos | só execução: B69 e B70 |
-| **Base 2 · Estratégia** | `ESP-DOWNLOAD` | skills reescritas, nada executado | Elvis ler o diff dos 4 passos |
+| **Base 1 · Disciplinas** | `ESP-TAXONOMIA` | **construída e relatada** · `conferir.py` com 11 blocos | só execução: B69 e B70 |
+| **Base 2 · Estratégia** | `ESP-ACERVO` | skills reescritas, nada executado | Elvis ler o diff dos 4 passos |
 | **Base 3 · Taxonomia Tec** | — | não começou | base 1 fechar |
 | **Base 4 · Parceiros** | — | não começou | base 1 fechar |
 | **Base 5 · Questões Tec** | — | piloto feito, base descartada | conta nova do Tec |

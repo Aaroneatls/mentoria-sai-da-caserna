@@ -1,10 +1,10 @@
-# Estado — ESP-DISCIPLINAS (base 1)
+# Estado — ESP-TAXONOMIA (base 1)
 
 > **Handoff completo.** Quem abrir uma sessão nova (Claude, ChatGPT, Codex, máquina nova) lê este
 > arquivo e continua daqui, **sem nenhum histórico de conversa**. Agente dono:
-> `agentes/ESP-DISCIPLINAS.md`. O estado mora com o **agente**, nunca com a base:
+> `agentes/ESP-TAXONOMIA.md`. O estado mora com o **agente**, nunca com a base:
 > um agente pode servir várias bases ou nenhuma (regra corrigida em 22/08/2026 a partir
-> do `ESP-DOWNLOAD`, que alimenta a base 2 sem ser dono dela).
+> do `ESP-ACERVO`, que alimenta a base 2 sem ser dono dela).
 
 Atualizado em 22/08/2026. Último commit desta base: **`2c46928`**.
 
@@ -30,7 +30,7 @@ coordenador, ele contrapôs em três rodadas, apliquei o que procedia, rebati o 
 
 **Próximo passo:** aguardar a validação do Elvis nos três itens da seção "Pendente" abaixo. Nada
 mais depende de mim. **Não refazer nada** e **não executar renomeação nenhuma**: quem renomeia pasta
-é o `ESP-DOWNLOAD`, e só depois do ok do Elvis.
+é o `ESP-ACERVO`, e só depois do ok do Elvis.
 
 ---
 
@@ -43,7 +43,7 @@ Tudo commitado e íntegro. `python bases/01-disciplinas/conferir.py` passa nos 1
 | `dados/disciplinas.csv` | 21 | as siglas; transcrição literal da seção A8 de `bases/DECISOES.md` |
 | `dados/apelidos.csv` | 432 | uma linha por par (sigla, fonte, nome literal), sobre 5 camadas |
 | `dados/areas.csv` | 31 | uma linha por par (sigla, área), com a evidência em cada linha |
-| `dados/renomear-pastas.csv` | 34 | contrato com o `ESP-DOWNLOAD`: 31 prontas, 3 pendentes |
+| `dados/renomear-pastas.csv` | 34 | contrato com o `ESP-ACERVO`: 31 prontas, 3 pendentes |
 | `fontes/tec.txt` | 146 | matérias do Tec, levantadas em 1 chamada |
 | `SEM-DONA.md` | — | as órfãs em 4 baldes; **gerado**, não editar à mão |
 | `dados/nomes-congelados.csv` | 21 | trava do nome; o bloco 11 compara contra ela |
@@ -101,7 +101,7 @@ Enquanto não decididas, as 3 pastas ficam **sem prefixo** no `renomear-pastas.c
 gravada é pior que pasta sem sigla:** a sem sigla qualquer um vê que falta; a errada ninguém percebe
 e ela contamina o Cód Mestre, que não pode mudar depois de publicado.
 
-### Do ESP-ACERVO (ex-ESP-DOWNLOAD) (não bloqueia esta base)
+### Do ESP-ACERVO (ex-ESP-ACERVO) (não bloqueia esta base)
 
 1. Depois de renomear, **atualizar a coluna `pasta_atual_no_disco`** com o nome novo. Ela é
    **estado**, não histórico; sem isso o `conferir` desta base casa zero linha.
@@ -116,7 +116,7 @@ e ela contamina o Cód Mestre, que não pode mudar depois de publicado.
 **1. Conferir a ementa dos cursos 220891 e 220896 pela API do Estratégia.**
 `TypeError: Failed to fetch` no origin `estrategiaconcursos.com.br`, nos três ids testados. Não
 insisti, por dois motivos: o cartão deste agente diz que ele **não entra no Estratégia**, e o
-`ESP-DOWNLOAD` já está logado lá. Repassado como B70.
+`ESP-ACERVO` já está logado lá. Repassado como B70.
 **Resolvi metade sem a API**, pelo nome do curso: "(Todos Estados)" mata a hipótese de ser local.
 
 **2. Regenerar `fontes/estrategia.txt` lendo as pastas do Drive.** Proposta minha, **vetada com
@@ -171,6 +171,6 @@ desenho.
 
 ## Relatório
 
-O relatório entregue ao Elvis está em `agentes/ESP-DISCIPLINAS-RELATORIO.md`, **arquivo e não
+O relatório entregue ao Elvis está em `agentes/ESP-TAXONOMIA-RELATORIO.md`, **arquivo e não
 mensagem**. Regra corrigida em 22/08/2026: o relatório era o entregável mais importante do ciclo e
 o único que não deixava rastro no repositório, o que já fez o coordenador presumir estado errado.

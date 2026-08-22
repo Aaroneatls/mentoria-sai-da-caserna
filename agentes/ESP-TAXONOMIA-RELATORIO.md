@@ -1,10 +1,10 @@
-# Relatório — ESP-DISCIPLINAS · Base 1 (Disciplinas)
+# Relatório — ESP-TAXONOMIA · Base 1 (Disciplinas)
 
 > Entregue ao Elvis em 22/08/2026. Sobrescrito a cada entrega.
-> Estado de trabalho em `ESP-DISCIPLINAS-ESTADO.md`; lições em `bases/01-disciplinas/APRENDIZADO.md`.
+> Estado de trabalho em `ESP-TAXONOMIA-ESTADO.md`; lições em `bases/01-disciplinas/APRENDIZADO.md`.
 
 **Situação: construída, conferida, e com as três pendências resolvidas pelo Elvis em 22/08/2026.**
-Último commit dos dados: ver `ESP-DISCIPLINAS-ESTADO.md`.
+Último commit dos dados: ver `ESP-TAXONOMIA-ESTADO.md`.
 
 ```
 21 disciplinas · 432 apelidos · 31 áreas · 34 pastas (31 prontas, 3 pendentes de execução)
