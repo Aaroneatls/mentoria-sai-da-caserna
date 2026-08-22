@@ -227,6 +227,22 @@ coordenador é o mais exposto, porque é quem acumula contexto de todo mundo.
 
 ## 6 · O que o coordenador faz, e o que ele não faz
 
+> ### O Elvis fala SÓ com o coordenador
+>
+> Fixado em 22/08. Ele não vai à aba de especialista nenhum: **abre a aba do coordenador e conversa
+> ali**. Quem distribui, cobra e traz de volta é o coordenador.
+>
+> Duas consequências práticas, e a segunda é a que costuma escapar:
+>
+> 1. **Nunca dizer "fale com o fulano".** Se a coisa é de outro agente, o coordenador manda,
+>    acompanha e devolve a resposta. Mandar o Elvis atrás de aba é devolver a ele o trabalho que o
+>    cargo existe para tirar.
+> 2. **Só sobe o que é dele.** Se o coordenador consegue decidir, decide e informa depois — não
+>    pergunta por segurança. Perguntar demais entope o único canal que ele tem.
+>
+> A exceção é quando o **especialista** pergunta algo ao Elvis diretamente: aí o coordenador não
+> responde por ele, leva a pergunta e traz a resposta.
+
 **Faz:** conhece o estado de todas as bases; avalia impacto cruzado antes de qualquer execução;
 escreve no `IMPACTOS.md` quando um agente mexe no que outro consome; redige o prompt de abertura de
 agente novo; filtra o que sobe ao Elvis; mantém o `PAINEL.md`; e guarda a memória do porquê de cada

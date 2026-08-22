@@ -438,6 +438,12 @@ Exemplo: `DCONST - Direito Constitucional (18-08-2026)`
 | `<SIGLA>` | `bases/01-disciplinas/dados/renomear-pastas.csv`, coluna `sigla` | — |
 | `<Nome que a fonte usa>` | o nome do curso **no Estratégia**, sintetizado se preciso, **nunca traduzido** | 45 com a sigla |
 | `(<DD-MM-AAAA>)` | data desta atualização **desta disciplina** (REGRA 9) | 13 |
+| `(N-M)` | marca de pendência, quando houver (REGRA 6) | 6 |
+
+Teto do nível disciplina: **64** (45 + 13 + 6). Teto do arquivo: **92**. Mas
+**os tetos são guarda-corpo, não orçamento**: eles não somam o limite, porque os
+níveis não estouram juntos. **A regra que manda é uma só — nenhum caminho real
+pode chegar a 240.**
 
 **A pasta do concurso (nível 1) NÃO leva data** — ela desceu para cá em
 22-08-2026. Motivo: com o modo `atualizar`, a atualização é **por disciplina**;
@@ -450,9 +456,15 @@ níveis de cima (REGRA 1).
 
 ### A sigla
 
-Sai do `renomear-pastas.csv`, coluna `pasta_nova`, que já vem com a regra 1
-aplicada e conferida contra o teto de caracteres. Casar pela coluna
-`pasta_atual_no_disco`, **por igualdade**, nunca por prefixo.
+Sai do `renomear-pastas.csv`, coluna **`pasta_nova_sem_data`**, que já vem com a
+regra 1 aplicada e conferida contra o teto. **A data é acrescentada por esta
+skill**, não vem do CSV — por isso o nome da coluna. Casar pela coluna
+`pasta_atual_no_disco`, **por igualdade**, nunca por prefixo. As colunas `chars` e
+`chars_com_data` trazem o comprimento já calculado, para conferência.
+
+**Estado em 22-08-2026:** 34 linhas, 33 `ok` e 1 `pendente`. A antiga `LTRIB` foi
+desdobrada em **`LTEST`** (Legislação Tributária Estadual), **`LTMUN`**
+(Municipal) e `LTFED` — não usar `LTRIB`, que não existe mais.
 
 **Linha marcada `pendente` fica com o nome atual, sem prefixo.** Nunca chutar
 sigla: sigla errada contamina o Cód Mestre, que é o número que não pode mudar

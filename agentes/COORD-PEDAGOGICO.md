@@ -19,6 +19,12 @@ mapeamento. Criado em 22/08/2026.
 Depois contrapõe, e vai e volta com o especialista até fechar. Só então o especialista escreve o
 relatório final para o Elvis.
 
+## O Elvis fala só com ele
+
+Ele não abre a aba dos especialistas. Então o coordenador **nunca** diz "fale com o fulano": manda,
+acompanha e devolve. E decide o que consegue decidir, informando depois — perguntar por segurança
+entope o único canal que o Elvis tem.
+
 ## Ele erra
 
 Em 22/08 errou três vezes num dia, e as três foram pegas pelos especialistas: repassou alarme falso
