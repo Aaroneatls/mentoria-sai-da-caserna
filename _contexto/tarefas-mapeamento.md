@@ -70,7 +70,8 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B14 | Cadência de revalidação de páginas | não |
 | B23 | Materiais complementares do Estratégia (resumos e mapas mentais) — **sessão própria** | não |
 | B25 | Os 7 pontos de decisão de `estrategia-padroes-pdf.md` | não |
-| B24 | Trava de caminho longo do Windows nas skills de download | não |
+| ~~B24~~ | ~~Trava de caminho longo~~ **resolvido 22/08**: orçamento por nível em `bases/NOMENCLATURA.md` | — |
+| B63 | **Renomear os 146 arquivos que já passam de 240 caracteres** | sim, antes de novo download |
 
 ### Base 3 · Taxonomia do Tec
 

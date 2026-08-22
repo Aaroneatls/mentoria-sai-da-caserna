@@ -133,6 +133,18 @@ Medido em 22/08/2026: **"Sistema de Questoes 1 Ano - Cartao ate 12 x"** (id 1432
 
 Filtrar por tipo nao basta. Conferir o nome e excluir explicitamente o que nao for materia.
 
+## Nome de pasta e de arquivo: ver `../NOMENCLATURA.md`
+
+O padrao completo esta la, com o orcamento de caracteres. Esta base grava os PDFs do Estrategia, entao **le antes de
+gravar qualquer coisa**.
+
+O essencial:
+- **Nao repetir o que a pasta pai ja diz.** Foi isso que estourou o limite de 260 caracteres do
+  Windows: o caminho mais longo tinha 263 e 146 arquivos passavam de 240.
+- **A sigla e nossa, o nome e da fonte**: `DADM - Direito Administrativo`. Sintetizar pode,
+  traduzir nao.
+- **Nunca apagar e recriar pasta**; renomear em cima.
+
 ---
 
 **Duvida sobre algo que nao esta aqui?** Consulte `../DECISOES.md`.

@@ -913,6 +913,9 @@ O filtro existe no menu do Tec, logo abaixo de "Área (Carreira)".
 
 ## Download do Estrategia: pasta, produto e unidade de mapeamento · fechado em 22/08/2026
 
+> **O padrao completo de nomes esta em `NOMENCLATURA.md`**, com o orcamento de caracteres por
+> nivel. O que segue e o principio; os limites estao la.
+
 ### A pasta leva o nome do ESTRATEGIA, nao o nosso
 
 Sintetizado se for comprido, mas **nunca traduzido** para a nossa taxonomia. Se a pasta se chamar

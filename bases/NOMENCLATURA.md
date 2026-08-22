@@ -1,0 +1,174 @@
+# Padrão de nomes de pasta e arquivo
+
+> **Documento transversal.** Vale para as skills de download, para a base 2 (Estratégia), para a
+> base 4 (materiais de parceiros) e para qualquer coisa que grave arquivo no Drive.
+>
+> Ele existe por um motivo medido: em 22/08/2026 o caminho mais longo do Drive tinha **263
+> caracteres**, contra o limite de **260 do Windows**, e **146 arquivos** passavam de 240. Já
+> estava quebrado.
+
+---
+
+## 1 · O orçamento de caracteres
+
+O Windows corta em **260 caracteres no caminho inteiro**. A meta é ficar em **240**, deixando
+folga para quem mover a pasta ou criar uma subpasta.
+
+| Nível | Máximo | Exemplo |
+|---|---|---|
+| Raiz (fixa) | **47** | `G:\Meu Drive\Inteligência Artificial\Estrategia\` |
+| Concurso | **40** | `ISS Manaus (AFTM) 2026 (19-08-2026)\` |
+| Tipo de curso | **20** | `Curso Regular\` |
+| Disciplina | **45** | `LTRIB - Legislação Tributária\` |
+| Arquivo | **80** | `Aula 00 - Noções Introdutórias LS (23-03-2026).pdf` |
+| **Total** | **236** | com folga de 24 |
+
+**Quem estourar o máximo do seu nível, sintetiza.** Nunca empurrar o problema para o nível
+seguinte.
+
+---
+
+## 2 · O erro que causou o estouro, e a regra que o impede
+
+O caminho campeão era este:
+
+```
+...(ISS Manaus-AFTM) (19-08-2026)\Legislação Tributária (Zona Franca de Manaus) (ISS Manaus-AFTM) - Metadados.gsheet
+```
+
+`(ISS Manaus-AFTM)` aparece **duas vezes** e a data também. A pasta filha repetia o que a pasta
+pai já dizia.
+
+> ### REGRA 1 — não repetir o que o pai já diz
+>
+> Concurso, data e tipo de curso aparecem **uma vez só**, no nível onde nascem. A pasta da
+> disciplina não repete o concurso; o arquivo não repete a disciplina.
+
+Só essa regra devolve **60 caracteres** de folga.
+
+---
+
+## 3 · A estrutura
+
+```
+G:\Meu Drive\Inteligência Artificial\Estrategia\
+└── <Concurso> (<Sigla-Concurso>) <Ano> (<DD-MM-AAAA>)\
+    └── <Tipo de Curso>\
+        └── <SIGLA> - <Disciplina>\
+            ├── <Aula NN> - <Tema> <LS|LC> (<DD-MM-AAAA>).pdf
+            ├── Apoio - Resumos e Mapas Mentais\
+            │   ├── R - <slug>.pdf
+            │   └── MM - <slug>.pdf
+            └── <SIGLA> - Metadados.gsheet
+```
+
+### Nível 1 — Concurso
+
+| | |
+|---|---|
+| Formato | `<Nome> (<Sigla>) <Ano> (<DD-MM-AAAA>)` |
+| Exemplos | `Pacotaço TCDF (ANACE) 2026 (18-08-2026)` · `Regular Controle (18-08-2026)` |
+| A data | é a do **download**, e aparece **só aqui** |
+
+Curso Regular não tem concurso nem ano: fica `Regular Controle` e `Regular Fiscal`.
+
+### Nível 2 — Tipo de curso
+
+Valores fixos: `Curso Regular` · `Passo Estratégico` · `Bizu Estratégico` · `Monitoria` ·
+`Trilha` · `Rodadas Avançadas`.
+
+Existe mesmo quando só há um tipo, porque a estrutura tem de ser previsível para a skill que lê.
+
+### Nível 3 — Disciplina
+
+| | |
+|---|---|
+| Formato | `<SIGLA> - <Nome que a fonte usa>` |
+| Exemplo | `DADM - Direito Administrativo` · `TECINF - Análise de Informações` |
+
+> ### REGRA 2 — a sigla é nossa, o nome é da fonte
+>
+> O prefixo é o nosso Cód Mestre de disciplina; o resto é **o nome que o Estratégia usa**,
+> sintetizado se passar de 45 caracteres, mas **nunca traduzido**.
+>
+> Traduzir quebra a busca: quem abre a plataforma procurando `TECINF` não acha nada. E o prefixo
+> agrupa a listagem por disciplina, que com 21 pastas por curso faz diferença.
+
+**Nunca repetir o concurso aqui.** Ele já está no nível 1.
+
+### Nível 4 — Arquivo de aula
+
+| | |
+|---|---|
+| Formato | `Aula NN - <Tema> <LS\|LC> (<DD-MM-AAAA>).pdf` |
+| A data | é a **da capa do PDF**, não a do download |
+| `LS` / `LC` | livro simplificado ou completo. **O simplificado é o padrão**; o completo entra quando não existe simplificado |
+| O tema | vem **da capa do PDF**, não do rótulo do site, quando os dois divergirem |
+
+### Nível 4b — Apoio
+
+Subpasta `Apoio - Resumos e Mapas Mentais`, **única por disciplina**, sem subpasta por aula: o
+mesmo arquivo serve vários vídeos e às vezes aulas diferentes. **Aula é circunstância, não
+identidade** — vira coluna na base, não pasta.
+
+| Prefixo | O que é |
+|---|---|
+| `R - ` | resumo |
+| `MM - ` | mapa mental |
+
+Slug curto, até 40 caracteres.
+
+---
+
+## 4 · Regras que valem em todos os níveis
+
+> ### REGRA 3 — primeira letra maiúscula
+> Vale para toda pasta criada.
+
+> ### REGRA 4 — nunca apagar e recriar
+> Atualizar renomeia **em cima** da pasta existente. Apagar e recriar perde o histórico e, se o
+> download falhar no meio, perde o material.
+
+> ### REGRA 5 — o nome do arquivo vem da capa do PDF
+> Quando o rótulo do site divergir do título impresso na capa, **vale o da capa**. É o que o aluno
+> vê quando abre.
+
+> ### REGRA 6 — pendência entra no nome da pasta
+> Se sobrou material por baixar, a pasta ganha `(N-M)` antes da data, indicando quantos de quantos
+> vieram. Sem pendência, sem marca.
+
+---
+
+## 5 · Como as outras bases leem isto
+
+O caminho é **estruturado**, então dá para extrair sem depender de tabela:
+
+```
+.../Regular Controle (18-08-2026)/Curso Regular/DADM - Direito Administrativo/Aula 06 - Atos Administrativos LS (12-05-2026).pdf
+     └──── concurso ─────┘ └─data─┘  └─── tipo ───┘  └sigla┘ └── nome na fonte ──┘ └aula┘ └─ tema ─┘ └v┘ └─capa─┘
+```
+
+| Campo | De onde sai |
+|---|---|
+| `concurso`, `data_download` | nível 1 |
+| `tipo_curso` | nível 2 |
+| `sigla`, `nome_na_fonte` | nível 3, separados pelo primeiro ` - ` |
+| `aula`, `tema`, `versao`, `data_capa` | nível 4 |
+
+**Mas o caminho é conveniência, não fonte.** A fonte é a base 2. Se um dia alguém renomear uma
+pasta na mão, a base continua certa e o caminho é que fica errado — e o modo `conferir` da skill
+tem de pegar isso.
+
+---
+
+## 6 · O que este padrão NÃO resolve
+
+**Nome de arquivo curto perde informação.** `DADM-0018.pdf` cabe em qualquer lugar e não diz nada
+para quem abre a pasta. Por isso o nome continua legível, e a identidade fica na base.
+
+**Disciplina que a fonte divide em duas** (o caso de Informática e Tecnologia da Informação no
+mesmo curso) vira **duas pastas com a mesma sigla**. Isso é esperado, e a tabela de pares
+bloco × tópico resolve. Não force numa pasta só.
+
+**Concurso com vários produtos** (Regular, Passo, pacotaço, sistema de questões) não vira várias
+pastas: baixa-se **só o Curso Regular**, então existe uma pasta por concurso.
