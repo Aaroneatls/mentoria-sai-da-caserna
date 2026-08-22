@@ -174,3 +174,101 @@ matéria.**
 **Endereçar agente pela obra, não pelo apelido.** Duas mensagens foram para a sessão errada em
 22/08. "Para quem tem `<arquivo>` no disco" é verificável com um `ls`. Adotado no
 `agentes/README.md`.
+
+
+---
+---
+
+# Base 3 · A árvore de assuntos do Tec
+
+> Entregue em 22/08/2026. Commit **`0d65be5`**.
+
+```
+4.805 assuntos · 30 matérias · profundidade até 6 níveis · 62 chamadas · nenhum 429
+dados/assuntos.csv: materia_id, materia_nome, sigla, assunto_id, hierarquia, nivel, nome
+```
+
+## 1 · Como eu fiz
+
+**1. Quais matérias.** Saíram do `apelidos.csv` da base 1: as que têm `fonte = Tec` e
+`status = ok`. Deram **30**, não as 29 que o coordenador contou — a `LTFED` entrou na conta
+quando a família da `LTRIB` nasceu, poucas horas antes.
+
+**2. A chamada certa é `GET /api/assuntos?materia={id}`, SEM `hierarquico=true`.**
+
+**3. Ritmo.** 500 a 800 ms entre chamadas, em lotes de 10. O lote de 30 estourou o limite de 30
+segundos da ferramenta, **mas o laço continuou rodando na página** e 28 já estavam baixadas quando
+eu voltei a olhar. Vale saber: o timeout é do meu lado, não do laço.
+
+**4. Como os dados saíram da página.** O volume não cabe no contexto. O caminho que funcionou: o
+navegador devolve tudo num TSV único, a ferramenta salva sozinha num arquivo quando o resultado é
+grande demais, e o Python lê **esse arquivo**. O conteúdo nunca passa pelo meu contexto.
+
+> **Armadilha:** aquele arquivo é **duplo-encodado**. É um JSON com blocos `{type, text}`, e o
+> `text` é ele mesmo uma string JSON, **seguida de texto solto** (a nota de origem). `json.loads`
+> quebra com `Extra data`. O que funciona é `JSONDecoder().raw_decode()` em cada bloco. Perdi duas
+> tentativas nisso.
+
+**5. Conferência.** Contei as linhas do arquivo (4.805) contra o total que o próprio JS reportou
+(4.805) e contra os ids únicos (4.805). Três contagens de origens diferentes batendo.
+
+## 2 · Onde escolhi, e o que descartei
+
+**Puxei só as 30 nossas, não as 146 do catálogo.** As 116 restantes são de outras carreiras. Custaria
+116 chamadas para guardar o que nunca vai ser consultado.
+
+**Não amarrei assunto ao Cód Mestre**, embora fosse a coisa mais óbvia a fazer com a árvore na mão.
+O tópico nasce da teoria que o aluno lê; o assunto do Tec é apelido que se pendura nele. Amarrar
+antes da base 2 inverteria o desenho, e o vínculo teria de ser refeito.
+
+**Guardei a hierarquia como está (`"10.05.02"`), sem montar árvore aninhada.** A string ordena, agrupa
+por prefixo e sobrevive a CSV. Aninhar exigiria JSON, que o git não mostra linha a linha.
+
+## 3 · O que ficou frágil
+
+**A varredura de ramos cruzados é por palavra-chave**, com uma lista de termos que eu escrevi. Ela
+achou 4 casos. **Ela não prova que não há um quinto** — prova que não há nenhum cujo nome de ramo
+contenha os termos que eu lembrei de listar. É o mesmo tipo de furo da regex da Tutory, e desta vez
+**eu não fiz amostragem cega**, porque não há um "gabarito à mão" para comparar: eu teria de julgar
+os 499 ramos, que é o trabalho inteiro. Fica declarado.
+
+**O `assuntos.csv` tem 4.805 linhas e nenhum `conferir.py` próprio.** A base 1 tem 11 blocos; a base
+3 tem zero. Enquanto o arquivo é só matéria-prima, o risco é baixo; quando ele receber o vínculo com
+o Cód Mestre, precisa de conferência antes.
+
+## 4 · Onde o combinado divergiu do medido
+
+**O `ROTEIRO.md` da base 3 estava errado em dois números**, e os dois foram corrigidos:
+
+| | Dizia | É |
+|---|---|---|
+| assuntos de Direito Administrativo | 2.755 | **276** |
+| chamadas | ~21 | **30** |
+
+**E `hierarquico=true` devolve MENOS, não mais:** 121 contra 276 em Direito Administrativo. Ele
+filtra. O nome do parâmetro promete o contrário.
+
+**A hierarquia não vem aninhada.** É lista plana com o caminho no campo `hierarquia`. Quem procurar
+`filhos`, `children` ou `assuntos` conta só o nível 1 e conclui que a árvore é rasa.
+
+## 5 · Pendente do Elvis
+
+**Nada.** A árvore é matéria-prima; o que falta depende da base 2, não dele.
+
+## 6 · O que eu faria diferente
+
+**As 30 chamadas com o parâmetro errado eu não teria evitado, e é o ponto principal.** Eu usei
+`hierarquico=true` porque **era o que o `ROTEIRO.md` mandava**, e o nome do parâmetro é convincente.
+O que salvou não foi desconfiança: foi o **número do documento não bater com o meu**. Ele dizia 2.755
+para DADM, eu contei 121, e a distância era grande demais para arredondamento.
+
+Então a lição não é "leia a doc da API antes". É: **um número errado no documento pagou as 30
+chamadas que ele mesmo causou.** Se o roteiro não tivesse número nenhum, eu teria gravado 121
+assuntos por matéria, com profundidade 1, e seguido em frente — e a base 3 nasceria com **um quarto**
+da taxonomia, sem ninguém perceber, porque nada mais teria com o que comparar.
+
+**A regra que eu tiro daí:** todo roteiro deve carregar **uma contagem esperada**, mesmo aproximada,
+mesmo errada. Número errado se corrige na primeira medição; número ausente não avisa nunca. É a
+mesma família de "teste que afirma um invariante de cada linha", só que aplicada a documento.
+
+**E eu deveria ter reportado ao coordenador ao terminar**, não só ao Elvis. Ver a nota abaixo.
