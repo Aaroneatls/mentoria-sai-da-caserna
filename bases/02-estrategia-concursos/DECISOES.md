@@ -94,6 +94,19 @@ O que ja se sabe e que continua valendo ate ser contrariado:
 - **limite de 3 produtos matriculados por vez**, com rodizio livre pela palavra `CORUJA`
 - pasta padrao: `G:\Meu Drive\Inteligencia Artificial\Estrategia`
 
+## ANTES DE QUALQUER EXTRACAO: normalizar o texto
+
+O PDF do Estrategia traz **CPF e nome do titular da conta na camada de texto**, em quase toda
+pagina (`02055447114 - Gisilene Tatianne Santos de Lima`, medido em 124 de 125 paginas).
+
+**Remover essa linha antes de hashear ou ancorar.** Sem isso, o mesmo conteudo baixado por contas
+diferentes gera `hash_teoria` diferente, e a regra de "mesma teoria = mesmo Cod Mestre" falha em
+silencio.
+
+**E o hash do ARQUIVO nao serve:** o PDF vem marcado por download, e quatro downloads do mesmo
+arquivo deram quatro hashes diferentes. A assinatura de mudanca e **nome no CDN + paginas +
+tamanho aproximado (~1 KB de tolerancia) + data da capa**.
+
 ---
 
 **Duvida sobre algo que nao esta aqui?** Consulte `../DECISOES.md`.

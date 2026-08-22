@@ -6,6 +6,115 @@
 
 ---
 
+## Apoio do Estratégia: resumo e mapa mental · fechado em 22/08/2026
+
+### Onde eles ficam
+
+**Não são da aula: são de cada vídeo dentro dela.** No objeto do vídeo
+(`/api/aluno/aula/{id}` → `videos[]`) existem `resumo`, `slide` e `mapa_mental`,
+preenchidos quando existem e `null` quando não. Rotas:
+`/api/video/{videoId}/download/{resumo|mapa_mental|slideshow}`. A tela mostra o
+botão **do vídeo aberto** — por isso parece haver um só por aula.
+
+Medido no piloto de Direito Constitucional (Regular Fiscal, curso 220880):
+22 aulas, 198 vídeos, **12 resumos e 20 mapas mentais distintos**, em 14 aulas.
+7 aulas têm exatamente 1 resumo, 2 têm mais de 1, 13 não têm nenhum. 28 MB.
+
+### Prioridade
+
+1. **Aba Resumos / Mapa Mental** (arquivo já separado) — o aluno só clica e baixa.
+2. **Seção de resumo dentro do livro** — e só vale se **o próprio livro** rotular
+   aquilo como resumo. Trecho de teoria escolhido por nós **não** é resumo.
+   Simplificado primeiro; original só onde não houver simplificado.
+
+**Resumo e mapa mental não têm hierarquia entre si**: se houver os dois, indicar
+os dois. Se o mesmo conteúdo existir nos dois lugares, comparar e ficar com o
+**mais completo**.
+
+Na ordem geral do plano, o **resumo do Bruno Bezerra é o preferencial**; o
+Estratégia é a alternativa.
+
+### O apoio segue o CURSO que foi indicado ao aluno
+
+A indicação inclui o caminho ("Aula 00 › vídeo 18 › aba Resumo"), e esse caminho
+só existe no curso que o aluno tem em mãos. Portanto:
+
+- bloco veio do **curso específico (pós-edital)** → o resumo tem de estar **nele**;
+- bloco veio de aula aproveitada do **Curso Regular** → o resumo tem de estar **no Regular**;
+- **não estando no curso indicado, não indica** — mesmo que exista no outro.
+
+A tabela de apoio guarda o `curso ID` de origem, e a correlação só usa linhas do
+mesmo curso do bloco entregue.
+
+**A trava vale só para o Estratégia.** O resumo do **Bruno Bezerra é outra base, em
+outra plataforma, e o aluno já tem o material salvo com ele** — então pode ser
+indicado **independentemente do curso** de onde veio o bloco. Indicar outro curso
+do Estratégia mandaria o aluno caçar um curso que ele talvez nem tenha; com o
+Bezerra esse problema não existe.
+
+### Deduplicação e descarte
+
+- **Deduplicar pelo nome do arquivo no CDN, nunca por hash.** O PDF é marcado por
+  download: o mesmo arquivo baixado 4 vezes dá 4 hashes diferentes (tamanho varia
+  ~100 bytes). Conferir com páginas + primeira linha do texto.
+- **Arquivo repetido em vários vídeos: baixar uma vez, indicar uma vez.** No
+  piloto, um resumo servia aos vídeos 1, 2, 8 e 13 da mesma aula.
+- **Arquivo sem conteúdo (só capa) é descartado.** Caso real: `apznza-2.pdf`,
+  1 página, só "MAPAS MENTAIS – Direito Constitucional / Material compilado".
+- **Registrar o que foi conferido**: na atualização do curso, repassar o apoio
+  para ver o que mudou.
+
+### Identidade x caminho
+
+Cada arquivo carrega duas informações distintas:
+
+| | |
+|---|---|
+| **Identidade** | do que trata + **páginas**, igual ao Bezerra (`arquivo + pág. inicial-final`) |
+| **Caminho** | onde o aluno clica: `Aula NN › vídeo N › aba Resumo` |
+
+Os arquivos são indexáveis por página: o resumo compilado traz folha de rosto com
+o tema na p. 2 (a p. 1 é apresentação genérica), e o mapa mental grande traz o
+subtópico **no cabeçalho de cada página**.
+
+**Dois tipos de resumo:** o **compilado** abre com "APRESENTAÇÃO DO MATERIAL —
+Queridos alunos!!" e cobre um tema inteiro (4 a 12 páginas); o **pontual** vai
+direto ao assunto em ~2 páginas. Mapa mental varia de 1 a 55 páginas.
+
+### Organização em pasta
+
+**Uma pasta por disciplina** (`Apoio - Resumos e Mapas Mentais`), sem subpasta por
+aula: o mesmo arquivo serve vários vídeos e às vezes aulas diferentes, e a aula é
+circunstância, não identidade. A aula/vídeo é **coluna na planilha**.
+
+### Limitação que define a fase
+
+A API **não diz quais páginas do livro o vídeo cobre**. A ligação apoio → bloco /
+Cód Mestre é por **assunto** (título do vídeo), nunca por página — e acontece na
+**fase de granularidade**, não na de download. A **coleta** fica na fase de
+download, que já percorre as aulas autenticada.
+
+**O apoio nunca é fonte da taxonomia.** Não se lê resumo nem mapa mental para
+definir tópico, nome mestre ou divisão de bloco: a base é o livro simplificado
+(original só onde não houver simplificado). O apoio só pendura indicação num
+tópico que já existe.
+
+### Texto para o aluno
+
+Curto e com ícone servindo de rótulo (a Tutory tem limite de caracteres, ainda a
+confirmar — premissa de ~300):
+
+```
+📄 Resumo Bezerra: Dir. Constitucional, PDF 03, p. 12-18
+🧠 Estratégia: Aula 00 › vídeo 18 › aba Resumo (p. 2-3)
+⚠️ Sem resumo para este tópico
+```
+
+O número do vídeo é obrigatório: sem ele o aluno abre a aula, não acha botão de
+resumo e conclui que não existe.
+
+---
+
 ## A14 — Cód Mestre, ordem e o que vai na Tutory · fechado em 21/08/2026
 
 ### O código

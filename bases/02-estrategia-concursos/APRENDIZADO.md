@@ -18,3 +18,36 @@
   falsa. Renderizar e olhar e o unico metodo confiavel, nao o ultimo recurso.
 - **Pagina e sempre a do arquivo PDF**, nunca a impressa na folha nem a do sumario.
 
+## 22/08/2026 — a marca d'agua esta na CAMADA DE TEXTO
+
+O PDF do Estrategia carrega, em quase toda pagina, uma linha com **CPF e nome do titular da
+conta**:
+
+```
+02055447114 - Gisilene Tatianne Santos de Lima
+```
+
+Medido: **124 das 125 paginas** de "Aula 00 - Regime Juridico-Administrativo e Principios LS".
+
+**Isso quebra o `hash_teoria` se nao for tratado.** O hash existe para dizer que dois cursos tem a
+mesma teoria e portanto compartilham Cod Mestre. Com a marca dentro do texto, o mesmo conteudo
+baixado por **contas diferentes** gera hashes diferentes, e a regra falha **em silencio** — o
+sistema simplesmente deixa de reconhecer que sao o mesmo topico.
+
+**A regra:** normalizar antes de qualquer processamento de texto — remover a linha de marca
+(padrao `<CPF> - <Nome>`) e, em geral, **tudo que varia por conta ou por download**.
+
+Vale para o hash, para as ancoras de prosa e para qualquer extracao. O detector de titulos por
+tamanho de fonte nao sofre, porque a marca e pequena, mas as ancoras de prosa sofreriam.
+
+**Nao invalida o hash como conceito**, so exige a normalizacao antes.
+
+### Junto disso: o hash do ARQUIVO nao serve para nada
+
+Descoberto pela sessao das skills de download em 22/08: o PDF vem **marcado por download**. Quatro
+downloads do mesmo arquivo deram quatro hashes diferentes, com o tamanho variando ~100 bytes
+(90.153 / 90.183 / 90.224 / 90.274).
+
+Entao hash de arquivo daria **falso positivo de mudanca em toda execucao**. A assinatura de
+mudanca passa a ser: **nome do arquivo no CDN** (identidade) + numero de paginas + tamanho
+aproximado (tolerancia de ~1 KB) + data da capa do PDF.
