@@ -59,6 +59,26 @@ O que atravessa é a **obra**. Todo agente é dono de um arquivo, e é por ele q
 | **questões** | `agentes/ESP-QUESTOES.md` | o banco do Tec |
 | **produção** | `agentes/ESP-PRODUCAO.md` | o que chega ao aluno |
 
+### O título da aba segue o mesmo nome
+
+Fixado em 22/08. A aba de cada sessão leva o nome do agente, para o Elvis achar de bate-pronto:
+
+```
+PEDAGÓGICO · coordenador
+ACERVO · Estratégia e parceiros
+TAXONOMIA · disciplinas, Tec, editais
+CONTEÚDO · blocos e tópicos do Estratégia
+QUESTÕES · banco do TecConcursos
+PRODUÇÃO · planos, cadernos e BIZURITO
+```
+
+Nome curto em caixa alta, ponto médio, e o escopo em minúsculas. **Ao abrir um agente, renomear a
+aba é parte da abertura** — vale para o próprio agente, que pode se renomear.
+
+Isso não substitui o endereçamento por arquivo: título de aba é para o **Elvis** enxergar; entre
+agentes o endereço continua sendo o `agentes/<NOME>.md`, porque o nome interno de sessão não
+sobrevive e já mandou mensagem para o destino errado três vezes num dia.
+
 **O Elvis fala pelo nome curto** — "fala com o acervo", "isso é do questões". Qualquer sessão tem de
 entender essa linguagem. Os três últimos ainda não abriram, mas já têm cartão: o vocabulário existe
 antes do agente.

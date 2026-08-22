@@ -24,12 +24,14 @@ siglas = [r["sigla"] for r in disc]
 S = set(siglas)
 
 # 1. as 21, unicas, no formato fechado na A8
-check(len(disc) == 21, "disciplinas.csv tem %d linhas, deveria ter 21" % len(disc))
-check(len(S) == 21, "sigla repetida em disciplinas.csv")
+# a contagem NAO e fixa: a familia da legislacao tributaria cresce por ente em pos-edital.
+# O que tem de valer sempre e a unicidade, nao o total.
+check(len(S) == len(disc), "sigla repetida em disciplinas.csv")
+check(len(disc) >= 21, "disciplinas.csv encolheu abaixo de 21 (%d): sigla nao se apaga, se APOSENTA" % len(disc))
 for s in siglas:
     check(re.fullmatch(r"[A-Z]{4,6}", s) or s == "AFO",
           "sigla fora do padrao 4-6 letras (AFO e a unica excecao de 3): %s" % s)
-check(len(set(r["nome_canonico"] for r in disc)) == 21, "nome_canonico repetido")
+check(len(set(r["nome_canonico"] for r in disc)) == len(disc), "nome_canonico repetido")
 
 # 2. integridade referencial
 for r in ap:
@@ -107,7 +109,17 @@ for arq, linhas in [("disciplinas.csv",disc),("apelidos.csv",ap),("areas.csv",ar
 comap = set(r["sigla"] for r in ap if r["status"] == "ok")
 for s in siglas:
     check(s in comap, "sigla sem nenhum apelido: %s (ninguem acha o material dela)" % s)
-    check(any(r["sigla"] == s for r in ar), "sigla sem area: %s" % s)
+    tem_regular = any(r["sigla"] == s and r["status"] == "ok" and r["fonte"].startswith("Estrategia Regular")
+                      for r in ap)
+    if tem_regular:
+        check(any(r["sigla"] == s for r in ar), "sigla sem area: %s" % s)
+    else:
+        # sem curso no Regular nao ha de onde tirar area. E estado valido, mas tem de ser DECLARADO
+        # na observacao, para ninguem confundir com esquecimento.
+        obs = next((r["observacao"] for r in disc if r["sigla"] == s), "")
+        check("SEM material no Curso Regular" in obs,
+              "sigla %s nao tem curso no Regular e nao declara isso na observacao de "
+              "disciplinas.csv: sem a declaracao, area vazia parece esquecimento" % s)
 
 # 9. entrada de fonte SEM REGRA falha, nao avisa.
 #    Furo apontado em 22/08/2026: cobertura foi provada uma vez, na mao. Quando a area
@@ -135,7 +147,13 @@ for sig, area in sorted(pares_area):
 #     disciplina, AINDA QUE POR UM UNICO ESPACO, faz a plataforma tratar como disciplina
 #     nova e o historico do aluno se perde. Nao ha desfazer depois de publicado.
 #     Por isso `nome_canonico` tem o mesmo estatuto da sigla: irreversivel, nivel 3.
-cong = {r["sigla"]: r["nome_canonico"] for r in ler(os.path.join(D, "nomes-congelados.csv"))}
+_cong = ler(os.path.join(D, "nomes-congelados.csv"))
+cong = {r["sigla"]: r["nome_canonico"] for r in _cong if r.get("status", "ativa") == "ativa"}
+aposentadas = {r["sigla"] for r in _cong if r.get("status", "ativa") != "ativa"}
+for s_ in siglas:
+    check(s_ not in aposentadas,
+          "sigla APOSENTADA reaparecendo em disciplinas.csv: %s. Sigla morta nunca se reaproveita: "
+          "se ela ja foi publicada em algum lugar, o aluno seria mandado para conteudo errado." % s_)
 for r in disc:
     esperado = cong.get(r["sigla"])
     check(esperado is not None,
