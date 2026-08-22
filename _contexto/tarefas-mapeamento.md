@@ -95,6 +95,9 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B27 | Apagar o caderno `101395596` (banca ESAF) pela lixeira | sim, higiene |
 | B53 | Definir a janela de anos **por matéria**, mirando ~2.500 questões e teto de 10 anos | antes de cada coleta |
 | B55 | Filtro **Área (Carreira)**: Controladorias + Tribunais de Contas, sem Gestão Governamental | **antes da 1ª coleta** |
+| B62 | Filtro de **escolaridade**: só nível superior | **antes da 1ª coleta** |
+| B60 | Aba de **concursos**, montada a partir do cabeçalho impresso, com a marca de área especializada | junto da coleta |
+| B61 | Busca externa sobre os concursos duvidosos, para o Elvis marcar | junto |
 | ~~B58~~ | ~~Corte por órgão~~ **resolvido**: o filtro de Área tem subníveis | — |
 | B59 | Repuxar a lista completa de filtros do Tec: pode haver um de área especializada | 1 chamada |
 | ~~B56~~ | ~~Coletar `tempoMedio`~~ **descartado**: custa 1 requisição por questão | — |
@@ -109,13 +112,6 @@ O único item externo é a **conta nova do Tec**, que o Elvis vai criar. Ela tra
 | B33 | Seguir alimentando o histórico do limite do Tec | não |
 | B35 | Na skill final, trocar o censo pelo **percentual real** questão a questão | não |
 | B21 | Pasta parametrizada e ponto de retomada nas skills | não |
-
-### Base 7 · Concursos
-
-| # | Item | Bloqueia? |
-|---|---|---|
-| B60 | Montar a base de concursos com a marca **área especializada: sim/não** | ao separar o acervo |
-| B61 | Definir a fonte do julgamento: nome do cargo, edital, busca | junto |
 
 ### Base 6 · Editais
 

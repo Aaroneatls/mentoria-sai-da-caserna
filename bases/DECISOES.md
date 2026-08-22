@@ -601,3 +601,83 @@ julgamento (busca, nome do cargo, edital).
 
 **O critério final é por matéria.** TI e Contabilidade sofrem mais; Direito Administrativo quase
 não sofre. Definir ao coletar cada matéria.
+
+---
+
+## Bloco de teoria em múltiplos de 30 minutos · 22/08/2026
+
+**A Tutory só aceita múltiplos de 30 minutos**, de 30 a 180. Não existe tarefa de 45.
+
+Consequências:
+
+1. **Precisão fina não vale nada.** 82 e 89 minutos viram os mesmos 90. Isso confirma o descarte
+   do `tempoMedio` do Tec: gastar 1 requisição por questão para ganhar precisão que é arredondada
+   fora é desperdício puro.
+
+2. **O bloco de teoria mira múltiplos de 30**, e a 5 min/página isso dá:
+
+   | Bloco | Páginas |
+   |---|---|
+   | 30 min | 6 |
+   | **60 min** | **12** |
+   | 90 min | 18 |
+
+3. **Teto de 90 minutos por tarefa.** A composição que fecha certo:
+
+   ```
+   12 páginas de teoria  ->  60 min
+   + questões            ->  30 min
+                             90 min  <- o teto
+   ```
+
+**Isso sugere alvo de 12 páginas, e não 10.** O 10 foi decidido em 21/08 quando o critério era só
+o corte do PDF; com o tempo na conta, o 12 fecha redondo. **Falta o Elvis confirmar.**
+
+**O corte continua sendo sempre em título.** O alvo orienta, o título manda: nunca cortar no meio
+de um tópico.
+
+**Tipos de tarefa** (todas entre 30 e 120 min, mirando 90):
+
+- teoria + questões, com leitura dos comentários
+- leitura do resumo (revisão) + algumas questões
+- só leitura do resumo
+- só caderno de questões
+
+**A carga diária não é problema:** o aluno declara o tempo disponível e a Tutory distribui sozinha.
+
+---
+
+## A base de concursos se monta sozinha · 22/08/2026
+
+**Não precisa buscar lista.** Cada questão impressa já traz o concurso dela no cabeçalho:
+
+```
+CEBRASPE (CESPE) - AG (TCE-PE) /TCE PE/Administração/2017
+                    cargo        órgão   área          ano
+```
+
+Enquanto a coleta roda, a lista de concursos se forma sozinha, **sem chamada extra**, e cobre
+exatamente os concursos que apareceram no acervo — nem um a mais. Puxar a lista completa do Tec
+traria centenas que nunca serão vistos.
+
+**Fica junto da base 5**, em aba separada, porque está vinculada às próprias questões.
+
+**O julgamento "é de área especializada?" é do Elvis**, com Claude fazendo a busca externa sobre
+os concursos duvidosos e trazendo a lista para marcar. Em Direito Administrativo espera-se
+pouquíssimos casos; em Contabilidade e TI, mais.
+
+**Serve a três usos**, não só à montagem de caderno:
+
+1. excluir do caderno do aluno o que é de outro nível
+2. **excluir do caderno de erros**: se ele errou uma questão especializada, reforçar naquele nível
+   piora, porque ele errou pelo nível da questão e não por base fraca
+3. guardar como ativo, para o dia em que houver material para concurso especializado
+
+---
+
+## Filtrar por escolaridade · 22/08/2026
+
+**Só nível superior.** Questão de nível médio cobra o mesmo assunto de forma bem mais rasa e
+contamina a percepção de dificuldade do tópico.
+
+O filtro existe no menu do Tec, logo abaixo de "Área (Carreira)".
