@@ -167,7 +167,12 @@ Então:
    Elvis valida  ->  so entao executa
 ```
 
-> ### TERMINAR É REPORTAR
+> ### TERMINAR É REPORTAR — AO COORDENADOR
+>
+> **Tarefa concluída sem relatório ao coordenador não está concluída.** Reportar ao Elvis **não
+> substitui**: correção do `ESP-TAXONOMIA` em 22/08, e ela é boa — sem dizer *a quem*, cada agente
+> escolhe o destinatário mais à mão, fica de consciência limpa, e o achado não chega em quem avalia
+> impacto cruzado. Foi o que aconteceu com a matéria 37.
 >
 > **Tarefa concluída sem relatório não está concluída.** O relatório é o último passo do trabalho,
 > não um extra que se manda quando alguém pede.
@@ -178,7 +183,8 @@ Então:
 >
 > Aconteceu em 22/08: a taxonomia puxou a árvore do Tec, achou que dimensionar `AUDIT` pela matéria
 > 37 contaria um acervo que é **10/11 de Controle Externo** — um erro que estragaria a base 5 — e
-> **não avisou**. O coordenador só viu porque foi conferir o `git log` por outro motivo.
+> reportou **ao Elvis, não ao coordenador**. O coordenador só viu porque foi conferir o `git log`
+> por outro motivo.
 >
 > Escrever no `IMPACTOS.md` **não substitui** o relatório: o `IMPACTOS` é consultado por quem
 > começa uma base, e pode levar dias até alguém abrir.
@@ -296,6 +302,10 @@ coordenador é o mais exposto, porque é quem acumula contexto de todo mundo.
 >
 > Com mais de uma sessão viva no mesmo repositório, **adicionar por caminho**, nunca `-A`. E antes
 > de commitar, `git status` para ver se apareceu arquivo de outro agente.
+>
+> **Não é desatenção, é defeito de ferramenta.** No mesmo dia, sem contato, o coordenador e o
+> `ESP-TAXONOMIA` cometeram o mesmo erro — e cada um só percebeu o do outro. O commit `522e1b6`, de
+> taxonomia, carrega **410 linhas** de reescrita das skills do `ESP-ACERVO`.
 
 **Faz:** conhece o estado de todas as bases; avalia impacto cruzado antes de qualquer execução;
 escreve no `IMPACTOS.md` quando um agente mexe no que outro consome; redige o prompt de abertura de
@@ -549,6 +559,13 @@ Por isso o passo, que **não é agente novo**:
 amostra, classifique **à mão antes** de olhar o resultado da regra, e compare. Não vira certeza,
 vira **teto de erro medido**, e qualquer um reproduz. A taxonomia fez 30 de 168 (semente `20260822`)
 e deu 30/30.
+
+**Todo roteiro carrega uma contagem esperada, mesmo aproximada, mesmo errada.** Proposta do
+`ESP-TAXONOMIA`, e o caso é forte: o `ROTEIRO.md` da base 3 dizia 2.755 assuntos para Direito
+Administrativo, ela contou 121, e a distância grande demais para ser arredondamento revelou que o
+parâmetro `hierarquico=true` **filtra** em vez de expandir. **Um número errado no documento pagou
+as 30 chamadas que ele mesmo causou** — sem número nenhum, a base 3 nasceria com um quarto da
+taxonomia e ninguém perceberia, por não haver com o que comparar.
 
 **Reproduzir número alheio que muda o plano.** Quem recebe um número que altera uma decisão, mede de
 novo. Foi assim que se achou uma medição errada por 48 caracteres e um teto de 80 que nunca fora

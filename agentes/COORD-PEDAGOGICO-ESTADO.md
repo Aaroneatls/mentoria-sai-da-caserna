@@ -61,6 +61,21 @@ taxonomia **ainda não chegou** — foi cobrado.
 
 ---
 
+## Pendência de histórico, a resolver quando todos voltarem
+
+Dois commits carregam trabalho do `ESP-ACERVO` sob autoria errada, por `git add -A` de outras
+sessões. **Nada se perdeu** — é o histórico que mente sobre quem fez o quê:
+
+| Commit | De quem é a mensagem | O que levou junto |
+|---|---|---|
+| `c588421` | coordenador | 18 linhas do `SKILL.md` específico |
+| `522e1b6` | `ESP-TAXONOMIA` | **410 linhas** das duas skills (a `PERGUNTA 0` dos modos nasce aí) |
+
+**O `ESP-ACERVO` ainda não sabe.** Avisar quando voltar, e é ele quem decide se vale corrigir o
+histórico ou só registrar.
+
+---
+
 ## O que está pendente, e de quem
 
 | # | O quê | Com quem |
