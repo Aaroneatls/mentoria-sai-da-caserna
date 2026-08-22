@@ -75,10 +75,22 @@ for r in ren:
           "pasta_nova_sem_data estoura 45 (%d): %s" % (len(r["pasta_nova_sem_data"]), r["pasta_nova_sem_data"]))
     check(r["pasta_nova_sem_data"].startswith(r["sigla"] + " - "),
           "pasta fora do padrao <SIGLA> - <Disciplina>: %s" % r["pasta_nova_sem_data"])
-    # regra 9 do NOMENCLATURA.md: a data desce para o nivel da disciplina, teto 58.
-    # ` (DD-MM-AAAA)` = 13 caracteres. AFO fecha em 58 exatos, com ZERO folga.
+    # Regra 9 do NOMENCLATURA.md: a data desce para o nivel da disciplina.
+    # O teto do nivel e 64, repartido assim:
+    #     45  <SIGLA> - <Disciplina>   (o que ESTA base produz)
+    #    +13  ` (DD-MM-AAAA)`          (o download acrescenta ao renomear)
+    #    + 6  ` (N-M)`                 (o download acrescenta SO se sobrar pendencia, regra 6)
+    #    ---
+    #     64
+    # Esta base confere ate a data (58), que e o limite do que ela mesma produz. Os 6 da
+    # marca de pendencia sao conferidos pelo `conferir` do download, que e quem a escreve.
+    # O teto de 64 foi levantado de 58 em 22/08/2026, depois de esta verificacao mostrar que
+    # `AFO - Administracao Financeira e Orcamentaria (18-08-2026)` fechava em 58 EXATOS: sem
+    # a folga, a marca de pendencia da regra 6 estouraria o caminho no meio da execucao.
     check(int(r["chars_com_data"]) <= 58,
           "com a data da regra 9 estoura 58 (%s): %s" % (r["chars_com_data"], r["pasta_nova_sem_data"]))
+    check(int(r["chars_com_data"]) + 6 <= 64,
+          "com data + marca de pendencia (regra 6) estoura o teto de 64: %s" % r["pasta_nova_sem_data"])
 for r in ren:
     if r["status"] == "pendente":
         check(r["sigla"] == "" and r["pasta_nova_sem_data"] == "",
