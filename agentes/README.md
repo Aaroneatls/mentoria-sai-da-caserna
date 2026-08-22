@@ -59,23 +59,23 @@ O que atravessa é a **obra**. Todo agente é dono de um arquivo, e é por ele q
 | **questões** | `agentes/ESP-QUESTOES.md` | o banco do Tec |
 | **produção** | `agentes/ESP-PRODUCAO.md` | o que chega ao aluno |
 
-### O título da aba: `ÁREA · agente`
+### O título da aba: `(Área) Agente`
 
 Fixado em 22/08. **Não existe agrupamento nativo de sessão** — há título e arquivamento, não pasta.
 O prefixo de área faz o mesmo serviço: as abas de uma área ficam juntas em qualquer listagem
 ordenada.
 
 ```
-PEDAGÓGICO · coordenador
-PEDAGÓGICO · acervo
-PEDAGÓGICO · taxonomia
-PEDAGÓGICO · conteúdo
-PEDAGÓGICO · questões
-PEDAGÓGICO · produção
+(Pedagógico) Coordenador
+(Pedagógico) Acervo
+(Pedagógico) Taxonomia
+(Pedagógico) Conteúdo
+(Pedagógico) Questões
+(Pedagógico) Produção
 ```
 
 Isso já serve para o que vem: cada área do negócio terá o seu coordenador, e as abas de cada uma se
-agrupam sozinhas — `FINANCEIRO ·`, `MARKETING ·`, e assim por diante.
+agrupam sozinhas — `(Financeiro)`, `(Marketing)`, e assim por diante.
 
 **Ao abrir um agente, renomear a aba é parte da abertura.** O coordenador consegue renomear
 qualquer sessão, inclusive a sua própria.
