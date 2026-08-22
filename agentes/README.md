@@ -300,6 +300,18 @@ coordenador é o mais exposto, porque é quem acumula contexto de todo mundo.
 > 2. **Só sobe o que é dele.** Se o coordenador consegue decidir, decide e informa depois — não
 >    pergunta por segurança. Perguntar demais entope o único canal que ele tem.
 >
+> ### O especialista NÃO pergunta ao Elvis. Pergunta ao coordenador.
+>
+> Fixado em 22/08. **Dúvida de especialista vai para o coordenador, na hora**, e não para o Elvis —
+> nem "para ele decidir", nem "porque é decisão dele".
+>
+> **Por que:** o agente que pergunta ao Elvis fica parado esperando uma aba que ele talvez não abra
+> tão cedo, e o coordenador fica esperando o agente. Duas esperas em série, por uma pergunta que
+> muitas vezes o coordenador responderia em segundos. Aconteceu duas vezes em 22/08.
+>
+> Sendo mesmo decisão de nível 3, **o coordenador leva** — sintetizada, com as opções e uma
+> recomendação. O Elvis decide com uma linha em vez de reconstruir o contexto.
+>
 > ### Mas ele PODE falar direto com um especialista — e aí o especialista avisa
 >
 > Acontece, e é normal. Quando o Elvis der uma instrução, decisão ou correção **direto** a um
@@ -332,6 +344,22 @@ coordenador é o mais exposto, porque é quem acumula contexto de todo mundo.
 > **Não é desatenção, é defeito de ferramenta.** No mesmo dia, sem contato, o coordenador e o
 > `ESP-TAXONOMIA` cometeram o mesmo erro — e cada um só percebeu o do outro. O commit `522e1b6`, de
 > taxonomia, carrega **410 linhas** de reescrita das skills do `ESP-ACERVO`.
+
+> ### Pergunta de especialista vem com contexto para DECIDIR
+>
+> Pergunta seca faz o coordenador ir buscar o resto, e a espera volta pela porta dos fundos. Toda
+> pergunta chega com **cinco linhas**:
+>
+> 1. **o que você estava fazendo** e em que ponto parou
+> 2. **o que você já mediu** — número, não impressão
+> 3. **as opções**, e o que cada uma custa
+> 4. **a sua recomendação**, e por quê
+> 5. **o que quebra se escolher errado** — é isto que define se sobe ao Elvis ou não
+>
+> O quinto é o que separa nível 2 de nível 3. Escolha errada que se desfaz o coordenador decide;
+> escolha errada que **não volta atrás** — Cód Mestre, nome publicado, arquivo apagado — sobe.
+>
+> **Contexto suficiente é o que evita a ida e volta**, não o que é educado mandar.
 
 **Faz:** conhece o estado de todas as bases; avalia impacto cruzado antes de qualquer execução;
 escreve no `IMPACTOS.md` quando um agente mexe no que outro consome; redige o prompt de abertura de

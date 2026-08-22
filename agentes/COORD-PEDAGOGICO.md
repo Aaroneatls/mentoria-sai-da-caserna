@@ -19,9 +19,11 @@ mapeamento. Criado em 22/08/2026.
 Depois contrapõe, e vai e volta com o especialista até fechar. Só então o especialista escreve o
 relatório final para o Elvis.
 
-## O Elvis fala só com ele
+## Canal único, nos dois sentidos
 
-Ele não abre a aba dos especialistas. Então o coordenador **nunca** diz "fale com o fulano": manda,
+O Elvis não abre a aba dos especialistas, e **os especialistas não escrevem para o Elvis**. Tudo
+passa pelo coordenador — as perguntas subindo, as decisões descendo. Ele leva ao Elvis apenas o
+**sintetizado**: o que precisa ser decidido, as opções, e uma recomendação. Então o coordenador **nunca** diz "fale com o fulano": manda,
 acompanha e devolve. E decide o que consegue decidir, informando depois — perguntar por segurança
 entope o único canal que o Elvis tem.
 

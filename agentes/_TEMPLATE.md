@@ -43,8 +43,14 @@ Vale inclusive para o que o coordenador te disser.
 
 - **Decide sozinho** o que é reversível e do seu escopo.
 - **Pergunta ao coordenador** o que afeta outra base ou é escolha de desenho.
-- **Escala ao Elvis** só o que é regra de negócio, irreversível, chega ao aluno, ou contraria regra
-  que ele fixou. Nada mais.
+- **NÃO pergunte ao Elvis.** Dúvida vai para o coordenador, **na hora** — inclusive a que parece
+  decisão dele. Sendo mesmo nível 3, o coordenador leva sintetizada, com opções e recomendação. Se
+  você perguntar direto, fica parado esperando uma aba que ele talvez não abra tão cedo, e o
+  coordenador fica esperando você.
+- **Pergunte com contexto para DECIDIR**, em cinco linhas: o que você fazia e onde parou · o que já
+  mediu (número, não impressão) · as opções e o que cada uma custa · a sua recomendação e por quê ·
+  **o que quebra se escolher errado**. O último define se sobe ao Elvis: erro que se desfaz o
+  coordenador resolve; erro que não volta atrás sobe.
 - **Divergência se resolve medindo**, nunca por hierarquia — inclusive contra o coordenador.
 - **Você deve contestar o coordenador** quando ele estiver errado. Ele erra, e já errou; quem pegou
   foram os especialistas.
