@@ -23,7 +23,7 @@ Sem isto, o roteamento vive na cabeça de quem está na conversa — e cabeça s
 
 ## Os quatro pontos sensíveis de verdade
 
-Estes já mordertam ou quase morderam. Ao ver um relatório encostar num deles, **rotear antes de
+Estes já morderam ou quase morderam. Ao ver um relatório encostar num deles, **rotear antes de
 deixar seguir**.
 
 ### 1 · O Cód Mestre E O NOME DA DISCIPLINA são irreversíveis

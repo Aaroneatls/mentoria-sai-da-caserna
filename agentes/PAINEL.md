@@ -5,7 +5,7 @@
 
 | Frente | Agente | Estado | Trava |
 |---|---|---|---|
-| **Base 1 · Disciplinas** | `ESP-DISCIPLINAS` | construída, em revisão final | relatório final para o Elvis |
+| **Base 1 · Disciplinas** | `ESP-DISCIPLINAS` | **construída e relatada** · `conferir.py` com 11 blocos | só execução: B69 e B70 |
 | **Base 2 · Estratégia** | `ESP-DOWNLOAD` | skills reescritas, nada executado | Elvis ler o diff dos 4 passos |
 | **Base 3 · Taxonomia Tec** | — | não começou | base 1 fechar |
 | **Base 4 · Parceiros** | — | não começou | base 1 fechar |
@@ -28,7 +28,11 @@
 
 1. **Relatório final da base 1** — ler e declarar fechada
 2. **Diff dos 4 passos das skills de download** — ler e liberar a execução
-3. A pasta `Reforma Tributaria`, que guarda `LTRIB` e `REFTRI` juntas (B69)
-4. Se os cursos 220891 e 220896 são `LTRIB` (B70) — pendência já estreitada
-5. As 8 entradas do balde 1 do `SEM-DONA.md`: nenhuma existe em Regular nenhum, mas
-   "esqueci uma disciplina" é erro caro e irreversível depois de publicado
+3. **A matrícula do Estratégia mudou sozinha:** Regular Fiscal `220865` saiu, PRF `226226` entrou.
+   Três vagas cheias. Ninguém sabe quem trocou — bloqueia o B70.
+
+~~4. As 8 do balde 1 do `SEM-DONA.md`~~ — **resolvido em 22/08**: ficam mapeadas na fonte e não
+recebem Cód Mestre, porque código sem teoria atrás aponta para o vazio.
+
+~~5. A pasta `Reforma Tributaria`~~ — **critério decidido**: o conteúdo manda, e a separação é de
+bloco na base 2, não de pasta. Vira execução, não decisão.
