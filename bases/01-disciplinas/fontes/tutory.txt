@@ -1,0 +1,185 @@
+# Disciplinas cadastradas hoje na Tutory
+# Levantado em 21/08/2026, no Gerenciador de Conteudo (admin.tutory.com.br/conteudos/)
+#
+# ATENCAO: esta lista e o PROBLEMA, nao a solucao. Sao mais de 170 entradas onde
+# deveriam existir 21. Serve para duas coisas:
+#   1. levantar os APELIDOS que cada disciplina ja teve na plataforma
+#   2. montar o plano de migracao (item A28), consolidando as duplicatas
+#
+# Repare nos casos que se repetem:
+#   - Direito Administrativo aparece SEIS vezes
+#   - duas delas diferem so por um espaco: "(Fiscal/ Controle)" e "(Fiscal/Controle)"
+#   - "- REVISAO TEORICA" duplica quase todas
+#   - sobras de trabalho antigo viraram entrada fixa: Dir. Adm 1 a 5, Control. 1, Nova, Revisao 1
+#   - erros de digitacao congelados: Direito Tribubario, Legislacao Tribuntaria, Lei Organcia
+#
+# O sufixo "(Fiscal/ Controle)" deve ser IGNORADO: foi forma antiga de mapear e muda muito.
+
+ADMINISTRAÇÃO E GOVERNANÇA PÚBLICA
+ADMINISTRAÇÃO E GOVERNANÇA PÚBLICA - REVISÃO TEÓRICA
+ADMINISTRAÇÃO FINANCEIRA E ORÇAMENTÁRIA
+Administração Financeira e Orçamentária - Área Fiscal
+ADMINISTRAÇÃO FINANCEIRA E ORÇAMENTÁRIA - REVISÃO TEÓRICA
+Administração Financeira e Orçamentária (Fiscal/ Controle)
+Administração Geral
+Administração Geral (Fiscal/ Controle)
+ADMINISTRAÇÃO PÚBLICA
+ADMINISTRAÇÃO PÚBLICA - REVISÃO TEÓRICA
+Administração Pública (Fiscal/ Controle)
+AFO
+Análise das Demonstrações Contábeis (Fiscal/ Controle)
+ANÁLISE DE DADOS
+ANÁLISE DE DADOS - REVISÃO TEÓRICA
+Atos Administrativos - Simulado (Passo Estratégico)
+Atos Administrativos (Passo Estratégico)
+AUDITORIA
+Auditoria - Área Fiscal
+AUDITORIA - REVISÃO TEÓRICA
+Auditoria (Fiscal/ Controle)
+AUDITORIA FISCAL DO ICMS E ISS
+AUDITORIA FISCAL DO ICMS E ISS - REVISÃO TEÓRICA
+AUDITORIA GOVERNAMENTAL
+AUDITORIA GOVERNAMENTAL - REVISÃO TEÓRICA
+CONTABILIDADE AVANÇADA
+CONTABILIDADE AVANÇADA - REVISÃO TEÓRICA
+CONTABILIDADE DE CUSTOS
+CONTABILIDADE DE CUSTOS - REVISÃO TEÓRICA
+Contabilidade de Custos (Fiscal/ Controle)
+CONTABILIDADE DO SETOR PÚBLICO - REVISÃO TEÓRICA
+CONTABILIDADE GERAL
+Contabilidade Geral - Área Fiscal
+CONTABILIDADE GERAL - REVISÃO TEÓRICA
+Contabilidade Geral e Avançada (Fiscal/ Controle)
+CONTABILIDADE GERAL E PÚBLICA
+CONTABILIDADE PÚBLICA
+CONTABILIDADE PÚBLICA - REVISÃO TEÓRICA
+Contabilidade Pública (Fiscal/ Controle)
+Control. 1
+Control. 3
+CONTROLE EXTERNO
+CONTROLE EXTERNO - REVISÃO TEÓRICA
+Controle Externo (Controle)
+Dir. Adm 1
+Dir. Adm 2
+Dir. Adm 3
+Dir. Adm 4
+Dir. Adm 5
+Dir. Cont 1
+Dir. Cont 2
+Dir. Cont 3
+Dir. Cont 4
+Dir. Cont 5
+Dir. Trib 1
+Dir. Trib 2
+Dir. Trib 3
+Dir. Trib 4
+Dir. Trib 5
+Direito Administrativo
+Direito Administrativo - Área Fiscal
+Direito Administrativo - Auditor Fiscal/Controle
+DIREITO ADMINISTRATIVO - REVISÃO TEÓRICA
+Direito Administrativo (Fiscal/ Controle)
+Direito Administrativo (Fiscal/Controle)
+DIREITO CIVIL
+Direito Civil - Área Fiscal
+DIREITO CIVIL - REVISÃO TEÓRICA
+Direito Civil (Fiscal/ Controle)
+Direito Civil e Empresarial
+DIREITO CIVIL, EMPRESARIA E PENAL
+Direito Constitucional
+Direito Constitucional - Área Fiscal
+DIREITO CONSTITUCIONAL - REVISÃO TEÓRICA
+Direito Constitucional (Fiscal/ Controle)
+DIREITO CONSTITUCIONAL E ADMINISTRATIVO
+DIREITO EMPRESARIAL
+Direito Empresarial - Área Fiscal
+DIREITO EMPRESARIAL - REVISÃO TEÓRICA
+Direito Empresarial (Fiscal/ Controle)
+DIREITO FINANCEIRO (AFO)
+DIREITO FINANCEIRO (AFO) - REVISÃO TEÓRICA
+DIREITO PENAL
+Direito Penal - Área Fiscal
+DIREITO PENAL - REVISÃO TEÓRICA
+Direito Penal (Fiscal/ Controle)
+DIREITO PROCESSUAL CIVIL
+DIREITO PROCESSUAL CIVIL - REVISÃO TEÓRICA
+Direito Processual Civil (Fiscal/ Controle)
+Direito Tribubário (Fiscal)
+Direito Tribubário (Fiscal/ Controle)
+Direito Tributário
+Direito Tributário - Área Fiscal
+DIREITO TRIBUTÁRIO - REVISÃO TEÓRICA
+Direito Tributário (Fiscal)
+ECONOMIA
+ECONOMIA - REVISÃO TEÓRICA
+Economia (Fiscal/ Controle)
+Economia Regional do Pará (Fiscal)
+Estatística
+Estatística - Área Fiscal
+Estatística (Fiscal/ Controle)
+FINANÇAS PÚBLICAS
+FINANÇAS PÚBLICAS - REVISÃO TEÓRICA
+FLUÊNCIA DE DADOS
+FLUÊNCIA DE DADOS - REVISÃO TEÓRICA
+Gestão de Contratos (Fiscal/ Controle)
+Gramática
+História de Campina Grande/PB
+História e Aspectos Geoeconômicos do Rio Grande do Norte (Fiscal/ Controle)
+Informática - Área Fiscal
+Inglês
+Inglês (Fiscal/ Controle)
+Legislação e Ética no Serviço Público
+Legislação Tribuntária Federal
+Legislação Tribuntária Municipal
+LEGISLAÇÃO TRIBUTÁRIA
+LEGISLAÇÃO TRIBUTÁRIA - REVISÃO TEÓRICA
+Legislação Tributária (Fiscal)
+Legislação Tributária do Estado de São Paulo (Fiscal)
+Legislação Tributária do Estado do Ceará (Fiscal/ Controle)
+Legislação Tributária do Estado do Pará (Fiscal/ Controle)
+Legislação Tributária Estadual do Goiás (Fiscal/ Controle)
+Legislação Tributária Estadual do Rio Grande do Norte (Fiscal/ Controle)
+Legislação Tributária Municipal de Manaus (Fiscal)
+Lei Orgância e Regimento Interno do TCDF (Fiscal/ Controle)
+Lei Orgânica do Distrito Federal (Fiscal/ Controle)
+LEI ORGÂNICA DO TCDF E REGIMENTO INTERNO
+LÍNGUA PORTUGUESA
+LÍNGUA PORTUGUESA - REVISÃO TEÓRICA
+MATEMÁTICA FINANCEIRA
+Matemática Financeira - Área Fiscal
+MATEMÁTICA FINANCEIRA - REVISÃO TEÓRICA
+Matemática Financeira (Fiscal/ Controle)
+MATEMÁTICA FINANCEIRA E ESTATÍSTICA
+MATEMÁTICA FINANCEIRA/ RACIOCÍNIO LÓGICO/ ESTATÍSTICA
+MATEMÁTICA FINANCEIRA/ RACIOCÍNIO LÓGICO/ ESTATÍSTICA - REVISÃO TEÓRICA
+Noções de Informática
+Nova
+Organização Administrativa - Simulado (Passo Estratégico)
+Organização Administrativa (Passo Estratégico)
+Organização Administrativa (Questões CEBRASPE)
+Organização Administrativa (Questões FCC)
+Organização Administrativa (Questões FGV)
+Organização Administrativa (Questões VUNESP)
+Poderes e Deveres da Administração - Simulado (Passo Estratégico)
+Poderes e Deveres da Administração (Passo Estratégico)
+Portugues
+Português
+Português - Área Fiscal
+Português - Boas-vindas
+Português (Fiscal/ Controle)
+Princípios da Adm
+Raciocínio Lógico e Matemática - Boas-vindas
+Raciocínio Lógico-Matemático (Fiscal/ Controle)
+Raciocíno Lógico Matemática - Área Fiscal
+Realidade ética, social, histórica, geográfica, cultural, política e econômica de Goiás (Fiscal)
+Redação Discursiva - Boas-vindas
+Reforma Tributária e Lei Kandir (Fiscal)
+Regime Jurídico dos Servidores Públicos Civis do DF (Fiscal/ Controle)
+Revisão 1
+Revisão 2
+Simulado
+Simulado 1
+Simulado 2
+TECNOLOGIA DA INFORMAÇÃO
+TECNOLOGIA DA INFORMAÇÃO - REVISÃO TEÓRICA
+Tecnologia da Informação (Fiscal/ Controle)

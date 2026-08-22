@@ -1,0 +1,38 @@
+# Materias dos Cursos Regulares do Estrategia Concursos
+# Levantado em 22/08/2026 a partir dos nomes das pastas
+# 34 entradas
+
+Regular Controle   | AFO, Orçamento Público e LRF
+Regular Controle   | Administração Pública
+Regular Controle   | Análise de Informações
+Regular Controle   | Auditoria Governamental
+Regular Controle   | Contabilidade Geral Avançada
+Regular Controle   | Contabilidade Pública
+Regular Controle   | Controle Externo
+Regular Controle   | Direito Administrativo
+Regular Controle   | Direito Constitucional
+Regular Controle   | Matemática Financeira
+Regular Controle   | Português
+Regular Controle   | Raciocínio Lógico e Analítico
+Regular Fiscal     | (41-42) Contabilidade Geral e Avancada - Gilmar Possati
+Regular Fiscal     | Administracao Financeira e Orcamentaria
+Regular Fiscal     | Auditoria
+Regular Fiscal     | Contabilidade Geral e Avancada - Cardozo Rosa Sande
+Regular Fiscal     | Contabilidade Publica
+Regular Fiscal     | Contabilidade de Custos
+Regular Fiscal     | Direito Administrativo
+Regular Fiscal     | Direito Civil - Cadu Carrilho
+Regular Fiscal     | Direito Civil - Paulo Sousa
+Regular Fiscal     | Direito Constitucional
+Regular Fiscal     | Direito Empresarial
+Regular Fiscal     | Direito Penal
+Regular Fiscal     | Direito Tributario
+Regular Fiscal     | Economia e Financas Publicas
+Regular Fiscal     | Estatistica
+Regular Fiscal     | Informatica
+Regular Fiscal     | Legislacao Tributaria Estadual
+Regular Fiscal     | Legislacao Tributaria Municipal
+Regular Fiscal     | Portugues
+Regular Fiscal     | Raciocinio Logico e Matematica
+Regular Fiscal     | Reforma Tributaria
+Regular Fiscal     | Tecnologia da Informacao

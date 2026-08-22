@@ -1,0 +1,34 @@
+# Materias dos Resumos Esquematizados do Prof. Bruno Bezerra
+# Levantado em 22/08/2026 a partir dos nomes das pastas em:
+# G:\Meu Drive\Inteligencia Artificial\Resumos Esquematizados
+# 29 materias
+
+Administração Financeira e Orçamentária
+Administração Geral
+Administração Pública
+Auditoria
+Contabilidade Geral e Avançada
+Contabilidade Pública
+Contabilidade de Custos
+Direito Administrativo
+Direito Civil
+Direito Constitucional
+Direito Empresarial
+Direito Penal
+Direito Tributário
+Economia e Finanças Públicas
+Estatística
+Informática
+Legislação Tributária Estadual
+Legislação Tributária Municipal
+Matemática Financeira
+Português
+RFB - Administração Financeira
+RFB - Comércio Internacional
+RFB - Direito Previdenciário
+RFB - Inglês
+RFB - Legislação Tributária Federal
+RFB - Legislação aduaneira
+Raciocínio Lógico
+Reforma Tributária
+Tecnologia da Informação
