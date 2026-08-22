@@ -51,3 +51,38 @@ downloads do mesmo arquivo deram quatro hashes diferentes, com o tamanho variand
 Entao hash de arquivo daria **falso positivo de mudanca em toda execucao**. A assinatura de
 mudanca passa a ser: **nome do arquivo no CDN** (identidade) + numero de paginas + tamanho
 aproximado (tolerancia de ~1 KB) + data da capa do PDF.
+
+## 22/08/2026 — a estrutura fixa do PDF, e o hash cross-conta
+
+### O PDF tem moldura fixa
+
+Medido pela sessao das skills de download em 15 aulas, e conferido aqui em 6 PDFs de Direito
+Administrativo. Vale em **100%** dos arquivos, simplificado e original:
+
+```
+p1       CAPA        titulo da aula, curso, autor, data
+p2       INDICE      secoes numeradas com pagina
+p3       a TEORIA comeca de fato
+ultima   CONTRACAPA  em branco, zero caracteres uteis
+```
+
+**O codigo ja comecava em 3** — isso estava certo desde sempre, sem ninguem ter notado.
+
+**Mas ia ate `doc.page_count`** e engolia a contracapa, errando uma pagina no ultimo bloco de cada
+aula. Corrigido em 22/08 com `ULTIMA_UTIL = doc.page_count - 1`.
+
+**Consequencia pratica:** um PDF de 84 paginas tem **81 de conteudo**. Sem o desconto, o alvo de
+~10 paginas de teoria erra para menos justamente no bloco de abertura, que costuma ser o mais
+denso.
+
+### O hash_teoria e estavel dentro da mesma conta
+
+Medida da outra sessao: quatro downloads do MESMO resumo deram quatro hashes de **arquivo**
+diferentes, mas o hash do **texto extraido** foi **identico nos quatro** (4.598 caracteres),
+sem normalizacao nenhuma. A marca nao quebra porque e constante para a mesma conta.
+
+**Entao o risco e especificamente CROSS-CONTA.** Conta de coleta e conta de producao geram hash
+diferente para o mesmo conteudo, e a falha e silenciosa.
+
+Consequencia boa: **o que ja foi colhido numa conta so e internamente consistente.** A
+normalizacao e obrigatoria para comparar entre contas, nao para reprocessar o que ja existe.

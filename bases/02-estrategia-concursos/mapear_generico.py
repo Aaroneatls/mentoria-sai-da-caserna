@@ -147,15 +147,20 @@ for f in sorted(glob.glob(os.path.join(D, '*.pdf'))):
         for fx in faixas_da_pagina(doc[p - 1], aula, p):
             fx['pag'] = p
             faixas.append(fx)
+    # ESTRUTURA FIXA DO PDF DO ESTRATEGIA (medido em 22/08/2026, vale em 100% dos arquivos):
+    #   p1 = capa | p2 = indice | p3 = a teoria comeca | ULTIMA = contracapa em branco
+    # O inicio em 3 ja estava certo. O fim NAO estava: ia ate page_count e engolia a contracapa,
+    # errando uma pagina no ultimo bloco de cada aula. Conferido em 6 PDFs: 0 caracteres uteis.
+    ULTIMA_UTIL = doc.page_count - 1
     zonas, atual, desde = [], 'T', 3
     for fx in faixas:
         t = 'Q' if FIM_TEORIA.match(fx['texto'] or '') else 'T'
         if t != atual:
             if fx['pag'] - 1 >= desde: zonas.append((atual, desde, fx['pag'] - 1))
             atual, desde = t, fx['pag']
-    zonas.append((atual, desde, doc.page_count))
+    zonas.append((atual, desde, ULTIMA_UTIL))
     zonas_teoria = [(a, b) for (t, a, b) in zonas if t == 'T' and b >= a]
-    if not zonas_teoria: zonas_teoria = [(3, doc.page_count)]
+    if not zonas_teoria: zonas_teoria = [(3, ULTIMA_UTIL)]
     fim_teoria = zonas_teoria[0][1]
     zonas_extra = [(a, 'teoria retomada') for (a, b) in zonas_teoria[1:]]
     # 2) inicio da teoria: primeira pagina depois do indice

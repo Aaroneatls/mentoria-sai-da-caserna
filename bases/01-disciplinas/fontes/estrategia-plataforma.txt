@@ -1,0 +1,57 @@
+# Nomes dos cursos NA PLATAFORMA do Estrategia (camada "plataforma")
+# Levantado em 22/08/2026 pela sessao das skills de download, a pedido da Base 1.
+# Formato: curso_id | tipo_curso_id | nome literal do curso na plataforma
+#
+# tipo_curso_id: 1=Regular, 3=Monitoria, 5=Trilha, 7=Passo Estrategico,
+#                27=Bizu Estrategico, 30=Rodadas Avancadas de Simulados
+#
+# ATENCAO: o nome do PACOTE e diferente do nome dos CURSOS dentro dele.
+# Pacote 220865 = "Curso Regular para Area Fiscal - Pacote Completo"
+# Cursos dentro = "Concursos da Area Fiscal - Curso Basico de <disciplina>"
+# O aluno ve o nome do CURSO, nao o da pasta do Drive.
+
+## PACOTE 220865 - Curso Regular para Area Fiscal - Pacote Completo
+## (30 cursos no total; abaixo os 25 de tipo 1 = Regular)
+
+220866 | 1 | Concursos da Área Fiscal - Curso Básico de Direito Empresarial
+220869 | 1 | Concursos da Área Fiscal - Curso Básico de Direito Civil (Prof. Paulo Sousa)
+220871 | 1 | Concursos da Área Fiscal - Curso Básico de Direito Penal
+220874 | 1 | Concursos da Área Fiscal - Curso Básico de Português
+220875 | 1 | Concursos da Área Fiscal - Curso Básico de Raciocínio Lógico e Matemática
+220877 | 1 | Concursos da Área Fiscal - Curso Básico de Estatística
+220880 | 1 | Concursos da Área Fiscal - Curso Básico de Direito Constitucional
+220883 | 1 | Concursos da Área Fiscal - Curso Básico de Direito Administrativo
+220884 | 1 | Concursos da Área Fiscal - Curso Básico de Direito Tributário
+220886 | 1 | Concursos da Área Fiscal - Curso Básico de Auditoria
+220887 | 1 | Concursos da Área Fiscal - Curso Básico de Contabilidade Geral e Avançada (Prof. Gilmar Possati)
+220891 | 1 | Concursos da Área Fiscal (Todos Estados) Curso Básico de Legislação Trib. Estadual
+220893 | 1 | Concursos da Área Fiscal - Curso Básico de Economia e Finanças Públicas
+220896 | 1 | Concursos da Área Fiscal - Curso Básico de Legislação Tributária Municipal
+247678 | 1 | Concursos da Área Fiscal - Curso Completo de Tecnologia da Informação
+247701 | 1 | Concursos da Área Fiscal - Curso Completo de Informática
+263651 | 1 | Concursos da Área Fiscal - Curso Completo de Administração Financeira e Orçamentária
+263654 | 1 | Concursos da Área Fiscal - Curso Completo de Contabilidade Pública
+268932 | 1 | Concursos da Área Fiscal - Curso Básico de Discursiva (Sem Correção)
+331806 | 1 | Concursos da Área Fiscal - Curso Básico de Contabilidade de Geral e Avançada (Profs. Julio Cardozo, Luciano Rosa e Silvio Sande)
+331818 | 1 | Concursos da Área Fiscal - Curso Básico de Contabilidade de Custos
+332611 | 1 | Concursos da Área Fiscal - Curso Básico de Direito Civil (Prof. Cadu Carrilho)
+336350 | 1 | Concursos da Área Fiscal - Legislação Tributária sobre o Consumo (LTC) - Reforma Tributária (EC nº 132/2023 e LC nº 214/2025)
+371461 | 1 | Reforma Tributária - Lei Complementar nº 227/2026 - Curso Regular (Prof. Rafael Rocha)
+389109 | 1 | Concursos da Área Fiscal - Reforma Tributária (LC nº 227/2026)
+
+## Mesmo pacote, tipos que NAO sao Regular (registrados so para referencia)
+
+230775 | 5 | Trilha Estratégica Regular para Área Fiscal e Controle
+356047 | 27 | Curso Regular para Área Fiscal - Bizu Estratégico
+372712 | 5 | Trilha Estratégica Regular para Área Fiscal
+372715 | 5 | Trilha Estratégica Avançada para a Área Fiscal
+398053 | 3 | Monitoria para Área Fiscal
+
+## PACOTE 224364 - Concursos de Tribunais de Contas (Nivel Superior) Pacote Completo Cursos Regulares
+## (= "Regular Controle")
+##
+## PENDENTE: pacote nao esta matriculado, e a API so responde para produto
+## matriculado (HTTP 500 quando fora). As 3 vagas estavam ocupadas em 22/08
+## (PRF 226226, Regular Fiscal 220865, TCDF 393930 - este matriculado por
+## outra sessao durante o dia). Assim que houver vaga, rodar:
+##   GET /api/aluno/pacote/224364  ->  cursos[].id / .nome / .tipo_curso_id
